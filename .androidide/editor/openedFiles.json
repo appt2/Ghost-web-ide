@@ -1,20 +1,50 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/marco/FileCounter.groovy",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/RecyclerViewHelper/RecyclerViewHelper.java",
       "selection": {
         "end": {
-          "column": 26,
-          "index": 192,
-          "line": 6
+          "column": 34,
+          "index": 1787,
+          "line": 50
         },
         "start": {
-          "column": 26,
-          "index": 192,
-          "line": 6
+          "column": 34,
+          "index": 1787,
+          "line": 50
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "selection": {
+        "end": {
+          "column": 27,
+          "index": 13161,
+          "line": 345
+        },
+        "start": {
+          "column": 27,
+          "index": 13161,
+          "line": 345
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/marco/FileCounter.groovy"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle"
 }

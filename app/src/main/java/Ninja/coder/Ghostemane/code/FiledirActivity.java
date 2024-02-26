@@ -343,11 +343,13 @@ public class FiledirActivity extends BaseCompat
 
               @Override
               public void CallBackLeft(int pos) {
+                _project();
                 recyclerview2.getAdapter().notifyDataSetChanged();
               }
 
               @Override
               public void CallBackRight(int pos) {
+                _delFileCustom(pos);
                 recyclerview2.getAdapter().notifyDataSetChanged();
               }
             });
@@ -1602,13 +1604,13 @@ public class FiledirActivity extends BaseCompat
     dialog.show();
   }
 
-  public void _delFileCustom(final double _pos) {
+  public void _delFileCustom( int _pos) {
     var di =
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(FiledirActivity.this);
+        new MaterialAlertDialogBuilder(FiledirActivity.this);
 
     di.setTitle("Romved File");
     di.setMessage(
-        "romved ".concat(files.get((int) _pos).get("path").toString().concat(" your mobile?")));
+        "romved ".concat(files.get(_pos).get("path").toString().concat(" your mobile?")));
     di.setNeutralButton("no", (p, d) -> {});
 
     di.setPositiveButton(
@@ -1619,7 +1621,7 @@ public class FiledirActivity extends BaseCompat
             protected void onPreExecute() {
               prodel.setTitle("Romving ...");
               prodel.setMessage(
-                  "removing ".concat(files.get((int) _pos).get("path").toString().concat(" now")));
+                  "removing ".concat(files.get(_pos).get("path").toString().concat(" now")));
               prodel.setCancelable(false);
               prodel.setCanceledOnTouchOutside(false);
               prodel.show();
@@ -1628,7 +1630,7 @@ public class FiledirActivity extends BaseCompat
             @Override
             protected String doInBackground(String... params) {
               String _param = params[0];
-              FileUtil.deleteFile(files.get((int) _pos).get("path").toString());
+              FileUtil.deleteFile(files.get(_pos).get("path").toString());
 
               return "";
             }
@@ -1640,7 +1642,7 @@ public class FiledirActivity extends BaseCompat
             }
           }.execute("");
         });
-    androidx.appcompat.app.AlertDialog dialog = di.show();
+    AlertDialog dialog = di.show();
 
     dialog.show();
   }

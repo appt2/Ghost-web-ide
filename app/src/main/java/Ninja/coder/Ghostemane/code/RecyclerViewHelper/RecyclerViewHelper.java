@@ -65,7 +65,7 @@ public class RecyclerViewHelper {
                 .addSwipeRightLabel("Delete")
                 .setSwipeRightLabelColor(Color.WHITE)
                 .addSwipeLeftLabel("Add to Project")
-                .setSwipeLeftLabelColor(Color.BLACK)
+                .setSwipeLeftLabelColor(Color.WHITE)
                 // .addCornerRadius(TypedValue.COMPLEX_UNIT_DIP, 16)
                 // .addPadding(TypedValue.COMPLEX_UNIT_DIP, 8, 16, 8)
                 .create()
