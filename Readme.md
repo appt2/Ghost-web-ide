@@ -19,7 +19,7 @@
 
 - [ ] Plugin system
 
-- [] File Reader html
+- [ ] File Reader html
 
 
 
