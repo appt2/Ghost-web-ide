@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code.marco.binder;
 
+import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.FileUtil;
 import Ninja.coder.Ghostemane.code.GlideUtilApi.GlideCompat;
 import Ninja.coder.Ghostemane.code.MFileClass;
@@ -10,6 +11,7 @@ import Ninja.coder.Ghostemane.code.marco.FileCounter;
 import Ninja.coder.Ghostemane.code.marco.binder.bindchilder.ChilderRecyclerviewCompat;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.google.android.material.color.MaterialColors;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,13 +23,13 @@ public class BinderRecyclerview1 {
       ArrayList<HashMap<String, Object>> files,
       int _position,
       TextView textview2,
-      ImageView imageview1,TextView folderName) {
+      ImageView imageview1,
+      TextView folderName) {
     var token = files.get(_position).get("path").toString();
     var context = imageview1.getContext();
+    folderName.setTextColor(MaterialColors.getColor(folderName,ColorAndroid12.colorOnSurface));
+    
     if (FileUtil.isDirectory(token)) {
-      
-      
-
       BindViewListMarger.run(imageview1, folderName);
       var fileR = new FileCounter(textview2);
       fileR.execute(token);
@@ -152,6 +154,9 @@ public class BinderRecyclerview1 {
       } else if (token.endsWith(".scss")) {
         getTime(token, textview2);
         SvgShow.GetAsster(context, imageview1, "file_type_scss2.svg");
+      } else if (token.endsWith(".md")) {
+        getTime(token, textview2);
+        SvgShow.GetAsster(context, imageview1, "mdx.svg");
       } else {
         getTime(token, textview2);
         SvgShow.GetAsster(context, imageview1, "default_file.svg");
@@ -203,7 +208,7 @@ public class BinderRecyclerview1 {
 
   public static void off(ImageView img) {
     if (img != null) {
-      //  img.setBackgroundColor(0);
+      img.setBackgroundColor(0);
       img.setColorFilter(null);
       img.setPadding(0, 0, 0, 0);
     }

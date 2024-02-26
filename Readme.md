@@ -5,7 +5,11 @@
 
 - [x] Support for multiple languages
 
-- [x] Free
+- [x] Free App
+
+- [x] Run python
+
+- [x] pip (80%)
 
 - [ ] Plugin system
 
