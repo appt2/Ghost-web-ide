@@ -3,6 +3,7 @@ pluginManagement {
     gradlePluginPortal()
     google()
     mavenCentral()
+    jcenter()
     
   }
 }
@@ -13,6 +14,8 @@ dependencyResolutionManagement {
     google()
     mavenCentral()
     maven { url 'https://jitpack.io' }
+    jcenter()
+    maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' }
   }
 }
 
