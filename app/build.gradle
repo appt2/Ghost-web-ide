@@ -6,10 +6,8 @@ plugins {
 
 android {
     namespace 'Ninja.coder.Ghostemane.code'
-    compileSdkVersion 34
-    buildToolsVersion "34.0.4"
-
-    
+    compileSdk 34
+        
     defaultConfig {
         applicationId "Ninja.coder.Ghostemane.code"
         minSdk 21
