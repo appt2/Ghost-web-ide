@@ -1,11 +1,14 @@
-###Ghost web ide
+### Ghost web ide
 
 
 #### features
 
-[ x ] Support for multiple languages
+[x] Support for multiple languages
+
 [ x ] Free
-[ x ] Plangin system
+
+
+[x] Plangin system
 
 
 ### Note
