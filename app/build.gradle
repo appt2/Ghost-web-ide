@@ -111,6 +111,6 @@ dependencies {
     implementation("org.jsoup:jsoup:1.17.2")
     implementation 'com.github.douglasjunior:android-simple-tooltip:1.1.0'
     implementation("io.getstream:photoview:1.0.1")
-    implementation 'androidx.palette:palette:1.0.0-alpha1'
+    implementation 'androidx.palette:palette:1.0.0'
 
 }
