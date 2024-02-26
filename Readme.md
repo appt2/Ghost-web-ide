@@ -15,6 +15,8 @@
 
 - [x] Auto save
 
+- [x] Git support
+
 - [ ] Plugin system
 
 - [] File Reader html

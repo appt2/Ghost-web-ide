@@ -1,35 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/gradle.properties",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/Readme.md",
       "selection": {
         "end": {
-          "column": 24,
-          "index": 455,
-          "line": 8
+          "column": 17,
+          "index": 180,
+          "line": 17
         },
         "start": {
-          "column": 24,
-          "index": 455,
-          "line": 8
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle",
-      "selection": {
-        "end": {
-          "column": 57,
-          "index": 228,
-          "line": 3
-        },
-        "start": {
-          "column": 57,
-          "index": 228,
-          "line": 3
+          "column": 17,
+          "index": 180,
+          "line": 17
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/gradle.properties"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/Readme.md"
 }
