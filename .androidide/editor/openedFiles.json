@@ -1,20 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/Readme.md",
       "selection": {
         "end": {
-          "column": 1,
-          "index": 295,
-          "line": 10
+          "column": 13,
+          "index": 367,
+          "line": 34
         },
         "start": {
-          "column": 1,
-          "index": 295,
-          "line": 10
+          "column": 13,
+          "index": 367,
+          "line": 34
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/Readme.md"
 }

@@ -32,7 +32,7 @@
 * - [X] PHP 
 * - [X] Java
 * - [X] Kotlin
-
+* - [X] swift
 * - [X] C++
 * - [X] C#
 * - [X] Ruby 
