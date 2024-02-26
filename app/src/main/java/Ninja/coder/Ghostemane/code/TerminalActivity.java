@@ -35,7 +35,7 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
 
   private TerminalView terminals;
   protected VirtualKeysView keys;
-  protected  KeyListener listener;
+  protected KeyListener listener;
   CoordinatorLayout layoutRoot;
 
   @Override
@@ -45,7 +45,7 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     initialize(_savedInstanceState);
     initializeLogic();
   }
-  
+
   private KeyListener getKeyListener() {
     return listener == null ? listener = new KeyListener(terminals) : listener;
   }
@@ -55,8 +55,6 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     getvb = getSharedPreferences("getvb", Activity.MODE_PRIVATE);
     keys = findViewById(R.id.keysterm);
     layoutRoot = findViewById(R.id.rootPos);
-    
-    
   }
 
   private void initializeLogic() {
@@ -313,6 +311,7 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
           + "\n    \"PGDN\""
           + "\n  ]"
           + "\n]";
+
   private static final class KeyListener implements VirtualKeysView.IVirtualKeysView {
 
     private final TerminalView terminal;
@@ -395,5 +394,4 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
       return false;
     }
   }
-
 }
