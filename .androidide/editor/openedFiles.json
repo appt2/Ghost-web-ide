@@ -1,35 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/TerminalActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle",
       "selection": {
         "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 1,
+          "index": 295,
+          "line": 10
         },
         "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/res/layout/terminal.xml",
-      "selection": {
-        "end": {
-          "column": 9,
-          "index": 771,
-          "line": 19
-        },
-        "start": {
-          "column": 9,
-          "index": 771,
-          "line": 19
+          "column": 1,
+          "index": 295,
+          "line": 10
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/res/layout/terminal.xml"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle"
 }
