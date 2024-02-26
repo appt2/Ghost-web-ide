@@ -1,34 +1,58 @@
-package Ninja.coder.Ghostemane.code.marco;
+package Ninja.coder.Ghostemane.code.marco
 
-import Groovy.shell.FileConsnet
-import Groovy.util.Map
-import Groovy.util.Path
-import Groovy.util.Paths
-import Groovy.unPost.*
-/*
-  Code by ninja coder
-  using library GroovyShell 3
-*/
+import Ninja.coder.Ghostemane.code.tasks.AsyncTaskCompat
+import android.os.*
+import android.widget.*
+import android.view.*
+import java.io.IOException
+import java.nio.file.*
+import java.util.*
+import java.util.stream.*
 
-public class FileCounter extends FileConsnet {
-    permits linsner{
-        init{
-            maps.return =+ 0
-        }
+class FileCounter extends AsyncTaskCompat<String, Void, String> {
+    private TextView textView
+
+    FileCounter(TextView textView) {
+        this.textView = textView
     }
-	Map<Object,String>maps;
-	maps.put(isFile?.getContext().getAndroidFile()::return Path)
-	maps.put(isDir?.getContext().getAndroidDirPath()::return Path)
-	for(int map = 0;map < maps.getAndroidDirPath() -1 ;map++) {
-		if(!Utils.UnpostResult().getContext() == 0){
-			return maps +1 ? isDir : isFile += 1/10
-		}else{
-			return maps.put(isDir::Paths.getContext().getAndroidDirPath() +=1)
-		}
-        throws new GroovyE("File not Road")
-	}
-}
 
-permits interface linsner{
-    volatile ps(String p)
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute()
+        textView.visibility = View.GONE
+    }
+
+    @Override
+    protected String doInBackground(String... params) {
+        try {
+            Path path = Paths.get(params[0])
+
+            // Get list of all files and directories in the directory
+            List<Path> fileList = Files.list(path).collect(Collectors.toList())
+
+            if (fileList.isEmpty()) {
+                // If no files or directories found, return "Folder : 0 Files: 0"
+                return "Folder : 0 File : 0"
+            } else {
+                // Get the number of folders and files in the directory
+                def folderCount = fileList.stream().parallel().filter(Files.&isDirectory).count()
+
+                def fileCount = fileList.stream().parallel().filter(Files.&isRegularFile).count()
+
+                return "Folder : $folderCount File : $fileCount"
+            }
+        } catch (IOException e) {
+            e.printStackTrace()
+        }
+
+        return null
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result)
+        textView.text = result
+
+        textView.visibility = View.VISIBLE
+    }
 }
