@@ -1,4 +1,4 @@
-### Ghost web ide
+## Ghost web ide
 
 
 #### features
@@ -11,22 +11,27 @@
 
 - [x] pip (80%)
 
+- [x] Material Colors
+
+- [x] Auto save
+
 - [ ] Plugin system
 
 
-#### Supported Languages
+### Supported Languages
 
 * - [X] HTML
 * - [X] CSS
 * - [X] JavaScript
-* - [ ] Python
-* - [ ] PHP 
+* - [X] Python
+* - [X] PHP 
 * - [X] Java
 * - [X] Kotlin
 
-* - [ ] C++
-* - [ ] C#
-
+* - [X] C++
+* - [X] C#
+* - [X] Ruby 
+* - [X] shell 
 
 
 ### Note
