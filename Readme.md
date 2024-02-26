@@ -10,6 +10,21 @@
 - [ ] Plugin system
 
 
+#### Supported Languages
+
+* - [X] HTML
+* - [X] CSS
+* - [X] JavaScript
+* - [ ] Python
+* - [ ] PHP 
+* - [X] Java
+* - [X] Kotlin
+
+* - [ ] C++
+* - [ ] C#
+
+
+
 ### Note
 
 #### What changes are supported?
