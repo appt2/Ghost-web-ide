@@ -1589,9 +1589,6 @@ public class CodeeditorActivity extends AppCompatActivity {
                                 exception.printStackTrace();
                               }
 
-                              //	editor.pasteText();
-                              // editor.setSelection(editor.getCursor().getRightLine(),
-                              // editor.getCursor().getRightColumn());
                             }
                           })
                       .setNegativeButton(

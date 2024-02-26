@@ -1,6 +1,7 @@
 package Ninja.coder.Ghostemane.code.layoutmanager;
 
 import Ninja.coder.Ghostemane.code.ApplicationLoader;
+import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.R;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.github.pedrovgs.lynx.LynxConfig;
 import com.github.pedrovgs.lynx.LynxShakeDetector;
 import com.github.pedrovgs.lynx.LynxView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.color.MaterialColors;
 import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
@@ -46,8 +48,11 @@ public class LogCatBottomSheet {
                   .addItem(new PowerMenuItem("Close"))
                   .addItem(new PowerMenuItem("Show Menu"))
                   .addItem(new PowerMenuItem("Clear"))
+                  .setIsMaterial(true)
                   .build();
           menu.setAutoDismiss(true);
+          menu.setMenuColor(MaterialColors.getColor(context, ColorAndroid12.Back, 0));
+          menu.setTextColor(MaterialColors.getColor(context, ColorAndroid12.colorOnSurface, 0));
           menu.setAnimation(MenuAnimation.DROP_DOWN);
           menu.setShowBackground(false);
           menu.setOnMenuItemClickListener(
@@ -67,7 +72,7 @@ public class LogCatBottomSheet {
                   }
                 }
               });
-          menu.showAsAnchorCenter(imageView1);
+          menu.showAsDropDown(imageView1);
         });
   }
 
