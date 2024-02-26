@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/gradle.properties",
+      "selection": {
+        "end": {
+          "column": 24,
+          "index": 455,
+          "line": 8
+        },
+        "start": {
+          "column": 24,
+          "index": 455,
+          "line": 8
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle",
+      "selection": {
+        "end": {
+          "column": 57,
+          "index": 228,
+          "line": 3
+        },
+        "start": {
+          "column": 57,
+          "index": 228,
+          "line": 3
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/gradle.properties"
+}
