@@ -7,7 +7,7 @@
 
 - [x] Free
 
-- [ ] Plangin system
+- [ ] Plugin system
 
 
 ### Note
