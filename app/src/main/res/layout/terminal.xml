@@ -17,7 +17,7 @@
     <Ninja.coder.Ghostemane.code.terminalkeywords.VirtualKeysView
          android:layout_height="75dp"
          android:layout_width="match_parent"
-         android:background="#ff3232"
+         
          android:layout_gravity="right|bottom"
          android:id="@+id/keysterm" />
 

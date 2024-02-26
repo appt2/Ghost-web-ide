@@ -14,7 +14,22 @@
           "line": 0
         }
       }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/res/layout/terminal.xml",
+      "selection": {
+        "end": {
+          "column": 9,
+          "index": 771,
+          "line": 19
+        },
+        "start": {
+          "column": 9,
+          "index": 771,
+          "line": 19
+        }
+      }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/TerminalActivity.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/res/layout/terminal.xml"
 }
