@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:id="@+id/_coordinator">
+
+    <com.google.android.material.appbar.AppBarLayout
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:theme="@style/AppTheme.AppBarOverlay"
+         android:id="@+id/appbarLayoutImageShow">
+
+        <com.google.android.material.appbar.MaterialToolbar
+             android:layout_height="?attr/actionBarSize"
+             android:layout_width="match_parent"
+             app:popupTheme="@style/AppTheme.PopupOverlay"
+             android:id="@+id/toolbarImageShow" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+         android:orientation="vertical">
+
+        <RelativeLayout
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             android:orientation="vertical">
+
+            <LinearLayout
+                 android:layout_height="match_parent"
+                 android:layout_width="match_parent"
+                 android:orientation="horizontal"
+                 android:id="@+id/blur_layout">
+
+                <ImageView
+                     android:layout_height="match_parent"
+                     android:layout_width="match_parent"
+                     android:scaleType="centerCrop"
+                     android:id="@+id/blur_img" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                 android:layout_height="match_parent"
+                 android:layout_width="match_parent"
+                 android:orientation="vertical"
+                 android:id="@+id/linear3">
+
+                <androidx.viewpager.widget.ViewPager
+                     android:layout_height="match_parent"
+                     android:layout_width="match_parent"
+                     android:layout_weight="1"
+                     android:id="@+id/viewpager1" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

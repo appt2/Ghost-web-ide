@@ -1,0 +1,48 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/main"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+		<LinearLayout
+			android:id="@+id/linear2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:gravity="center_vertical"
+			android:orientation="horizontal">
+			<TextView
+				android:id="@+id/textview1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:gravity="right"
+				android:text="آموزش کده گوست وب"
+				android:textSize="20sp"
+				android:textColor="#F5F5F5"
+				android:layout_weight="1" />
+			<ImageView
+				android:id="@+id/imageview1"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:padding="3dp"
+				android:src="@drawable/arrowr"
+				android:scaleType="fitCenter"
+				android:layout_gravity="center_vertical" />
+		</LinearLayout>
+		<ListView
+			android:id="@+id/mlistview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:dividerHeight="0dp"
+			android:divider="@null"
+			android:choiceMode="none" />
+	</LinearLayout>
+</LinearLayout>

@@ -1,0 +1,136 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/linear1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+		<LinearLayout
+			android:id="@+id/linear2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:gravity="center_horizontal|center_vertical"
+			android:orientation="horizontal">
+			<TextView
+				android:id="@+id/textview1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="G4 Compiler"
+				android:textSize="18sp"
+				android:textStyle="bold"
+				android:focusable="true"
+				
+				android:fontFamily="@font/ghostfont"
+				
+				android:textColor="?@attr/colorSecondary" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/linear3"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:orientation="vertical">
+			<TextView
+				android:id="@+id/textview2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="Select output path file "
+				android:textSize="12sp"
+				android:focusable="true"
+				
+				android:fontFamily="@font/ghostfont"
+				
+				android:textColor="?@attr/colorSecondary" />
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textinputlayout1"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+				<EditText
+					android:id="@+id/edpath"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="/sdcard/Android/"
+					android:textSize="14sp"
+					android:hint="output Path"
+					android:textColorHint="#FFFFFF"
+					android:focusable="true"
+					
+					android:fontFamily="@font/ghostfont"
+					
+					android:textColor="?@attr/colorSecondary" />
+			</com.google.android.material.textfield.TextInputLayout>
+			<TextView
+				android:id="@+id/textview3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:text="try to Select package your java file"
+				android:textSize="12sp"
+				android:focusable="true"
+				
+				android:fontFamily="@font/ghostfont"
+				
+				android:textColor="?@attr/colorSecondary" />
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textinputlayout2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+				<EditText
+					android:id="@+id/etpa"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="Ninja.coder.Ghostemane.code"
+					android:textSize="14sp"
+					android:hint="Select package your file"
+					android:textColorHint="#FFFFFF"
+					android:focusable="true"
+					
+					android:fontFamily="@font/ghostfont"
+					
+					android:textColor="?@attr/colorSecondary" />
+			</com.google.android.material.textfield.TextInputLayout>
+			<LinearLayout
+				android:id="@+id/linear4"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="right|bottom"
+				android:orientation="vertical">
+				<Button
+					android:id="@+id/btnrun"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:text="compile"
+					android:textSize="12sp"
+					android:textColor="#000000"
+					android:focusable="true"
+					
+					android:fontFamily="@font/ghostfont"
+					 />
+			</LinearLayout>
+			<TextView
+				android:id="@+id/tvlog"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:textSize="14sp"
+				android:focusable="true"
+				
+				android:fontFamily="@font/ghostfont"
+				
+				android:textColor="?@attr/colorSecondary" />
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

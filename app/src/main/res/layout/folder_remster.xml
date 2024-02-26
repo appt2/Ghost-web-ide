@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:orientation="vertical">
+
+    <LinearLayout
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:gravity="center_vertical"
+         android:padding="4dp"
+         android:orientation="horizontal"
+         android:id="@+id/roots">
+
+        <ImageView
+             android:layout_height="40dp"
+             android:layout_width="40dp"
+             android:src="@drawable/folder"
+             android:scaleType="fitCenter"
+             android:layout_marginLeft="3dp"
+             android:layout_marginRight="3dp"
+             android:id="@+id/icon" />
+
+        <LinearLayout
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:orientation="vertical">
+
+            <TextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:padding="8dp"
+                 android:textSize="16sp"
+                 android:textColor="?@attr/colorOnSurface"
+                 android:focusable="false"
+                 android:id="@+id/folderName"
+                 android:text="Android" />
+
+            <TextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:padding="8dp"
+                 android:textSize="11sp"
+                 android:layout_marginLeft="2dp"
+                 android:textColor="?@attr/colorOnSurface"
+                 android:focusable="false"
+                 android:id="@+id/tvTools"
+                 android:text="file:40" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+         android:layout_height="match_parent"
+         android:layout_width="wrap_content"
+         app:dividerInsetEnd="14dp"
+         app:dividerInsetStart="14dp"
+         app:dividerColor="?@attr/colorPrimary" />
+
+</LinearLayout>
