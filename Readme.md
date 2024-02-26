@@ -17,6 +17,9 @@
 
 - [ ] Plugin system
 
+- [] File Reader html
+
+
 
 ### Supported Languages
 
