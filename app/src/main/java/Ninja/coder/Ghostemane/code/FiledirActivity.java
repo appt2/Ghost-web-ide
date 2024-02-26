@@ -2907,7 +2907,7 @@ public class FiledirActivity extends BaseCompat
     }
   }
 
-  public void _newItemSheet(final double _position, final View _view) {
+  public void _newItemSheet(int _position, final View _view) {
     final com.google.android.material.bottomsheet.BottomSheetDialog bottomSheetDialog =
         new com.google.android.material.bottomsheet.BottomSheetDialog(FiledirActivity.this);
 

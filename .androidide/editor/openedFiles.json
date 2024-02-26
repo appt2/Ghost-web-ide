@@ -1,37 +1,22 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/RecyclerViewHelper/RecyclerViewHelper.java",
-      "selection": {
-        "end": {
-          "column": 34,
-          "index": 1787,
-          "line": 50
-        },
-        "start": {
-          "column": 34,
-          "index": 1787,
-          "line": 50
-        }
-      }
-    },
-    {
       "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
       "selection": {
         "end": {
-          "column": 27,
-          "index": 13161,
-          "line": 345
+          "column": 30,
+          "index": 13351,
+          "line": 351
         },
         "start": {
-          "column": 27,
-          "index": 13161,
-          "line": 345
+          "column": 16,
+          "index": 13337,
+          "line": 351
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FontviewActivity.java",
       "selection": {
         "end": {
           "column": 0,
@@ -42,9 +27,24 @@
           "column": 0,
           "index": 0,
           "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FontchakerActivity.java",
+      "selection": {
+        "end": {
+          "column": 28,
+          "index": 6940,
+          "line": 197
+        },
+        "start": {
+          "column": 28,
+          "index": 6940,
+          "line": 197
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/build.gradle"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FontchakerActivity.java"
 }
