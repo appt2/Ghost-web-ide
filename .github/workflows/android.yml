@@ -1,5 +1,5 @@
 
-name: Android CI
+name: android
 on:
   pull_request: 
     branches: [ master ]
