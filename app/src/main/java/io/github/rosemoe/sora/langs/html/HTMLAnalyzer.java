@@ -1,9 +1,9 @@
 package io.github.rosemoe.sora.langs.html;
 
-import android.graphics.Color;
-import io.github.rosemoe.sora.data.Span;
+import Ninja.coder.Ghostemane.code.interfaces.CallBackErrorManager;
 import io.github.rosemoe.sora.langs.xml.analyzer.BasicSyntaxPullAnalyzer;
 import io.github.rosemoe.sora.text.TextStyle;
+import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +24,19 @@ import java.util.regex.Pattern;
  *
  * @author Ninja coder
  */
-public class HTMLAnalyzer implements CodeAnalyzer {
+public class HTMLAnalyzer implements CodeAnalyzer, CallBackErrorManager {
 
   private static final Object OBJECT = new Object();
-  private boolean isError = false;
-  private Pattern URL_PATTERN = Pattern.compile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)");
+  public boolean isError = false;
+
+  private Pattern URL_PATTERN =
+      Pattern.compile(
+          "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)");
+  protected CodeEditor editor;
+
+  public HTMLAnalyzer(CodeEditor editor) {
+    this.editor = editor;
+  }
 
   private BasicSyntaxPullAnalyzer sin = new BasicSyntaxPullAnalyzer();
 
@@ -83,8 +91,9 @@ public class HTMLAnalyzer implements CodeAnalyzer {
           break;
         case IDENTIFIER:
           isError = true;
-        
-       //  /= identifiers.addIdentifier(text.substring(helper.getLine(),tokenizer.getTokenLength()));
+
+          //  /=
+          // identifiers.addIdentifier(text.substring(helper.getLine(),tokenizer.getTokenLength()));
 
           // Add a identifier to auto complete
           identifiers.addIdentifier(text.substring(index, index + tokenizer.getTokenLength()));
@@ -131,7 +140,7 @@ public class HTMLAnalyzer implements CodeAnalyzer {
             classNamePrevious = false;
             break;
           }
-          
+
           // Push back the next token
           tokenizer.pushBack(tokenizer.getTokenLength());
           // This is a class definition
@@ -1098,6 +1107,9 @@ public class HTMLAnalyzer implements CodeAnalyzer {
       }
     }
     if (isError) {
+      //      if(helperzz != null) {
+      //      	//helperzz.show();
+      //      }
       sin.analyze(content, result, delegate);
     }
     identifiers.finish();
@@ -1110,8 +1122,6 @@ public class HTMLAnalyzer implements CodeAnalyzer {
   protected interface End {
     void ends();
   }
-  
-  
 
   public static class HighlightToken {
 
@@ -1129,5 +1139,15 @@ public class HTMLAnalyzer implements CodeAnalyzer {
       this.offset = offset;
       this.url = url;
     }
+  }
+
+  @Override
+  public void Error(boolean error) {
+    isError = error;
+  }
+
+  @Override
+  public void NotError(boolean error) {
+    isError = error;
   }
 }

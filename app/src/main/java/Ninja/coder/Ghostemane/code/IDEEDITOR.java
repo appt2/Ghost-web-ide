@@ -1,8 +1,8 @@
 package Ninja.coder.Ghostemane.code;
 
+import Ninja.coder.Ghostemane.code.interfaces.CallBackErrorManager;
 import Ninja.coder.Ghostemane.code.marco.CommentList;
 import Ninja.coder.Ghostemane.code.marco.editorface.IEditor;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +34,7 @@ import com.google.android.material.shape.ShapeAppearanceModel;
 import io.github.rosemoe.sora.event.DoubleClickEvent;
 import io.github.rosemoe.sora.event.LongPressEvent;
 import io.github.rosemoe.sora.interfaces.EditorLanguage;
+import io.github.rosemoe.sora.langs.html.HTMLLanguage;
 import io.github.rosemoe.sora.text.FormatThread;
 import io.github.rosemoe.sora.util.KeyboardUtils;
 import io.github.rosemoe.sora.widget.CodeEditor;
@@ -51,7 +52,11 @@ public class IDEEDITOR extends CodeEditor implements IEditor {
   private boolean isDisableSoftKbdOnHardKbd;
   private boolean isSoftKbdEnabled;
   private CommentList listitem;
-  private  Pattern URL_PATTERN = Pattern.compile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)");
+  protected CallBackErrorManager call;
+  // for test
+  private Pattern URL_PATTERN =
+      Pattern.compile(
+          "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)");
 
   // test
   private SymbolInputView mSymbolInputView;
@@ -100,7 +105,7 @@ public class IDEEDITOR extends CodeEditor implements IEditor {
               }
             }
           } catch (Exception err) {
-              err.printStackTrace();
+            err.printStackTrace();
           }
         });
     subscribeEvent(
@@ -122,9 +127,8 @@ public class IDEEDITOR extends CodeEditor implements IEditor {
           /// Code for saving file
           var inputText = event.getChangedText();
           accumulatedText += inputText;
-
           if (getText().toString().contains("<h")) {
-          //  showToolTip();
+            //  showToolTip();
             accumulatedText = "";
           } else {
 
@@ -464,5 +468,9 @@ public class IDEEDITOR extends CodeEditor implements IEditor {
         .animationDuration(2000)
         .build()
         .show();
+  }
+
+  public void setErrorCallBack(CallBackErrorManager callBack) {
+    this.call = callBack;
   }
 }

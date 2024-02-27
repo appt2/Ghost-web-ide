@@ -31,6 +31,7 @@ import io.github.rosemoe.sora.langs.internal.MyCharacter;
 import io.github.rosemoe.sora.text.TextUtils;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.commentRule.AppConfig;
+import io.github.rosemoe.sora.widget.tooltip.ToolTipHelper;
 import java.util.Arrays;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
@@ -54,10 +55,15 @@ public class HTMLLanguage implements EditorLanguage {
   public static String getId = "#".trim();
   private CodeEditor editor;
   private AppConfig a;
+  protected HTMLAnalyzer az;
+
   protected static SharedPreferences shp;
 
-  public HTMLLanguage() {
+  public HTMLLanguage(CodeEditor editor) {
     AppConfig a = new AppConfig();
+    this.editor = editor;
+    az = new HTMLAnalyzer(editor);
+
     //     Toast.makeText(ApplicationLoader.getContext(),ShowFile(),2).show();
     shp = ApplicationLoader.getContext().getSharedPreferences("pos_path", Activity.MODE_PRIVATE);
   }
@@ -66,9 +72,6 @@ public class HTMLLanguage implements EditorLanguage {
     File file = new File(FiledirActivity.POSNINJACODERMAIN);
     return file.getParent();
   }
-
-  
-  
 
   public static final String[] JS = {
     "abstract",
@@ -384,7 +387,6 @@ public class HTMLLanguage implements EditorLanguage {
     "x"
   };
 
-  
   public static final String[] GETHTML5 = {"html5", "Html5", "Spd", "!"};
 
   public static final String[] EmtClass = {
@@ -717,7 +719,7 @@ public class HTMLLanguage implements EditorLanguage {
 
   @Override
   public CodeAnalyzer getAnalyzer() {
-    return new HTMLAnalyzer();
+    return az;
   }
 
   @Override
@@ -959,7 +961,7 @@ public class HTMLLanguage implements EditorLanguage {
     for (Element styleJs : jsStyle) {
       String jsCodeCase = jsStyle.html();
       String format = javaFormat(jsCodeCase);
-      jsStyle.html("\n\n" +format + "\n\n");
+      jsStyle.html("\n\n" + format + "\n\n");
     }
 
     if (doc.toString().contains("<!doctype html>")) {

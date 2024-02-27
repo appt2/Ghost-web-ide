@@ -52,7 +52,8 @@ public class EditorRoaderFile {
           400);
       ReadFileCompat(editor, _path, bar);
     } else if (_path.endsWith(".html")) {
-      editor.setEditorLanguage(new HTMLLanguage());
+      var htmllang = new HTMLLanguage(editor);
+      editor.setEditorLanguage(htmllang);
       ReadFileCompat(editor, _path, bar);
       _fab.postDelayed(
           () -> {
@@ -115,7 +116,8 @@ public class EditorRoaderFile {
             _fab.show();
           },
           400);
-      editor.setEditorLanguage(new HTMLLanguage());
+      var htmllang = new HTMLLanguage(editor);
+      editor.setEditorLanguage(htmllang);
     } else if (_path.endsWith(".md")) {
       ReadFileCompat(editor, _path, bar);
       _fab.postDelayed(
@@ -123,7 +125,8 @@ public class EditorRoaderFile {
             _fab.show();
           },
           400);
-      editor.setEditorLanguage(new HTMLLanguage());
+      var htmllang = new HTMLLanguage(editor);
+      editor.setEditorLanguage(htmllang);
       editor.setAutoCompletionEnabled(false);
     } else if (_path.endsWith(".php")) {
       ReadFileCompat(editor, _path, bar);

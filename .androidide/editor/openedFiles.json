@@ -1,32 +1,47 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/util/KeyboardUtils.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/IDEEDITOR.java",
       "selection": {
         "end": {
-          "column": 26,
-          "index": 1262,
-          "line": 31
+          "column": 0,
+          "index": 0,
+          "line": 0
         },
         "start": {
-          "column": 26,
-          "index": 1262,
-          "line": 31
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/IDEEDITOR.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/interfaces/CallBackErrorManager.java",
       "selection": {
         "end": {
-          "column": 48,
-          "index": 3989,
-          "line": 110
+          "column": 38,
+          "index": 163,
+          "line": 4
         },
         "start": {
-          "column": 48,
-          "index": 3989,
-          "line": 110
+          "column": 38,
+          "index": 163,
+          "line": 4
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAnalyzer.java",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 30857,
+          "line": 1153
+        },
+        "start": {
+          "column": 0,
+          "index": 30857,
+          "line": 1153
         }
       }
     }

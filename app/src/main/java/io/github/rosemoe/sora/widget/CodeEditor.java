@@ -496,7 +496,7 @@ public class CodeEditor extends View
 	 *
 	 * @return Descriptor of left handle
 	 */
-	protected SelectionHandleStyle.HandleDescriptor getLeftHandleDescriptor() {
+	public SelectionHandleStyle.HandleDescriptor getLeftHandleDescriptor() {
 		return mLeftHandle;
 	}
 
@@ -505,7 +505,7 @@ public class CodeEditor extends View
 	 *
 	 * @return Descriptor of right handle
 	 */
-	protected SelectionHandleStyle.HandleDescriptor getRightHandleDescriptor() {
+	public SelectionHandleStyle.HandleDescriptor getRightHandleDescriptor() {
 		return mRightHandle;
 	}
 
@@ -516,7 +516,7 @@ public class CodeEditor extends View
 	 * @param column The column position of character
 	 * @return The x offset on screen
 	 */
-	protected float getOffset(int line, int column) {
+	public float getOffset(int line, int column) {
 		return mLayout.getCharLayoutOffset(line, column)[1] + measureTextRegionOffset() - getOffsetX();
 	}
 
@@ -1168,7 +1168,7 @@ public class CodeEditor extends View
 	 *
 	 * @return Rect of insert handle
 	 */
-	protected SelectionHandleStyle.HandleDescriptor getInsertHandleDescriptor() {
+	public SelectionHandleStyle.HandleDescriptor getInsertHandleDescriptor() {
 		return mInsertHandle;
 	}
 

@@ -46,7 +46,7 @@ import io.github.rosemoe.sora.widget.style.SelectionHandleStyle;
  * @author Rose
  */
 @SuppressWarnings("CanBeFinal")
-final class EditorTouchEventHandler implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, ScaleGestureDetector.OnScaleGestureListener {
+public class EditorTouchEventHandler implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, ScaleGestureDetector.OnScaleGestureListener {
 
     private final static int HIDE_DELAY = 3000;
     private final static int SELECTION_HANDLE_RESIZE_DELAY = 180;
@@ -103,7 +103,7 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
         return Character.isJavaIdentifierPart(ch);
     }
 
-    protected boolean hasAnyHeldHandle() {
+    public boolean hasAnyHeldHandle() {
         return holdInsertHandle() || mSelHandleType != -1;
     }
 
