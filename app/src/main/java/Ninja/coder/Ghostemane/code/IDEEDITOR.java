@@ -1,9 +1,8 @@
 package Ninja.coder.Ghostemane.code;
 
-import Ninja.coder.Ghostemane.code.ColorAndroid12;
-import Ninja.coder.Ghostemane.code.IDEEDITOR;
 import Ninja.coder.Ghostemane.code.marco.CommentList;
 import Ninja.coder.Ghostemane.code.marco.editorface.IEditor;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -33,6 +31,7 @@ import io.github.rosemoe.sora.event.ContentChangeEvent;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
+import io.github.rosemoe.sora.event.DoubleClickEvent;
 import io.github.rosemoe.sora.event.LongPressEvent;
 import io.github.rosemoe.sora.interfaces.EditorLanguage;
 import io.github.rosemoe.sora.text.FormatThread;
@@ -102,6 +101,19 @@ public class IDEEDITOR extends CodeEditor implements IEditor {
             }
           } catch (Exception err) {
               err.printStackTrace();
+          }
+        });
+    subscribeEvent(
+        DoubleClickEvent.class,
+        (event, subscribe) -> {
+          if (event != null) {
+
+            if (!com.blankj.utilcode.util.KeyboardUtils.isSoftInputVisible(
+                (Activity) getContext())) {
+              getSearcher().stopSearch();
+            } else {
+              getSearcher().search(event.getEditor().getSelectedText());
+            }
           }
         });
     // getTextAnalyzeResult
