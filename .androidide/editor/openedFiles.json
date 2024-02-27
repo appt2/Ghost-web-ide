@@ -1,35 +1,35 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/CodeeditorActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/MainActivity.java",
       "selection": {
         "end": {
-          "column": 17,
-          "index": 65186,
-          "line": 1614
+          "column": 0,
+          "index": 0,
+          "line": 0
         },
         "start": {
-          "column": 17,
-          "index": 65186,
-          "line": 1614
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/layoutmanager/LogCatBottomSheet.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/CodeeditorActivity.java",
       "selection": {
         "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 10,
+          "index": 43151,
+          "line": 1124
         },
         "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 10,
+          "index": 43151,
+          "line": 1124
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/layoutmanager/LogCatBottomSheet.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/CodeeditorActivity.java"
 }
