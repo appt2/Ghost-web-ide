@@ -4,9 +4,12 @@ import Ninja.coder.Ghostemane.code.GhostWebMaterialDialog;
 import Ninja.coder.Ghostemane.code.R;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.util.Base64;
+import android.util.Log;
 import android.view.MotionEvent;
 import androidx.recyclerview.widget.RecyclerView;
 import io.github.rosemoe.sora.widget.CodeEditor;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.view.ViewGroup;
@@ -45,7 +48,7 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
   public void onBindViewHolder(ViewHolder _holder, final int _position) {
     View _view = _holder.itemView;
     Animation animation =
-        AnimationUtils.loadAnimation(context.getApplicationContext(), android.R.anim.fade_in);
+        AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
     _view.startAnimation(animation);
 
     RecyclerView.LayoutParams _lp =
@@ -190,26 +193,28 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
   public String encrypt(String str, String str2) {
     String encrypted = "";
     try {
-      encrypted = new String(android.util.Base64.encode(xor(str.getBytes("UTF-8"), str2), 2));
-    } catch (java.io.UnsupportedEncodingException e) {
+      encrypted = new String(Base64.encode(xor(str.getBytes("UTF-8"), str2), 2));
+    } catch (UnsupportedEncodingException e) {
+      Log.e("Error",e.getLocalizedMessage());
     }
     return encrypted;
   }
 
   public String decrypt(String str, String str2) {
-    String decrypted = "";
+    var decrypted = "";
     try {
-      decrypted = new String(xor(android.util.Base64.decode(str, 2), str2), "UTF-8");
-    } catch (java.io.UnsupportedEncodingException e) {
+      decrypted = new String(xor(Base64.decode(str, 2), str2), "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      Log.e("Error",e.getLocalizedMessage());
     }
     return decrypted;
   }
 
   private static byte[] xor(byte[] bArr, String str) {
-    int length = bArr.length;
-    int length2 = str.length();
-    int i = 0;
-    int i2 = 0;
+    var length = bArr.length;
+    var length2 = str.length();
+    var i = 0;
+    var i2 = 0;
     while (i2 < length) {
       if (i >= length2) {
         i = 0;
