@@ -101,7 +101,7 @@ dependencies {
     implementation("com.github.pedrovgs:renderers:3.3.0")
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
-    implementation 'com.squareup:seismic:1.0.2'
+    implementation 'com.squareup:seismic:1.0.3'
     implementation "org.smali:smali:2.5.2"
     implementation "org.smali:baksmali:2.5.2"
     implementation ("io.apisense:rhino-android:1.0")
