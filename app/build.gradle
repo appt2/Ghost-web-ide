@@ -96,7 +96,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.4.0-alpha01")
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'org.antlr:antlr4:4.13.0'
+    implementation 'org.antlr:antlr4:4.13.1'
     implementation 'org.apache.commons:commons-compress:1.24.0'
     implementation("com.github.pedrovgs:renderers:3.3.0")
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
