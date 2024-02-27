@@ -3,6 +3,7 @@ package io.github.rosemoe.sora.util;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.inputmethodservice.InputMethodService;
+import android.view.inputmethod.InputMethodManager;
 
 /**
  * Utility functions for keyboard.
@@ -25,5 +26,9 @@ public class KeyboardUtils {
     Configuration config = context.getResources().getConfiguration();
     return (config.keyboard != Configuration.KEYBOARD_NOKEYS
         || config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO);
+  }
+  public static boolean isKeyBoardVisbale(Context context){
+    InputMethodManager manger = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+    return manger.isActive();
   }
 }

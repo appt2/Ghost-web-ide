@@ -108,8 +108,7 @@ public class IDEEDITOR extends CodeEditor implements IEditor {
         (event, subscribe) -> {
           if (event != null) {
 
-            if (!com.blankj.utilcode.util.KeyboardUtils.isSoftInputVisible(
-                (Activity) getContext())) {
+            if (!KeyboardUtils.isKeyBoardVisbale(getContext())) {
               getSearcher().stopSearch();
             } else {
               getSearcher().search(event.getEditor().getSelectedText());
