@@ -547,7 +547,6 @@ public class CodeeditorActivity extends AppCompatActivity {
                     .addItem(
                         new PowerMenuItem(
                             "مدیرت ایکون", false, R.drawable.keyboardlisnertalluserpost_3))
-                    .addItem(new PowerMenuItem("رمز گشا", false, R.drawable.randomr10))
                     .addItem(
                         new PowerMenuItem(
                             "استخراج رنگ", false, R.drawable.keyboardlisnertalluserpost_2))
@@ -606,47 +605,43 @@ public class CodeeditorActivity extends AppCompatActivity {
                 new OnMenuItemClickListener<PowerMenuItem>() {
                   @Override
                   public void onItemClick(int position, PowerMenuItem item) {
-                    switch ((int) position) {
-                      case ((int) 0):
+                    switch (position) {
+                      case (0):
                         {
-                          _datako();
+                          var tag = new HtmlTagView();
+                          tag.Start(editor.getText().toString(), CodeeditorActivity.this, editor);
                           break;
                         }
-                      case ((int) 1):
+                      case (1):
                         {
-                          DialogColorView.run(CodeeditorActivity.this,editor);
+                          DialogColorView.run(CodeeditorActivity.this, editor);
                           break;
                         }
-                      case ((int) 2):
+                      case (2):
                         {
                           editor.setCommentHtml();
                           break;
                         }
-                      case ((int) 3):
+                      case (3):
                         {
                           icon.setClass(getApplicationContext(), IconmodActivity.class);
                           icon.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                           startActivity(icon);
                           break;
                         }
-                      case ((int) 4):
-                        {
-                          _fogstart();
-                          break;
-                        }
-                      case ((int) 5):
+                      case (4):
                         {
                           _startcolorsxmlview();
                           break;
                         }
-                      case ((int) 6):
+                      case (5):
                         {
                           fontHelper.setClass(getApplicationContext(), FontchakerActivity.class);
                           fontHelper.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                           startActivity(fontHelper);
                           break;
                         }
-                      case ((int) 7):
+                      case (6):
                         {
                           Intent myintent =
                               new Intent(
@@ -1815,10 +1810,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     channel.insertSymbol(_input, (int) _input.length());
   }
 
-  public void _datako() {
-    var tag = new HtmlTagView();
-    tag.Start(editor.getText().toString(), this, editor);
-  }
 
   public void _tabsize(final double _tab) {
     editor.setTabWidth((int) _tab);

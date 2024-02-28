@@ -1,13 +1,19 @@
 package Ninja.coder.Ghostemane.code.adapter;
 
+import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.GhostWebMaterialDialog;
 import Ninja.coder.Ghostemane.code.R;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
+import com.google.android.material.shape.ShapeAppearanceModel;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -23,15 +29,15 @@ import android.graphics.drawable.GradientDrawable;
 
 public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adapter.ViewHolder> {
 
-  ArrayList<HashMap<String, Object>> _data;
-  CodeEditor editor;
-  Context context;
+  private ArrayList<HashMap<String, Object>> _data;
+  private CodeEditor editor;
+  private Context context;
 
   public Recyclerview0Adapter(
       ArrayList<HashMap<String, Object>> _arr, CodeEditor editor, Context context) {
-    _data = _arr;
-    editor = editor;
-    context = context;
+    this._data = _arr;
+    this.editor = editor;
+    this.context = context;
   }
 
   @Override
@@ -47,9 +53,6 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
   @Override
   public void onBindViewHolder(ViewHolder _holder, final int _position) {
     View _view = _holder.itemView;
-    Animation animation =
-        AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-    _view.startAnimation(animation);
 
     RecyclerView.LayoutParams _lp =
         new RecyclerView.LayoutParams(
@@ -65,6 +68,9 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
     } catch (Exception e) {
       c1.setText("c");
     }
+    tv3.setTextColor(MaterialColors.getColor(tv3,ColorAndroid12.colorOnSurface,0));
+    c1.setTextColor(MaterialColors.getColor(tv3,ColorAndroid12.colorOnSurface,0));
+    lib.setBackground(shap());
     main.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -195,7 +201,7 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
     try {
       encrypted = new String(Base64.encode(xor(str.getBytes("UTF-8"), str2), 2));
     } catch (UnsupportedEncodingException e) {
-      Log.e("Error",e.getLocalizedMessage());
+      Log.e("Error", e.getLocalizedMessage());
     }
     return encrypted;
   }
@@ -205,7 +211,7 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
     try {
       decrypted = new String(xor(Base64.decode(str, 2), str2), "UTF-8");
     } catch (UnsupportedEncodingException e) {
-      Log.e("Error",e.getLocalizedMessage());
+      Log.e("Error", e.getLocalizedMessage());
     }
     return decrypted;
   }
@@ -234,5 +240,14 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
       decrypted = "Error : " + e.toString();
     }
     return decrypted;
+  }
+
+  protected MaterialShapeDrawable shap() {
+    var shp =
+        new MaterialShapeDrawable(
+            ShapeAppearanceModel.builder().setAllCorners(CornerFamily.ROUNDED, 30f).build());
+    shp.setFillColor(ColorStateList.valueOf(MaterialColors.getColor(context,ColorAndroid12.Back,0)));
+    shp.setStroke(0.5f,ColorStateList.valueOf(MaterialColors.getColor(context,ColorAndroid12.colorOnSurface,0)));
+    return shp;
   }
 }

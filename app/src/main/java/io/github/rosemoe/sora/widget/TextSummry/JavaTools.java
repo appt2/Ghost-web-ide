@@ -2,18 +2,18 @@ package io.github.rosemoe.sora.widget.TextSummry;
 
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.R;
+import Ninja.coder.Ghostemane.code.adapter.Recyclerview0Adapter;
 import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
-import android.text.Annotation;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.github.rosemoe.sora.langs.java.JavaLanguage;
 import io.github.rosemoe.sora.widget.Transilt;
 import io.github.rosemoe.sora.widget.schemes.SchemeDarcula;
 import java.lang.reflect.Field;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import Ninja.coder.Ghostemane.code.SketchwareUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.view.LayoutInflater;
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,6 +30,8 @@ import io.github.rosemoe.sora.widget.CodeEditor;
 import com.google.android.material.color.MaterialColors;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JavaTools {
   protected ToolItem item;
@@ -54,6 +56,7 @@ public class JavaTools {
             .addItem(new PowerMenuItem("ExtractJavaClass"))
             .addItem(new PowerMenuItem("Translate"))
             .addItem(new PowerMenuItem("Get and set"))
+            .addItem(new PowerMenuItem("String Fog Decoder"))
             .setIsMaterial(true)
             .build();
     menu.setMenuRadius(20f);
@@ -125,6 +128,8 @@ public class JavaTools {
             Transilt.Start(editor);
           } else if (pos == 8) {
             installDialogGetSet(editor, context);
+          }else if(pos == 9){
+            StringFog(editor);
           }
         });
   }
@@ -280,5 +285,34 @@ public class JavaTools {
         });
 
     dialogs.show();
+  }
+
+  private void StringFog(CodeEditor ed) {
+    var listview = new RecyclerView(ed.getContext());
+    var param =
+        new RecyclerView.LayoutParams(
+            RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+    listview.setLayoutParams(param);
+    ArrayList<HashMap<String, Object>> map = new ArrayList<>();
+    ArrayList<String> listStr = new ArrayList<>();
+    Pattern patn = Pattern.compile("\"(.*?)\"");
+    Matcher mather = patn.matcher(ed.getText().toString());
+    while (mather.find()) {
+      listStr.add(mather.group(1));
+    }
+    for (var text : listStr) {
+      {
+        HashMap<String, Object> _maps = new HashMap<>();
+        _maps.put("post", text);
+        map.add(_maps);
+      }
+    }
+    listview.setAdapter(new Recyclerview0Adapter(map, ed, ed.getContext()));
+    listview.setLayoutManager(new LinearLayoutManager(ed.getContext()));
+    var dialog = new MaterialAlertDialogBuilder(ed.getContext());
+    dialog.setView(listview);
+    if(dialog != null) {
+    	dialog.show();
+    }
   }
 }

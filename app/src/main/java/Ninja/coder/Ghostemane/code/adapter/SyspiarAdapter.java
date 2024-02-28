@@ -26,9 +26,9 @@ public class SyspiarAdapter extends RecyclerView.Adapter<SyspiarAdapter.ViewHold
   private OnTabView tabview;
   protected HashMap<String, Object> imap;
 
-  public SyspiarAdapter(ArrayList<HashMap<String, Object>> _arr,OnTabView tabview) {
-    _data = _arr;
-    tabview=tabview;
+  public SyspiarAdapter(ArrayList<HashMap<String, Object>> _arr, OnTabView tabview) {
+    this._data = _arr;
+    this.tabview = tabview;
     imap = new HashMap<>();
   }
 
@@ -68,12 +68,11 @@ public class SyspiarAdapter extends RecyclerView.Adapter<SyspiarAdapter.ViewHold
               tabview.TAB("  ");
             } else {
               sysbarInsertId.setText(_data.get((int) _position).get("post").toString());
-              if(tabview == null) {
-              	ApplicationLoader.getEditor().appendText("4");
+              if (tabview == null) {
+                ApplicationLoader.getEditor().appendText("4");
               }
               tabview.POST(sysbarInsertId.getText().toString());
-              Log.e("POST",sysbarInsertId.getText().toString());
-              
+              Log.e("POST", sysbarInsertId.getText().toString());
             }
           }
         });
@@ -165,6 +164,7 @@ public class SyspiarAdapter extends RecyclerView.Adapter<SyspiarAdapter.ViewHold
       super(v);
     }
   }
+
   public void _clickAnimation(View _view) {
     ScaleAnimation fade_in =
         new ScaleAnimation(
@@ -173,8 +173,10 @@ public class SyspiarAdapter extends RecyclerView.Adapter<SyspiarAdapter.ViewHold
     fade_in.setFillAfter(true);
     _view.startAnimation(fade_in);
   }
-  public interface OnTabView{
+
+  public interface OnTabView {
     public void TAB(String tab);
+
     public void POST(String post);
   }
 }
