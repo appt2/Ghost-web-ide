@@ -40,13 +40,13 @@ public class FileReaderJsonSpinet implements Serializable {
     try {
       final List<CompletionItem> jsonData = readItemsFromJson(new File(getFileNameJson(name)));
       if (!jsonData.isEmpty()) {
-       // jsonData.sort(CompletionItem.COMPARATOR_BY_NAME);
         for(CompletionItem it : jsonData) {
         	Log.e("JSONNAME",it.name);
           Log.e("JSONVALUE",it.value);
-          items.add(new CompletionItem(it.name,it.value,it.sp));
+          if(it != null) {
+          	items.add(new CompletionItem(it.name,it.value,it.sp));
+          }
         }
-        Collections.sort(jsonData, CompletionItem.COMPARATOR_BY_NAME);
         items.addAll(jsonData);
         
         Log.e("JSONDATA",jsonData.toString());
@@ -197,25 +197,5 @@ public class FileReaderJsonSpinet implements Serializable {
     }
   }
   public void ListFile(List<CompletionItem> items){
-//    ProjectManager manager = new ProjectManager();
-//    Log.e("Project ",manager.getProjectDir());
-//    List<HashMap<String,Object>> listMap = new ArrayList<>();
-//    ArrayList<String> map= new ArrayList<>();
-//    listMap.clear();
-//    map.clear();
-//    FileUtil.listDir(CodeeditorActivity.POSTMANPATH,map);
-//    for(int i = 0; i < map.size(); ++i) {
-//    	{
-//        HashMap<String,Object> itemName = new HashMap<>();
-//        itemName.put("file",map.get(i));
-//        listMap.add(itemName);
-//      }
-//      if(FileUtil.isDirectory(listMap.get(i).get("file").toString())) {
-//      	
-//      }else if(FileUtil.isExistFile(listMap.get(i).get("file").toString())) {
-//        Log.e("FileItems: ",Uri.parse(listMap.get(i).get("file").toString()).getLastPathSegment());
-//      	items.add(new CompletionItem(Uri.parse(listMap.get(i).get("file").toString()).getLastPathSegment(),"List File"));
-//      }
-//    }
   }
 }

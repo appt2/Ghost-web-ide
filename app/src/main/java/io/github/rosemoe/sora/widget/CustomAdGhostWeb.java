@@ -57,7 +57,7 @@ public class CustomAdGhostWeb extends EditorCompletionAdapter {
     MaterialTextView iogore = view.findViewById(R.id.iogore);
     LinearLayout mob = view.findViewById(R.id.mob);
     LinearLayout helpers = view.findViewById(R.id.helpers);
-    Spannable label = Spannable.Factory.getInstance().newSpannable(item.label);
+    Spannable label = Spannable.Factory.getInstance().newSpannable(item.label != null ? item.label : "None");
     String prefix = getPrefix();
     textUtils = new io.github.rosemoe.sora.widget.TextSummry.TextUtils(tv);
     int index = TextUtils.indexOf(item.label, prefix);
@@ -87,7 +87,6 @@ public class CustomAdGhostWeb extends EditorCompletionAdapter {
     String lastItemPost = tv1.getText().toString();
     String lastItemPost2 = tv.getText().toString();
     //  helpers.setBackgroundColor(Color.TRANSPARENT);
-    String tezt = item.desc.substring(0, 3).toString();
     var getDesc = item.desc;
     if (getDesc.contains(htmlconfig.HTMLTAG)) {
       textUtils.setKeyWordHtmlNotWork();

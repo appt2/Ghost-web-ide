@@ -41,6 +41,7 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.Nullable;
 import com.google.gson.annotations.SerializedName;
+import java.io.File;
 import java.util.Comparator;
 
 /**
@@ -68,6 +69,8 @@ public class CompletionItem {
 
   /** Cursor offset in {@link CompletionItem#commit} */
   public int cursorOffset;
+  /** From Read File **/
+  public File file;
 
   // from json
   @SerializedName("name")
