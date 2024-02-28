@@ -171,7 +171,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import Ninja.coder.Ghostemane.code.layoutmanager.DialogColorView;
 import Ninja.coder.Ghostemane.code.layoutmanager.LogCatBottomSheet;
 
-
 public class CodeeditorActivity extends AppCompatActivity {
 
   public final int REQ_CD_SETPASZAMINE = 101;
@@ -455,7 +454,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     sf = getSharedPreferences("sf", Activity.MODE_PRIVATE);
     mSymbolInputView = findViewById(R.id.mSymbolInputView);
     mSymbolInputView.bindEditor(editor);
-    mSymbolInputView.setTextColor(MaterialColors.getColor(this,ColorAndroid12.TvColor,0));
+    mSymbolInputView.setTextColor(MaterialColors.getColor(this, ColorAndroid12.TvColor, 0));
     String[] in = {
       "\t", "/", "?", "!", "@", ">", "<", "/", "(", ")", "{", "}", "[", "]", "-", ";", ":", "=",
       ",", "$", "\"", "'", "*", "&"
@@ -464,7 +463,7 @@ public class CodeeditorActivity extends AppCompatActivity {
       "↹", "/", "?", "!", "@", ">", "<", "/", "(", ")", "{", "}", "[", "]", "-", ";", ":", "=", ",",
       "$", "\"", "'", "*", "&"
     };
-    mSymbolInputView.addSymbols(out,in);
+    mSymbolInputView.addSymbols(out, in);
     recyclerview1.addOnScrollListener(
         new RecyclerView.OnScrollListener() {
           @Override
@@ -491,9 +490,6 @@ public class CodeeditorActivity extends AppCompatActivity {
           }
         });
 
-    
-
-    
     backgroundPressBack.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -502,7 +498,6 @@ public class CodeeditorActivity extends AppCompatActivity {
           }
         });
 
-    
     image.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -1094,7 +1089,7 @@ public class CodeeditorActivity extends AppCompatActivity {
             return this;
           }
         }.getIns((int) 50, 0xFFE91E63));
-    
+
     progressbar1.setVisibility(View.GONE);
 
     badgeview3.setBadgeBackground(Color.TRANSPARENT);
@@ -1422,11 +1417,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-
-  
-
   // helper method to check if a color is dark or light
-  
 
   public interface ProDoc {
     void OnTaskData();
@@ -1498,7 +1489,7 @@ public class CodeeditorActivity extends AppCompatActivity {
             .addItem(new PowerMenuItem("Log cat", false, R.drawable.codeformat))
             .addItem(new PowerMenuItem("ذخیره", false, R.drawable.save))
             .addItem(new PowerMenuItem("ذخیره همه", false, R.drawable.setsavefileall))
-          //  .addItem(new PowerMenuItem("لینک", false, R.drawable.link))
+            //  .addItem(new PowerMenuItem("لینک", false, R.drawable.link))
             .build();
     pvr.setSelectedMenuColor(0xFFFDA893);
     pvr.setIconPadding((int) 8);
@@ -1543,7 +1534,7 @@ public class CodeeditorActivity extends AppCompatActivity {
             switch ((int) position) {
               case ((int) 0):
                 {
-                  EditorSearcherT.show(editor,FrameLayout01);
+                  EditorSearcherT.show(editor, FrameLayout01);
                   break;
                 }
               case ((int) 1):
@@ -1578,12 +1569,11 @@ public class CodeeditorActivity extends AppCompatActivity {
                               //	SketchwareUtil.CustomToast(getApplicationContext(), "رنگ کپی شد" +
                               // rgs, 0xFFFFFFFF, 15, 0xFF1F1B1C, 15, SketchwareUtil.CENTER);
                               try {
-                              
+
                                 _sysba("#".concat(rgs.replace("#ff", "#")));
                               } catch (Exception exception) {
                                 exception.printStackTrace();
                               }
-
                             }
                           })
                       .setNegativeButton(
@@ -1634,7 +1624,6 @@ public class CodeeditorActivity extends AppCompatActivity {
                   _AllSaveFile(_coordinator);
                   break;
                 }
-              
             }
           }
         });
@@ -1804,12 +1793,10 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-
   public void _sysba(final String _input) {
     io.github.rosemoe.sora.widget.SymbolChannel channel = editor.createNewSymbolChannel();
     channel.insertSymbol(_input, (int) _input.length());
   }
-
 
   public void _tabsize(final double _tab) {
     editor.setTabWidth((int) _tab);
@@ -1853,17 +1840,20 @@ public class CodeeditorActivity extends AppCompatActivity {
         SketchwareUtil.showMessage(getApplicationContext(), e.toString());
       }
     }
-    SyspiarAdapter syspiarAdapter = new SyspiarAdapter(staticSymbiolPiare, new SyspiarAdapter.OnTabView() {
-        @Override
-        public void TAB(String tab) {
-            _sysba(tab);
-        }
+    SyspiarAdapter syspiarAdapter =
+        new SyspiarAdapter(
+            staticSymbiolPiare,
+            new SyspiarAdapter.OnTabView() {
+              @Override
+              public void TAB(String tab) {
+                _sysba(tab);
+              }
 
-        @Override
-        public void POST(String post) {
-            _sysba(post);
-        }
-    });
+              @Override
+              public void POST(String post) {
+                _sysba(post);
+              }
+            });
 
     syspiar.setAdapter(syspiarAdapter);
     syspiar.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -1933,7 +1923,7 @@ public class CodeeditorActivity extends AppCompatActivity {
         userPos.setVisibility(View.VISIBLE);
         em.setVisibility(View.GONE);
       }
-      userPos.setAdapter(new Recyclerview0Adapter(map,editor,this));
+      userPos.setAdapter(new Recyclerview0Adapter(map, editor, this));
       userPos.setLayoutManager(
           new androidx.recyclerview.widget.LinearLayoutManager(CodeeditorActivity.this));
     } catch (Exception e) {
@@ -1944,9 +1934,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     di.setView(dialogview);
     di.show();
   }
-
-  
-  
 
   public void _powerMenuLisner(
       final View _v, final ArrayList<HashMap<String, Object>> _map, final double _pos) {
@@ -2029,8 +2016,6 @@ public class CodeeditorActivity extends AppCompatActivity {
           }
         });
   }
-
-  
 
   public static class DoubleClick implements View.OnClickListener {
 
@@ -2212,7 +2197,6 @@ public class CodeeditorActivity extends AppCompatActivity {
 
   public void _xmlcoloronBinde() {}
 
-  
   public void _fabCl() {
     try {
       try {
@@ -2392,10 +2376,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-  
-
-  
-
   public void _pop(final String _path, final View _v) {
     View popupView = getLayoutInflater().inflate(R.layout.editor_pop_up_menu, null);
     final PopupWindow popup =
@@ -2457,7 +2437,7 @@ public class CodeeditorActivity extends AppCompatActivity {
       files.get((int) index).put("sel", "false");
       index++;
     }
-    rv.setAdapter(new Recyclerview122Adapter(files,this));
+    rv.setAdapter(new Recyclerview122Adapter(files, this));
     rv.getAdapter().notifyDataSetChanged();
     popup.setAnimationStyle(android.R.style.Animation_Dialog);
 
@@ -2490,108 +2470,6 @@ public class CodeeditorActivity extends AppCompatActivity {
           }
         });
     bottomSheetDialog.show();
-  }
-
-  public void _editor_layout_search() {
-    final com.google.android.material.bottomsheet.BottomSheetDialog bottomSheetDialog =
-        new com.google.android.material.bottomsheet.BottomSheetDialog(CodeeditorActivity.this);
-
-    View bottomSheetView;
-    bottomSheetView = getLayoutInflater().inflate(R.layout.new_layoutsearch, null);
-    bottomSheetDialog.setContentView(bottomSheetView);
-
-    EditText ed = (EditText) bottomSheetView.findViewById(R.id.ed);
-    Button close = (Button) bottomSheetView.findViewById(R.id.close);
-    Button replace = (Button) bottomSheetView.findViewById(R.id.replace);
-    Button Previous = (Button) bottomSheetView.findViewById(R.id.Previous);
-    Button next = (Button) bottomSheetView.findViewById(R.id.next);
-    close.setOnClickListener(
-        new View.OnClickListener() {
-          public void onClick(View v) {
-
-            editor.getSearcher().stopSearch();
-            bottomSheetDialog.dismiss();
-          }
-        });
-    replace.setOnClickListener(
-        new View.OnClickListener() {
-          public void onClick(View v) {
-
-            _di_helper();
-          }
-        });
-    Previous.setOnClickListener(
-        new View.OnClickListener() {
-          public void onClick(View v) {
-
-            try {
-              editor.getSearcher().gotoLast();
-            } catch (IllegalStateException e) {
-              e.printStackTrace();
-            }
-          }
-        });
-    next.setOnClickListener(
-        new View.OnClickListener() {
-          public void onClick(View v) {
-
-            try {
-              editor.getSearcher().gotoNext();
-            } catch (IllegalStateException e) {
-              e.printStackTrace();
-            }
-          }
-        });
-    ed.addTextChangedListener(
-        new TextWatcher() {
-
-          @Override
-          public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-
-          @Override
-          public void onTextChanged(CharSequence sql, int arg1, int arg2, int arg3) {
-            try {
-              editor.getSearcher().search(sql.toString());
-
-            } catch (Exception err) {
-
-            }
-          }
-
-          @Override
-          public void afterTextChanged(Editable arg0) {}
-        });
-
-    bottomSheetDialog.setCancelable(true);
-    bottomSheetDialog.show();
-  }
-
-  public void _di_helper() {
-    var di = new GhostWebMaterialDialog(CodeeditorActivity.this);
-    ViewGroup viewGroup = findViewById(android.R.id.content);
-    View dialogview = getLayoutInflater().inflate(R.layout.dialog_search, viewGroup, false);
-    EditText edittext1 = dialogview.findViewById(R.id.edittext1);
-    di.setTitle("Replace");
-    di.setNeutralButton(
-        "Replace this",
-        (p, d) -> {
-          try {
-            editor.getSearcher().replaceThis(edittext1.getText().toString());
-          } catch (IllegalStateException e) {
-            e.printStackTrace();
-          }
-        });
-    di.setPositiveButton(
-        "Replace All",
-        (p1, d2) -> {
-          try {
-            editor.getSearcher().replaceAll(edittext1.getText().toString());
-          } catch (IllegalStateException e) {
-            e.printStackTrace();
-          }
-        });
-    di.setView(dialogview);
-    di.show();
   }
 
   public void _vi() {
@@ -2900,7 +2778,4 @@ public class CodeeditorActivity extends AppCompatActivity {
       }
     }
   }
-
-  
-  
 }

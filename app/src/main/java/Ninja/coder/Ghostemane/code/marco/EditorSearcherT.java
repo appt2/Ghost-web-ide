@@ -2,29 +2,19 @@ package Ninja.coder.Ghostemane.code.marco;
 
 import Ninja.coder.Ghostemane.code.IDEEDITOR;
 import Ninja.coder.Ghostemane.code.R;
-import android.graphics.PointF;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class EditorSearcherT {
-  
-  private static float[] lastEvent = null;
-    private static float d = 0f;
-    private static float newRot = 0f;
-    private static boolean isZoomAndRotate;
-    private static boolean isOutSide;
-    private static final int NONE = 0;
-    private static final int DRAG = 1;
-    private static final int ZOOM = 2;
-    private static int mode = NONE;
-    private static PointF start = new PointF();
-    private static PointF mid = new PointF();
-    private static float oldDist = 1f;
-    private static float xCoOrdinate, yCoOrdinate;
 
   public static void show(IDEEDITOR editor, View views) {
 
@@ -33,73 +23,65 @@ public class EditorSearcherT {
     PopupWindow popup =
         new PopupWindow(
             popupView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true);
+    popup.setContentView(popupView);
     popup.showAtLocation(views, Gravity.CENTER, 0, 0);
-//    popupView.setOnTouchListener(
-//        new View.OnTouchListener() {
-//          @Override
-//          public boolean onTouch(View v, MotionEvent event) {
-//            View view = (View) v;
-//            view.bringToFront();
-//            viewTransformation(view, event);
-//            return true;
-//          }
-//        });
-  }
+    TextInputLayout input = popupView.findViewById(R.id.input_search);
+    EditText etSearch = popupView.findViewById(R.id.et_searchText);
+    ImageView next = popupView.findViewById(R.id.nextSearch);
+    ImageView last = popupView.findViewById(R.id.lastSearch);
+    ImageView replaceThis = popupView.findViewById(R.id.replacethis);
 
-  private static void viewTransformation(View view, MotionEvent event) {
-    switch (event.getAction() & MotionEvent.ACTION_MASK) {
-      case MotionEvent.ACTION_DOWN:
-        xCoOrdinate = view.getX() - event.getRawX();
-        yCoOrdinate = view.getY() - event.getRawY();
-
-        start.set(event.getX(), event.getY());
-        isOutSide = false;
-        mode = DRAG;
-        lastEvent = null;
-        break;
-      case MotionEvent.ACTION_POINTER_DOWN:
-        break;
-      case MotionEvent.ACTION_UP:
-        isZoomAndRotate = false;
-        if (mode == DRAG) {
-          float x = event.getX();
-          float y = event.getY();
-        }
-      case MotionEvent.ACTION_OUTSIDE:
-        isOutSide = true;
-        mode = NONE;
-        lastEvent = null;
-      case MotionEvent.ACTION_POINTER_UP:
-        mode = NONE;
-        lastEvent = null;
-        break;
-      case MotionEvent.ACTION_MOVE:
-        if (!isOutSide) {
-          if (mode == DRAG) {
-            isZoomAndRotate = false;
-            view.animate()
-                .x(event.getRawX() + xCoOrdinate)
-                .y(event.getRawY() + yCoOrdinate)
-                .setDuration(1000)
-                .start();
+    next.setOnClickListener(c -> editor.getSearcher().gotoNext());
+    last.setOnClickListener(d -> editor.getSearcher().gotoLast());
+    replaceThis.setOnClickListener(
+        __ -> {
+         popup.dismiss();
+          var dialog = new MaterialAlertDialogBuilder(editor.getContext());
+          var mylayout =
+              LayoutInflater.from(editor.getContext()).inflate(R.layout.makefolder, null, false);
+          EditText et = mylayout.findViewById(R.id.editor);
+          dialog.setView(mylayout);
+          dialog.setTitle("Replace Item");
+          dialog.setMessage("If a single text does not exist, you do not need to replace all");
+          dialog.setPositiveButton(
+              "Replace This",
+              (c, v) -> {
+                if (editor != null) {
+                  editor.getSearcher().replaceThis(et.getText().toString());
+                }
+              });
+          dialog.setNegativeButton(
+              "Replace All",
+              (f, v) -> {
+                if (editor != null) {
+                  editor.getSearcher().replaceAll(et.getText().toString());
+                }
+              });
+          if (dialog != null) {
+            dialog.show();
           }
-        }
-        break;
-    }
-  }
+        });
+    etSearch.addTextChangedListener(
+        new TextWatcher() {
 
-  private static float spacing(MotionEvent event) {
-    float x = event.getX(0) - event.getX(1);
-    float y = event.getY(0) - event.getY(1);
-    return (int) Math.sqrt(x * x + y * y);
-  }
+          @Override
+          public void afterTextChanged(Editable arg0) {}
 
-  private static void midPoint(PointF point, MotionEvent event) {
-    float x = event.getX(0) + event.getX(1);
-    float y = event.getY(0) + event.getY(1);
-    point.set(x / 2, y / 2);
+          @Override
+          public void beforeTextChanged(CharSequence e, int arg1, int arg2, int arg3) {}
+
+          @Override
+          public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            if (editor != null) {
+              if (etSearch.getText().toString().isEmpty()) {
+                editor.getSearcher().stopSearch();
+                return;
+              } else editor.getSearcher().search(etSearch.getText().toString());
+            }
+          }
+        });
   }
 }
