@@ -57,7 +57,7 @@ public class CustomAdGhostWeb extends EditorCompletionAdapter {
     MaterialTextView iogore = view.findViewById(R.id.iogore);
     LinearLayout mob = view.findViewById(R.id.mob);
     LinearLayout helpers = view.findViewById(R.id.helpers);
-    Spannable label = Spannable.Factory.getInstance().newSpannable(item.label);
+    Spannable label = Spannable.Factory.getInstance().newSpannable(item.label!=null?item.label:"None");
     String prefix = getPrefix();
     textUtils = new io.github.rosemoe.sora.widget.TextSummry.TextUtils(tv);
     int index = TextUtils.indexOf(item.label, prefix);
