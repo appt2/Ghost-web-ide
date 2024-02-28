@@ -1,9 +1,19 @@
 ## Ghost web ide
 
-<p aling ="center">
 <p align="center">
   <img align="center" src="https://raw.githubusercontent.com/appt2/Ghost-web-ide/main/app/src/main/res/mipmap-xxxhdpi/ghosticon.png"/>
 </p>
+
+### Image App 
+
+
+<div align = "center">
+	<img style="width: 25%; height: 80%; margin-bottom :2px; border-radius :9px; " src="https://raw.githubusercontent.com/appt2/Ghost-web-ide/main/images/img1.jpg">
+    <img style="width: 25%; height: 80%; margin-bottom :2px; border-radius :9px;  " src="https://raw.githubusercontent.com/appt2/Ghost-web-ide/main/images/img2.jpg">
+    <img style="width: 25%; height: 80%; margin-bottom :2px; border-radius :9px; " src="https://raw.githubusercontent.com/appt2/Ghost-web-ide/main/images/img3.jpg">
+    <img style="width: 25%; height: 80%; margin-bottom :2px; border-radius :9px; text-align :left; " src="https://raw.githubusercontent.com/appt2/Ghost-web-ide/main/images/img4.jpg">
+</div>
+
 
 
 #### features
@@ -26,6 +36,9 @@
 
 - [ ] File Reader html
 
+- [ ] Java and Kt Compiler 
+
+- [ ] Ruby Compiler 
 
 
 ### Supported Languages
@@ -42,6 +55,8 @@
 * - [X] C#
 * - [X] Ruby 
 * - [X] shell 
+* - [x] markdown 
+* - [X] go 
 
 
 ### Note
