@@ -1,5 +1,10 @@
 ## Ghost web ide
 
+<p aling ="center">
+	<img src="https://raw.githubusercontent.com/appt2/Ghost-web-ide/main/app/src/main/res/mipmap-xxxhdpi/ghosticon.png"/>
+</p>
+
+
 
 #### features
 
