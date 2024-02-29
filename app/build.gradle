@@ -10,7 +10,7 @@ android {
         
     defaultConfig {
         applicationId "Ninja.coder.Ghostemane.code"
-        minSdk 21
+        minSdk 26
         targetSdk 30
         versionCode 24
         versionName "1.6.0"
@@ -34,6 +34,8 @@ android {
       lint {
           baseline = file("lint-baseline.xml")
       }
+      
+      packagingOptions.jniLibs.useLegacyPackaging true
 
       
       packagingOptions {
@@ -110,5 +112,7 @@ dependencies {
     implementation 'com.github.douglasjunior:android-simple-tooltip:1.1.0'
     implementation("io.getstream:photoview:1.0.1")
     implementation 'androidx.palette:palette:1.0.0-alpha1'
+    //for test api android 50~
+    implementation ('de.larsgrefer.sass:sass-embedded-android:3.5.0')
 
 }

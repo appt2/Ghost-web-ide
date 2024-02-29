@@ -16,6 +16,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.color.DynamicColors;
+import de.larsgrefer.sass.embedded.SassCompiler;
+import de.larsgrefer.sass.embedded.android.AndroidSassCompilerFactory;
 import java.util.Calendar;
 
 public class ApplicationLoader extends Application {
@@ -24,9 +26,8 @@ public class ApplicationLoader extends Application {
   protected SharedPreferences mt300;
   private static IDEEDITOR editor;
   private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
-  protected static SharedPreferences materialYou, getvb, setfont, ru,save_path;
+  protected static SharedPreferences materialYou, getvb, setfont, ru, save_path;
   private static ApplicationLoader loader;
-
   private StringBuilder softwareInfo = new StringBuilder();
 
   public static Context getContext() {
@@ -45,8 +46,13 @@ public class ApplicationLoader extends Application {
     materialYou = getSharedPreferences("materialYou", MODE_PRIVATE);
     getvb = getSharedPreferences("getvb", MODE_PRIVATE);
     setfont = getSharedPreferences("setfont", MODE_PRIVATE);
-    save_path = getSharedPreferences("path",MODE_PRIVATE);
+    save_path = getSharedPreferences("path", MODE_PRIVATE);
     ru = getSharedPreferences("ru", MODE_PRIVATE);
+    try (SassCompiler compiler = AndroidSassCompilerFactory.bundled(this)) {
+      Toast.makeText(getApplicationContext(), compiler.getVersion().toString(), 2).show();
+    } catch (Exception err) {
+      err.printStackTrace();
+    }
     mApplicationContext = getApplicationContext();
     softwareInfo
         .append("SDK: ")
@@ -137,7 +143,8 @@ public class ApplicationLoader extends Application {
   public static SharedPreferences getRu() {
     return ru;
   }
-  public static SharedPreferences getPath(){
+
+  public static SharedPreferences getPath() {
     return save_path;
   }
 

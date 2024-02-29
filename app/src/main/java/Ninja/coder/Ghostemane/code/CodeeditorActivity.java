@@ -54,6 +54,7 @@ import android.app.Activity;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import android.graphics.Color;
+import Ninja.coder.Ghostemane.code.tasks.app.*;
 import Ninja.coder.Ghostemane.code.LayoutBlur.BlurImage;
 import android.graphics.drawable.GradientDrawable;
 import com.google.gson.Gson;
@@ -1884,7 +1885,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     recyclerview1.getAdapter().notifyDataSetChanged();
   }
 
-
   public void _powerMenuLisner(
       final View _v, final ArrayList<HashMap<String, Object>> _map, final double _pos) {
     itemPosRemoved = _pos;
@@ -2221,6 +2221,8 @@ public class CodeeditorActivity extends AppCompatActivity {
                           getmd.setClass(getApplicationContext(), PhpActivity.class);
                           getmd.putExtra("phpcode", shp.getString("pos_path", ""));
                           startActivity(getmd);
+                        } else if (shp.getString("pos_path", "").contains(".scss")) {
+                          SassForAndroid.run(CodeeditorActivity.this, editor.getText().toString());
                         } else {
 
                         }

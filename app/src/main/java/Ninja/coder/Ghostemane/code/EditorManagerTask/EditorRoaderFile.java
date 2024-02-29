@@ -71,6 +71,7 @@ public class EditorRoaderFile {
     } else if (_path.endsWith(".scss")) {
       ReadFileCompat(editor, _path, bar);
       editor.setEditorLanguage(new UniversalLanguage(new SCSSDescription()));
+      _fab.postDelayed(() -> _fab.show(), 300);
     } else if (_path.endsWith(".c")) {
       ReadFileCompat(editor, _path, bar);
       editor.setEditorLanguage(new UniversalLanguage(new CDescription()));
