@@ -1884,56 +1884,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     recyclerview1.getAdapter().notifyDataSetChanged();
   }
 
-  public void _fogstart() {
-    var di = new GhostWebMaterialDialog(CodeeditorActivity.this);
-    ViewGroup viewGroup = findViewById(android.R.id.content);
-    View dialogview = getLayoutInflater().inflate(R.layout.fogview, viewGroup, false);
-    androidx.recyclerview.widget.RecyclerView userPos = dialogview.findViewById(R.id.userPos);
-    LinearLayout em = dialogview.findViewById(R.id.em);
-    di.setTitle("Fog Decoder");
-    try {
-      map.clear();
-      string.clear();
-      if (editor.getText().toString().contains("(\"")
-          && editor.getText().toString().contains("\")")) {
-        code = editor.getText().toString();
-        code = code.replace("(\"", "(\"regex").replace("\")", "regex\")");
-        string = new ArrayList<String>(Arrays.asList(code.split("\"")));
-        for (int po = 0; po < (int) (string.size()); po++) {
-          if (9 < string.get((int) (po)).length()) {
-            if (string.get((int) (po)).startsWith("regex")
-                && string.get((int) (po)).endsWith("regex")) {
-              {
-                HashMap<String, Object> _item = new HashMap<>();
-                _item.put(
-                    "post",
-                    string
-                        .get((int) (po))
-                        .substring((int) (5), (int) (string.get((int) (po)).length() - 5)));
-                map.add(_item);
-              }
-            }
-          }
-        }
-      }
-      if (string.size() == 0) {
-        em.setVisibility(View.VISIBLE);
-        userPos.setVisibility(View.GONE);
-      } else {
-        userPos.setVisibility(View.VISIBLE);
-        em.setVisibility(View.GONE);
-      }
-      userPos.setAdapter(new Recyclerview0Adapter(map, editor, this));
-      userPos.setLayoutManager(
-          new androidx.recyclerview.widget.LinearLayoutManager(CodeeditorActivity.this));
-    } catch (Exception e) {
-
-    }
-    di.setPositiveButton("close", (p1, d2) -> {});
-
-    di.setView(dialogview);
-    di.show();
-  }
 
   public void _powerMenuLisner(
       final View _v, final ArrayList<HashMap<String, Object>> _map, final double _pos) {

@@ -3,6 +3,7 @@ package io.github.rosemoe.sora.widget.TextSummry;
 import Ninja.coder.Ghostemane.code.CodeeditorActivity;
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.FileUtil;
+import Ninja.coder.Ghostemane.code.adapter.Recyclerview0Adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,11 @@ import Ninja.coder.Ghostemane.code.R;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.recyclerview.widget.RecyclerView;
+import java.util.HashMap;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.shape.CornerFamily;
@@ -36,6 +42,7 @@ import java.util.List;
 
 public class ToolItem {
   private static final int SIZEBOOLTEXT = 17;
+  protected Recyclerview0Adapter rp;
 
   public void MakeItemNinjaLang(Context context, CodeEditor editor) {
     MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(context);
@@ -191,4 +198,106 @@ public class ToolItem {
       }
     }
   }
+
+  public void StringFog(CodeEditor editor) {
+    StringFog(editor, "\"(.*?)\"");
+  }
+
+
+  public void StringFog(CodeEditor ed, String regex) {
+    var listview = new RecyclerView(ed.getContext());
+    var param =
+        new RecyclerView.LayoutParams(
+            RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+    listview.setLayoutParams(param);
+    ArrayList<HashMap<String, Object>> map = new ArrayList<>();
+    ArrayList<String> listStr = new ArrayList<>();
+    Pattern patn = Pattern.compile(regex);
+    Matcher mather = patn.matcher(ed.getText().toString());
+    while (mather.find()) {
+      listStr.add(mather.group(1));
+    }
+    for (var text : listStr) {
+      {
+        HashMap<String, Object> _maps = new HashMap<>();
+        _maps.put("post", text);
+        map.add(_maps);
+      }
+    }
+    rp =
+        new Recyclerview0Adapter(
+            map,
+            ed,
+            ed.getContext(),
+            new Recyclerview0Adapter.OnItemClick() {
+
+              @Override
+              public void onItemClick(int pos) {
+                ed.getSearcher().search(map.get((int) pos).get("post").toString().trim());
+                try {
+                  ed.getSearcher().gotoNext();
+                } catch (IllegalStateException e) {
+                  e.printStackTrace();
+                }
+              }
+
+              @Override
+              public void onLongItemClick(int pos) {
+                var di = new MaterialAlertDialogBuilder(ed.getContext());
+                di.setTitle("Fog Decoder");
+                di.setMessage(
+                    "replace or replaceAll "
+                        .concat(
+                            map.get((int) pos)
+                                .get("post")
+                                .toString()
+                                .trim()
+                                .concat(
+                                    "to"
+                                        .concat(
+                                            rp._Decrypt(
+                                                map.get((int) pos)
+                                                    .get("post")
+                                                    .toString()
+                                                    .trim())))));
+                di.setNeutralButton(
+                    "rep",
+                    (p, d) -> {
+                      try {
+                        ed.getSearcher().replaceThis(rp.text);
+                      } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                      }
+                      try {
+                        ed.getSearcher().gotoNext();
+                      } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                      }
+                    });
+                di.setPositiveButton(
+                    "repAll",
+                    (p1, d2) -> {
+                      try {
+                        ed.getSearcher().replaceAll(rp.text);
+                      } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                      }
+                      try {
+                        ed.getSearcher().gotoNext();
+                      } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                      }
+                    });
+                di.show();
+              }
+            });
+    listview.setAdapter(rp);
+    listview.setLayoutManager(new LinearLayoutManager(ed.getContext()));
+    var dialog = new MaterialAlertDialogBuilder(ed.getContext());
+    dialog.setView(listview);
+    if (dialog != null) {
+      dialog.show();
+    }
+  }
+
 }

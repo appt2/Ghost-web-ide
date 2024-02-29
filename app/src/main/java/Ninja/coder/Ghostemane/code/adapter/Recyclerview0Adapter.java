@@ -32,12 +32,15 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
   private ArrayList<HashMap<String, Object>> _data;
   private CodeEditor editor;
   private Context context;
+  public String text = "";
+  protected OnItemClick call;
 
   public Recyclerview0Adapter(
-      ArrayList<HashMap<String, Object>> _arr, CodeEditor editor, Context context) {
+      ArrayList<HashMap<String, Object>> _arr, CodeEditor editor, Context context,OnItemClick call) {
     this._data = _arr;
     this.editor = editor;
     this.context = context;
+    this.call = call;
   }
 
   @Override
@@ -69,6 +72,7 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
       c1.setText("c");
     }
     tv3.setTextColor(MaterialColors.getColor(tv3,ColorAndroid12.colorOnSurface,0));
+    text = tv3.getText().toString();
     c1.setTextColor(MaterialColors.getColor(tv3,ColorAndroid12.colorOnSurface,0));
     lib.setBackground(shap());
     main.setOnClickListener(
@@ -119,67 +123,16 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
                     return false;
                   }
                 });
-            editor.getSearcher().search(_data.get((int) _position).get("post").toString().trim());
-            try {
-              editor.getSearcher().gotoNext();
-            } catch (IllegalStateException e) {
-              e.printStackTrace();
-            }
+             call.onItemClick(_position);
+
           }
         });
     main.setOnLongClickListener(
         new View.OnLongClickListener() {
           @Override
           public boolean onLongClick(View _view) {
-            var di = new GhostWebMaterialDialog(context);
-            di.setTitle("Fog Decoder");
-            di.setMessage(
-                "replace or replaceAll "
-                    .concat(
-                        _data
-                            .get((int) _position)
-                            .get("post")
-                            .toString()
-                            .trim()
-                            .concat(
-                                "to"
-                                    .concat(
-                                        _Decrypt(
-                                            _data
-                                                .get((int) _position)
-                                                .get("post")
-                                                .toString()
-                                                .trim())))));
-            di.setNeutralButton(
-                "rep",
-                (p, d) -> {
-                  try {
-                    editor.getSearcher().replaceThis(tv3.getText().toString());
-                  } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                  }
-                  try {
-                    editor.getSearcher().gotoNext();
-                  } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                  }
-                });
-            di.setPositiveButton(
-                "repAll",
-                (p1, d2) -> {
-                  try {
-                    editor.getSearcher().replaceAll(tv3.getText().toString());
-                  } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                  }
-                  try {
-                    editor.getSearcher().gotoNext();
-                  } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                  }
-                });
-            di.show();
-
+            call.onLongItemClick(_position);
+            
             return true;
           }
         });
@@ -249,5 +202,9 @@ public class Recyclerview0Adapter extends RecyclerView.Adapter<Recyclerview0Adap
     shp.setFillColor(ColorStateList.valueOf(MaterialColors.getColor(context,ColorAndroid12.Back,0)));
     shp.setStroke(0.5f,ColorStateList.valueOf(MaterialColors.getColor(context,ColorAndroid12.colorOnSurface,0)));
     return shp;
+  }
+  public interface OnItemClick{
+    public void onItemClick(int pos);
+    public void onLongItemClick(int pos);
   }
 }

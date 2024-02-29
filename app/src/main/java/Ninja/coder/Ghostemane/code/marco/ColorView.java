@@ -1,8 +1,10 @@
 package Ninja.coder.Ghostemane.code.marco;
 
+import Ninja.coder.Ghostemane.code.BrowserActivity;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.adapter.ColorRenderAdapter;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,6 +96,11 @@ public class ColorView {
                 ClipboardUtils.copyText(map.get(pos).get(key).toString());
                 Toast.makeText(context, "Item Copyed " + map.get(pos).get(key).toString(), 2)
                     .show();
+
+                Intent i = new Intent();
+                i.setClass(context, BrowserActivity.class);
+                i.putExtra("test", map.get(pos).get(key).toString());
+                context.startActivity(i);
 
                 return true;
               });

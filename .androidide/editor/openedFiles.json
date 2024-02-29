@@ -1,80 +1,80 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/ColorAndroid12.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/TextSummry/JavaTools.java",
       "selection": {
         "end": {
-          "column": 0,
-          "index": 3961,
-          "line": 101
+          "column": 26,
+          "index": 8122,
+          "line": 206
         },
         "start": {
-          "column": 0,
-          "index": 3961,
-          "line": 101
+          "column": 26,
+          "index": 8122,
+          "line": 206
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/BaseCompat.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/TextSummry/ToolItem.java",
       "selection": {
         "end": {
-          "column": 4,
-          "index": 2206,
-          "line": 55
+          "column": 0,
+          "index": 11870,
+          "line": 301
         },
         "start": {
-          "column": 4,
-          "index": 2206,
-          "line": 55
+          "column": 0,
+          "index": 11870,
+          "line": 301
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/ApplicationLoader.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/TextSummry/HtmlTool.java",
       "selection": {
         "end": {
-          "column": 30,
-          "index": 654,
-          "line": 20
+          "column": 49,
+          "index": 1699,
+          "line": 41
+        },
+        "start": {
+          "column": 49,
+          "index": 1699,
+          "line": 41
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/BrowserActivity.java",
+      "selection": {
+        "end": {
+          "column": 28,
+          "index": 847,
+          "line": 21
         },
         "start": {
           "column": 13,
-          "index": 637,
-          "line": 20
+          "index": 832,
+          "line": 21
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/marco/ColorView.java",
       "selection": {
         "end": {
-          "column": 6,
-          "index": 25502,
-          "line": 684
+          "column": 0,
+          "index": 3584,
+          "line": 93
         },
         "start": {
-          "column": 6,
-          "index": 25502,
-          "line": 684
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java",
-      "selection": {
-        "end": {
-          "column": 11,
-          "index": 2643,
-          "line": 73
-        },
-        "start": {
-          "column": 11,
-          "index": 2643,
-          "line": 73
+          "column": 0,
+          "index": 3584,
+          "line": 93
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/BrowserActivity.java"
 }
