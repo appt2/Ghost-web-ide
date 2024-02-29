@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import java.io.File;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -95,7 +96,12 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
       Files = false;
       viewHolder.icon.setPadding(9, 9, 9, 9);
       ColorAndroid12.shapeViews(viewHolder.icon);
-      
+      File file = new File(files.get(pos).get("path").toString());
+      if (view != null) {
+        if (file.isDirectory()) view.setAlpha(file.isHidden() ? 0.5f : 1f);
+        
+      }
+      ColorAndroid12.setColorFilter(viewHolder.icon);
 
     } else if (FileUtil.isExistFile(files.get(pos).get("path").toString())) {
       BindViewListMarger.runfromFile(viewHolder.folderName);
@@ -104,11 +110,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
       Files = true;
       Folder = false;
     }
-//    File file = new File(files.get(pos).get("path").toString());
-//    if (view != null) {
-//      if (file.isDirectory()) view.setAlpha(file.isHidden() ? 0.5f : 1f);
-//    }
-//    
+ 
 
     viewHolder.itemView.setClickable(true);
 //    viewHolder.folderName.setTextColor(

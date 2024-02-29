@@ -86,8 +86,8 @@ public class ColorAndroid12 {
 
     if (window != null) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        window.setStatusBarColor(MaterialColors.getColor(window.getContext(), Back, 0));
-        window.setNavigationBarColor(MaterialColors.getColor(window.getContext(), Back, 0));
+     //   window.setStatusBarColor(MaterialColors.getColor(window.getContext(), Back, Color.BLACK));
+        window.setNavigationBarColor(MaterialColors.getColor(window.getContext(), Back, Color.BLACK));
       }
 
     } else {
@@ -129,7 +129,7 @@ public class ColorAndroid12 {
   public static void setColorFilter(ImageView view) {
     if (view == null) return;
 
-    view.setColorFilter(MaterialColors.getColor(view, ColorFilter), PorterDuff.Mode.SRC_IN);
+    view.setColorFilter(MaterialColors.getColor(view, colorOnSurface), PorterDuff.Mode.SRC_IN);
   }
   public static void setColorFilter(ImageView view,int color) {
     if (view == null) return;

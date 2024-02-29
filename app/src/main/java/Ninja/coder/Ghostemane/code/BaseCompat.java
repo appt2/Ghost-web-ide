@@ -59,6 +59,7 @@ public class BaseCompat extends AppCompatActivity {
     thememanagersoft = getSharedPreferences("thememanagersoft", BaseCompat.MODE_PRIVATE);
     initParseWallpapaer();
     getWindow().setNavigationBarDividerColor(MaterialColors.getColor(this,ColorAndroid12.TvColor,0));
+    
   }
 
   private BaseCompat initErrorDialogpackageAPP() {

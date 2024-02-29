@@ -1,5 +1,6 @@
 package io.github.rosemoe.sora.langs.html;
 
+import Ninja.coder.Ghostemane.code.ApplicationLoader;
 import Ninja.coder.Ghostemane.code.FiledirActivity;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -57,17 +58,16 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     FileReaderJsonSpinet jvm = new FileReaderJsonSpinet();
     jvm.Start(items, "html");
     List<CompletionItem> listasFiles = new ArrayList<>();
-    Collections.sort(listasFiles,CompletionItem.COMPARATOR_BY_NAME);
-    File file = new File(FiledirActivity.POSNINJACODERMAIN);
+    File file = new File(ApplicationLoader.getPath().getString("path",""));
     if (file.exists() && file.isDirectory()) {
       File[] listFile = file.listFiles();
       if (listFile != null) {
         for (File f : listFile) {
-            CompletionItem item = new CompletionItem(f.getName(), "File Path");
-            listasFiles.add(item);
-            Collections.sort(listasFiles,CompletionItem.COMPARATOR_BY_NAME);
-            items.addAll(listasFiles);
+          CompletionItem item = new CompletionItem(f.getName(), "File Path");
+          listasFiles.add(item);
         }
+        Collections.sort(listasFiles, CompletionItem.COMPARATOR_BY_NAME);
+        items.addAll(listasFiles);
       }
     }
 

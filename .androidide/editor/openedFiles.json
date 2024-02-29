@@ -1,32 +1,77 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/ColorAndroid12.java",
       "selection": {
         "end": {
-          "column": 38,
-          "index": 2617,
-          "line": 68
+          "column": 0,
+          "index": 3961,
+          "line": 101
         },
         "start": {
-          "column": 38,
-          "index": 2617,
-          "line": 68
+          "column": 0,
+          "index": 3961,
+          "line": 101
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/CodeeditorActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/BaseCompat.java",
       "selection": {
         "end": {
-          "column": 15,
-          "index": 31753,
-          "line": 830
+          "column": 4,
+          "index": 2206,
+          "line": 55
         },
         "start": {
           "column": 4,
-          "index": 31742,
-          "line": 830
+          "index": 2206,
+          "line": 55
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/ApplicationLoader.java",
+      "selection": {
+        "end": {
+          "column": 30,
+          "index": 654,
+          "line": 20
+        },
+        "start": {
+          "column": 13,
+          "index": 637,
+          "line": 20
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "selection": {
+        "end": {
+          "column": 6,
+          "index": 25502,
+          "line": 684
+        },
+        "start": {
+          "column": 6,
+          "index": 25502,
+          "line": 684
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java",
+      "selection": {
+        "end": {
+          "column": 11,
+          "index": 2643,
+          "line": 73
+        },
+        "start": {
+          "column": 11,
+          "index": 2643,
+          "line": 73
         }
       }
     }

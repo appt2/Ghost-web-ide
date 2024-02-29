@@ -24,7 +24,7 @@ public class ApplicationLoader extends Application {
   protected SharedPreferences mt300;
   private static IDEEDITOR editor;
   private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
-  protected static SharedPreferences materialYou, getvb, setfont, ru;
+  protected static SharedPreferences materialYou, getvb, setfont, ru,save_path;
   private static ApplicationLoader loader;
 
   private StringBuilder softwareInfo = new StringBuilder();
@@ -45,6 +45,7 @@ public class ApplicationLoader extends Application {
     materialYou = getSharedPreferences("materialYou", MODE_PRIVATE);
     getvb = getSharedPreferences("getvb", MODE_PRIVATE);
     setfont = getSharedPreferences("setfont", MODE_PRIVATE);
+    save_path = getSharedPreferences("path",MODE_PRIVATE);
     ru = getSharedPreferences("ru", MODE_PRIVATE);
     mApplicationContext = getApplicationContext();
     softwareInfo
@@ -136,9 +137,11 @@ public class ApplicationLoader extends Application {
   public static SharedPreferences getRu() {
     return ru;
   }
+  public static SharedPreferences getPath(){
+    return save_path;
+  }
 
   public static IDEEDITOR getEditor() {
-
     return editor;
   }
 }
