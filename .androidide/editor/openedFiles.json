@@ -4,14 +4,29 @@
       "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java",
       "selection": {
         "end": {
-          "column": 27,
-          "index": 2692,
-          "line": 73
+          "column": 38,
+          "index": 2617,
+          "line": 68
         },
         "start": {
-          "column": 27,
-          "index": 2692,
-          "line": 73
+          "column": 38,
+          "index": 2617,
+          "line": 68
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/CodeeditorActivity.java",
+      "selection": {
+        "end": {
+          "column": 15,
+          "index": 31753,
+          "line": 830
+        },
+        "start": {
+          "column": 4,
+          "index": 31742,
+          "line": 830
         }
       }
     }

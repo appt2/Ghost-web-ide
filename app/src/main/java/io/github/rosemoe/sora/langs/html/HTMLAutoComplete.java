@@ -1,12 +1,12 @@
 package io.github.rosemoe.sora.langs.html;
 
+import Ninja.coder.Ghostemane.code.FiledirActivity;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import io.github.rosemoe.sora.langs.IdentifierAutoComplete;
 import io.github.rosemoe.sora.langs.php.PHPLanguage;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.TextSummry.HTMLConstants;
-import io.github.rosemoe.sora.widget.TextSummry.ToolItem;
 import io.github.rosemoe.sora.widget.commentRule.AppConfig;
 import java.io.File;
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
   protected HTMLConstants htmlconfig;
   private CodeEditor editor;
   ListKeyword keyhtml;
+  
   protected SharedPreferences shp;
   private IdentifierAutoComplete.Identifiers userIdentifiers;
   private TextAnalyzeResult analyzeResult;
@@ -41,6 +42,7 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     userIdentifiers = new IdentifierAutoComplete.Identifiers();
     pathz = new ArrayList<>();
     keyhtml = new ListKeyword();
+    
   }
 
   @Override
@@ -54,24 +56,17 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     Collections.sort(items, CompletionItem.COMPARATOR_BY_NAME);
     FileReaderJsonSpinet jvm = new FileReaderJsonSpinet();
     jvm.Start(items, "html");
-    jvm.ListFile(items);
-    ToolItem i = new ToolItem();
-    i.GotoListFile(items, pathz);
-    // start
-    var p = new IdentifierAutoComplete();
-    p.getAutoCompleteItems(prefix, result, line, column);
     List<CompletionItem> listasFiles = new ArrayList<>();
-    File file = new File("/sdcard/");
-
+    Collections.sort(listasFiles,CompletionItem.COMPARATOR_BY_NAME);
+    File file = new File(FiledirActivity.POSNINJACODERMAIN);
     if (file.exists() && file.isDirectory()) {
       File[] listFile = file.listFiles();
       if (listFile != null) {
         for (File f : listFile) {
-          String fileName = f.getName();
-          CompletionItem item = new CompletionItem();
-          item.label = f.getName();
-          item.desc = "File path";
-          items.add(item); 
+            CompletionItem item = new CompletionItem(f.getName(), "File Path");
+            listasFiles.add(item);
+            Collections.sort(listasFiles,CompletionItem.COMPARATOR_BY_NAME);
+            items.addAll(listasFiles);
         }
       }
     }
