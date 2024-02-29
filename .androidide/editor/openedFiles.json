@@ -1,35 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/project/FileReaderJsonSpinet.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java",
       "selection": {
         "end": {
-          "column": 51,
-          "index": 9236,
-          "line": 198
+          "column": 27,
+          "index": 2692,
+          "line": 73
         },
         "start": {
-          "column": 51,
-          "index": 9236,
-          "line": 198
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/data/CompletionItem.java",
-      "selection": {
-        "end": {
-          "column": 19,
-          "index": 2412,
-          "line": 72
-        },
-        "start": {
-          "column": 19,
-          "index": 2412,
-          "line": 72
+          "column": 27,
+          "index": 2692,
+          "line": 73
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/data/CompletionItem.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java"
 }

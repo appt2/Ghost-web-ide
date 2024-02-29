@@ -8,6 +8,7 @@ import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.TextSummry.HTMLConstants;
 import io.github.rosemoe.sora.widget.TextSummry.ToolItem;
 import io.github.rosemoe.sora.widget.commentRule.AppConfig;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
   String prfex = "";
   AppConfig config;
   private String[] mKeywords;
+  private CompletionItem listItem;
   private boolean mKeywordsAreLowCase;
   private ArrayList<String> pathz;
   protected HTMLConstants htmlconfig;
@@ -49,17 +51,30 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     items = new ArrayList<>();
     setList(prefix);
     validTag();
-    Collections.sort(items ,CompletionItem.COMPARATOR_BY_NAME);
+    Collections.sort(items, CompletionItem.COMPARATOR_BY_NAME);
     FileReaderJsonSpinet jvm = new FileReaderJsonSpinet();
     jvm.Start(items, "html");
     jvm.ListFile(items);
     ToolItem i = new ToolItem();
     i.GotoListFile(items, pathz);
-    //start
+    // start
     var p = new IdentifierAutoComplete();
-    p.getAutoCompleteItems(prefix,result,line,column);
-    
-    
+    p.getAutoCompleteItems(prefix, result, line, column);
+    List<CompletionItem> listasFiles = new ArrayList<>();
+    File file = new File("/sdcard/");
+
+    if (file.exists() && file.isDirectory()) {
+      File[] listFile = file.listFiles();
+      if (listFile != null) {
+        for (File f : listFile) {
+          String fileName = f.getName();
+          CompletionItem item = new CompletionItem();
+          item.label = f.getName();
+          item.desc = "File path";
+          items.add(item); 
+        }
+      }
+    }
 
     // Test
     if ("lr".startsWith(prefix) && prefix.length() > 0) {
@@ -219,8 +234,8 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
   public void setList(String prefix) {
     keyhtml.installFromSora(items, prefix);
     keyhtml.installHtmlAttr(items, prfex);
-    keyhtml.intallCss3KeyWord(items,prfex);
-    keyhtml.installCssAttr(items,prfex);
+    keyhtml.intallCss3KeyWord(items, prfex);
+    keyhtml.installCssAttr(items, prfex);
     for (String ddd : HTMLLanguage.JS)
       if (ddd.startsWith(prefix)) items.add(dddAsCompletion(ddd, htmlconfig.JsKey));
     for (String classapp : HTMLLanguage.EmtClass)
