@@ -1,5 +1,7 @@
 package Ninja.coder.Ghostemane.code;
 
+import Ninja.coder.Ghostemane.code.FileEventUser;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ public class FilebookmarkActivity extends BaseCompat {
   private String Folder = "";
   private double position = 0;
   private String UPFolder = "";
+  
   private List<String> listbookmark = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> File_map = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> map = new ArrayList<>();
@@ -49,6 +52,7 @@ public class FilebookmarkActivity extends BaseCompat {
     super.onCreate(_savedInstanceState);
     setContentView(R.layout.filebookmark);
     initialize(_savedInstanceState);
+    
   }
 
   private void initialize(Bundle _savedInstanceState) {
@@ -70,6 +74,7 @@ public class FilebookmarkActivity extends BaseCompat {
     layout_bookmark_emptyview = findViewById(R.id.layout_bookmark_emptyview);
     book = getSharedPreferences("hsipsot4444", Activity.MODE_PRIVATE);
     shp = getSharedPreferences("path", Activity.MODE_PRIVATE);
+    
     initializeLogic();
     listview1.setVisibility(View.VISIBLE);
     listview1.setEmptyView(layout_bookmark_emptyview);
@@ -94,13 +99,8 @@ public class FilebookmarkActivity extends BaseCompat {
           @Override
           public void onItemClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
             final int _position = _param3;
-            //            if (FileUtil.isDirectory(File_map.get((int)
-            // _position).get("file").toString())) {
-            //              Folder = File_map.get((int) _position).get("file").toString();
-            //              _RefreshData();
-            //            } else {
-            //
-            //            }
+            map.remove(_position);
+            ((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
           }
         });
   }
@@ -155,6 +155,7 @@ public class FilebookmarkActivity extends BaseCompat {
       Toast.makeText(getApplicationContext(), _data.get((int) _position).get("list").toString(), 2)
           .show();
       ColorAndroid12.setTextColor(textview1);
+      
       textview1.setText(Uri.parse(map.get((int)_position).get("list").toString()).getLastPathSegment());
       return _view;
     }
@@ -189,4 +190,5 @@ public class FilebookmarkActivity extends BaseCompat {
     super.onResume();
     // TODO: Implement this method
   }
+  
 }

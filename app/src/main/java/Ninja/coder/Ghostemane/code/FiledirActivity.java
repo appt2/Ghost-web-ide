@@ -136,7 +136,7 @@ public class FiledirActivity extends BaseCompat
   protected androidx.recyclerview.widget.LinearLayoutManager linearLayoutManager;
   protected FastScrollerBuilder fast;
   private ExtendedFloatingActionButton fabAdd;
-
+  protected FileEventUser user;
   private Toolbar _toolbar;
   private AppBarLayout _app_bar;
   private CoordinatorLayout _coordinator;
@@ -507,22 +507,21 @@ public class FiledirActivity extends BaseCompat
       Folder = FileUtil.getExternalStorageDir();
       _getFiles("");
     }
-
+    user = new FileEventUser();
+    user.setCallBack(
+        () -> {
+          Toast.makeText(getApplicationContext(), "File changed", Toast.LENGTH_LONG).show();
+        });
+    user.path = Folder;
+    user.setPath(Folder);
+    startService(new Intent(this, FileEventUser.class));
     getSupportActionBar().hide();
-
-    // youtube channel Hichem Soft
     sharedPreferences = getSharedPreferences("fileSp", Context.MODE_PRIVATE);
     utils = new HichemSoftFileUtil(sharedPreferences, FiledirActivity.this).loadData();
     utils.requestPermissionAllFilesAccess(); // if not allowed
-
-    /// $$$$$
-
     _refreshTabs();
-
     if (FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/icon.zip")) {
-
     } else {
-
       FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/.icon");
       AssetsSoft assetsSoft = new AssetsSoft();
       assetsSoft.copyOneFileFromAssets(
@@ -691,6 +690,7 @@ public class FiledirActivity extends BaseCompat
     Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
     GetTab = Folder;
     index = 0;
+    
     ProjectManager mproject = new ProjectManager();
     mproject.setProjectDir(GetTab);
     final class FileComparator implements Comparator<String> {
