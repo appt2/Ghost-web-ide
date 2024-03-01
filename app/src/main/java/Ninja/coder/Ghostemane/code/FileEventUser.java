@@ -2,14 +2,23 @@ package Ninja.coder.Ghostemane.code;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.FileObserver;
 import android.os.IBinder;
+import io.reactivex.rxjava3.core.Observable;
+import Ninja.coder.Ghostemane.code.databin.FileEvent;
+import Ninja.coder.Ghostemane.code.databin.RxFileObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import android.util.Log;
+import android.widget.Toast;
+import android.os.Handler;
+import android.os.Looper;
+import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.File;
 
 public class FileEventUser extends Service {
-  protected FileObserver server;
+  
   protected CallBack call;
   public String path = "";
+  private Disposable disposable;
 
   public FileEventUser() {}
 
@@ -31,19 +40,27 @@ public class FileEventUser extends Service {
   }
 
   protected void Start() {
-    server =
-        new FileObserver(path, FileObserver.ALL_EVENTS) {
-          @Override
-          public void onEvent(int event, final String files) {
-            File file = new File(files);
-            if (file.isDirectory() && file.exists()) {
-              if (event == FileObserver.DELETE) {
-                call.onFileChange();
-              }
-            }
-          }
-        };
-    server.startWatching();
+    File sdCard = new File(path);
+    Observable<FileEvent> sdCardFileEvents = RxFileObserver.create(sdCard);
+
+    disposable =
+        sdCardFileEvents
+            .observeOn(Schedulers.io())
+            .subscribe(
+                fileEvent -> {
+                  runOnUiThread(
+                      () -> {
+                          
+                        if (fileEvent.isDelete()) {
+                          dialog("File is Delete");
+                        } else if (fileEvent.isCreate()) {
+                          dialog("File is Create");
+                        }
+                          call.onFileChange();
+
+                        Log.i("TAG", fileEvent.toString());
+                      });
+                });
   }
 
   public interface CallBack {
@@ -56,5 +73,14 @@ public class FileEventUser extends Service {
 
   public void setPath(String path) {
     this.path = path;
+  }
+
+  public void dialog(String txt) {
+    Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
+  }
+
+  private void runOnUiThread(Runnable action) {
+    Handler mainHandler = new Handler(Looper.getMainLooper());
+    mainHandler.post(action);
   }
 }

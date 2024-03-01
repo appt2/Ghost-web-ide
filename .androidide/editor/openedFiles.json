@@ -1,47 +1,32 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
-      "selection": {
-        "end": {
-          "column": 25,
-          "index": 19521,
-          "line": 515
-        },
-        "start": {
-          "column": 25,
-          "index": 19521,
-          "line": 515
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/MediaListenerService.java",
-      "selection": {
-        "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
-        },
-        "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
-        }
-      }
-    },
-    {
       "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FileEventUser.java",
       "selection": {
         "end": {
-          "column": 46,
-          "index": 955,
-          "line": 39
+          "column": 2,
+          "index": 561,
+          "line": 17
         },
         "start": {
-          "column": 46,
-          "index": 955,
-          "line": 39
+          "column": 1,
+          "index": 560,
+          "line": 17
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/build.gradle",
+      "selection": {
+        "end": {
+          "column": 54,
+          "index": 4557,
+          "line": 116
+        },
+        "start": {
+          "column": 54,
+          "index": 4557,
+          "line": 116
         }
       }
     }

@@ -114,5 +114,6 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0-alpha1'
     //for test api android 50~
     implementation ('de.larsgrefer.sass:sass-embedded-android:3.5.0')
+    implementation "io.reactivex.rxjava3:rxjava:3.1.8"
 
 }
