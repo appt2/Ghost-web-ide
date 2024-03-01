@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code;
 
+import Ninja.coder.Ghostemane.code.FiledirActivity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -15,7 +16,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import java.io.File;
 
 public class FileEventUser extends Service {
-  
+
   protected CallBack call;
   public String path = "";
   private Disposable disposable;
@@ -40,27 +41,25 @@ public class FileEventUser extends Service {
   }
 
   protected void Start() {
-    File sdCard = new File(path);
-    Observable<FileEvent> sdCardFileEvents = RxFileObserver.create(sdCard);
-
-    disposable =
-        sdCardFileEvents
-            .observeOn(Schedulers.io())
-            .subscribe(
-                fileEvent -> {
-                  runOnUiThread(
-                      () -> {
-                          
-                        if (fileEvent.isDelete()) {
-                          dialog("File is Delete");
-                        } else if (fileEvent.isCreate()) {
-                          dialog("File is Create");
-                        }
-                          call.onFileChange();
-
-                        Log.i("TAG", fileEvent.toString());
-                      });
-                });
+    //    File sdCard = new File(FiledirActivity.POSNINJACODERMAIN);
+    //    Observable<FileEvent> sdCardFileEvents = RxFileObserver.create(sdCard);
+    //
+    //    disposable =
+    //        sdCardFileEvents
+    //            .observeOn(Schedulers.io())
+    //            .subscribe(
+    //                fileEvent -> {
+    //                  runOnUiThread(
+    //                      () -> {
+    //                        if (fileEvent.isDelete()) {
+    //                          if (sdCard.isDirectory()) dialog("Directory is Delete");
+    //                          else dialog("File is Delete");
+    //                        } else if (fileEvent.isCreate()) {
+    //                          dialog("File is Create");
+    //                        }
+    //                        Log.i("TAG", fileEvent.toString());
+    //                      });
+    //                });
   }
 
   public interface CallBack {

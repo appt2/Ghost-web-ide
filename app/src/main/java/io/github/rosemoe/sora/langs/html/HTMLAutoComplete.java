@@ -58,13 +58,15 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     FileReaderJsonSpinet jvm = new FileReaderJsonSpinet();
     jvm.Start(items, "html");
     List<CompletionItem> listasFiles = new ArrayList<>();
-    File file = new File(ApplicationLoader.getPath().getString("path",""));
+    File file = new File(FiledirActivity.POSNINJACODERMAIN);
     if (file.exists() && file.isDirectory()) {
       File[] listFile = file.listFiles();
       if (listFile != null) {
         for (File f : listFile) {
-          CompletionItem item = new CompletionItem(f.getName(), "File Path");
-          listasFiles.add(item);
+          if (f.isFile()) {
+            CompletionItem item = new CompletionItem(f.getName(), "File Path");
+            listasFiles.add(item);
+          }
         }
         Collections.sort(listasFiles, CompletionItem.COMPARATOR_BY_NAME);
         items.addAll(listasFiles);

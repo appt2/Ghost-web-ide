@@ -1,35 +1,50 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FileEventUser.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
       "selection": {
         "end": {
-          "column": 2,
-          "index": 561,
-          "line": 17
+          "column": 4,
+          "index": 25981,
+          "line": 690
         },
         "start": {
-          "column": 1,
-          "index": 560,
-          "line": 17
+          "column": 4,
+          "index": 25981,
+          "line": 690
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/build.gradle",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java",
       "selection": {
         "end": {
-          "column": 54,
-          "index": 4557,
-          "line": 116
+          "column": 4,
+          "index": 2162,
+          "line": 60
         },
         "start": {
-          "column": 54,
-          "index": 4557,
-          "line": 116
+          "column": 4,
+          "index": 2162,
+          "line": 60
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/Readme.md",
+      "selection": {
+        "end": {
+          "column": 22,
+          "index": 1110,
+          "line": 36
+        },
+        "start": {
+          "column": 6,
+          "index": 1094,
+          "line": 36
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FileEventUser.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/Readme.md"
 }

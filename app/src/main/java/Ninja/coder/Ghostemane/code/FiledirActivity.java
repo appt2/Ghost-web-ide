@@ -481,7 +481,6 @@ public class FiledirActivity extends BaseCompat
 
     _fos();
     _materialYouss();
-
     paramentLayout_fileDir.setLayoutParams(
         new LinearLayout.LayoutParams(
             SketchwareUtil.getDisplayWidthPixels(getApplicationContext()),
@@ -512,8 +511,7 @@ public class FiledirActivity extends BaseCompat
         () -> {
           Toast.makeText(getApplicationContext(), "File changed", Toast.LENGTH_LONG).show();
         });
-    user.path = Folder;
-    user.setPath(Folder);
+    
     startService(new Intent(this, FileEventUser.class));
     getSupportActionBar().hide();
     sharedPreferences = getSharedPreferences("fileSp", Context.MODE_PRIVATE);
@@ -690,7 +688,7 @@ public class FiledirActivity extends BaseCompat
     Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
     GetTab = Folder;
     index = 0;
-    
+     POSNINJACODERMAIN = Folder;
     ProjectManager mproject = new ProjectManager();
     mproject.setProjectDir(GetTab);
     final class FileComparator implements Comparator<String> {

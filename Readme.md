@@ -34,7 +34,7 @@
 
 - [ ] Plugin system
 
-- [ ] File Reader html
+- [x] File Reader html
 
 - [ ] Java and Kt Compiler 
 
