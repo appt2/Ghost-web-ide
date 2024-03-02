@@ -157,7 +157,10 @@ public class BinderRecyclerview1 {
       } else if (token.endsWith(".md")) {
         getTime(token, textview2);
         SvgShow.GetAsster(context, imageview1, "mdx.svg");
-      } else {
+      } else if(token.endsWith(".sass")){
+        getTime(token, textview2);
+        SvgShow.GetAsster(context, imageview1, "file_type_sass.svg");
+      }else{
         getTime(token, textview2);
         SvgShow.GetAsster(context, imageview1, "default_file.svg");
         off(imageview1);

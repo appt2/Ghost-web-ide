@@ -1,50 +1,65 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/marco/binder/BinderRecyclerview1.java",
       "selection": {
         "end": {
-          "column": 4,
-          "index": 25981,
-          "line": 690
+          "column": 66,
+          "index": 7241,
+          "line": 161
         },
         "start": {
-          "column": 4,
-          "index": 25981,
-          "line": 690
+          "column": 66,
+          "index": 7241,
+          "line": 161
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/html/HTMLAutoComplete.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/tasks/app/SassForAndroid.java",
       "selection": {
         "end": {
-          "column": 4,
-          "index": 2162,
-          "line": 60
+          "column": 0,
+          "index": 0,
+          "line": 0
         },
         "start": {
-          "column": 4,
-          "index": 2162,
-          "line": 60
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/Readme.md",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/CodeeditorActivity.java",
       "selection": {
         "end": {
-          "column": 22,
-          "index": 1110,
-          "line": 36
+          "column": 129,
+          "index": 88061,
+          "line": 2224
         },
         "start": {
-          "column": 6,
-          "index": 1094,
-          "line": 36
+          "column": 129,
+          "index": 88061,
+          "line": 2224
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/EditorManagerTask/EditorRoaderFile.java",
+      "selection": {
+        "end": {
+          "column": 41,
+          "index": 2658,
+          "line": 70
+        },
+        "start": {
+          "column": 41,
+          "index": 2658,
+          "line": 70
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/Readme.md"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/tasks/app/SassForAndroid.java"
 }

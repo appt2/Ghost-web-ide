@@ -1,6 +1,7 @@
 package Ninja.coder.Ghostemane.code.tasks.app;
 
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
+import Ninja.coder.Ghostemane.code.FileUtil;
 import android.content.Context;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,9 +17,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class SassForAndroid {
-  
-  public static String CompileForStringScss(String input,Context context) {
-    try (var compiler = AndroidSassCompilerFactory.bundled(context)){
+
+  public static String CompileForStringScss(String input, Context context) {
+    try (var compiler = AndroidSassCompilerFactory.bundled(context)) {
       CompileSuccess sb = compiler.compileScssString(input);
       return sb.getCss();
     } catch (Exception err) {
@@ -26,17 +27,17 @@ public class SassForAndroid {
     }
   }
 
-  public static void CompilerForFile(File input, String output,Context context) {
-    try(var compiler = AndroidSassCompilerFactory.bundled(context)) {
+  public static String CompilerForFile(File input, Context context) {
+    try (var compiler = AndroidSassCompilerFactory.bundled(context)) {
       CompileSuccess sb = compiler.compileFile(input);
-      output = sb.getCss();
+      return sb.getCss();
     } catch (Exception err) {
-      err.printStackTrace();
+      return err.getLocalizedMessage();
     }
   }
 
-  public static void CompileForStringSass(String input, String output,Context context) {
-    try (var compiler = AndroidSassCompilerFactory.bundled(context)){
+  public static void CompileForStringSass(String input, String output, Context context) {
+    try (var compiler = AndroidSassCompilerFactory.bundled(context)) {
       CompileSuccess sb = compiler.compileSassString(input);
       output = sb.getCss();
     } catch (Exception err) {
@@ -44,7 +45,7 @@ public class SassForAndroid {
     }
   }
 
-  public static void run(Context context, String input) {
+  public static void run(Context context, String input, String output) {
     var sheet = new BottomSheetDialog(context);
     EditText tv = new EditText(context);
     LinearLayout.LayoutParams param =
@@ -56,7 +57,8 @@ public class SassForAndroid {
     tv.setTextColor(MaterialColors.getColor(tv, ColorAndroid12.colorOnSurface, 0));
     tv.setPadding(9, 9, 9, 9);
     sheet.setContentView(tv);
-    tv.setText(CompileForStringScss(input,context));
+    tv.setText(CompilerForFile(new File(input), context));
+    FileUtil.writeFile(CompilerForFile(new File(input), context), output + ".css");
     sheet.show();
   }
 }

@@ -1683,7 +1683,7 @@ public class FiledirActivity extends BaseCompat
     if (staticstring.endsWith(".c")) {
       _checkListMap2(newpos, "path", files, newlistmap);
     }
-    if (staticstring.endsWith(".scss")) {
+    if (staticstring.endsWith(".scss") || staticstring.endsWith(".sass")) {
       _checkListMap2(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".cs")) {
