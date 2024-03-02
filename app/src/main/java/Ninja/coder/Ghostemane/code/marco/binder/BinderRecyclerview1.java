@@ -14,13 +14,13 @@ import android.widget.TextView;
 import com.google.android.material.color.MaterialColors;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class BinderRecyclerview1 {
 
   public static void bindz(
-      ArrayList<HashMap<String, Object>> files,
+      List<HashMap<String, Object>> files,
       int _position,
       TextView textview2,
       ImageView imageview1,

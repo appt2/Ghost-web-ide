@@ -165,14 +165,14 @@ public class FiledirActivity extends BaseCompat
   private String version = "";
   private double post = 0;
   private String arm = "";
-  private double newpos = 0;
+  private int newpos = 0;
 
   private String MColors = "";
-  private double lastPos = 0;
+  private int lastPos = 0;
 
-  private ArrayList<String> list = new ArrayList<>();
-  private ArrayList<String> folderList = new ArrayList<>();
-  private ArrayList<String> fileList = new ArrayList<>();
+  private List<String> list = new ArrayList<>();
+  private List<String> folderList = new ArrayList<>();
+  private List<String> fileList = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> files = new ArrayList<>();
 
   private ArrayList<HashMap<String, Object>> newlistmap = new ArrayList<>();
@@ -897,10 +897,10 @@ public class FiledirActivity extends BaseCompat
   }
 
   public void _checkListMap2(
-      final double _position,
-      final String _key,
-      final ArrayList<HashMap<String, Object>> _listmap1,
-      final ArrayList<HashMap<String, Object>> _listmap2) {
+       int _position,
+       String _key,
+       List<HashMap<String, Object>> _listmap1,
+       List<HashMap<String, Object>> _listmap2) {
     tab = _listmap1.get((int) _position).get(_key).toString();
     shp.edit().putString("pos_path", _listmap1.get((int) _position).get(_key).toString()).commit();
     if (_listmap2.isEmpty()) {
@@ -1645,7 +1645,7 @@ public class FiledirActivity extends BaseCompat
     dialog.show();
   }
 
-  public void _dataOnClickItemList(final double _pos) {
+  public void _dataOnClickItemList(int _pos) {
     newpos = _pos;
     if (staticstring.endsWith(".txt")) {
       _checkListMap2(newpos, "path", files, newlistmap);

@@ -28,17 +28,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.color.MaterialColors;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 // fileListItem
 public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
-  private ArrayList<HashMap<String, Object>> files = new ArrayList<>();
+  private List<HashMap<String, Object>> files = new ArrayList<>();
   protected Context context;
   protected onClick click;
   protected HashMap<String, Object> name = new HashMap<>();
   public static boolean Files = false;
   public static boolean Folder = false;
 
-  public FileManagerAd(ArrayList<HashMap<String, Object>> files, Context context, onClick click) {
+  public FileManagerAd(List<HashMap<String, Object>> files, Context context, onClick click) {
     this.context = context;
     this.files = files;
     this.click = click;
@@ -90,7 +91,8 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
     setSettingTextView(viewHolder.folderName);
     viewHolder.folderName.setText(
         Uri.parse(files.get(pos).get("path").toString()).getLastPathSegment());
-    BinderRecyclerview1.bindz(files, pos, viewHolder.tvTools, viewHolder.icon,viewHolder.folderName);
+    BinderRecyclerview1.bindz(
+        files, pos, viewHolder.tvTools, viewHolder.icon, viewHolder.folderName);
     if (FileUtil.isDirectory(files.get(pos).get("path").toString())) {
       Folder = true;
       Files = false;
@@ -99,7 +101,6 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
       File file = new File(files.get(pos).get("path").toString());
       if (view != null) {
         if (file.isDirectory()) view.setAlpha(file.isHidden() ? 0.5f : 1f);
-        
       }
       ColorAndroid12.setColorFilter(viewHolder.icon);
 
@@ -110,13 +111,12 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
       Files = true;
       Folder = false;
     }
- 
 
     viewHolder.itemView.setClickable(true);
-//    viewHolder.folderName.setTextColor(
-//        MaterialColors.getColor(viewHolder.folderName, ColorAndroid12.colorOnSurface));
-//    viewHolder.tvTools.setTextColor(
-//        MaterialColors.getColor(viewHolder.tvTools, ColorAndroid12.colorOnSurface));
+    //    viewHolder.folderName.setTextColor(
+    //        MaterialColors.getColor(viewHolder.folderName, ColorAndroid12.colorOnSurface));
+    //    viewHolder.tvTools.setTextColor(
+    //        MaterialColors.getColor(viewHolder.tvTools, ColorAndroid12.colorOnSurface));
   }
 
   public class VH extends RecyclerView.ViewHolder {
