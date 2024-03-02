@@ -1,6 +1,5 @@
 package io.github.rosemoe.sora.widget;
 
-import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -16,7 +15,6 @@ import android.animation.LayoutTransition;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.color.MaterialColors;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.ShapeAppearanceModel;
@@ -79,6 +77,8 @@ public class EditorAutoCompleteWindow extends EditorPopupWindow {
         getThemeColor(EditorColorScheme.AUTO_COMP_PANEL_CORNER));
     circularProgressIndicator.setTrackCornerRadius(20);
      //listview1.setSelector(colorAcsentDialog());
+    roots.setBackgroundColor(0);
+    roots.setClickable(true);
     ShapeAppearanceModel.Builder builde = new ShapeAppearanceModel.Builder();
     builde.setAllCorners(CornerFamily.CUT,30f);
     mcard.setShapeAppearanceModel(builde.build());

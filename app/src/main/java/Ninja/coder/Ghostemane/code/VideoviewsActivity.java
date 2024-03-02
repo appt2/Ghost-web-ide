@@ -1,6 +1,5 @@
 package Ninja.coder.Ghostemane.code;
 
-import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import android.animation.*;
 import android.app.*;
 import android.content.*;
@@ -55,6 +54,8 @@ import org.beyka.tiffbitmapfactory.*;
 import org.json.*;
 import storage.sdcard.*;
 import xyz.doikki.videoplayer.*;
+
+
 import xyz.doikki.videoplayer.exo.*;
 import xyz.doikki.videoplayer.ijk.*;
 import android.app.PendingIntent;
@@ -78,7 +79,7 @@ import Ninja.coder.Ghostemane.code.component.PrepareView;
 import Ninja.coder.Ghostemane.code.component.TitleView;
 import Ninja.coder.Ghostemane.code.component.VodControlView;
 
-public class VideoviewsActivity extends BaseCompat {
+public class VideoviewsActivity extends BaseCompat  {
 
     private final PictureInPictureParams.Builder mPictureInPictureParamsBuilder =
             new PictureInPictureParams.Builder();
@@ -103,16 +104,18 @@ public class VideoviewsActivity extends BaseCompat {
     private LinearLayout linear3;
     private LinearLayout viewvideo;
     private TextView videotitle;
+    
 
-    @Override
-    protected void onCreate(Bundle _savedInstanceState) {
-        super.onCreate(_savedInstanceState);
-        setContentView(R.layout.videoviews);
-        initialize(_savedInstanceState);
-        initializeLogic();
-    }
+  @Override
+  protected void onCreate(Bundle _savedInstanceState) {
+    super.onCreate(_savedInstanceState);
+    setContentView(R.layout.videoviews);
+    initialize(_savedInstanceState);
+    initializeLogic();
+    
+  }
 
-    private void initialize(Bundle _savedInstanceState) {
+  private void initialize(Bundle _savedInstanceState) {
         linear1 = findViewById(R.id.linear1);
         linear2 = findViewById(R.id.linear2);
         linear3 = findViewById(R.id.linear3);
@@ -142,6 +145,13 @@ public class VideoviewsActivity extends BaseCompat {
         mController.addControlComponent(new PrepareView(this));
         mController.addControlComponent(new GestureView(this));
         VodControlView vodControlView = new VodControlView(this);
+         vodControlView.setCallBack(new VodControlView.OnClick(){
+           @Override
+           public void click() {
+             // TODO: Implement this method
+           }
+           
+         });
         vodControlView
                 .findViewById(R.id.speed)
                 .setOnClickListener(

@@ -1,22 +1,25 @@
 package Ninja.coder.Ghostemane.code.tasks.app;
 
-import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.FileUtil;
+import Ninja.coder.Ghostemane.code.SetThemeForJson;
+import android.app.Activity;
 import android.content.Context;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.color.MaterialColors;
-import com.sass_lang.embedded_protocol.InboundMessage;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import de.larsgrefer.sass.embedded.CompileSuccess;
-import de.larsgrefer.sass.embedded.SassCompiler;
 import de.larsgrefer.sass.embedded.android.AndroidSassCompilerFactory;
-import de.larsgrefer.sass.embedded.connection.CompilerConnection;
-import de.larsgrefer.sass.embedded.connection.Packet;
+import io.github.rosemoe.sora.langs.desc.SCSSDescription;
+import io.github.rosemoe.sora.langs.universal.UniversalLanguage;
+import io.github.rosemoe.sora.widget.CodeEditor;
+import io.github.rosemoe.sora.widget.schemes.SchemeDarcula;
+import io.github.rosemoe.sora.widget.schemes.SchemeVS2019;
 import java.io.File;
-import java.io.IOException;
+import java.util.HashMap;
 
 public class SassForAndroid {
+  private static HashMap<String, Object> imap = new HashMap<>();
 
   public static String CompileForStringScss(String input, Context context) {
     try (var compiler = AndroidSassCompilerFactory.bundled(context)) {
@@ -46,19 +49,61 @@ public class SassForAndroid {
   }
 
   public static void run(Context context, String input, String output) {
-    var sheet = new BottomSheetDialog(context);
-    EditText tv = new EditText(context);
-    LinearLayout.LayoutParams param =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-    tv.setLayoutParams(param);
-    param.rightMargin = 3;
-    param.leftMargin = 3;
-    tv.setTextColor(MaterialColors.getColor(tv, ColorAndroid12.colorOnSurface, 0));
-    tv.setPadding(9, 9, 9, 9);
-    sheet.setContentView(tv);
-    tv.setText(CompilerForFile(new File(input), context));
-    FileUtil.writeFile(CompilerForFile(new File(input), context), output + ".css");
-    sheet.show();
+    try {
+      String cssContent = CompilerForFile(new File(input), context);
+      var sheet = new BottomSheetDialog(context);
+      var tv = new CodeEditor(context);
+      LinearLayout.LayoutParams param =
+          new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+      tv.setLayoutParams(param);
+      param.rightMargin = 3;
+      param.leftMargin = 3;
+      tv.setPadding(9, 9, 9, 9);
+      sheet.setContentView(tv);
+      tv.post(() -> tv.setText(cssContent));
+
+      
+      tv.setEditorLanguage(new UniversalLanguage(new SCSSDescription()));
+      tv.setKeyboardOperation(
+          new CodeEditor.OnKeyboardOperation() {
+
+            @Override
+            public void Enter() {}
+
+            @Override
+            public void Removed() {}
+
+            @Override
+            public void Tab() {}
+
+            @Override
+            public void Space() {}
+          });
+      tv.setLigatureEnabled(true);
+      tv.setHighlightCurrentBlock(false);
+      tv.setHighlightCurrentLine(false);
+      tv.setAutoCompletionOnComposing(false);
+      tv.setLineInfoTextSize(20f);
+      tv.setBlockLineEnabled(true);
+      tv.setLineNumberEnabled(false);
+      imap = new HashMap<>();
+      try {
+        imap =
+            new Gson()
+                .fromJson(
+                    FileUtil.readFile("storage/emulated/0/GhostWebIDE/theme/GhostThemeapp.ghost"),
+                    new TypeToken<HashMap<String, Object>>() {}.getType());
+      } catch (Exception err) {
+        err.printStackTrace();
+      }
+      var theme = new SetThemeForJson();
+      theme.setThemeCodeEditor(tv,imap,true,(Activity)context);
+      FileUtil.writeFile(output.concat(".css"), cssContent);
+      sheet.show();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

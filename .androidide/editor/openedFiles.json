@@ -1,35 +1,35 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/FileManagerAd.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/SetThemeForJson.java",
       "selection": {
         "end": {
-          "column": 23,
-          "index": 1560,
-          "line": 41
+          "column": 85,
+          "index": 1543,
+          "line": 49
         },
         "start": {
-          "column": 23,
-          "index": 1560,
-          "line": 41
+          "column": 77,
+          "index": 1535,
+          "line": 49
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/marco/binder/BinderRecyclerview1.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/tasks/app/SassForAndroid.java",
       "selection": {
         "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 37,
+          "index": 3175,
+          "line": 88
         },
         "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 37,
+          "index": 3175,
+          "line": 88
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/FileManagerAd.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/tasks/app/SassForAndroid.java"
 }

@@ -2221,9 +2221,13 @@ public class CodeeditorActivity extends AppCompatActivity {
                           getmd.setClass(getApplicationContext(), PhpActivity.class);
                           getmd.putExtra("phpcode", shp.getString("pos_path", ""));
                           startActivity(getmd);
-                        } else if (shp.getString("pos_path", "").contains(".scss") || shp.getString("pos_path", "").contains(".sass")) {
-                          SassForAndroid.run(CodeeditorActivity.this, shp.getString("pos_path", ""),shp.getString("pos_path", ""));
-                          
+                        } else if (shp.getString("pos_path", "").contains(".scss")
+                            || shp.getString("pos_path", "").contains(".sass")) {
+                          SassForAndroid.run(
+                              CodeeditorActivity.this,
+                              shp.getString("pos_path", ""),
+                              shp.getString("pos_path", ""));
+
                         } else {
 
                         }
