@@ -5,7 +5,6 @@ import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import java.util.ArrayList;
 import java.util.List;
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 
 public class JsAutoComplete implements AutoCompleteProvider {
 
@@ -18,8 +17,7 @@ public class JsAutoComplete implements AutoCompleteProvider {
         list.add(Normal(itemLang, "JavaScript Keywords"));
       }
     }
-    FileReaderJsonSpinet sp = new FileReaderJsonSpinet();
-	sp.Start(list,"js");
+
     return list;
   }
 
@@ -35,5 +33,4 @@ public class JsAutoComplete implements AutoCompleteProvider {
     item.cursorOffset(item.commit.length() - 1);
     return item;
   }
-
 }

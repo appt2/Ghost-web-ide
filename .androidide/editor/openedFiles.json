@@ -1,35 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/TextSummry/HtmlTool.java",
       "selection": {
         "end": {
-          "column": 37,
-          "index": 22018,
-          "line": 566
+          "column": 0,
+          "index": 0,
+          "line": 0
         },
         "start": {
-          "column": 16,
-          "index": 21997,
-          "line": 566
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/StreamsoftappActivity.java",
-      "selection": {
-        "end": {
-          "column": 15,
-          "index": 1916,
-          "line": 51
-        },
-        "start": {
-          "column": 4,
-          "index": 1354,
-          "line": 38
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/TextSummry/HtmlTool.java"
 }

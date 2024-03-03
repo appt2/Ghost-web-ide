@@ -5,7 +5,6 @@ import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
 import io.github.rosemoe.sora.interfaces.EditorLanguage;
 import io.github.rosemoe.sora.interfaces.NewlineHandler;
-import io.github.rosemoe.sora.langs.html.HTMLLanguage;
 import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import io.github.rosemoe.sora.langs.internal.MyCharacter;
 import io.github.rosemoe.sora.text.TextUtils;
@@ -16,7 +15,6 @@ import java.io.StringReader;
 import lsp4custom.com.ninjacoder.customhtmllsp.ListKeyword;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 
 public class PHPLanguage implements EditorLanguage {
 
@@ -805,8 +803,7 @@ public class PHPLanguage implements EditorLanguage {
           list.add(attrAsCompletion(phpfuns, "Function php"));
         }
       }
-      FileReaderJsonSpinet reader = new FileReaderJsonSpinet();
-      reader.Start(list, "php");
+      
       return list;
     }
 

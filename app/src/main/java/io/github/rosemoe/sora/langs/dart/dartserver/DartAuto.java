@@ -5,7 +5,6 @@ import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import java.util.ArrayList;
 import java.util.List;
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 
 public class DartAuto implements AutoCompleteProvider {
 	private List<CompletionItem> list = new ArrayList<>();
@@ -18,8 +17,7 @@ public class DartAuto implements AutoCompleteProvider {
 				list.add(dhelper(item, HotserverDart.KEYPATHLIST));
 			}
 		}
-		FileReaderJsonSpinet reader = new FileReaderJsonSpinet();
-		reader.Start(list, "dart3");
+		
 		return list;
 	}
 

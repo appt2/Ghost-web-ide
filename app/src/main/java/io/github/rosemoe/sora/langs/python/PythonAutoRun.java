@@ -5,7 +5,6 @@ import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import io.github.rosemoe.sora.util.ArrayList;
 import java.util.List;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 
 public class PythonAutoRun implements AutoCompleteProvider {
 	private List<CompletionItem> items;
@@ -25,8 +24,7 @@ public class PythonAutoRun implements AutoCompleteProvider {
 				items.add(normalKey(users, "Python KeyWord Normal"));
 			}
 		}
-		FileReaderJsonSpinet reader = new FileReaderJsonSpinet();
-		reader.Start(items,"python");
+		
 
 		return items;
 	}

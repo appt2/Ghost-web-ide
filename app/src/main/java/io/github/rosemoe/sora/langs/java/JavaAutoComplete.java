@@ -1,6 +1,5 @@
 package io.github.rosemoe.sora.langs.java;
 
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import java.util.ArrayList;
@@ -24,8 +23,7 @@ public class JavaAutoComplete implements AutoCompleteProvider {
         item.add(PhpAsCompletion(javakey, "Java Normal KeyWord"));
       }
     }
-    FileReaderJsonSpinet object = new FileReaderJsonSpinet();
-    object.Start(item, "java");
+    
     for (var itemimport : data) {
       if (itemimport.startsWith(prefix)) {
         item.add(PhpAsCompletion(itemimport, "Java import"));

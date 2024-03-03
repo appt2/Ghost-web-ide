@@ -1,7 +1,5 @@
 package Ninja.coder.Ghostemane.code;
 
-import Ninja.coder.Ghostemane.code.IDEEDITOR;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 import android.app.AlarmManager;
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -40,9 +38,6 @@ public class ApplicationLoader extends Application {
 
   @Override
   public void onCreate() {
-
-    FileReaderJsonSpinet js = new FileReaderJsonSpinet();
-    js.makeFileJson();
     materialYou = getSharedPreferences("materialYou", MODE_PRIVATE);
     getvb = getSharedPreferences("getvb", MODE_PRIVATE);
     setfont = getSharedPreferences("setfont", MODE_PRIVATE);

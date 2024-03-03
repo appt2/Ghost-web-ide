@@ -2,7 +2,6 @@ package io.github.rosemoe.sora.widget.TextSummry;
 
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.R;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import io.github.rosemoe.sora.langs.java.JavaLanguage;
@@ -13,8 +12,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.view.LayoutInflater;
-import com.google.android.material.textfield.TextInputEditText;
-import com.blankj.utilcode.util.ThreadUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -83,41 +80,7 @@ public class JavaTools {
           } else if (pos == 4) {
             shareText(editor);
           } else if (pos == 5) {
-            FileReaderJsonSpinet sp = new FileReaderJsonSpinet();
-            try {
-              if (editor.getCursor().isSelected()) {
-                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(context);
-                View viewss = LayoutInflater.from(context).inflate(R.layout.listfilecol, null);
-                TextInputEditText et1 = viewss.findViewById(R.id.et1);
-                TextInputEditText et2 = viewss.findViewById(R.id.et2);
-                TextInputEditText et3 = viewss.findViewById(R.id.et3);
-
-                ThreadUtils.runOnUiThread(
-                    () -> {
-                      et1.setText(editor.getSelectedText());
-                    });
-
-                et1.setSingleLine(true);
-
-                dialog.setView(viewss);
-                dialog.setTitle("Adding code");
-                dialog.setPositiveButton(
-                    "ok",
-                    (v, c) -> {
-                      sp.addToJsonFile(
-                          langName,
-                          et2.getText().toString(),
-                          et3.getText().toString(),
-                          et1.getText().toString());
-                    });
-                dialog.show();
-              } else {
-                Toast.makeText(context, "Cursor not Selected", 2).show();
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
-              Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-            }
+            
           } else if (pos == 6) {
             installextractJavaClass(context, editor);
           } else if (pos == 7) {

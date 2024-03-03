@@ -8,14 +8,7 @@ import com.skydoves.powermenu.PowerMenuItem;
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import com.google.android.material.color.MaterialColors;
 import com.skydoves.powermenu.MenuAnimation;
-import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.marco.HtmlTagView;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import android.view.LayoutInflater;
-import com.google.android.material.textfield.TextInputEditText;
-import com.blankj.utilcode.util.ThreadUtils;
-import android.widget.Toast;
 import io.github.rosemoe.sora.widget.Transilt;
 import java.io.Serializable;
 
@@ -54,41 +47,7 @@ public class PythonTools implements Serializable {
             new HtmlTagView().PythonTreeView(editor.getText().toString(), context, editor);
 
           } else if (pos == 2) {
-            FileReaderJsonSpinet sp = new FileReaderJsonSpinet();
-            try {
-              if (editor.getCursor().isSelected()) {
-                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(context);
-                View viewss = LayoutInflater.from(context).inflate(R.layout.listfilecol, null);
-                TextInputEditText et1 = viewss.findViewById(R.id.et1);
-                TextInputEditText et2 = viewss.findViewById(R.id.et2);
-                TextInputEditText et3 = viewss.findViewById(R.id.et3);
-
-                ThreadUtils.runOnUiThread(
-                    () -> {
-                      et1.setText(editor.getSelectedText());
-                    });
-
-                et1.setSingleLine(true);
-
-                dialog.setView(viewss);
-                dialog.setTitle("Collection code");
-                dialog.setPositiveButton(
-                    "ok",
-                    (v, c) -> {
-                      sp.addToJsonFile(
-                          "python",
-                          et2.getText().toString(),
-                          et3.getText().toString(),
-                          et1.getText().toString());
-                    });
-                dialog.show();
-              } else {
-                Toast.makeText(context, "Cursor not Selected", 2).show();
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
-              Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-            }
+            
           } else if (pos == 3) {
             var mtools = new JavaTools();
             mtools.shareText(editor);

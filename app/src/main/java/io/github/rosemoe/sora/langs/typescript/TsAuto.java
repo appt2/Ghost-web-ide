@@ -3,10 +3,8 @@ package io.github.rosemoe.sora.langs.typescript;
 import io.github.rosemoe.sora.data.CompletionItem;
 import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 
 public class TsAuto implements AutoCompleteProvider {
 	protected List<CompletionItem> list;
@@ -20,8 +18,7 @@ public class TsAuto implements AutoCompleteProvider {
 				list.add(helper(item, "Ts keywords"));
 			}
 		}
-		FileReaderJsonSpinet sl =new FileReaderJsonSpinet();
-		sl.Start(list,"ts");
+		
 		return list;
 	}
 

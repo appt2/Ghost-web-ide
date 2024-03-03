@@ -1,20 +1,11 @@
 package io.github.rosemoe.sora.widget.TextSummry;
 
-import Ninja.coder.Ghostemane.code.BrowserActivity;
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.IDEEDITOR;
 import Ninja.coder.Ghostemane.code.marco.ColorView;
 import Ninja.coder.Ghostemane.code.marco.HtmlTagView;
-import Ninja.coder.Ghostemane.code.project.FileReaderJsonSpinet;
 import android.content.Context;
-import Ninja.coder.Ghostemane.code.R;
-import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
-import com.blankj.utilcode.util.ThreadUtils;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputEditText;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 import com.google.android.material.color.MaterialColors;
@@ -62,48 +53,7 @@ public class HtmlTool implements Serializable {
             HtmlTagView views = new HtmlTagView();
             views.Start(editor.getText().toString(), context, (IDEEDITOR) editor);
           } else if (pos == 2) {
-            FileReaderJsonSpinet sp = new FileReaderJsonSpinet();
-            try {
-              if (editor.getCursor().isSelected()) {
-                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(context);
-                View viewss = LayoutInflater.from(context).inflate(R.layout.listfilecol, null);
-                TextInputEditText et1 = viewss.findViewById(R.id.et1);
-                TextInputEditText et2 = viewss.findViewById(R.id.et2);
-                TextInputEditText et3 = viewss.findViewById(R.id.et3);
-                String clip =
-                    editor
-                        .getText()
-                        .subContent(
-                            editor.getCursor().getLeftLine(),
-                            editor.getCursor().getLeftColumn(),
-                            editor.getCursor().getRightLine(),
-                            editor.getCursor().getRightColumn())
-                        .toString();
-                ThreadUtils.runOnUiThread(
-                    () -> {
-                      et1.setText(clip.toString());
-                    });
-
-                et1.setSingleLine(true);
-                dialog.setView(viewss);
-                dialog.setTitle("Adding code");
-                dialog.setPositiveButton(
-                    "ok",
-                    (v, c) -> {
-                      sp.addToJsonFile(
-                          "html",
-                          et2.getText().toString(),
-                          et3.getText().toString(),
-                          et1.getText().toString());
-                    });
-                dialog.show();
-              } else {
-                Toast.makeText(context, "Cursor not Selected", 2).show();
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
-              Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
-            }
+            
           } else if (pos == 3) {
             var tooljava = new JavaTools();
             tooljava.shareText(editor);
