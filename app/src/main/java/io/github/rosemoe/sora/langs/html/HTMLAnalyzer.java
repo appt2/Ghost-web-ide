@@ -1115,7 +1115,7 @@ public class HTMLAnalyzer implements CodeAnalyzer, CallBackErrorManager {
     identifiers.finish();
     result.determine(line);
     result.setExtra(identifiers);
-    result.setSuppressSwitch(maxSwitch + 10);
+    result.setSuppressSwitch(maxSwitch + 50);
     result.setNavigation(labels);
   }
 

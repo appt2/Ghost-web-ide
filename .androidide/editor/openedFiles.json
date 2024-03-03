@@ -1,35 +1,35 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/SetThemeForJson.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/StreamsoftappActivity.java",
       "selection": {
         "end": {
-          "column": 85,
-          "index": 1543,
-          "line": 49
+          "column": 70,
+          "index": 1884,
+          "line": 50
         },
         "start": {
-          "column": 77,
-          "index": 1535,
-          "line": 49
+          "column": 70,
+          "index": 1884,
+          "line": 50
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/tasks/app/SassForAndroid.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/StreamAd.java",
       "selection": {
         "end": {
-          "column": 37,
-          "index": 3175,
-          "line": 88
+          "column": 99,
+          "index": 1360,
+          "line": 41
         },
         "start": {
-          "column": 37,
-          "index": 3175,
-          "line": 88
+          "column": 99,
+          "index": 1360,
+          "line": 41
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/tasks/app/SassForAndroid.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/StreamsoftappActivity.java"
 }

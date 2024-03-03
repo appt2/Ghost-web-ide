@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code.tasks.app;
 
+import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.FileUtil;
 import Ninja.coder.Ghostemane.code.SetThemeForJson;
 import android.app.Activity;
@@ -13,8 +14,6 @@ import de.larsgrefer.sass.embedded.android.AndroidSassCompilerFactory;
 import io.github.rosemoe.sora.langs.desc.SCSSDescription;
 import io.github.rosemoe.sora.langs.universal.UniversalLanguage;
 import io.github.rosemoe.sora.widget.CodeEditor;
-import io.github.rosemoe.sora.widget.schemes.SchemeDarcula;
-import io.github.rosemoe.sora.widget.schemes.SchemeVS2019;
 import java.io.File;
 import java.util.HashMap;
 
@@ -63,7 +62,6 @@ public class SassForAndroid {
       sheet.setContentView(tv);
       tv.post(() -> tv.setText(cssContent));
 
-      
       tv.setEditorLanguage(new UniversalLanguage(new SCSSDescription()));
       tv.setKeyboardOperation(
           new CodeEditor.OnKeyboardOperation() {
@@ -98,8 +96,16 @@ public class SassForAndroid {
         err.printStackTrace();
       }
       var theme = new SetThemeForJson();
-      theme.setThemeCodeEditor(tv,imap,true,(Activity)context);
-      FileUtil.writeFile(output.concat(".css"), cssContent);
+      theme.setThemeCodeEditor(tv, imap, true, (Activity) context);
+      ColorAndroid12.runOnUiThread(
+          () -> {
+            if (input.contains(".sass")) {
+              FileUtil.writeFile(output.replace(".sass", ".css"), cssContent);
+            } else if (output.contains(".scss")) {
+              FileUtil.writeFile(output.replace(".scss", ".css"), cssContent);
+            }
+          });
+
       sheet.show();
 
     } catch (Exception e) {

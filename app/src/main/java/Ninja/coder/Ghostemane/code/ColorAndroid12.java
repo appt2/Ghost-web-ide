@@ -8,6 +8,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -86,8 +88,10 @@ public class ColorAndroid12 {
 
     if (window != null) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-     //   window.setStatusBarColor(MaterialColors.getColor(window.getContext(), Back, Color.BLACK));
-        window.setNavigationBarColor(MaterialColors.getColor(window.getContext(), Back, Color.BLACK));
+        //   window.setStatusBarColor(MaterialColors.getColor(window.getContext(), Back,
+        // Color.BLACK));
+        window.setNavigationBarColor(
+            MaterialColors.getColor(window.getContext(), Back, Color.BLACK));
       }
 
     } else {
@@ -131,7 +135,8 @@ public class ColorAndroid12 {
 
     view.setColorFilter(MaterialColors.getColor(view, colorOnSurface), PorterDuff.Mode.SRC_IN);
   }
-  public static void setColorFilter(ImageView view,int color) {
+
+  public static void setColorFilter(ImageView view, int color) {
     if (view == null) return;
 
     view.setColorFilter(color, PorterDuff.Mode.SRC_IN);
@@ -189,14 +194,13 @@ public class ColorAndroid12 {
     view.setBackground(shaps);
   }
 
-  public static void shap(View view,int colors) {
+  public static void shap(View view, int colors) {
     var shaps =
         new MaterialShapeDrawable(
             ShapeAppearanceModel.builder().setAllCorners(CornerFamily.CUT, 34f).build());
 
     shaps.setFillColor(
         ColorStateList.valueOf(MaterialColors.getColor(view.getContext(), colors, 0)));
-    
 
     view.setBackground(shaps);
   }
@@ -301,5 +305,12 @@ public class ColorAndroid12 {
     var blue = (int) (Color.blue(color) * factor);
 
     return Color.rgb(red, green, blue);
+  }
+
+  public static void runOnUiThread(Runnable run) {
+    if (run != null) {
+      var handler = new Handler(Looper.getMainLooper());
+      handler.post(run);
+    }
   }
 }

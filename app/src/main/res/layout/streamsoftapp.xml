@@ -1,212 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
      xmlns:android="http://schemas.android.com/apk/res/android"
      xmlns:app="http://schemas.android.com/apk/res-auto"
      xmlns:tools="http://schemas.android.com/tools"
      android:layout_height="match_parent"
-     android:layout_width="match_parent"
-     android:orientation="vertical">
+     android:layout_width="match_parent">
 
     <LinearLayout
          android:layout_height="match_parent"
          android:layout_width="match_parent"
-         android:orientation="vertical"
-         android:id="@+id/linear1">
-
-        <LinearLayout
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:gravity="center_vertical"
-             android:padding="8dp"
-             android:orientation="horizontal"
-             android:id="@+id/linear2">
-
-            <ImageView
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:src="@drawable/ic_settings_white"
-                 android:scaleType="fitXY"
-                 android:tint="#ffFFDCBD"
-                 android:id="@+id/imageview1" />
-
-            <LinearLayout
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:padding="8dp"
-                 android:orientation="horizontal"
-                 android:layout_weight="1"
-                 android:id="@+id/linear3">
-
-            </LinearLayout>
-
-            <ImageView
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:src="@drawable/ic_more_vert_white"
-                 android:scaleType="fitXY"
-                 android:tint="#ffFFDCBD"
-                 android:id="@+id/imageview2" />
-
-        </LinearLayout>
-
-        <LinearLayout
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:gravity="center_horizontal|center_vertical"
-             android:padding="8dp"
-             android:orientation="vertical"
-             android:id="@+id/linear4">
-
-            <ImageView
-                 android:layout_height="80dp"
-                 android:layout_width="80dp"
-                 android:src="@drawable/icon"
-                 android:scaleType="fitXY"
-                 android:id="@+id/imageview3" />
-
-            <TextView
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:padding="8dp"
-                 android:textSize="16sp"
-                 android:textColor="#FFDCBD"
-                 android:id="@+id/textview1"
-                 android:text="Ghost Web ide "
-                 android:textStyle="bold" />
-
-        </LinearLayout>
+         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+         android:orientation="vertical">
 
         <LinearLayout
              android:layout_height="match_parent"
              android:layout_width="match_parent"
+             android:gravity="center_horizontal"
              android:padding="8dp"
-             android:orientation="vertical"
-             android:layout_weight="1"
-             android:id="@+id/mainLayout">
+             android:orientation="vertical">
 
             <LinearLayout
-                 android:layout_height="wrap_content"
+                 android:layout_height="300dp"
                  android:layout_width="match_parent"
-                 android:orientation="vertical"
-                 android:id="@+id/linear6">
+                 android:gravity="center"
+                 android:padding="8dp"
+                 android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                     android:layout_height="60dp"
+                     android:layout_width="60dp"
+                     android:clickable="true"
+                     app:cardCornerRadius="20dp"
+                     android:id="@+id/stramCard">
+
+                    <ImageView
+                         android:layout_height="match_parent"
+                         android:layout_width="match_parent"
+                         android:src="@mipmap/ghosticon"
+                         android:scaleType="fitXY"
+                         android:id="@+id/iconApp" />
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
                      android:layout_height="wrap_content"
                      android:layout_width="wrap_content"
                      android:padding="8dp"
-                     android:textSize="20sp"
-                     android:textColor="#FFDCBD"
-                     android:id="@+id/textview4"
-                     android:text="File Tools" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                     android:layout_height="wrap_content"
-                     android:layout_width="match_parent"
-                     android:padding="8dp"
-                     android:id="@+id/recyclerview2" />
+                     android:textSize="16sp"
+                     android:textColor="?@attr/colorOnSurface"
+                     android:id="@+id/titleApp"
+                     android:text="Ghost web ide" />
 
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
                  android:layout_height="match_parent"
-                 android:layout_width="match_parent"
-                 android:orientation="vertical"
-                 android:id="@+id/layoutDir">
-
-                <LinearLayout
-                     android:layout_height="200dp"
-                     android:layout_width="match_parent"
-                     android:orientation="vertical"
-                     android:id="@+id/linear7">
-
-                    <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="wrap_content"
-                         android:padding="8dp"
-                         android:textSize="20sp"
-                         android:textColor="#FFDCBD"
-                         android:id="@+id/textview5"
-                         android:text="App Tools" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:padding="8dp"
-                         android:id="@+id/recyclerview4" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                     android:layout_height="80dp"
-                     android:layout_width="match_parent"
-                     android:layout_marginBottom="5dp"
-                     android:gravity="center_vertical"
-                     android:padding="8dp"
-                     android:orientation="horizontal"
-                     android:layout_marginTop="5dp"
-                     android:id="@+id/lyhome">
-
-                    <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="wrap_content"
-                         android:gravity="right"
-                         android:padding="8dp"
-                         android:textSize="18sp"
-                         android:layout_marginRight="2dp"
-                         android:textColor="#FFDCBD"
-                         android:layout_weight="1"
-                         android:id="@+id/textview3"
-                         android:text="Home" />
-
-                    <ImageView
-                         android:layout_height="50dp"
-                         android:layout_width="50dp"
-                         android:src="@drawable/folders_0_5"
-                         android:scaleType="fitXY"
-                         android:padding="4dp"
-                         android:tint="#ffFFDCBD"
-                         android:id="@+id/imageview5" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                     android:layout_height="80dp"
-                     android:layout_width="match_parent"
-                     android:layout_marginBottom="5dp"
-                     android:gravity="center_vertical"
-                     android:padding="8dp"
-                     android:orientation="horizontal"
-                     android:layout_marginTop="5dp"
-                     android:id="@+id/getSd"
-                     android:layout_gravity="bottom">
-
-                    <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="wrap_content"
-                         android:gravity="right"
-                         android:padding="8dp"
-                         android:textSize="18sp"
-                         android:layout_marginRight="2dp"
-                         android:textColor="#FFDCBD"
-                         android:layout_weight="1"
-                         android:id="@+id/textview2"
-                         android:text="SdCard" />
-
-                    <ImageView
-                         android:layout_height="50dp"
-                         android:layout_width="50dp"
-                         android:src="@drawable/sdcard"
-                         android:scaleType="centerInside"
-                         android:padding="4dp"
-                         android:tint="#ffFFDCBD"
-                         android:id="@+id/imageview4" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                 android:layout_width="200dp"
+                 android:padding="8dp"
+                 android:id="@+id/recyclerviewstream" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
