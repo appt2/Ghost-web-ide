@@ -40,10 +40,8 @@ public class StreamsoftappActivity extends BaseCompat implements StreamAd.OnItem
         .addCallback(
             this,
             new OnBackPressedCallback(true) {
-
               @Override
               public void handleOnBackPressed() {
-                // TODO: ...
                 new MaterialAlertDialogBuilder(StreamsoftappActivity.this)
                     .setTitle("Exit")
                     .setMessage("Are you Exit App?")

@@ -292,13 +292,6 @@ public class FiledirActivity extends BaseCompat
     setSupportActionBar(_toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    _toolbar.setNavigationOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _v) {
-            onBackPressed();
-          }
-        });
     _drawer = findViewById(R.id._drawer);
     ActionBarDrawerToggle _toggle =
         new ActionBarDrawerToggle(
@@ -313,16 +306,11 @@ public class FiledirActivity extends BaseCompat
 
     recyclerview1 = findViewById(R.id.recyclerview1);
     recyclerview2 = findViewById(R.id.recyclerview2);
-
     fileListItem = new FileManagerAd(files, FiledirActivity.this, this);
-
     shp = getSharedPreferences("shp", Activity.MODE_PRIVATE);
-    
     soglo = getSharedPreferences("soglo", Activity.MODE_PRIVATE);
-    
     np = getSharedPreferences("np", Activity.MODE_PRIVATE);
     dismoveFile = getSharedPreferences("DismoveFile", Activity.MODE_PRIVATE);
-    
     sd = getSharedPreferences("sd", Activity.MODE_PRIVATE);
     delfile = getSharedPreferences("delfile", Activity.MODE_PRIVATE);
     zipCuntishen = getSharedPreferences("zipCuntishen", Activity.MODE_PRIVATE);
@@ -336,6 +324,7 @@ public class FiledirActivity extends BaseCompat
     WindowsMath(_drawer, _coordinator);
     var vie = LayoutInflater.from(this).inflate(R.layout.recyclerview_emptyview, null, false);
     recyclerview2.setEmptyView(vie);
+    BackPressed();
     var helper =
         new RecyclerViewHelper(
             recyclerview2,
@@ -571,86 +560,99 @@ public class FiledirActivity extends BaseCompat
     _DrowerHandler();
   }
 
-  @Override
-  public void onBackPressed() {
-    if (sd_stor.hasRealRemovableSdCarde()) {
-      if (Folder.equals(FileUtil.getExternalStorageDir())
-          || Folder.equals(sd_stor.getExtSdPath())) {
-        gotoback++;
-        if (gotoback == 3) {
-          Chack = false;
-          isCopyAndMoved = false;
+  public void BackPressed() {
+    getOnBackPressedDispatcher()
+        .addCallback(
+            this,
+            new OnBackPressedCallback(true) {
+              @Override
+              public void handleOnBackPressed() {
+                if (sd_stor.hasRealRemovableSdCarde()) {
+                  if (Folder.equals(FileUtil.getExternalStorageDir())
+                      || Folder.equals(sd_stor.getExtSdPath())) {
+                    gotoback++;
+                    if (gotoback == 3) {
+                      Chack = false;
+                      isCopyAndMoved = false;
 
-          new GhostWebMaterialDialog(FiledirActivity.this)
-              .setTitle(getResources().getString(R.string.exitapp))
-              .setMessage(getResources().getString(R.string.exitappmsg))
-              .setNeutralButton(
-                  getResources().getString(R.string.yes),
-                  (p, d) -> {
-                    gotoback = 0;
-                    finishAffinity();
-                  })
-              .setPositiveButton(
-                  getResources().getString(R.string.no),
-                  (p1, d2) -> {
-                    gotoback = 0;
-                  })
-              .setCancelable(false)
-              .show();
+                      new GhostWebMaterialDialog(FiledirActivity.this)
+                          .setTitle(getResources().getString(R.string.exitapp))
+                          .setMessage(getResources().getString(R.string.exitappmsg))
+                          .setNeutralButton(
+                              getResources().getString(R.string.yes),
+                              (p, d) -> {
+                                gotoback = 0;
+                                finishAffinity();
+                              })
+                          .setPositiveButton(
+                              getResources().getString(R.string.no),
+                              (p1, d2) -> {
+                                gotoback = 0;
+                              })
+                          .setCancelable(false)
+                          .show();
 
-        } else {
-          SketchwareUtil.showMessage(getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
-        }
-      } else {
-        saveScrollPosition();
-        try {
-          linearLayoutManager.scrollToPosition(linearLayoutManager.findFirstVisibleItemPosition());
-        } catch (RuntimeException runtimeException) {
-          Toast.makeText(getApplicationContext(), runtimeException.getMessage(), 2).show();
-        }
+                    } else {
+                      SketchwareUtil.showMessage(
+                          getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
+                    }
+                  } else {
+                    saveScrollPosition();
+                    try {
+                      linearLayoutManager.scrollToPosition(
+                          linearLayoutManager.findFirstVisibleItemPosition());
+                    } catch (RuntimeException runtimeException) {
+                      Toast.makeText(getApplicationContext(), runtimeException.getMessage(), 2)
+                          .show();
+                    }
 
-        Folder = Folder.substring((int) (0), (int) (Folder.lastIndexOf("/")));
-        _getFiles("");
-      }
-    } else {
-      if (Folder.equals(FileUtil.getExternalStorageDir())) {
-        gotoback++;
-        if (gotoback == 3) {
-          Chack = false;
-          isCopyAndMoved = false;
+                    Folder = Folder.substring((int) (0), (int) (Folder.lastIndexOf("/")));
+                    _getFiles("");
+                  }
+                } else {
+                  if (Folder.equals(FileUtil.getExternalStorageDir())) {
+                    gotoback++;
+                    if (gotoback == 3) {
+                      Chack = false;
+                      isCopyAndMoved = false;
 
-          new GhostWebMaterialDialog(FiledirActivity.this)
-              .setTitle(getResources().getString(R.string.exitapp))
-              .setMessage(getResources().getString(R.string.exitappmsg))
-              .setNeutralButton(
-                  getResources().getString(R.string.yes),
-                  (p, d) -> {
-                    gotoback = 0;
-                    finishAffinity();
-                  })
-              .setPositiveButton(
-                  getResources().getString(R.string.no),
-                  (p1, d2) -> {
-                    gotoback = 0;
-                  })
-              .setCancelable(false)
-              .show();
+                      new GhostWebMaterialDialog(FiledirActivity.this)
+                          .setTitle(getResources().getString(R.string.exitapp))
+                          .setMessage(getResources().getString(R.string.exitappmsg))
+                          .setNeutralButton(
+                              getResources().getString(R.string.yes),
+                              (p, d) -> {
+                                gotoback = 0;
+                                finishAffinity();
+                              })
+                          .setPositiveButton(
+                              getResources().getString(R.string.no),
+                              (p1, d2) -> {
+                                gotoback = 0;
+                              })
+                          .setCancelable(false)
+                          .show();
 
-        } else {
-          SketchwareUtil.showMessage(getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
-        }
-      } else {
-        Folder = Folder.substring((int) (0), (int) (Folder.lastIndexOf("/")));
-        saveScrollPosition();
-        try {
-          linearLayoutManager.scrollToPosition(linearLayoutManager.findFirstVisibleItemPosition());
-        } catch (RuntimeException runtimeException) {
-          Toast.makeText(getApplicationContext(), runtimeException.getMessage(), 2).show();
-        }
+                    } else {
+                      SketchwareUtil.showMessage(
+                          getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
+                    }
+                  } else {
+                    Folder = Folder.substring((int) (0), (int) (Folder.lastIndexOf("/")));
+                    saveScrollPosition();
+                    try {
+                      linearLayoutManager.scrollToPosition(
+                          linearLayoutManager.findFirstVisibleItemPosition());
+                    } catch (RuntimeException runtimeException) {
+                      Toast.makeText(getApplicationContext(), runtimeException.getMessage(), 2)
+                          .show();
+                    }
 
-        _getFiles("");
-      }
-    }
+                    _getFiles("");
+                  }
+                }
+              }
+            });
   }
 
   @Override
