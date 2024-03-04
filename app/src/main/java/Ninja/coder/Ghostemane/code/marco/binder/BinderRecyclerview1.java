@@ -181,7 +181,7 @@ public class BinderRecyclerview1 {
     }
   }
 
-  private static boolean TaskVideo(String path) {
+  public static boolean TaskVideo(String path) {
     return path.endsWith(".mp4")
         || path.endsWith(".mkv")
         || path.endsWith(".avi")
@@ -200,7 +200,7 @@ public class BinderRecyclerview1 {
         || path.endsWith(".7z");
   }
 
-  private static boolean PhotoView(String path) {
+  public static boolean PhotoView(String path) {
     return (path.endsWith(".jpg")
         || path.endsWith(".jpeg")
         || path.endsWith(".png")

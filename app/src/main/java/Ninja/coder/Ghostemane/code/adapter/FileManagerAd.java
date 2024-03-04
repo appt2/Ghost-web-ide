@@ -3,10 +3,15 @@ package Ninja.coder.Ghostemane.code.adapter;
 import Ninja.coder.Ghostemane.code.AnimUtils;
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.FileUtil;
+import Ninja.coder.Ghostemane.code.GlideUtilApi.GlideCompat;
+import Ninja.coder.Ghostemane.code.MFileClass;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.databin.FileMaker;
+import Ninja.coder.Ghostemane.code.folderBuilder.FileHelper;
+import Ninja.coder.Ghostemane.code.folderBuilder.FileIconHelper;
 import Ninja.coder.Ghostemane.code.interfaces.FileCallBack;
 import Ninja.coder.Ghostemane.code.marco.BindViewListMarger;
+import Ninja.coder.Ghostemane.code.marco.FileCounter;
 import Ninja.coder.Ghostemane.code.marco.binder.BinderRecyclerview1;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -27,6 +32,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.color.MaterialColors;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -93,33 +99,37 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
     setSettingTextView(viewHolder.folderName);
     var myfile = new File(filteredFiles.get(pos).get("path").toString());
     viewHolder.folderName.setText(myfile.getName());
-    BinderRecyclerview1.bindz(
-        filteredFiles, pos, viewHolder.tvTools, viewHolder.icon, viewHolder.folderName);
+    FileIconHelper fileIconHelper = new FileIconHelper(myfile.toString());
+    viewHolder.icon.setImageResource(fileIconHelper.getFileIcon());
+    fileIconHelper.setDynamicFolderEnabled(true);
+    fileIconHelper.setEnvironmentEnabled(true);
     if (FileUtil.isDirectory(filteredFiles.get(pos).get("path").toString())) {
       Folder = true;
       Files = false;
       viewHolder.icon.setPadding(9, 9, 9, 9);
+      fileIconHelper.bindIcon(viewHolder.icon);
       ColorAndroid12.shapeViews(viewHolder.icon);
-      File file = new File(filteredFiles.get(pos).get("path").toString());
-      if (view != null) {
-        if (file.isDirectory()) view.setAlpha(file.isHidden() ? 0.5f : 1f);
-        else view.setAlpha(1);
-      }
-      ColorAndroid12.setColorFilter(viewHolder.icon);
-
+      FileCounter mfileC = new FileCounter(viewHolder.tvTools);
+      mfileC.execute(myfile.toString());
+      
+      viewHolder.tvTools.setText("");
     } else if (FileUtil.isExistFile(filteredFiles.get(pos).get("path").toString())) {
-      BindViewListMarger.runfromFile(viewHolder.folderName);
       viewHolder.icon.setPadding(0, 0, 0, 0);
-      BinderRecyclerview1.off(viewHolder.icon);
-      Files = true;
-      Folder = false;
+      getTime(myfile.toString(), viewHolder.tvTools);
+      viewHolder.icon.setBackgroundColor(0);
+      if (BinderRecyclerview1.TaskVideo(myfile.toString())) {
+        GlideCompat.GlideNormal(viewHolder.icon, myfile.toString());
+      } else if (BinderRecyclerview1.PhotoView(myfile.toString())) {
+        GlideCompat.GlideNormal(viewHolder.icon, myfile.toString());
+      }
+      if (myfile.toString().endsWith(".xml")) {
+        GlideCompat.LoadVector(myfile.toString(), viewHolder.icon);
+      } else if (myfile.toString().endsWith(".mp3")) {
+        GlideCompat.GlideLoadMp3(viewHolder.icon, myfile.toString());
+      }
     }
 
     viewHolder.itemView.setClickable(true);
-    //    viewHolder.folderName.setTextColor(
-    //        MaterialColors.getColor(viewHolder.folderName, ColorAndroid12.colorOnSurface));
-    //    viewHolder.tvTools.setTextColor(
-    //        MaterialColors.getColor(viewHolder.tvTools, ColorAndroid12.colorOnSurface));
   }
 
   public class VH extends RecyclerView.ViewHolder {
@@ -204,5 +214,26 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
       this.filteredFiles = this.files;
       notifyDataSetChanged();
     }
+  }
+
+  private void getTime(String path, TextView view) {
+    try {
+
+      if (view != null) {
+        view.setText(
+            MFileClass.convertBytes(FileUtil.getFileLength(path))
+                .concat(", ".concat(MFileClass.getLastModifiedOfFile(path, "HH:mm,dd/MM/yyyy"))));
+      }
+    } catch (Exception err) {
+      err.printStackTrace();
+    }
+  }
+
+  public String getMp3Format(String txt) {
+    List<String> list = Arrays.asList(FileHelper.AUDIO_FILES);
+    for (var item : list) {
+      	return item + txt;
+    }
+    return txt;
   }
 }

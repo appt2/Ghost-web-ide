@@ -19,6 +19,9 @@ import java.util.List;
 import android.graphics.Shader;
 import android.graphics.LinearGradient;
 
+
+@Deprecated
+
 public class BindViewListMarger {
   // code by ninja coder
   
