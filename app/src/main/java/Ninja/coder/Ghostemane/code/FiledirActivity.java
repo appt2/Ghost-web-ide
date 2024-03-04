@@ -71,6 +71,8 @@ import com.github.angads25.filepicker.*;
 import com.github.junrar.*;
 import com.google.android.material.*;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hzy.lib7z.*;
@@ -558,6 +560,46 @@ public class FiledirActivity extends BaseCompat
     navs.getMenu().add(0, 14, 0, "Book mark (Beta)").setIcon(R.drawable.ic_bookmark_white);
     navs.getMenu().add(0, 15, 0, "exit").setIcon(R.drawable.exit);
     _DrowerHandler();
+  }
+  
+  public void filterFile() {
+    var view = LayoutInflater.from(this).inflate(R.layout.reminderlist, null, false);
+    var dialog = new MaterialAlertDialogBuilder(this);
+    dialog.setTitle("Filter List");
+    dialog.setPositiveButton("close",null);
+    dialog.setView(view);
+    if (dialog != null) {
+      dialog.show();
+    }
+
+    TextInputEditText et = view.findViewById(R.id.ed_filter);
+    TextInputLayout  layout = view.findViewById(R.id.input);
+    layout.setEndIconVisible(false);
+    layout.setEndIconMinSize(10);
+    layout.setEndIconScaleType(ImageView.ScaleType.CENTER_INSIDE);
+    layout.setEndIconDrawable(R.drawable.deletear);
+    layout.setEndIconOnClickListener(v -> et.getText().clear());
+
+    et.addTextChangedListener(
+        new TextWatcher() {
+
+          @Override
+          public void onTextChanged(CharSequence ser, int arg1, int arg2, int arg3) {
+
+
+            ThreadUtils.runOnUiThread(
+                () -> {
+                  fileListItem.search(ser.toString());
+                  recyclerview2.setAdapter(fileListItem);
+                });
+          }
+
+          @Override
+          public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+
+          @Override
+          public void afterTextChanged(Editable arg0) {}
+        });
   }
 
   public void BackPressed() {
@@ -2808,10 +2850,7 @@ public class FiledirActivity extends BaseCompat
               }
             case 4:
               {
-                var searchFile =
-                    new SearchFileData(FiledirActivity.this, () -> {}, files, recyclerview2);
-
-                searchFile.filterFile();
+                filterFile();
                 break;
               }
             case 5:

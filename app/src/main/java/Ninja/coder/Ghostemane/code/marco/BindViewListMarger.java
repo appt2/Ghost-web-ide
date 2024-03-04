@@ -53,8 +53,12 @@ public class BindViewListMarger {
     } else if (doctor.matches("\\bAndroidIDEProjects\\b")) {
       tv.setTextColor(Color.parseColor("#ff7090"));
       // Start new langs
-    } else if(hp.git().isGitDirectory()) {
+    } else if(hp.isGradleJDirectory()) {
       tv.setTextColor(Color.parseColor("#ff4240"));
+    }else if(hp.isCssDirectory()) {
+    	tv.setTextColor(Color.parseColor("#ff9011"));
+    }else if(hp.isFileHasKeyName(tv.getText().toString(),"ghost",false,true)) {
+    	tv.setText(Color.parseColor("#ff120000"));
     }else{
       
       img.setImageResource(R.drawable.folder);

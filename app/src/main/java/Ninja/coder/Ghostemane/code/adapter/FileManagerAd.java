@@ -35,6 +35,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
   private List<HashMap<String, Object>> files = new ArrayList<>();
   protected Context context;
   protected onClick click;
+  protected List<HashMap<String, Object>> filteredFiles;
   protected HashMap<String, Object> name = new HashMap<>();
   public static boolean Files = false;
   public static boolean Folder = false;
@@ -42,6 +43,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
   public FileManagerAd(List<HashMap<String, Object>> files, Context context, onClick click) {
     this.context = context;
     this.files = files;
+    this.filteredFiles = files;
     this.click = click;
     registerAdapterDataObserver(
         new RecyclerView.AdapterDataObserver() {
@@ -60,7 +62,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
 
   @Override
   public int getItemCount() {
-    return files.size();
+    return filteredFiles.size();
   }
 
   @Override
@@ -89,22 +91,23 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
     view.setLayoutParams(_lp);
     AnimUtils.Sacla(viewHolder.itemView);
     setSettingTextView(viewHolder.folderName);
-    viewHolder.folderName.setText(
-        Uri.parse(files.get(pos).get("path").toString()).getLastPathSegment());
+    var myfile = new File(filteredFiles.get(pos).get("path").toString());
+    viewHolder.folderName.setText(myfile.getName());
     BinderRecyclerview1.bindz(
-        files, pos, viewHolder.tvTools, viewHolder.icon, viewHolder.folderName);
-    if (FileUtil.isDirectory(files.get(pos).get("path").toString())) {
+        filteredFiles, pos, viewHolder.tvTools, viewHolder.icon, viewHolder.folderName);
+    if (FileUtil.isDirectory(filteredFiles.get(pos).get("path").toString())) {
       Folder = true;
       Files = false;
       viewHolder.icon.setPadding(9, 9, 9, 9);
       ColorAndroid12.shapeViews(viewHolder.icon);
-      File file = new File(files.get(pos).get("path").toString());
+      File file = new File(filteredFiles.get(pos).get("path").toString());
       if (view != null) {
         if (file.isDirectory()) view.setAlpha(file.isHidden() ? 0.5f : 1f);
+        else view.setAlpha(1);
       }
       ColorAndroid12.setColorFilter(viewHolder.icon);
 
-    } else if (FileUtil.isExistFile(files.get(pos).get("path").toString())) {
+    } else if (FileUtil.isExistFile(filteredFiles.get(pos).get("path").toString())) {
       BindViewListMarger.runfromFile(viewHolder.folderName);
       viewHolder.icon.setPadding(0, 0, 0, 0);
       BinderRecyclerview1.off(viewHolder.icon);
@@ -184,5 +187,22 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
             // notifyDataSetChanged();
           }
         });
+  }
+
+  public void search(String query) {
+    if (query.length() > 0) {
+      List<HashMap<String, Object>> result = new ArrayList<>();
+      for (HashMap<String, Object> file : this.files) {
+        if (file.get("path").toString().toLowerCase().contains(query.toLowerCase())) {
+          result.add(file);
+        }
+      }
+
+      this.filteredFiles = result;
+      notifyDataSetChanged();
+    } else {
+      this.filteredFiles = this.files;
+      notifyDataSetChanged();
+    }
   }
 }
