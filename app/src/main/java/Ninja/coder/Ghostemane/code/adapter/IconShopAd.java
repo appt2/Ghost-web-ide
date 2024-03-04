@@ -10,14 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class IconShopAd extends RecyclerView.Adapter<IconShopAd.VH> {
-  protected List<HashMap<String, String>> files;
+  protected List<File> files;
   protected IconShopCallBack callback;
 
-  public IconShopAd(List<HashMap<String, String>> files, IconShopCallBack callback) {
+  public IconShopAd(List<File> files, IconShopCallBack callback) {
     this.files = files;
     this.callback = callback;
   }
@@ -29,8 +31,9 @@ public class IconShopAd extends RecyclerView.Adapter<IconShopAd.VH> {
 
   @Override
   public void onBindViewHolder(VH viewholder, int pos) {
-    GlideCompat.LoadSvg(files.get(pos).get("path").toString(),viewholder.icon);
-    viewholder.nameIcon.setText(Uri.parse(files.get(pos).get("path").toString()).getLastPathSegment());
+    File mfile = files.get(pos);
+    GlideCompat.LoadSvg(mfile.getName(),viewholder.icon);
+    viewholder.nameIcon.setText(mfile.getName());
     View view = viewholder.itemView;
     viewholder.icon.setOnClickListener(v -> callback.OnItemClicket(pos,v));
     viewholder.icon.setOnLongClickListener(c ->{

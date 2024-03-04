@@ -1,20 +1,35 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/TextSummry/HtmlTool.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/model/IconShop.java",
       "selection": {
         "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 62,
+          "index": 7633,
+          "line": 201
         },
         "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 62,
+          "index": 7633,
+          "line": 201
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/IconShopAd.java",
+      "selection": {
+        "end": {
+          "column": 23,
+          "index": 737,
+          "line": 22
+        },
+        "start": {
+          "column": 23,
+          "index": 737,
+          "line": 22
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/TextSummry/HtmlTool.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/model/IconShop.java"
 }

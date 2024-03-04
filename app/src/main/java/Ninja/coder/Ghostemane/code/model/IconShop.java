@@ -3,6 +3,7 @@ package Ninja.coder.Ghostemane.code.model;
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.FileUtil;
 import Ninja.coder.Ghostemane.code.adapter.IconShopAd;
+import Ninja.coder.Ghostemane.code.comprasor.SvgToPng;
 import Ninja.coder.Ghostemane.code.vb;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,20 +21,27 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.color.MaterialColors;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class IconShop implements IconShopAd.IconShopCallBack {
+public class IconShop implements IconShopAd.IconShopCallBack, SvgToPng.OnConversionListener {
   protected Context context;
-  List<HashMap<String, String>> file = new ArrayList<>();
-  List<String> listdir = new ArrayList<>();
   protected String path = "/storage/emulated/0/GhostWebIDE/.icon";
   protected RecyclerView re;
   protected IconShopAd ads;
   private GridLayoutManager mGridLayoutManager1, mGridLayoutManager2, mGridLayoutManager3;
   private ScaleGestureDetector mScaleGestureDetector;
   private RecyclerView.LayoutManager mCurrentLayoutManager;
+  private String SVG_PATH_SU = "/storage/emulated/0/ghostweb/icon/svg";
+  protected File[] hsi;
+  protected File currentFolder;
 
   public IconShop(Context context) {
     this.context = context;
@@ -81,8 +90,11 @@ public class IconShop implements IconShopAd.IconShopCallBack {
             return super.animateChange(oldHolder, newHolder, fromX, fromY, toX, toY);
           }
         });
+        currentFolder = new File(path);
+       hsi  = currentFolder.listFiles();
+    
     var sheet = new BottomSheetDialog(context);
-    ads = new IconShopAd(file, this);
+    ads = new IconShopAd(Arrays.asList(hsi), this);
     if (ads != null) {
       re.setAdapter(ads);
     }
@@ -140,18 +152,6 @@ public class IconShop implements IconShopAd.IconShopCallBack {
   }
 
   private void listFile() {
-    file.clear();
-    listdir.clear();
-    FileUtil.listDir(path, listdir);
-    var p = 0;
-    for (int i = 0; i < listdir.size(); ++i) {
-      {
-        HashMap<String, String> mapz = new HashMap<>();
-        mapz.put("path", listdir.get(i));
-        file.add(mapz);
-      }
-      p++;
-    }
   }
 
   @Override
@@ -181,20 +181,43 @@ public class IconShop implements IconShopAd.IconShopCallBack {
             case 0 -> {
               var output = "/sdcard/ghostweb/icon/vector/";
               FileUtil.makeDir(output);
-              vb.iconPath = file.get(itempos).get("path").toString();
+              vb.iconPath = currentFolder.getName();
               vb.projectResourceDirectory = output;
               vb.v((Activity) context, () -> {});
               break;
             }
             case 1 -> {
+              try {
+                Path mpath = Paths.get(currentFolder.getName());
+                Path last = Paths.get(SVG_PATH_SU);
+                Files.copy(mpath, last);
+                Toast.makeText(context,mpath.toString(),2).show();
+                Toast.makeText(context,last.toString(),2).show();
+              } catch (IOException E) {
+                E.printStackTrace();
+              }
               break;
             }
             case 2 -> {
+              File filePath = new File(currentFolder.getName());
+              File output = new File(SVG_PATH_SU);
+              SvgToPng svgtoPng = new SvgToPng(context, filePath, output, this);
+              svgtoPng.execute();
               break;
             }
           }
         });
     menu.showAsAnchorRightBottom(view);
+  }
+
+  @Override
+  public void onConversionSuccess() {
+    // TODO: Implement this method
+  }
+
+  @Override
+  public void onConversionError(String error) {
+    // TODO: Implement this method
   }
 
   public class AnimatedGridLayoutManager extends GridLayoutManager {
