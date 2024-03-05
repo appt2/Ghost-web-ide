@@ -2688,6 +2688,8 @@ public class FiledirActivity extends BaseCompat
               }
             case ((int) 7):
               {
+                 var log = new Ninja.coder.Ghostemane.code.GitFamily.GitLog(FiledirActivity.this);
+                  log.test();
 //                getabout.setClass(getApplicationContext(), LeranActivity.class);
 //                startActivity(getabout);
                 break;

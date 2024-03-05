@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/GitFamily/GitLog.java",
+      "selection": {
+        "end": {
+          "column": 30,
+          "index": 1145,
+          "line": 34
+        },
+        "start": {
+          "column": 30,
+          "index": 1145,
+          "line": 34
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "selection": {
+        "end": {
+          "column": 91,
+          "index": 102956,
+          "line": 2690
+        },
+        "start": {
+          "column": 91,
+          "index": 102956,
+          "line": 2690
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/GitFamily/GitLog.java"
+}
