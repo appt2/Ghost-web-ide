@@ -1,24 +1,15 @@
 package Ninja.coder.Ghostemane.code.GitFamily;
 
-import Ninja.coder.Ghostemane.code.FileUtil;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.graphics.Color;
-import Ninja.coder.Ghostemane.code.SketchwareUtil;
 import android.text.style.BackgroundColorSpan;
-import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
-import java.util.ArrayList;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.revwalk.RevCommit;
-import java.util.List;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.Repository;
 
 public class GitLog {
   public Context context;
@@ -40,34 +31,19 @@ public class GitLog {
         .setView(view)
         .setPositiveButton("ok", null)
         .show();
-    read(view, "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/.git");
-  }
-
-  public void read(TextView view, String gitlog) {
+    
     try {
-      Git git = Git.open(new File(gitlog));
-      Repository repository = git.getRepository();
-
-      try (RevWalk walk = new RevWalk(repository)) {
-        RevCommit commit = walk.parseCommit(repository.resolve("HEAD"));
-        List<RevCommit> logs = new ArrayList<>();
-        RevCommit parent = commit.getParent(0);
-        while (parent != null) {
-          logs.add(0, parent);
-          parent = parent.getParent(0);
-        }
-        for (RevCommit log : logs) {
-          System.out.println(log.getFullMessage());
-          DiffyViewer(view, log.getFullMessage());
-        }
-      } catch (Exception err) {
-        err.printStackTrace();
-      }
-
-    } catch (Exception e) {
-      e.printStackTrace();
+      File file = new File("/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/.git/");
+      GitUtils mygit = new GitUtils(file);
+      mygit.init(file);
+      DiffyViewer(view,mygit.getStatusAsString());
+    } catch(Exception err) {
+    	view.setText(err.getLocalizedMessage());
     }
+    
   }
+
+  
 
   protected void DiffyViewer(TextView tv, String output) {
     String[] lines;
@@ -83,8 +59,8 @@ public class GitLog {
         int n = output.indexOf(lines[i]);
         x = n + 1;
         try {
-          spannable1.setSpan(CharacterStyle.wrap(fgSpan), n, n + lines[i].length(), 0);
-          spannable1.setSpan(CharacterStyle.wrap(bgSpan), n, n + lines[i].length(), 0);
+          spannable1.setSpan(fgSpan, n, n + lines[i].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+          spannable1.setSpan(bgSpan, n, n + lines[i].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -92,8 +68,8 @@ public class GitLog {
         int n = output.indexOf(lines[i]);
         x = n + 1;
         try {
-          spannable1.setSpan(CharacterStyle.wrap(fgSpan), n, n + lines[i].length(), 0);
-          spannable1.setSpan(CharacterStyle.wrap(RbgSpan), n, n + lines[i].length(), 0);
+          spannable1.setSpan(fgSpan, n, n + lines[i].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+          spannable1.setSpan(bgSpan, n, n + lines[i].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         } catch (Exception e) {
           e.printStackTrace();
         }
