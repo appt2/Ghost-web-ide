@@ -200,13 +200,6 @@
             
         />
         <activity
-            android:name=".LeranActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            
-        />
-        <activity
             android:name=".LeranpdfActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"

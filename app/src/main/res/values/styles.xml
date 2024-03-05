@@ -58,10 +58,11 @@
     </style>
     <style
         name="AppTheme"
-        parent="Theme.Material3.Light.NoActionBar"
+        parent="Theme.Material3.Dark.NoActionBar"
         
     >
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
         <item name="popupMenuBackground">@drawable/menucustom</item>
         <item name="textAppearanceLargePopupMenu">@style/TextAppearance.App.BodyLarge</item>
         <item name="textAppearanceSmallPopupMenu">@style/TextAppearance.App.BodyLarge</item>
@@ -111,7 +112,6 @@
         <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
 
     </style>
     <style

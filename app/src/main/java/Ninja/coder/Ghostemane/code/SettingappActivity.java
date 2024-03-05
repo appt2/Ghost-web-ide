@@ -485,9 +485,11 @@ public class SettingappActivity extends BaseCompat {
               arrow04.animate().rotation((float) 0).setDuration((int) 300);
             } else {
               mbool02 = false;
+              
               arrow04.animate().rotation((float) -180).setDuration((int) 300);
             }
             ViewUtils.installLazy(keyboard);
+            
           }
         });
 

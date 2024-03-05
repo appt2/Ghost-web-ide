@@ -2688,8 +2688,8 @@ public class FiledirActivity extends BaseCompat
               }
             case ((int) 7):
               {
-                getabout.setClass(getApplicationContext(), LeranActivity.class);
-                startActivity(getabout);
+//                getabout.setClass(getApplicationContext(), LeranActivity.class);
+//                startActivity(getabout);
                 break;
               }
             case ((int) 8):
