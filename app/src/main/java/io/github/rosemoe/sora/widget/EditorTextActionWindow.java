@@ -23,69 +23,38 @@
  */
 package io.github.rosemoe.sora.widget;
 
+import Ninja.coder.Ghostemane.code.IDEEDITOR;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.*;
-import Ninja.coder.Ghostemane.code.marco.SmaliHelper;
-import android.animation.ObjectAnimator;
+import Ninja.coder.Ghostemane.code.adapter.TextActionAd;
+import Ninja.coder.Ghostemane.code.marco.EditorSearcherT;
+import Ninja.coder.Ghostemane.code.model.TextActionModel;
 import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.*;
 import android.content.*;
 import android.content.res.*;
-import android.graphics.drawable.GradientDrawable;
-import android.text.Editable;
-import android.util.Log;
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.os.*;
 import android.widget.*;
-import androidx.appcompat.widget.TooltipCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.color.MaterialColors;
-import android.animation.LayoutTransition;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import android.view.inputmethod.InputMethodManager;
-import com.blankj.utilcode.util.ClipboardUtils;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textview.MaterialTextView;
 import io.github.rosemoe.sora.event.EventReceiver;
 import io.github.rosemoe.sora.event.HandleStateChangeEvent;
 import io.github.rosemoe.sora.event.ScrollEvent;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.event.Unsubscribe;
-import io.github.rosemoe.sora.langs.dart.DartLang;
-import io.github.rosemoe.sora.langs.antlrlang.ANTLRV4Lang;
-import io.github.rosemoe.sora.langs.cpp.CppLanguage;
-import io.github.rosemoe.sora.langs.css3.CSS3Language;
-import io.github.rosemoe.sora.langs.javascript.JavaScriptLanguage;
-import io.github.rosemoe.sora.langs.html.HTMLLanguage;
-import io.github.rosemoe.sora.langs.java.JavaLanguage;
-import io.github.rosemoe.sora.langs.kotlin.KotlinLanguage;
-import io.github.rosemoe.sora.langs.ninjalang.NinjaLang;
-import io.github.rosemoe.sora.langs.php.PHPLanguage;
-import io.github.rosemoe.sora.langs.python.PythonLang;
-import io.github.rosemoe.sora.langs.python.PythonLanguage;
-import io.github.rosemoe.sora.langs.smali.SMLang;
 import io.github.rosemoe.sora.text.Cursor;
-import io.github.rosemoe.sora.util.IntPair;
-import io.github.rosemoe.sora.widget.*;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
-import io.github.rosemoe.sora.widget.AndroidClassHelper.ClassExtractUtil;
-import io.github.rosemoe.sora.widget.TextSummry.HtmlTool;
-import io.github.rosemoe.sora.widget.TextSummry.JavaTools;
-import io.github.rosemoe.sora.widget.TextSummry.KotlinTools;
-import io.github.rosemoe.sora.widget.TextSummry.OtherLangs;
-import io.github.rosemoe.sora.widget.TextSummry.ToolItem;
 import java.util.ArrayList;
 import io.github.rosemoe.sora.widget.AndroidClassHelper.helper;
-import java.util.Locale;
-import io.github.rosemoe.sora.widget.TextSummry.PythonTools;
+import java.util.List;
 
 /**
  * This will show when selecting text
@@ -93,18 +62,19 @@ import io.github.rosemoe.sora.widget.TextSummry.PythonTools;
  * @author Rosemoe
  */
 public class EditorTextActionWindow extends EditorPopupWindow
-    implements View.OnClickListener, EventReceiver<SelectionChangeEvent> {
+    implements EventReceiver<SelectionChangeEvent> {
   private final CodeEditor mEditor;
-  private final ImageButton mPasteBtn, comments;
-  private final ImageButton mCopyBtn;
-  private final ImageButton mCutBtn;
-  private final ImageButton low, up;
+
   private final View mRootView;
   private final EditorTouchEventHandler mHandler;
   private static final long DELAY = 200;
   private long mLastScroll;
   private int mLastPosition;
+  private ListView rv;
   private helper helpers;
+  protected List<TextActionModel> model = new ArrayList<>();
+  protected TextActionAd adptor;
+
   private boolean isShow = true;
 
   /**
@@ -119,77 +89,100 @@ public class EditorTextActionWindow extends EditorPopupWindow
     // Since popup window does provide decor view, we have to pass null to this method
     @SuppressLint("InflateParams")
     View root =
-        LayoutInflater.from(editor.getContext()).inflate(R.layout.text_compose_panel1, null);
-    ImageButton selectAll = root.findViewById(R.id.panel_btn_select_all);
-    ImageButton cut = root.findViewById(R.id.panel_btn_cut);
-    ImageButton copy = root.findViewById(R.id.panel_btn_copy);
-    mPasteBtn = root.findViewById(R.id.panel_btn_paste);
-    ImageButton del = root.findViewById(R.id.panel_btn_del);
-    ImageButton trans = root.findViewById(R.id.trans);
-    LinearLayout cardview1 = root.findViewById(R.id.cardview1);
-    ImageButton codeStyle = root.findViewById(R.id.codeStyle);
-    up = root.findViewById(R.id.up);
-    low = root.findViewById(R.id.low);
-    comments = root.findViewById(R.id.comments);
-    mCopyBtn = copy;
-    mCutBtn = cut;
-    selectAll.setOnClickListener(this);
-    cut.setOnClickListener(this);
-    copy.setOnClickListener(this);
-    mPasteBtn.setOnClickListener(this);
-    del.setOnClickListener(this);
-    trans.setOnClickListener(this);
-    codeStyle.setOnClickListener(this);
-    low.setOnClickListener(this);
-    up.setOnClickListener(this);
-    comments.setOnClickListener(
-        v -> {
-          if (editor.getEditorLanguage() instanceof NinjaLang) {
-            ToolItem item = new ToolItem();
-            item.BindViewsNinja(v.getContext(), v, editor);
-          } else if (editor.getEditorLanguage() instanceof HTMLLanguage) {
-            HtmlTool tool = new HtmlTool();
-            tool.Tool(v.getContext(), v, editor);
-          } else if (editor.getEditorLanguage() instanceof JavaLanguage) {
-            JavaTools toolss = new JavaTools();
-            var l = "java";
-            toolss.runs(v.getContext(), v, editor, l);
-          } else if (editor.getEditorLanguage() instanceof PythonLang) {
-            PythonTools toolpy = new PythonTools();
-            toolpy.Tool(v.getContext(), v, editor);
-          } else if (editor.getEditorLanguage() instanceof JavaScriptLanguage) {
-            JavaTools toolss = new JavaTools();
-            var l = "js";
-            toolss.runs(v.getContext(), v, editor, l);
-          } else if (editor.getEditorLanguage() instanceof CSS3Language) {
-            OtherLangs toolss = new OtherLangs();
-            toolss.run(v.getContext(), editor, v);
-          } else if (editor.getEditorLanguage() instanceof DartLang) {
-            OtherLangs toolss = new OtherLangs();
-            toolss.run(v.getContext(), editor, v);
-          } else if(editor.getEditorLanguage() instanceof KotlinLanguage) {
-              KotlinTools tools = new KotlinTools();
-             tools.run(v.getContext(),editor,v);
-          }else if(editor.getEditorLanguage() instanceof SMLang){
-            SmaliHelper.run(editor,v.getContext());
-          }
-        });
-    AnimUtils.Worker(comments);
-    AnimUtils.Worker(cut);
-    AnimUtils.Worker(trans);
-    AnimUtils.Worker(copy);
-    AnimUtils.Amin01(root);
-    AnimUtils.Worker(selectAll);
-    AnimUtils.Worker(mPasteBtn);
+        LayoutInflater.from(editor.getContext()).inflate(R.layout.text_compose_popup_window, null);
+    rv = root.findViewById(R.id.rvEditor);
+    model.add(new TextActionModel("Format Code", R.drawable.codeformat));
+    model.add(new TextActionModel("SetAll", R.drawable.dkplayer_ic_action_fullscreen));
+    model.add(new TextActionModel("copy", R.mipmap.mpcopy));
+    model.add(new TextActionModel("cut", R.mipmap.mpcut));
+    model.add(new TextActionModel("past", R.mipmap.mppaste));
+    model.add(new TextActionModel("search", R.drawable.textsearch));
+    model.add(new TextActionModel("delete", R.drawable.delete));
+    model.add(new TextActionModel("tools", R.drawable.textfile));
+
+    adptor =
+        new TextActionAd(
+            model,
+            new TextActionAd.OnItemClick() {
+
+              @Override
+              public void onItemClickChange(int posNow, View myview, ImageView img) {
+                switch (posNow) {
+                  case 0:
+                    {
+                      editor.formatCodeAsync();
+                      dismiss();
+                      break;
+                    }
+                  case 1:
+                    {
+                      editor.selectAll();
+                      show();
+                      break;
+                    }
+                  case 2:
+                    {
+                      editor.copyText();
+                      img.setEnabled(editor.hasClip() && editor.isEditable());
+                      dismiss();
+                      break;
+                    }
+                  case 3:
+                    editor.cutText();
+                    dismiss();
+                    break;
+                  case 4:
+                    editor.pasteText();
+                    dismiss();
+                    break;
+                  case 5:
+                    EditorSearcherT.show((IDEEDITOR) editor, editor,editor.getSelectedText());
+                    dismiss();
+                    break;
+                  case 6:
+                    RomvedText();
+                    dismiss();
+                    break;
+                }
+              }
+            });
+    rv.setAdapter(adptor);
+    rv.setClickable(true);
+
+    //    comments.setOnClickListener(
+    //        v -> {
+    //          if (editor.getEditorLanguage() instanceof NinjaLang) {
+    //            ToolItem item = new ToolItem();
+    //            item.BindViewsNinja(v.getContext(), v, editor);
+    //          } else if (editor.getEditorLanguage() instanceof HTMLLanguage) {
+    //            HtmlTool tool = new HtmlTool();
+    //            tool.Tool(v.getContext(), v, editor);
+    //          } else if (editor.getEditorLanguage() instanceof JavaLanguage) {
+    //            JavaTools toolss = new JavaTools();
+    //            var l = "java";
+    //            toolss.runs(v.getContext(), v, editor, l);
+    //          } else if (editor.getEditorLanguage() instanceof PythonLang) {
+    //            PythonTools toolpy = new PythonTools();
+    //            toolpy.Tool(v.getContext(), v, editor);
+    //          } else if (editor.getEditorLanguage() instanceof JavaScriptLanguage) {
+    //            JavaTools toolss = new JavaTools();
+    //            var l = "js";
+    //            toolss.runs(v.getContext(), v, editor, l);
+    //          } else if (editor.getEditorLanguage() instanceof CSS3Language) {
+    //            OtherLangs toolss = new OtherLangs();
+    //            toolss.run(v.getContext(), editor, v);
+    //          } else if (editor.getEditorLanguage() instanceof DartLang) {
+    //            OtherLangs toolss = new OtherLangs();
+    //            toolss.run(v.getContext(), editor, v);
+    //          } else if(editor.getEditorLanguage() instanceof KotlinLanguage) {
+    //              KotlinTools tools = new KotlinTools();
+    //             tools.run(v.getContext(),editor,v);
+    //          }else if(editor.getEditorLanguage() instanceof SMLang){
+    //            SmaliHelper.run(editor,v.getContext());
+    //          }
+    //        });
+    //
     helpers = new helper(editor);
-    TooltipCompat.setTooltipText(cut, "Cut Text");
-    TooltipCompat.setTooltipText(copy, "Copy Text");
-    TooltipCompat.setTooltipText(del, "Removed Text");
-    TooltipCompat.setTooltipText(mPasteBtn, "Past Text");
-    TooltipCompat.setTooltipText(low, "LowerCase Text");
-    TooltipCompat.setTooltipText(up, "UpperCase Text");
-    TooltipCompat.setTooltipText(selectAll, "SelectAll Text");
-    TooltipCompat.setTooltipText(comments, "Text Helper");
 
     MaterialShapeDrawable materialShapeDrawable =
         new MaterialShapeDrawable(
@@ -204,7 +197,7 @@ public class EditorTextActionWindow extends EditorPopupWindow
     // cardview1.setBackground(materialShapeDrawable);
     setContentView(root);
     getPopup().setAnimationStyle(R.style.hso);
-    setSize(0, (int) (mEditor.getDpUnit() * 50));
+    setSize(0, (int) (mEditor.getDpUnit() * 190));
     mRootView = root;
     getPopup().setBackgroundDrawable(post());
     editor.subscribeEvent(SelectionChangeEvent.class, this);
@@ -303,10 +296,10 @@ public class EditorTextActionWindow extends EditorPopupWindow
 
   /** Update the state of paste button */
   private void updateBtnState() {
-    mPasteBtn.setEnabled(mEditor.hasClip() && mEditor.isEditable());
-    mCopyBtn.setVisibility(mEditor.getCursor().isSelected() ? View.VISIBLE : View.GONE);
-    mCutBtn.setVisibility(
-        mEditor.getCursor().isSelected() && mEditor.isEditable() ? View.VISIBLE : View.GONE);
+    //    mPasteBtn.setEnabled(mEditor.hasClip() && mEditor.isEditable());
+    //    mCopyBtn.setVisibility(mEditor.getCursor().isSelected() ? View.VISIBLE : View.GONE);
+    //    mCutBtn.setVisibility(
+    //        mEditor.getCursor().isSelected() && mEditor.isEditable() ? View.VISIBLE : View.GONE);
     mRootView.measure(
         View.MeasureSpec.makeMeasureSpec(1000000, View.MeasureSpec.AT_MOST),
         View.MeasureSpec.makeMeasureSpec(100000, View.MeasureSpec.AT_MOST));
@@ -319,63 +312,63 @@ public class EditorTextActionWindow extends EditorPopupWindow
     super.show();
   }
 
-  @Override
-  public void onClick(View p1) {
-    int id = p1.getId();
-    if (id == R.id.panel_btn_select_all) {
-      mEditor.selectAll();
-      KeyBoardUtil();
-      AnimUtils.Shake(mEditor);
-      return;
-    } else if (id == R.id.panel_btn_cut) {
-      mEditor.copyText();
-      if (mEditor.getCursor().isSelected()) {
-        mEditor.getCursor().onDeleteKeyPressed();
-        Toast.makeText(mEditor.getContext(), "Text Cut", Toast.LENGTH_LONG).show();
-      }
-      AnimUtils.Shake(mEditor);
-    } else if (id == R.id.panel_btn_paste) {
-      mEditor.pasteText();
-      AnimUtils.Shake(mEditor);
-      mEditor.setSelection(
-          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-      Toast.makeText(mEditor.getContext(), "Text Pasted", Toast.LENGTH_LONG).show();
-    } else if (id == R.id.panel_btn_copy) {
-      mEditor.copyText();
-      mEditor.setSelection(
-          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-      Toast.makeText(mEditor.getContext(), "Text Copyed", Toast.LENGTH_LONG).show();
-      AnimUtils.Shake(mEditor);
-    } else if (id == R.id.panel_btn_del) {
-      RomvedText();
-      Toast.makeText(mEditor.getContext(), "Text Removed", Toast.LENGTH_LONG).show();
-      mEditor.setSelection(
-          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-    } else if (id == R.id.trans) {
-      if (mEditor.getCursor().isSelected()) {
-        mEditor.copyText();
-        runOnPost();
-        mEditor.setSelection(
-            mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-        AnimUtils.Shake(mEditor);
-      }
-    } else if (id == R.id.codeStyle) {
-      mEditor.formatCodeAsync();
-    } else if (id == R.id.up) {
-      try {
-        setUpperCase();
-      } catch (Exception err) {
-        Log.i("error", err.getMessage());
-      }
-    } else if (id == R.id.low) {
-      try {
-        setLowerCase();
-      } catch (Exception err) {
-        Log.i("error", err.getMessage());
-      }
-    }
-    dismiss();
-  }
+  //  @Override
+  //  public void onClick(View p1) {
+  //    int id = p1.getId();
+  //    if (id == R.id.panel_btn_select_all) {
+  //      mEditor.selectAll();
+  //      KeyBoardUtil();
+  //      AnimUtils.Shake(mEditor);
+  //      return;
+  //    } else if (id == R.id.panel_btn_cut) {
+  //      mEditor.copyText();
+  //      if (mEditor.getCursor().isSelected()) {
+  //        mEditor.getCursor().onDeleteKeyPressed();
+  //        Toast.makeText(mEditor.getContext(), "Text Cut", Toast.LENGTH_LONG).show();
+  //      }
+  //      AnimUtils.Shake(mEditor);
+  //    } else if (id == R.id.panel_btn_paste) {
+  //      mEditor.pasteText();
+  //      AnimUtils.Shake(mEditor);
+  //      mEditor.setSelection(
+  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+  //      Toast.makeText(mEditor.getContext(), "Text Pasted", Toast.LENGTH_LONG).show();
+  //    } else if (id == R.id.panel_btn_copy) {
+  //      mEditor.copyText();
+  //      mEditor.setSelection(
+  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+  //      Toast.makeText(mEditor.getContext(), "Text Copyed", Toast.LENGTH_LONG).show();
+  //      AnimUtils.Shake(mEditor);
+  //    } else if (id == R.id.panel_btn_del) {
+  //      RomvedText();
+  //      Toast.makeText(mEditor.getContext(), "Text Removed", Toast.LENGTH_LONG).show();
+  //      mEditor.setSelection(
+  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+  //    } else if (id == R.id.trans) {
+  //      if (mEditor.getCursor().isSelected()) {
+  //        mEditor.copyText();
+  //        runOnPost();
+  //        mEditor.setSelection(
+  //            mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+  //        AnimUtils.Shake(mEditor);
+  //      }
+  //    } else if (id == R.id.codeStyle) {
+  //      mEditor.formatCodeAsync();
+  //    } else if (id == R.id.up) {
+  //      try {
+  //        setUpperCase();
+  //      } catch (Exception err) {
+  //        Log.i("error", err.getMessage());
+  //      }
+  //    } else if (id == R.id.low) {
+  //      try {
+  //        setLowerCase();
+  //      } catch (Exception err) {
+  //        Log.i("error", err.getMessage());
+  //      }
+  //    }
+  //    dismiss();
+  //  }
 
   private void KeyBoardUtil() {
     try {

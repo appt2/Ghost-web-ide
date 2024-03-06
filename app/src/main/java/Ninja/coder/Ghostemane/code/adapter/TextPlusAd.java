@@ -1,7 +1,6 @@
 package Ninja.coder.Ghostemane.code.adapter;
 
 import Ninja.coder.Ghostemane.code.R;
-import Ninja.coder.Ghostemane.code.adapter.TextPlusAd;
 import Ninja.coder.Ghostemane.code.model.TextPlus;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,187 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
-	<LinearLayout
-		android:id="@+id/liner1"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:background="#1F1B1C"
-		android:orientation="vertical">
-		<LinearLayout
-			android:id="@+id/actionPost"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:gravity="center_vertical"
-			android:orientation="horizontal">
-			<TextView
-				android:id="@+id/textview6"
-				android:focusable="false"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:padding="8dp"
-				android:text="TextAciton"
-				android:textSize="14sp"
-				android:textColor="#FAFAFA"
-				android:fontFamily="@font/ghostfont" />
-			<ImageView
-				android:id="@+id/imagePanelShow"
-				android:focusable="false"
-				android:layout_width="30dp"
-				android:layout_height="30dp"
-				android:padding="2dp"
-				android:src="@drawable/finalarrowleft"
-				android:scaleType="centerInside" />
-		</LinearLayout>
-		<LinearLayout
-			android:id="@+id/panelGoneAndShow"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-			<LinearLayout
-				android:id="@+id/tcpw_material_button_select_all"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="2dp"
-				android:layout_marginRight="2dp"
-				android:padding="8dp"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
-				<ImageView
-					android:id="@+id/imgall"
-					android:focusable="false"
-					android:layout_width="30dp"
-					android:layout_height="30dp"
-					android:padding="5dp"
-					android:src="@drawable/alls"
-					android:scaleType="centerInside" />
-				<TextView
-					android:id="@+id/textview1"
-					android:focusable="false"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:text="SetallText"
-					android:textSize="14sp"
-					android:textColor="#E0E0E0"
-					android:fontFamily="@font/ghostfont" />
-			</LinearLayout>
-			<LinearLayout
-				android:id="@+id/tcpw_material_button_copy"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="2dp"
-				android:layout_marginRight="2dp"
-				android:padding="8dp"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
-				<ImageView
-					android:id="@+id/imgcopy"
-					android:focusable="false"
-					android:layout_width="30dp"
-					android:layout_height="30dp"
-					android:padding="5dp"
-					android:src="@drawable/copys"
-					android:scaleType="centerInside" />
-				<TextView
-					android:id="@+id/textview2"
-					android:focusable="false"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:text="Copy"
-					android:textSize="14sp"
-					android:textColor="#E0E0E0"
-					android:fontFamily="@font/ghostfont" />
-			</LinearLayout>
-			<LinearLayout
-				android:id="@+id/tcpw_material_button_paste"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="2dp"
-				android:layout_marginRight="2dp"
-				android:padding="8dp"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
-				<ImageView
-					android:id="@+id/imgpast"
-					android:focusable="false"
-					android:layout_width="30dp"
-					android:layout_height="30dp"
-					android:padding="5dp"
-					android:src="@drawable/pastecode"
-					android:scaleType="centerInside" />
-				<TextView
-					android:id="@+id/textview3"
-					android:focusable="false"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:text="Past"
-					android:textSize="14sp"
-					android:textColor="#E0E0E0"
-					android:fontFamily="@font/ghostfont" />
-			</LinearLayout>
-			<LinearLayout
-				android:id="@+id/tcpw_material_button_cut"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="2dp"
-				android:layout_marginRight="2dp"
-				android:padding="8dp"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
-				<ImageView
-					android:id="@+id/imgcut"
-					android:focusable="false"
-					android:layout_width="30dp"
-					android:layout_height="30dp"
-					android:padding="5dp"
-					android:src="@drawable/cuts"
-					android:scaleType="centerInside" />
-				<TextView
-					android:id="@+id/textview4"
-					android:focusable="false"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:text="Crop"
-					android:textSize="14sp"
-					android:textColor="#E0E0E0"
-					android:fontFamily="@font/ghostfont" />
-			</LinearLayout>
-			<LinearLayout
-				android:id="@+id/co"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="2dp"
-				android:layout_marginRight="2dp"
-				android:padding="8dp"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
-				<ImageView
-					android:id="@+id/imgcolor"
-					android:focusable="false"
-					android:layout_width="30dp"
-					android:layout_height="30dp"
-					android:padding="5dp"
-					android:src="@drawable/delete"
-					android:scaleType="centerInside" />
-				<TextView
-					android:id="@+id/textview5"
-					android:focusable="false"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:text="Deleted"
-					android:textSize="14sp"
-					android:textColor="#E0E0E0"
-					android:fontFamily="@font/ghostfont" />
-			</LinearLayout>
-		</LinearLayout>
-	</LinearLayout>
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="wrap_content"
+     android:orientation="vertical">
+
+    <LinearLayout
+         android:layout_height="match_parent"
+         android:layout_width="wrap_content"
+         android:orientation="vertical"
+         android:id="@+id/linear1">
+
+        <ListView
+             android:layout_height="match_parent"
+             android:layout_width="wrap_content"
+             android:padding="8dp"
+             android:layout_weight="1"
+             android:id="@+id/rvEditor">
+
+        </ListView>
+
+    </LinearLayout>
+
 </LinearLayout>

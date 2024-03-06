@@ -6,11 +6,11 @@ import Ninja.coder.Ghostemane.code.FileUtil;
 import Ninja.coder.Ghostemane.code.GlideUtilApi.GlideCompat;
 import Ninja.coder.Ghostemane.code.MFileClass;
 import Ninja.coder.Ghostemane.code.R;
+import Ninja.coder.Ghostemane.code.component.FastScrollCompat.PopupTextProvider;
 import Ninja.coder.Ghostemane.code.databin.FileMaker;
 import Ninja.coder.Ghostemane.code.folderBuilder.FileHelper;
 import Ninja.coder.Ghostemane.code.folderBuilder.FileIconHelper;
 import Ninja.coder.Ghostemane.code.interfaces.FileCallBack;
-import Ninja.coder.Ghostemane.code.marco.BindViewListMarger;
 import Ninja.coder.Ghostemane.code.marco.FileCounter;
 import Ninja.coder.Ghostemane.code.marco.binder.BinderRecyclerview1;
 import android.content.Context;
@@ -18,26 +18,27 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.RippleDrawable;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import java.io.File;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.color.MaterialColors;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 // fileListItem
-public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
+public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
+    implements PopupTextProvider {
   private List<HashMap<String, Object>> files = new ArrayList<>();
   protected Context context;
   protected onClick click;
@@ -111,7 +112,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
       ColorAndroid12.shapeViews(viewHolder.icon);
       FileCounter mfileC = new FileCounter(viewHolder.tvTools);
       mfileC.execute(myfile.toString());
-      
+
       viewHolder.tvTools.setText("");
     } else if (FileUtil.isExistFile(filteredFiles.get(pos).get("path").toString())) {
       viewHolder.icon.setPadding(0, 0, 0, 0);
@@ -130,6 +131,22 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
     }
 
     viewHolder.itemView.setClickable(true);
+  }
+  @NonNull
+  private HashMap<String ,Object> getitem(int position){
+    return filteredFiles.get(position);
+  }
+
+  @Override
+  public long getItemId(int position) {
+    return getitem(position).hashCode();
+  }
+
+  @Override
+  @NonNull
+  public CharSequence getPopupText(int position) {
+    HashMap<String ,Object> map = getitem(position);
+    return map.get("path").toString().substring(0,1).toUpperCase();
   }
 
   public class VH extends RecyclerView.ViewHolder {
@@ -189,7 +206,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
 
           @Override
           public void onError(String error) {
-            Toast.makeText(context.getApplicationContext(), error, 2).show();
+            Toast.makeText(context, error, 2).show();
           }
 
           @Override
@@ -232,7 +249,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH> {
   public String getMp3Format(String txt) {
     List<String> list = Arrays.asList(FileHelper.AUDIO_FILES);
     for (var item : list) {
-      	return item + txt;
+      return item + txt;
     }
     return txt;
   }

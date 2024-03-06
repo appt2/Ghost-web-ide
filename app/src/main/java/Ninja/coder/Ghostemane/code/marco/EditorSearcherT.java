@@ -1,7 +1,9 @@
 package Ninja.coder.Ghostemane.code.marco;
 
+import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.IDEEDITOR;
 import Ninja.coder.Ghostemane.code.R;
+import android.graphics.drawable.GradientDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -11,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class EditorSearcherT {
+  
 
-  public static void show(IDEEDITOR editor, View views) {
+  public static void show(IDEEDITOR editor, View views,String txt) {
 
     var popupView =
         LayoutInflater.from(views.getContext()).inflate(R.layout.new_layoutsearch, null, false);
@@ -26,44 +31,35 @@ public class EditorSearcherT {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true);
+    popupView.setPadding(3,3,3,3);
     popup.setContentView(popupView);
     popup.showAtLocation(views, Gravity.CENTER, 0, 0);
-    TextInputLayout input = popupView.findViewById(R.id.input_search);
-    EditText etSearch = popupView.findViewById(R.id.et_searchText);
-    ImageView next = popupView.findViewById(R.id.nextSearch);
-    ImageView last = popupView.findViewById(R.id.lastSearch);
-    ImageView replaceThis = popupView.findViewById(R.id.replacethis);
+    EditText etSearch = popupView.findViewById(R.id.search_text);
+    MaterialButton close = popupView.findViewById(R.id.close);
+    MaterialButton next = popupView.findViewById(R.id.goto_next);
+    MaterialButton last = popupView.findViewById(R.id.goto_last);
+    EditText replceEt = popupView.findViewById(R.id.replace_text);
+    MaterialButton replaceThis = popupView.findViewById(R.id.replace);
+    MaterialButton replaceAll = popupView.findViewById(R.id.replace_all);
 
     next.setOnClickListener(c -> editor.getSearcher().gotoNext());
     last.setOnClickListener(d -> editor.getSearcher().gotoLast());
+    etSearch.setText(txt);
     replaceThis.setOnClickListener(
         __ -> {
          popup.dismiss();
-          var dialog = new MaterialAlertDialogBuilder(editor.getContext());
-          var mylayout =
-              LayoutInflater.from(editor.getContext()).inflate(R.layout.makefolder, null, false);
-          EditText et = mylayout.findViewById(R.id.editor);
-          dialog.setView(mylayout);
-          dialog.setTitle("Replace Item");
-          dialog.setMessage("If a single text does not exist, you do not need to replace all");
-          dialog.setPositiveButton(
-              "Replace This",
-              (c, v) -> {
-                if (editor != null) {
-                  editor.getSearcher().replaceThis(et.getText().toString());
-                }
-              });
-          dialog.setNegativeButton(
-              "Replace All",
-              (f, v) -> {
-                if (editor != null) {
-                  editor.getSearcher().replaceAll(et.getText().toString());
-                }
-              });
-          if (dialog != null) {
-            dialog.show();
-          }
+          editor.getSearcher().replaceThis(replceEt.getText().toString());
         });
+    replaceAll.setOnClickListener( __x ->{
+      popup.dismiss();
+        editor.getSearcher().replaceAll(replceEt.getText().toString());
+        
+    });
+    close.setOnClickListener(z -> popup.dismiss());
+    GradientDrawable db = new GradientDrawable();
+    db.setColor(MaterialColors.getColor(popupView,ColorAndroid12.Back,0));
+    db.setStroke(1,MaterialColors.getColor(popupView,ColorAndroid12.colorOnSurface,0));
+    popupView.setBackground(db);
     etSearch.addTextChangedListener(
         new TextWatcher() {
 
@@ -83,5 +79,8 @@ public class EditorSearcherT {
             }
           }
         });
+  }
+  public static void show(IDEEDITOR editor, View views) {
+  	show(editor,views,"");
   }
 }
