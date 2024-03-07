@@ -10,12 +10,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import java.io.IOException;
 
 public class GitLog {
   public Context context;
+  protected GitUtils repository;
 
   public GitLog(Context context) {
     this.context = context;
+    try {
+      File file = new File("/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/.git/");
+      repository = new GitUtils(file);
+      repository.init(file);
+    } catch (Exception err) {
+
+    }
   }
 
   public void test() {
@@ -26,24 +36,21 @@ public class GitLog {
     view.setLayoutParams(param);
     view.setPadding(8, 8, 8, 8);
     new MaterialAlertDialogBuilder(context)
-        .setTitle("DiffyView")
-        .setMessage("Test")
+        .setTitle("GitHelper")
+        .setMessage("View Item Change help")
         .setView(view)
         .setPositiveButton("ok", null)
         .show();
-    
+    StringBuilder b = new StringBuilder();
     try {
-      File file = new File("/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/.git/");
-      GitUtils mygit = new GitUtils(file);
-      mygit.init(file);
-      DiffyViewer(view,mygit.getStatusAsString());
-    } catch(Exception err) {
-    	view.setText(err.getLocalizedMessage());
+      b.append("Status ").append(repository.getStatusAsString()).append("\n");
+      // b.append("BranchName ").append(repository.getCurrentBranchName()).append('\n');
+      //  b.append("Diff").append(repository.getDiff()).append("\n");
+      DiffyViewer(view, b.toString());
+    } catch (Exception err) {
+      view.setText(err.getLocalizedMessage());
     }
-    
   }
-
-  
 
   protected void DiffyViewer(TextView tv, String output) {
     String[] lines;

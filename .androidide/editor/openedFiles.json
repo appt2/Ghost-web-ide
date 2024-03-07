@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/CustomAdGhostWeb.java",
+      "selection": {
+        "end": {
+          "column": 1,
+          "index": 3100,
+          "line": 84
+        },
+        "start": {
+          "column": 1,
+          "index": 3100,
+          "line": 84
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/res/layout/one_ui.xml",
+      "selection": {
+        "end": {
+          "column": 5,
+          "index": 314,
+          "line": 7
+        },
+        "start": {
+          "column": 5,
+          "index": 314,
+          "line": 7
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/res/layout/one_ui.xml"
+}

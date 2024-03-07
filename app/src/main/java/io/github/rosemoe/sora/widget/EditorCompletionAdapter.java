@@ -68,7 +68,7 @@ public abstract class EditorCompletionAdapter extends BaseAdapter implements Ada
 	protected EditorColorScheme getColorScheme() {
 		return window.getEditor().getColorScheme();
 	}
-	
+    
 	/**
 	* Get theme color from current color scheme
 	*

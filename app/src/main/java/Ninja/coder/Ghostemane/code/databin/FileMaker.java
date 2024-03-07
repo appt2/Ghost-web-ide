@@ -1,15 +1,19 @@
 package Ninja.coder.Ghostemane.code.databin;
 
+import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.interfaces.FileCallBack;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import java.io.File;
@@ -42,13 +46,13 @@ public class FileMaker {
             posbutton.setEnabled(false);
           } else posbutton.setEnabled(true);
 
-          et.setHint(path);
+       //   et.setHint(path);
           et.addTextChangedListener(
               new TextWatcher() {
 
                 @Override
                 public void onTextChanged(CharSequence c, int arg1, int arg2, int arg3) {
-                  
+
                   if (c.toString().isEmpty()) {
                     posbutton.setEnabled(false);
                     input.setErrorEnabled(false);
@@ -63,6 +67,7 @@ public class FileMaker {
                     input.setErrorEnabled(false);
                     posbutton.setEnabled(true);
                   }
+                  codeHelper(input, c.toString());
                 }
 
                 @Override
@@ -93,6 +98,7 @@ public class FileMaker {
                   input.setErrorEnabled(false);
                   posbutton.setEnabled(true);
                   call.onDoneMakeFile("");
+                  
                   dialog.dismiss();
                 } catch (IOException err) {
                   call.onError(err.getMessage());
@@ -101,6 +107,35 @@ public class FileMaker {
         });
     if (dialog != null) {
       dialog.show();
+    }
+  }
+
+  public void codeHelper(TextInputLayout input, String name) {
+     input.setPrefixTextColor(ColorStateList.valueOf(MaterialColors.getColor(input,ColorAndroid12.colorOnSurface,0)));
+    if (name.endsWith(".html")) {
+      input.setPrefixText("html");
+    } else if (name.endsWith(".js")) {
+      input.setPrefixText("javaScript");
+    } else if (name.endsWith(".kt")) {
+      input.setPrefixText("kotlin");
+    } else if (name.endsWith(".java")) {
+      input.setPrefixText("java");
+    } else if (name.endsWith(".py")) {
+      input.setPrefixText("python");
+    } else if (name.endsWith(".rb")) {
+      input.setPrefixText("ruby");
+    } else if (name.endsWith(".r")) {
+      input.setPrefixText("R lang");
+    } else if (name.endsWith(".c")) {
+      input.setPrefixText("C lang");
+    } else if (name.endsWith(".cs")) {
+      input.setPrefixText("C Sharp");
+    } else if (name.endsWith(".cpp")) {
+      input.setPrefixText("C++");
+    } else if (name.endsWith(".css")) {
+      input.setPrefixText("Css3");
+    } else if (name.endsWith(".ghost")) {
+      input.setPrefixText("Theme ghost web");
     }
   }
 
