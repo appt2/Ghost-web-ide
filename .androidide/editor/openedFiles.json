@@ -1,35 +1,35 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/widget/CustomAdGhostWeb.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/marco/FileManagerUtils.java",
       "selection": {
         "end": {
-          "column": 1,
-          "index": 3100,
-          "line": 84
+          "column": 76,
+          "index": 232,
+          "line": 7
         },
         "start": {
-          "column": 1,
-          "index": 3100,
-          "line": 84
+          "column": 76,
+          "index": 232,
+          "line": 7
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/res/layout/one_ui.xml",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
       "selection": {
         "end": {
-          "column": 5,
-          "index": 314,
-          "line": 7
+          "column": 66,
+          "index": 20451,
+          "line": 527
         },
         "start": {
-          "column": 5,
-          "index": 314,
-          "line": 7
+          "column": 26,
+          "index": 20411,
+          "line": 527
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/res/layout/one_ui.xml"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/marco/FileManagerUtils.java"
 }

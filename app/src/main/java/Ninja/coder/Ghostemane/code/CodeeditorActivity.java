@@ -453,18 +453,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     t = getSharedPreferences("t", Activity.MODE_PRIVATE);
     thememanagersoft = getSharedPreferences("thememanagersoft", Activity.MODE_PRIVATE);
     sf = getSharedPreferences("sf", Activity.MODE_PRIVATE);
-    mSymbolInputView = findViewById(R.id.mSymbolInputView);
-    mSymbolInputView.bindEditor(editor);
-    mSymbolInputView.setTextColor(MaterialColors.getColor(this, ColorAndroid12.TvColor, 0));
-    String[] in = {
-      "\t", "/", "?", "!", "@", ">", "<", "/", "(", ")", "{", "}", "[", "]", "-", ";", ":", "=",
-      ",", "$", "\"", "'", "*", "&"
-    };
-    String[] out = {
-      "↹", "/", "?", "!", "@", ">", "<", "/", "(", ")", "{", "}", "[", "]", "-", ";", ":", "=", ",",
-      "$", "\"", "'", "*", "&"
-    };
-    mSymbolInputView.addSymbols(out, in);
+    
     recyclerview1.addOnScrollListener(
         new RecyclerView.OnScrollListener() {
           @Override
@@ -537,36 +526,21 @@ public class CodeeditorActivity extends AppCompatActivity {
           public void onClick(View _view) {
             mmenucog =
                 new PowerMenu.Builder(CodeeditorActivity.this)
-                    .addItem(new PowerMenuItem("مشاهده تگ", false, R.drawable.flash))
-                    .addItem(new PowerMenuItem("رنگ ها", false, R.drawable.focused))
-                    .addItem(new PowerMenuItem("Log cat view", false, R.drawable.log))
-                    .addItem(
-                        new PowerMenuItem(
-                            "مدیرت ایکون", false, R.drawable.keyboardlisnertalluserpost_3))
-                    .addItem(
-                        new PowerMenuItem(
-                            "استخراج رنگ", false, R.drawable.keyboardlisnertalluserpost_2))
                     .addItem(new PowerMenuItem("فونت منجر", false, R.drawable.fonthelper))
                     .addItem(
                         new PowerMenuItem(
                             "پس زمینه", false, R.drawable.keyboardlisnertalluserpost_3))
                     .build();
-            mmenucog.setSelectedMenuColor(0xFFFDA893);
-            mmenucog.setIconPadding((int) 8);
-            mmenucog.setIconSize((int) 25);
+            mmenucog.setIconPadding(8);
+            mmenucog.setIconSize(25);
             mmenucog.setAutoDismiss(true);
             mmenucog.setAnimation(MenuAnimation.ELASTIC_CENTER);
-            mmenucog.setMenuRadius((float) 30);
+            mmenucog.setMenuRadius(30f);
             mmenucog.setSelectedEffect(true);
-            mmenucog.setSelectedTextColor(0xFFFDA893);
-            mmenucog.setTextSize((int) 14);
             mmenucog.showAsDropDown(st);
             mmenucog.setShowBackground(false);
-            mmenucog.setTextTypeface(
-                Typeface.create(
-                    Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"),
-                    Typeface.NORMAL)); // my telegram channel sketchware95
-            mmenucog.setDividerHeight((int) 2);
+
+            mmenucog.setDividerHeight(2);
             if (ru.contains("rup")) {
               mmenucog.setIconColor((int) 0xFFFDA893);
               mmenucog.setMenuColor(0xFF2B2121);
@@ -590,9 +564,7 @@ public class CodeeditorActivity extends AppCompatActivity {
                 mmenucog.setMenuColor(0xFF2B2121);
               }
               if (imap.containsKey("TEXT_NORMAL")) {
-                mmenucog.setTextColor(
-                    Color.parseColor(imap.get("TEXT_NORMAL").toString())); //   my telegram channel
-                // sketchware95
+                mmenucog.setTextColor(Color.parseColor(imap.get("TEXT_NORMAL").toString()));
               } else {
                 mmenucog.setTextColor(0xFFEEEEEE);
               }
@@ -602,42 +574,14 @@ public class CodeeditorActivity extends AppCompatActivity {
                   @Override
                   public void onItemClick(int position, PowerMenuItem item) {
                     switch (position) {
-                      case (0):
-                        {
-                          var tag = new HtmlTagView();
-                          tag.Start(editor.getText().toString(), CodeeditorActivity.this, editor);
-                          break;
-                        }
-                      case (1):
-                        {
-                          DialogColorView.run(CodeeditorActivity.this, editor);
-                          break;
-                        }
-                      case (2):
-                        {
-                          editor.setCommentHtml();
-                          break;
-                        }
-                      case (3):
-                        {
-                          icon.setClass(getApplicationContext(), IconmodActivity.class);
-                          icon.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                          startActivity(icon);
-                          break;
-                        }
-                      case (4):
-                        {
-                          _startcolorsxmlview();
-                          break;
-                        }
-                      case (5):
+                      case 0:
                         {
                           fontHelper.setClass(getApplicationContext(), FontchakerActivity.class);
                           fontHelper.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                           startActivity(fontHelper);
                           break;
                         }
-                      case (6):
+                      case 1:
                         {
                           Intent myintent =
                               new Intent(
@@ -661,76 +605,6 @@ public class CodeeditorActivity extends AppCompatActivity {
           }
         });
 
-    editor.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            try {
-              String textSpan = editor.getText().toString();
-              final int selection = editor.getCursor().getLeft();
-              final Pattern pattern = Pattern.compile("(#?)(\\w+)");
-              final Matcher matcher = pattern.matcher(textSpan);
-              int start = 0;
-              int end = 0;
-
-              String currentWordddddddd = "";
-              try {
-                while (matcher.find()) {
-                  start = matcher.start();
-                  end = matcher.end();
-                  if (start <= selection && selection <= end) {
-                    currentWordddddddd = textSpan.substring(start, end).toString();
-                    currentWord = currentWordddddddd;
-                  }
-                }
-              } catch (Exception rr) {
-                rr.printStackTrace();
-              }
-
-              if (!currentWord.isEmpty()) {
-                if (currentWord.contains("#")) {
-                  try {
-
-                    badgeview3.setBadgeBackground(Color.parseColor(currentWord));
-                    badgeview3.setBadgeCount("#");
-                    badgeview3.setTextSize((int) 12);
-                    badgeview3.setTextColor(0xFFFFFFFF);
-                  } catch (IllegalArgumentException iae) {
-
-                  }
-                } else {
-                  if (currentWord.toLowerCase().contains("0xff")) {
-                    try {
-
-                      currentWord = currentWord.replace("0xff", "#");
-                      currentWord = currentWord.replace("0xFF", "#");
-                      badgeview3.setBadgeCount("0xff");
-                      badgeview3.setBadgeBackground(Color.parseColor(currentWord));
-                      badgeview3.setTextSize((int) 12);
-                      if (androidx.core.graphics.ColorUtils.calculateLuminance(
-                              Color.parseColor(currentWord))
-                          < 0.5) {
-                        badgeview3.setTextColor(0xFFFFFFFF);
-                      } else {
-                        if (androidx.core.graphics.ColorUtils.calculateLuminance(
-                                Color.parseColor(currentWord))
-                            >= 0.5) {
-                          badgeview3.setTextColor(0xFF000000);
-                        }
-                      }
-                    } catch (IllegalArgumentException iae) {
-
-                    }
-                  } else {
-                    badgeview3.setBadgeBackground(Color.TRANSPARENT);
-                  }
-                }
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
-        });
 
     imageview1.setOnClickListener(
         new View.OnClickListener() {
@@ -900,12 +774,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     editor.setAutoCompletionOnComposing(false);
     editor.setLineInfoTextSize(20f);
     editor.setBlockLineEnabled(true);
-    var cursor = editor.getCursor();
-    String text = (1 + cursor.getLeftLine()) + ":" + cursor.getLeftColumn();
-    if (cursor.isSelected()) {
-      text += "(" + (cursor.getRight() - cursor.getLeft()) + " chars)";
-    }
-    view.setText(text);
+    
     var projectz = new ProjectManager();
     projectz.setProjectName(getIntent().getStringExtra("root"));
 
@@ -1418,11 +1287,9 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-  // helper method to check if a color is dark or light
 
-  public interface ProDoc {
-    void OnTaskData();
-  }
+
+  
 
   private void restoreState(@NonNull Bundle savedInstanceState) {
     int leftLine = savedInstanceState.getInt(EDITOR_LEFT_LINE_KEY, 0);
@@ -1485,25 +1352,22 @@ public class CodeeditorActivity extends AppCompatActivity {
     pvr =
         new PowerMenu.Builder(CodeeditorActivity.this)
             .addItem(new PowerMenuItem("جستجو", false, R.drawable.textsearch))
-            .addItem(new PowerMenuItem("حذف متن", false, R.drawable.delete))
             .addItem(new PowerMenuItem("رنگ", false, R.drawable.color))
             .addItem(new PowerMenuItem("Log cat", false, R.drawable.codeformat))
             .addItem(new PowerMenuItem("ذخیره", false, R.drawable.save))
             .addItem(new PowerMenuItem("ذخیره همه", false, R.drawable.setsavefileall))
-            //  .addItem(new PowerMenuItem("لینک", false, R.drawable.link))
             .build();
     pvr.setSelectedMenuColor(0xFFFDA893);
-    pvr.setIconPadding((int) 8);
-    pvr.setIconSize((int) 30);
+    pvr.setIconPadding(8);
+    pvr.setIconSize(30);
     pvr.setAutoDismiss(true);
     pvr.showAsDropDown(_view);
     pvr.setAnimation(MenuAnimation.ELASTIC_CENTER);
-    pvr.setMenuRadius((float) 20);
+    pvr.setMenuRadius(20f);
     pvr.setSelectedEffect(true);
-    pvr.setSelectedTextColor(0xFFEEEEEE);
     pvr.setShowBackground(false);
-    pvr.setDividerHeight((int) 2);
-    pvr.setTextSize((int) 14);
+    pvr.setDividerHeight(2);
+    pvr.setTextSize(14);
     if (ru.contains("rup")) {
       pvr.setIconColor((int) 0xFFFDA893);
       pvr.setDivider(new ColorDrawable(0xFFEEEEEE));
@@ -1532,18 +1396,14 @@ public class CodeeditorActivity extends AppCompatActivity {
         new OnMenuItemClickListener<PowerMenuItem>() {
           @Override
           public void onItemClick(int position, PowerMenuItem item) {
-            switch ((int) position) {
-              case ((int) 0):
+            switch (position) {
+              case 0:
                 {
                   EditorSearcherT.show(editor, FrameLayout01);
                   break;
                 }
-              case ((int) 1):
-                {
-                  editor.setText("");
-                  break;
-                }
-              case ((int) 2):
+              
+              case 1:
                 {
                   ColorPickerDialogBuilder.with(CodeeditorActivity.this)
                       .setTitle("لطفا رنگ را انتخاب کنید")
@@ -1591,13 +1451,13 @@ public class CodeeditorActivity extends AppCompatActivity {
 
                   break;
                 }
-              case ((int) 3):
+              case 2:
                 {
                   var sheet = new LogCatBottomSheet(CodeeditorActivity.this);
                   sheet.run();
                   break;
                 }
-              case ((int) 4):
+              case 3:
                 {
                   if (editor.getText().toString().isEmpty()) {
                     SketchwareUtil.showMessage(
@@ -1620,7 +1480,7 @@ public class CodeeditorActivity extends AppCompatActivity {
                   }
                   break;
                 }
-              case ((int) 5):
+              case 4:
                 {
                   _AllSaveFile(_coordinator);
                   break;
@@ -1764,13 +1624,7 @@ public class CodeeditorActivity extends AppCompatActivity {
 
     if (re.getString("f380", "").equals("true")) {
       editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
-    } else {
-      if (re.getString("f380", "").equals("false")) {
-
-      } else {
-
-      }
-    }
+    } 
   }
 
   public void _poz() {
@@ -1811,7 +1665,6 @@ public class CodeeditorActivity extends AppCompatActivity {
   private LiveviewebDialogFragmentActivity LiveviewebDialogFragmentActivityN;
   private FragmentManager LiveviewebDialogFragmentActivityFM;
 
-  public void test_LiveviewebDialogFragmentActivity() {}
 
   public void _fragmentdatapost() {
     LiveviewebDialogFragmentActivityN = new LiveviewebDialogFragmentActivity();
@@ -1895,18 +1748,16 @@ public class CodeeditorActivity extends AppCompatActivity {
             .addItem(new PowerMenuItem("close all"))
             .build();
     mmenuitempos.setAnimation(MenuAnimation.ELASTIC_CENTER);
-    mmenuitempos.setMenuRadius((float) 30);
+    mmenuitempos.setMenuRadius(30f);
     mmenuitempos.setShowBackground(false);
     mmenuitempos.setSelectedEffect(true);
-    mmenuitempos.setSelectedTextColor(0xFFFDA893);
-    mmenuitempos.setTextSize((int) 14);
     mmenuitempos.setAutoDismiss(false);
     mmenuitempos.showAsDropDown(_v);
-    mmenuitempos.setDividerHeight((int) 1);
+    
     mmenuitempos.setTextTypeface(
         Typeface.create(
             Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"),
-            Typeface.NORMAL)); // my telegram channel sketchware95
+            Typeface.NORMAL));
     if (ru.contains("rup")) {
       mmenuitempos.setMenuColor(0xFF2B2121);
       mmenuitempos.setTextColor(0xFFEEEEEE);
@@ -2074,79 +1925,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-  public void _startcolorsxmlview() {
-    var di = new GhostWebMaterialDialog(CodeeditorActivity.this);
-    ViewGroup viewGroup = findViewById(android.R.id.content);
-    View dialogview = getLayoutInflater().inflate(R.layout.colorsxmlemu, viewGroup, false);
-    ListView list = dialogview.findViewById(R.id.list);
-    LinearLayout user = dialogview.findViewById(R.id.user);
-    di.setTitle("ColorView");
-    try {
-      hsistr3000.clear();
-      hsimap3000.clear();
-      hsistr3000 =
-          new ArrayList<String>(
-              Arrays.asList(
-                  editor
-                      .getText()
-                      .toString()
-                      .replace("#", "")
-                      .replace(">", "#>")
-                      .replace("<", "<#")
-                      .split("#")));
-      for (int colors = 0; colors < (int) (hsistr3000.size()); colors++) {
-        if (hsistr3000.get((int) (colors)).startsWith(">")
-            && hsistr3000.get((int) (colors)).endsWith("<")) {
-          if ((hsistr3000.get((int) (colors)).replaceAll("[^0-9abcdefABCDEF]", "").length() == 6)
-              || (hsistr3000.get((int) (colors)).replaceAll("[^0-9abcdefABCDEF]", "").length()
-                  == 8)) {
-            {
-              HashMap<String, Object> _item = new HashMap<>();
-              _item.put(
-                  "mcolor",
-                  "#".concat(hsistr3000.get((int) (colors)).replaceAll("[^0-9abcdefABCDEF]", "")));
-              hsimap3000.add(_item);
-            }
-          }
-        }
-      }
-      if (hsistr3000.size() == 0) {
-        user.setVisibility(View.VISIBLE);
-        list.setVisibility(View.GONE);
-      } else {
-        list.setVisibility(View.VISIBLE);
-        user.setVisibility(View.GONE);
-      }
-      list.setAdapter(new MyListView110Adapter(hsimap3000));
-
-      ((BaseAdapter) list.getAdapter()).notifyDataSetChanged();
-      list.setOnItemClickListener(
-          new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(
-                AdapterView<?> _param1, View _param2, int _param3, long _param4) {
-              final int _position = _param3;
-              editor
-                  .getSearcher()
-                  .search(hsimap3000.get((int) _position).get("mcolor").toString().trim());
-              try {
-                editor.getSearcher().gotoNext();
-              } catch (IllegalStateException e) {
-                e.printStackTrace();
-              }
-            }
-          });
-    } catch (Exception e) {
-
-    }
-    di.setPositiveButton("ok", (p1, d2) -> {});
-
-    di.setView(dialogview);
-    di.show();
-  }
-
-  public void _xmlcoloronBinde() {}
-
+  
   public void _fabCl() {
     try {
       try {
@@ -2333,75 +2112,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-  public void _pop(final String _path, final View _v) {
-    View popupView = getLayoutInflater().inflate(R.layout.editor_pop_up_menu, null);
-    final PopupWindow popup =
-        new PopupWindow(
-            popupView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            true);
-    androidx.recyclerview.widget.RecyclerView rv = popupView.findViewById(R.id.rv);
-
-    list.clear();
-    files.clear();
-    folderList.clear();
-    fileList.clear();
-    FileUtil.listDir(_path, list);
-    Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
-    GetTab = "";
-    index = 0;
-    final class FileComparator implements Comparator<String> {
-      public int compare(String f1, String f2) {
-        if (f1 == f2) return 0;
-        if (FileUtil.isDirectory(f1) && FileUtil.isFile(f2)) return -1;
-        if (FileUtil.isFile(f1) && FileUtil.isDirectory(f2)) return 1;
-        return f1.compareToIgnoreCase(f2);
-      }
-    }
-    Collections.sort(list, new FileComparator());
-
-    for (int _repeat25 = 0; _repeat25 < (int) (list.size()); _repeat25++) {
-      if (FileUtil.isDirectory(list.get((int) (index)))) {
-        folderList.add(list.get((int) (index)));
-      } else {
-        fileList.add(list.get((int) (index)));
-      }
-      index++;
-    }
-    index = 0;
-    for (int _repeat39 = 0; _repeat39 < (int) (folderList.size()); _repeat39++) {
-      {
-        HashMap<String, Object> _item = new HashMap<>();
-        _item.put("path", folderList.get((int) (index)));
-        files.add(_item);
-      }
-
-      index++;
-    }
-    index = 0;
-    for (int _repeat46 = 0; _repeat46 < (int) (fileList.size()); _repeat46++) {
-      {
-        HashMap<String, Object> _item = new HashMap<>();
-        _item.put("path", fileList.get((int) (index)));
-        files.add(_item);
-      }
-
-      index++;
-    }
-    index = 0;
-    for (int _repeat53 = 0; _repeat53 < (int) (files.size()); _repeat53++) {
-      files.get((int) index).put("sel", "false");
-      index++;
-    }
-    rv.setAdapter(new Recyclerview122Adapter(files, this));
-    rv.getAdapter().notifyDataSetChanged();
-    popup.setAnimationStyle(android.R.style.Animation_Dialog);
-
-    popup.showAsDropDown(_v, 0, 0);
-
-    popup.setBackgroundDrawable(new BitmapDrawable());
-  }
+  
 
   public void _g4compiler() {
     final com.google.android.material.bottomsheet.BottomSheetDialog bottomSheetDialog =
@@ -2441,18 +2152,10 @@ public class CodeeditorActivity extends AppCompatActivity {
             _coordinator.setTranslationY(offsetY * progress);
           }
         });
-
-    if (thememanagersoft.contains("effect")) {
-      _seteffectEnbal(true);
-    } else {
-      _seteffectEnbal(false);
-    }
+    
+      effect.setEnabled(thememanagersoft.contains("effect") ? true : false);
+    
   }
-
-  public void _seteffectEnbal(final boolean _ok) {
-    effect.setEnabled(_ok);
-  }
-
   public class Recyclerview1Adapter extends RecyclerView.Adapter<Recyclerview1Adapter.ViewHolder> {
 
     ArrayList<HashMap<String, Object>> _data;
@@ -2460,7 +2163,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     public Recyclerview1Adapter(ArrayList<HashMap<String, Object>> _arr) {
       _data = _arr;
     }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
       LayoutInflater _inflater = getLayoutInflater();
