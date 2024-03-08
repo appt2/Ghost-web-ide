@@ -1,85 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="wrap_content"
-     android:layout_width="match_parent"
-     
-     android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:minHeight="40dp"
+    android:padding="2dp"
+    >
 
-    <LinearLayout
-         android:layout_height="55dp"
-         android:layout_width="match_parent"
-         android:gravity="center_vertical"
-         android:orientation="horizontal">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:layout_marginHorizontal="8dp"
+        android:textSize="13sp"
+        android:paddingHorizontal="4dp"
+        android:id="@+id/item_icon"
+        android:text="A"
+        />
 
-        <TextView
-             android:layout_height="match_parent"
-             android:layout_width="wrap_content"
-             android:gravity="center"
-             android:padding="8dp"
-             android:textSize="16sp"
-             android:textColor="#ffffff"
-             android:id="@+id/completion_iconText"
-             android:text="A"
-             android:textStyle="bold" />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toEndOf="@id/item_icon"
+        android:ellipsize="end"
+        android:textSize="13sp"
+        android:singleLine="true"
+        android:layout_marginStart="2dp"
+        android:id="@+id/item_label"
+        android:text="Html"
+        />
 
-        <LinearLayout
-             android:layout_height="match_parent"
-             android:layout_width="wrap_content"
-             android:gravity="center_vertical|start"
-             android:padding="4dp"
-             android:orientation="vertical"
-             android:layout_weight="3">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toEndOf="@id/item_icon"
+        android:layout_marginEnd="8dp"
+        android:layout_below="@id/item_label"
+        android:textSize="11sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="?attr/colorSecondaryVariant"
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="2dp"
+        android:id="@+id/item_desc"
+        android:text="ejeieiei"
+        />
 
-            <TextView
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:autoLink="web|map|email"
-                 android:tooltipText="@string/copy_text"
-                 android:ellipsize="end"
-                 android:textSize="15sp"
-                 android:textColor="#ffffff"
-                 android:singleLine="true"
-                 android:id="@+id/completion_label"
-                 android:text="tesr" />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:ellipsize="end"
+        android:textSize="11sp"
+        android:layout_alignParentEnd="true"
+        android:singleLine="true"
+        android:textColor="?attr/colorSecondaryVariant"
+        android:id="@+id/item_type"
+        android:text="Tag"
+        />
 
-            <TextView
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:layout_marginBottom="1dp"
-                 android:ellipsize="end"
-                 android:textSize="12sp"
-                 android:textColor="#ffffffff"
-                 android:singleLine="true"
-                 android:layout_marginTop="5dp"
-                 android:id="@+id/completion_detail"
-                 android:text="this" />
-
-        </LinearLayout>
-
-        <LinearLayout
-             android:layout_height="match_parent"
-             android:layout_width="wrap_content"
-             android:gravity="right|top"
-             android:orientation="horizontal"
-             android:id="@+id/linear3">
-
-            <TextView
-                 android:layout_height="match_parent"
-                 android:layout_width="match_parent"
-                 android:gravity="center_vertical"
-                 android:padding="1dp"
-                 android:ellipsize="end"
-                 android:textSize="10sp"
-                 android:singleLine="true"
-                 android:textColor="#ffffffff"
-                 android:id="@+id/completion_api_info"
-                 android:text="Class2" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

@@ -24,13 +24,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import java.io.File;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -127,13 +127,25 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
         GlideCompat.LoadVector(myfile.toString(), viewHolder.icon);
       } else if (myfile.toString().endsWith(".mp3")) {
         GlideCompat.GlideLoadMp3(viewHolder.icon, myfile.toString());
+      } else if (myfile.toString().endsWith(".svg")) {
+        GlideCompat.LoadSvg(myfile.toString(), viewHolder.icon);
+      } else if (myfile.toString().endsWith(".pdf")) {
+        try {
+          GlideCompat.loadImgPdf(myfile, viewHolder.icon);
+        } catch (IOException err) {
+          viewHolder.icon.setImageResource(R.drawable.ic_material_pdf);
+        }
+
+      } else if (myfile.toString().endsWith(".apk")) {
+        GlideCompat.LoadApkFile(myfile.toString(), viewHolder.icon);
       }
     }
 
     viewHolder.itemView.setClickable(true);
   }
+
   @NonNull
-  private HashMap<String ,Object> getitem(int position){
+  private HashMap<String, Object> getitem(int position) {
     return filteredFiles.get(position);
   }
 
@@ -145,8 +157,8 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
   @Override
   @NonNull
   public CharSequence getPopupText(int position) {
-    HashMap<String ,Object> map = getitem(position);
-    return map.get("path").toString().substring(0,1).toUpperCase();
+    HashMap<String, Object> map = getitem(position);
+    return map.get("path").toString().substring(0, 1).toUpperCase();
   }
 
   public class VH extends RecyclerView.ViewHolder {

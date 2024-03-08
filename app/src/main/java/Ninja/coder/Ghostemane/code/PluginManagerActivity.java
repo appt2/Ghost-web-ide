@@ -1,79 +1,25 @@
 package Ninja.coder.Ghostemane.code;
 
-import android.animation.*;
-import android.app.*;
-import android.content.*;
-import android.content.res.*;
-import android.graphics.*;
-import android.graphics.drawable.*;
-import android.media.*;
-import android.net.*;
-import android.os.*;
-import android.text.*;
-import android.text.style.*;
-import android.util.*;
-import android.view.*;
-import android.view.View;
-import android.view.View.*;
-import android.view.animation.*;
-import android.webkit.*;
-import android.widget.*;
+import android.content.res.AssetManager;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.activity.*;
-import androidx.annotation.*;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.*;
-import androidx.recyclerview.selection.*;
-import androidx.webkit.*;
-import arabware.file.*;
-import com.allenliu.badgeview.*;
-
-import com.blankj.utilcode.*;
-import com.bumptech.glide.*;
-import com.bumptech.glide.integration.avif.*;
-import com.bumptech.glide.integration.recyclerview.*;
-import com.caverock.androidsvg.*;
-import com.fasterxml.jackson.core.*;
-import com.github.angads25.filepicker.*;
-import com.github.junrar.*;
-import com.google.android.material.*;
-import com.google.android.material.appbar.AppBarLayout;
-import com.hzy.lib7z.*;
-import com.jsibbold.zoomage.*;
-import com.lxj.xpopup.*;
-import com.mukesh.*;
-import com.neo.highlight.*;
-import com.skydoves.powermenu.*;
-import com.tapadoo.alerter.*;
-import com.zip4j.*;
-import fi.iki.elonen.*;
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import java.util.regex.*;
-import org.benf.cfr.reader.*;
-import org.beyka.tiffbitmapfactory.*;
-import org.json.*;
-import storage.sdcard.*;
-import xyz.doikki.videoplayer.*;
-import xyz.doikki.videoplayer.exo.*;
-import xyz.doikki.videoplayer.ijk.*;
-import Ninja.coder.Ghostemane.code.marco.*;
-import com.hzy.lib7z.Z7Extractor;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.io.File;
-import java.nio.file.StandardCopyOption;
-import java.io.InputStream;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.view.View;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import androidx.appcompat.app.AlertDialog;
-import com.xiaoyv.ccompile.CCppEngine;
+import com.hzy.lib7z.Z7Extractor;
+import java.io.File;
+import android.graphics.drawable.GradientDrawable;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.Animation;
+import Ninja.coder.Ghostemane.code.marco.HsiZip;
+import android.widget.Toast;
+
+
 
 public class PluginManagerActivity extends BaseCompat {
 
@@ -239,29 +185,7 @@ public class PluginManagerActivity extends BaseCompat {
           }
         });
 
-    linear4.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            if (CCppEngine.checkGcc(PluginManagerActivity.this)) {}
-
-            CCppEngine.installGcc(
-                PluginManagerActivity.this,
-                new File("/storage/emulated/0/GhostWebIDE/gcc.zip"),
-                new CCppEngine.OnInstallListener() {
-                  @Override
-                  public void onSuccess() {
-                    Toast.makeText(getApplicationContext(), "done", 2).show();
-                  }
-
-                  @Override
-                  public void onError(String error) {
-                    Toast.makeText(getApplicationContext(), "error " + error, 2).show();
-                  }
-                });
-          }
-        });
-
+    
     linear5.setOnClickListener(
         new View.OnClickListener() {
           @Override

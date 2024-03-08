@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code.folderBuilder;
 
+import Ninja.coder.Ghostemane.code.folderBuilder.GhostDetector;
 import java.io.File;
 
 public class FileEnvironmentHelper {
@@ -36,6 +37,10 @@ public class FileEnvironmentHelper {
 
   public ReactHelper react() {
     return new ReactHelper(this);
+  }
+
+  public GhostTheme ghost() {
+    return new GhostTheme(this);
   }
 
   public AndroidDevHelper android() {
@@ -99,6 +104,9 @@ public class FileEnvironmentHelper {
 
   public boolean isAlarmsDirectory() {
     return isFileHasKeyName(filePath, "Alarms", false, false);
+  }
+  public boolean isAppIcon(){
+    return isFileHasKeyName(filePath,"GhostWebIDE",false,false) || isFileHasKeyName(filePath,"ghostweb",false,false);
   }
 
   public boolean isJavaDirectory() {
@@ -262,6 +270,21 @@ public class FileEnvironmentHelper {
 
     public boolean isGitIgnoreFile() {
       return GitDetector.isGitIgnoreFile(instance.filePath);
+    }
+  }
+
+  public static class GhostTheme {
+    protected FileEnvironmentHelper instance;
+
+    public GhostTheme(FileEnvironmentHelper instance) {
+      this.instance = instance;
+    }
+
+    public boolean isGhostFile() {
+      return GhostDetector.isGhostFile(instance.filePath);
+    }
+    public boolean isAppLego(){
+      return GhostDetector.isAppLoaderTheme(instance.filePath);
     }
   }
 

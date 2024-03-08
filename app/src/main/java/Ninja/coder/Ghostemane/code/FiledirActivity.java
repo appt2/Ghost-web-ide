@@ -509,30 +509,32 @@ public class FiledirActivity extends BaseCompat
     utils = new HichemSoftFileUtil(sharedPreferences, FiledirActivity.this).loadData();
     utils.requestPermissionAllFilesAccess(); // if not allowed
     _refreshTabs();
-    if (FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/icon.zip")) {
-    } else {
-      FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/.icon");
-      AssetsSoft assetsSoft = new AssetsSoft();
-      assetsSoft.copyOneFileFromAssets(
-          "icon.zip", "/storage/emulated/0/GhostWebIDE/", FiledirActivity.this);
-      vvv12 =
-          new TimerTask() {
-            @Override
-            public void run() {
-              runOnUiThread(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      _hsiunzip(
-                          "/storage/emulated/0/GhostWebIDE/icon.zip",
-                          "/storage/emulated/0/GhostWebIDE/.icon/");
-                    }
-                  });
-            }
-          };
-      _timer.schedule(vvv12, (int) (3000));
-    }
-
+    FileManagerUtils fileManagerUtils = new FileManagerUtils(this);
+    
+//    if (FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/icon.zip")) {
+//    } else {
+//      FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/.icon");
+//      AssetsSoft assetsSoft = new AssetsSoft();
+//      assetsSoft.copyOneFileFromAssets(
+//          "icon.zip", "/storage/emulated/0/GhostWebIDE/", FiledirActivity.this);
+//      vvv12 =
+//          new TimerTask() {
+//            @Override
+//            public void run() {
+//              runOnUiThread(
+//                  new Runnable() {
+//                    @Override
+//                    public void run() {
+//                      _hsiunzip(
+//                          "/storage/emulated/0/GhostWebIDE/icon.zip",
+//                          "/storage/emulated/0/GhostWebIDE/.icon/");
+//                    }
+//                  });
+//            }
+//          };
+//      _timer.schedule(vvv12, (int) (3000));
+//    }
+//
     fabAdd = findViewById(R.id.fabAdd);
 
     AnimUtils.Worker(fabAdd);

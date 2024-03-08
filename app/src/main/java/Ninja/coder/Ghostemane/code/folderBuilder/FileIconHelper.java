@@ -97,6 +97,8 @@ public class FileIconHelper {
           fileIconRes = R.drawable.ic_material_folder_android;
         else if (fileEnvHelper.git().isGitDirectory())
           fileIconRes = R.drawable.ic_material_folder_git;
+        else if (fileEnvHelper.ghost().isGhostFile()) fileIconRes = R.drawable.app_icon;
+        else if(fileEnvHelper.ghost().isAppLego())  fileIconRes = R.mipmap.ghosticon;
       } else {
         if (fileEnvHelper.isJavaDirectory()) fileIconRes = R.drawable.ic_material_folder_java;
         else if (fileEnvHelper.isJavascriptDirectory())
@@ -119,12 +121,13 @@ public class FileIconHelper {
           fileIconRes = R.drawable.ic_material_folder_video;
         else if (fileEnvHelper.isSrcDirectory()) fileIconRes = R.drawable.ic_material_folder_src;
         else if (fileEnvHelper.isPublicDirectory())
-                  fileIconRes = R.drawable.ic_material_folder_public;
+          fileIconRes = R.drawable.ic_material_folder_public;
         else if (fileEnvHelper.isAppDirectory()) fileIconRes = R.drawable.ic_material_folder_app;
         else if (fileEnvHelper.isIntelliJDirectory())
           fileIconRes = R.drawable.ic_material_folder_intellij;
         else if (fileEnvHelper.isGradleJDirectory())
           fileIconRes = R.drawable.ic_material_folder_gradle;
+        else if(fileEnvHelper.isAppIcon()) fileIconRes = R.mipmap.ghosticon;
       }
     } else {
       if (FileUtil.isFileHidden(filePath)) fileIconRes = R.drawable.ic_material_folder_secure;
@@ -137,17 +140,14 @@ public class FileIconHelper {
 
     if (fileHelper.isCompressFiles()) fileIconRes = R.drawable.ic_material_zip;
     else if (fileHelper.isBitmapFiles()) fileIconRes = R.drawable.ic_material_image;
-    else if (fileHelper.isVectorFiles()) fileIconRes = R.drawable.ic_material_svg;
-   // else if (fileHelper.isVideoFiles()) fileIconRes = R.drawable.ic_material_video;
-  //  else if (fileHelper.isAudioFiles()) fileIconRes = R.drawable.ic_material_audio;
+
     else if (fileHelper.isFontFiles()) fileIconRes = R.drawable.ic_material_font;
     else if (fileHelper.isMicrosoftWordFiles()) fileIconRes = R.drawable.ic_material_word;
     else if (fileHelper.isGradleFiles()) fileIconRes = R.drawable.ic_material_gradle;
     else if (fileHelper.isYarnFiles()) fileIconRes = R.drawable.ic_material_yarn;
     else if (fileHelper.isTestJsFiles()) fileIconRes = R.drawable.ic_material_test_js;
     else if (fileHelper.isMinecraftRelatedFiles()) fileIconRes = R.drawable.ic_material_minecraft;
-    else if (is("apk")) fileIconRes = R.drawable.ic_material_android;
-    else if (is("pdf")) fileIconRes = R.drawable.ic_material_pdf;
+  //  else if (is("apk")) fileIconRes = R.drawable.ic_material_android;
     else if (is("ppt")) fileIconRes = R.drawable.ic_material_powerpoint;
     else if (is("as")) fileIconRes = R.drawable.ic_material_actionscript;
     else if (is("bat")) fileIconRes = R.drawable.ic_material_console;
@@ -201,7 +201,7 @@ public class FileIconHelper {
         else fileIconRes = R.drawable.ic_material_typescript;
       } else fileIconRes = R.drawable.ic_material_typescript;
     } else if (is("vue")) fileIconRes = R.drawable.ic_material_vue;
-    else if ( is("xsl")) fileIconRes = R.drawable.ic_material_xml;
+    else if (is("xsl")) fileIconRes = R.drawable.ic_material_xml;
     else if (is("yml") || is("yaml")) fileIconRes = R.drawable.ic_material_yaml;
 
     if (fileEnvHelper.readme().isReadmeFile()) fileIconRes = R.drawable.ic_material_readme;

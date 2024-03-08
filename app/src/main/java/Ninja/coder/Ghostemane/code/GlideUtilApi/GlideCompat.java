@@ -3,6 +3,10 @@ package Ninja.coder.Ghostemane.code.GlideUtilApi;
 import Ninja.coder.Ghostemane.code.ApplicationLoader;
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.R;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -246,6 +250,23 @@ public class GlideCompat {
     }
   }
 
+  public static void LoadApkFile(String file, ImageView img) {
+    try {
+      Glide.with(img.getContext())
+          .load(getApkIcon(file,img.getContext()))
+          .error(R.drawable.ic_material_android)
+          .transform(new RoundedCornersTransformation(RenderSize()))
+          .placeholder(CircelPrograssBar())
+          .diskCacheStrategy(DiskCacheStrategy.ALL)
+          .priority(Priority.HIGH)
+          .into(img);
+      //      packageInfo = null;
+      //      packageManager = null;
+    } catch (Exception err) {
+      img.setImageResource(R.drawable.ic_material_android);
+    }
+  }
+
   public static void LoadSvg(String path, ImageView c) {
     Glide.with(c.getContext())
         .load(loadSvg(path))
@@ -274,5 +295,16 @@ public class GlideCompat {
       //	Toast.makeText(getApplicationContext(), e.toString(), 3000).show();
     }
     return drawable;
+  }
+
+  public static Drawable getApkIcon(final String _path, Context context) {
+    android.content.pm.PackageManager packageManager = context.getPackageManager();
+    android.content.pm.PackageInfo packageInfo = packageManager.getPackageArchiveInfo(_path, 0);
+    packageInfo.applicationInfo.sourceDir = _path;
+    packageInfo.applicationInfo.publicSourceDir = _path;
+//    packageInfo = null;
+//    packageManager = null;
+    return (packageInfo.applicationInfo.loadIcon(packageManager));
+    
   }
 }

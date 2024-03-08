@@ -24,10 +24,10 @@ public class CustomAdGhostWeb extends EditorCompletionAdapter {
   private io.github.rosemoe.sora.widget.TextSummry.TextUtils textUtils;
   protected HTMLConstants htmlconfig;
   protected TextView 
-      completion_label,
-      completion_detail,
-      completion_api_info,
-      completion_iconText;
+      item_icon,
+      item_label,
+      item_desc,
+      item_type;
 
   public CustomAdGhostWeb() {
     htmlconfig = new HTMLConstants();
@@ -49,10 +49,10 @@ public class CustomAdGhostWeb extends EditorCompletionAdapter {
     }
     CompletionItem item = getItem(pos);
     
-    completion_label = view.findViewById(R.id.completion_label);
-    completion_detail = view.findViewById(R.id.completion_detail);
-    completion_api_info = view.findViewById(R.id.completion_api_info);
-    completion_iconText = view.findViewById(R.id.completion_iconText);
+    item_label = view.findViewById(R.id.item_label);
+    item_desc = view.findViewById(R.id.item_desc);
+    item_type = view.findViewById(R.id.item_type);
+    item_icon = view.findViewById(R.id.item_icon);
     Spannable label =
         Spannable.Factory.getInstance().newSpannable(item.label != null ? item.label : "None");
     String prefix = getPrefix();
@@ -64,24 +64,25 @@ public class CustomAdGhostWeb extends EditorCompletionAdapter {
           index + prefix.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
-    completion_label.setText(label);
-    completion_detail.setText(item.commit);
-    completion_api_info.setText(item.desc);
-    completion_iconText.setText(item.label.substring(0, 1));
+    item_label.setText(label);
+    item_type.setText(item.desc);
+    item_desc.setText(item.commit);
+    item_icon.setText(item.label.substring(0, 1));
     
-    completion_label.setTextColor(getThemeColor(EditorColorScheme.ATTRIBUTE_VALUE));
-    completion_detail.setTextColor(getThemeColor(EditorColorScheme.ATTRIBUTE_VALUE));
-    completion_api_info.setTextColor(getThemeColor(EditorColorScheme.ATTRIBUTE_VALUE));
-    completion_iconText.setTextColor(getThemeColor(EditorColorScheme.ATTRIBUTE_VALUE));
+    item_label.setTextColor(getThemeColor(EditorColorScheme.ATTRIBUTE_VALUE));
+    item_desc.setTextColor(getThemeColor(EditorColorScheme.ATTRIBUTE_VALUE));
+    item_icon.setTextColor(getThemeColor(EditorColorScheme.ATTRIBUTE_VALUE));
+    item_type.setTextColor(getThemeColor(EditorColorScheme.ATTRIBUTE_VALUE));
     AnimUtils.Sacla(view);
     if(item.desc.equals(htmlconfig.HTMLTAG)) {
-    	completion_detail.setText(HtmlHelper.code(label.toString()));
+    	item_desc.setText(HtmlHelper.code(label.toString()));
     }else if(item.desc.equals(htmlconfig.CssColor)) {
-    	completion_detail.setTextColor(HtmlHelper.cssColor(label.toString()));
+    	item_desc.setTextColor(HtmlHelper.cssColor(label.toString()));
+    }else if(item.desc.equals(htmlconfig.PhpKeys)){
+      item_desc.setText(HtmlHelper.getHelpPhp(item.label));
     }else{
-      completion_detail.setText(item.desc);
+      item_desc.setText(item.desc);
     }
-
     view.setTag(pos);
     return view;
   }

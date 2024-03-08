@@ -1,11 +1,12 @@
 package io.github.rosemoe.sora.widget.TextSummry;
 
 import android.graphics.Paint;
+import android.widget.TextView;
 import com.google.android.material.textview.MaterialTextView;
 
 
 public class TextUtils {
-	private MaterialTextView view;
+	private TextView view;
 
 	public TextUtils(MaterialTextView view) {
 		this.view = view;
@@ -47,7 +48,7 @@ public class TextUtils {
 		} 
 	}
 
-	private MaterialTextView getFlage() {
+	private TextView getFlage() {
 		view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 		return view;
 	}
