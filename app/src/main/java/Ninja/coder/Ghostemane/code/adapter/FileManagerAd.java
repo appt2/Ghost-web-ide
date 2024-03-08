@@ -135,9 +135,10 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
         } catch (IOException err) {
           viewHolder.icon.setImageResource(R.drawable.ic_material_pdf);
         }
-
       } else if (myfile.toString().endsWith(".apk")) {
         GlideCompat.LoadApkFile(myfile.toString(), viewHolder.icon);
+      } else if (myfile.toString().endsWith(".swb")) {
+        GlideCompat.LoadSwbIcon(myfile.toString(), viewHolder.icon);
       }
     }
 

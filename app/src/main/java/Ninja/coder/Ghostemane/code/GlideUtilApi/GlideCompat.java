@@ -31,6 +31,9 @@ import com.sdsmdg.harjot.vectormaster.VectorMasterDrawable;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class GlideCompat {
 
@@ -253,7 +256,7 @@ public class GlideCompat {
   public static void LoadApkFile(String file, ImageView img) {
     try {
       Glide.with(img.getContext())
-          .load(getApkIcon(file,img.getContext()))
+          .load(getApkIcon(file, img.getContext()))
           .error(R.drawable.ic_material_android)
           .transform(new RoundedCornersTransformation(RenderSize()))
           .placeholder(CircelPrograssBar())
@@ -297,14 +300,48 @@ public class GlideCompat {
     return drawable;
   }
 
+  public static void LoadSwbIcon(String file, ImageView v) {
+    Glide.with(v.getContext())
+        .asBitmap()
+        .load(getIconSwbFile(file, "resources/icons/icon.png"))
+        .transform(new RoundedCornersTransformation(RenderSize()))
+        .error(R.drawable.skproapp_orig)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .priority(Priority.NORMAL)
+        .into(v);
+  }
+
   public static Drawable getApkIcon(final String _path, Context context) {
     android.content.pm.PackageManager packageManager = context.getPackageManager();
     android.content.pm.PackageInfo packageInfo = packageManager.getPackageArchiveInfo(_path, 0);
     packageInfo.applicationInfo.sourceDir = _path;
     packageInfo.applicationInfo.publicSourceDir = _path;
-//    packageInfo = null;
-//    packageManager = null;
     return (packageInfo.applicationInfo.loadIcon(packageManager));
-    
+  }
+
+  protected static Bitmap getIconSwbFile(String zipFilePath, String iconName) {
+    Bitmap icon = null;
+    ZipFile zipFile = null;
+
+    try {
+      zipFile = new ZipFile(zipFilePath);
+
+      ZipEntry entry = zipFile.getEntry(iconName);
+      if (entry != null) {
+        InputStream inputStream = zipFile.getInputStream(entry);
+        icon = BitmapFactory.decodeStream(inputStream);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (zipFile != null) {
+        try {
+          zipFile.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return icon;
   }
 }

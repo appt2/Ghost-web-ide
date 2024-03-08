@@ -1,6 +1,7 @@
 package Ninja.coder.Ghostemane.code;
 
 import Ninja.coder.Ghostemane.code.component.FastScrollCompat.FastScrollerBuilder;
+import Ninja.coder.Ghostemane.code.component.SwbData;
 import android.content.pm.PackageInfo;
 import android.content.pm.ApplicationInfo;
 import android.Manifest;
@@ -1875,6 +1876,11 @@ public class FiledirActivity extends BaseCompat
     if (staticstring.endsWith(".7z")) {
       _sevenUnZip(staticstring, Folder);
     }
+    if (staticstring.endsWith(".swb")) {
+      var myswb = new SwbData(this);
+      myswb.init(staticstring);
+    }
+    
     _zipviewandexsert(newpos, "path", files);
     _fontpost(files, "path", newpos);
     _themeinstall(files, newpos, "path");

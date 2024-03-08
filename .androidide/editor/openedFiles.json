@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/component/SwbData.java",
+      "selection": {
+        "end": {
+          "column": 37,
+          "index": 11364,
+          "line": 351
+        },
+        "start": {
+          "column": 37,
+          "index": 11364,
+          "line": 351
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "selection": {
+        "end": {
+          "column": 31,
+          "index": 72238,
+          "line": 1880
+        },
+        "start": {
+          "column": 31,
+          "index": 72238,
+          "line": 1880
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/component/SwbData.java"
+}
