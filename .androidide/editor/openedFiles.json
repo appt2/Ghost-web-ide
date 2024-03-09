@@ -1,35 +1,35 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/component/SwbData.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/tasks/app/SassForAndroid.java",
       "selection": {
         "end": {
-          "column": 37,
-          "index": 11364,
-          "line": 351
+          "column": 0,
+          "index": 0,
+          "line": 0
         },
         "start": {
-          "column": 37,
-          "index": 11364,
-          "line": 351
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/build.gradle",
       "selection": {
         "end": {
-          "column": 31,
-          "index": 72238,
-          "line": 1880
+          "column": 0,
+          "index": 0,
+          "line": 0
         },
         "start": {
-          "column": 31,
-          "index": 72238,
-          "line": 1880
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/component/SwbData.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/build.gradle"
 }
