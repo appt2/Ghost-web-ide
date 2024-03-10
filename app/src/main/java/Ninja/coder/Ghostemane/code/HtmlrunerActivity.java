@@ -43,7 +43,7 @@ import android.text.TextWatcher;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import io.github.rosemoe.sora.langs.cpp.CppLanguage;
+import io.github.rosemoe.sora.langs.loglang.LogLang;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -534,7 +534,7 @@ public class HtmlrunerActivity extends BaseCompat {
               editor.setEditable(false);
               editor.insertText(str, 1);
               editor.setPadding(8, 8, 8, 8);
-              editor.setEditorLanguage(new CppLanguage());
+              editor.setEditorLanguage(new LogLang());
               editor.setTypefaceText(Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"));
               return super.onConsoleMessage(consoleMessage);
             }

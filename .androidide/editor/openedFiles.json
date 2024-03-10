@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/loglang/LOGLexer.java",
+      "selection": {
+        "end": {
+          "column": 45,
+          "index": 45,
+          "line": 0
+        },
+        "start": {
+          "column": 45,
+          "index": 45,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/loglang/LogLang.java",
+      "selection": {
+        "end": {
+          "column": 45,
+          "index": 45,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/loglang/LOGLexer.java"
+}
