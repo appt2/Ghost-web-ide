@@ -36,6 +36,8 @@
 
 - [x] File Reader html
 
+- [x] Sass and Scss Compiler
+
 - [ ] Java and Kt Compiler 
 
 - [ ] Ruby Compiler 
