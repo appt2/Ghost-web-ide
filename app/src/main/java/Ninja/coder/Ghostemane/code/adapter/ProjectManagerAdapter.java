@@ -39,7 +39,7 @@ public class ProjectManagerAdapter extends RecyclerView.Adapter<ProjectManagerAd
     
     holder.nameIcon.setText(md.nameProject);
     holder.iconProject.setImageResource(md.iconProject);
-    holder.root.setEnabled(md.isWorkItem ? false : true);
+    holder.root.setEnabled(!md.isWorkItem);
     if (projectClickItem != null) {
       views.setOnClickListener(v -> projectClickItem.onClick(v, position));
     }
