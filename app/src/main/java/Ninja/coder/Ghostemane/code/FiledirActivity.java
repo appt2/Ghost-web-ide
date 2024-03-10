@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code;
 
+import Ninja.coder.Ghostemane.code.FileHelper.FactoryModelProject;
 import Ninja.coder.Ghostemane.code.component.FastScrollCompat.FastScrollerBuilder;
 import Ninja.coder.Ghostemane.code.component.SwbData;
 import android.content.pm.PackageInfo;
@@ -56,7 +57,6 @@ import androidx.recyclerview.*;
 import androidx.recyclerview.selection.*;
 import androidx.recyclerview.widget.*;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.webkit.*;
 import arabware.file.*;
@@ -2008,7 +2008,7 @@ public class FiledirActivity extends BaseCompat
               projectdata.add(_item);
             }
           }
-          post.setAdapter(new RecyclerviewCppAdapter(projectdata));
+          //post.setAdapter(new RecyclerviewCppAdapter(projectdata));
           post.setLayoutManager(new GridLayoutManager(FiledirActivity.this, (int) 2));
           positive.setOnClickListener(
               (vftrororocjj) -> {
@@ -2018,142 +2018,7 @@ public class FiledirActivity extends BaseCompat
     maindialogPrfex.show();
   }
 
-  public class RecyclerviewCppAdapter
-      extends RecyclerView.Adapter<RecyclerviewCppAdapter.ViewHolder> {
-
-    ArrayList<HashMap<String, Object>> _data;
-
-    public RecyclerviewCppAdapter(ArrayList<HashMap<String, Object>> _arr) {
-      _data = _arr;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      LayoutInflater _inflater = getLayoutInflater();
-      View _v = _inflater.inflate(R.layout.viewproject, null);
-      RecyclerView.LayoutParams _lp =
-          new RecyclerView.LayoutParams(
-              ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-      _v.setLayoutParams(_lp);
-      return new ViewHolder(_v);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder _holder, final int _position) {
-      View _view = _holder.itemView;
-      Animation animation =
-          AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-      _view.startAnimation(animation);
-
-      final LinearLayout mains = _view.findViewById(R.id.mains);
-      final ImageView img = _view.findViewById(R.id.img);
-      final TextView tv = _view.findViewById(R.id.tv);
-      mains.setOnTouchListener(
-          new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-              switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                  {
-                    ObjectAnimator scaleX = new ObjectAnimator();
-                    scaleX.setTarget(mains);
-                    scaleX.setPropertyName("scaleX");
-                    scaleX.setFloatValues(0.9f);
-                    scaleX.setDuration((int) 5);
-                    scaleX.start();
-
-                    ObjectAnimator scaleY = new ObjectAnimator();
-                    scaleY.setTarget(mains);
-                    scaleY.setPropertyName("scaleY");
-                    scaleY.setFloatValues(0.9f);
-                    scaleY.setDuration((int) 5);
-                    scaleY.start();
-                    break;
-                  }
-                case MotionEvent.ACTION_UP:
-                  {
-                    ObjectAnimator scaleX = new ObjectAnimator();
-                    scaleX.setTarget(mains);
-                    scaleX.setPropertyName("scaleX");
-                    scaleX.setFloatValues((float) 1);
-                    scaleX.setDuration((int) 5);
-                    scaleX.start();
-
-                    ObjectAnimator scaleY = new ObjectAnimator();
-                    scaleY.setTarget(mains);
-                    scaleY.setPropertyName("scaleY");
-                    scaleY.setFloatValues((float) 1);
-                    scaleY.setDuration((int) 5);
-                    scaleY.start();
-
-                    break;
-                  }
-              }
-              return false;
-            }
-          });
-      if (_position == 0) {
-        img.setImageResource(R.drawable.projecthtml);
-        tv.setText("web project");
-        mains.setOnClickListener(
-            new View.OnClickListener() {
-              @Override
-              public void onClick(View _view) {
-                _project();
-                maindialogPrfex.dismiss();
-              }
-            });
-      }
-      if (_position == 1) {
-        img.setImageResource(R.drawable.projectnodejs);
-        tv.setText("node js project");
-        mains.setOnClickListener(
-            new View.OnClickListener() {
-              @Override
-              public void onClick(View _view) {
-                maindialogPrfex.dismiss();
-                SketchwareUtil.showMessage(getApplicationContext(), "soon");
-              }
-            });
-      }
-      if (_position == 2) {
-        img.setImageResource(R.drawable.projectreact);
-        tv.setText("react project");
-        mains.setOnClickListener(
-            new View.OnClickListener() {
-              @Override
-              public void onClick(View _view) {
-                maindialogPrfex.dismiss();
-                SketchwareUtil.showMessage(getApplicationContext(), "soon");
-              }
-            });
-      }
-      if (_position == 3) {
-        img.setImageResource(R.drawable.projectcpp);
-        tv.setText("c++ project");
-        mains.setOnClickListener(
-            new View.OnClickListener() {
-              @Override
-              public void onClick(View _view) {
-                maindialogPrfex.dismiss();
-                SketchwareUtil.showMessage(getApplicationContext(), "soon");
-              }
-            });
-      }
-    }
-
-    @Override
-    public int getItemCount() {
-      return _data.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-      public ViewHolder(View v) {
-        super(v);
-      }
-    }
-  }
-
+  
   public void _vector(final String _input, final String _output) {
     vb.iconPath = _input;
     vb.projectResourceDirectory = _output;
@@ -2850,7 +2715,7 @@ public class FiledirActivity extends BaseCompat
               }
             case 2:
               {
-                _projectinit();
+                var modl = new FactoryModelProject(FiledirActivity.this);
                 break;
               }
             case 3:

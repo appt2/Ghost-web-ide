@@ -1,35 +1,35 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/loglang/LOGLexer.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/ProjectManagerAdapter.java",
       "selection": {
         "end": {
-          "column": 45,
-          "index": 45,
-          "line": 0
+          "column": 0,
+          "index": 2219,
+          "line": 68
         },
         "start": {
-          "column": 45,
-          "index": 45,
-          "line": 0
+          "column": 0,
+          "index": 2219,
+          "line": 68
         }
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/loglang/LogLang.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FileHelper/FactoryModelProject.java",
       "selection": {
         "end": {
-          "column": 45,
-          "index": 45,
-          "line": 0
+          "column": 4,
+          "index": 1896,
+          "line": 52
         },
         "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 4,
+          "index": 1896,
+          "line": 52
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/io/github/rosemoe/sora/langs/loglang/LOGLexer.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/ProjectManagerAdapter.java"
 }
