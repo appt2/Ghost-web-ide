@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FileHelper/FactoryModelProject.java",
+      "selection": {
+        "end": {
+          "column": 31,
+          "index": 3668,
+          "line": 104
+        },
+        "start": {
+          "column": 31,
+          "index": 3668,
+          "line": 104
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FiledirActivity.java",
+      "selection": {
+        "end": {
+          "column": 78,
+          "index": 104061,
+          "line": 2717
+        },
+        "start": {
+          "column": 78,
+          "index": 104061,
+          "line": 2717
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FileHelper/FactoryModelProject.java"
+}

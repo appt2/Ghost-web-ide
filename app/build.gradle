@@ -115,5 +115,7 @@ dependencies {
     //for test api android 50~
     implementation 'de.larsgrefer.sass:sass-embedded-host:3.5.1'
     implementation "io.reactivex.rxjava3:rxjava:3.1.8"
-
+    //make class java 
+    
+    implementation 'com.squareup:javapoet:1.13.0' 
 }
