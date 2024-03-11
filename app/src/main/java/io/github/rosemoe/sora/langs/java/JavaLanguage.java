@@ -181,6 +181,7 @@ public class JavaLanguage implements EditorLanguage {
       var options = DefaultCodeFormatterOptions.getEclipseDefaultSettings();
 
       var codeFormatter = new DefaultCodeFormatter(options);
+      
 
       var edit =
           codeFormatter.format(
