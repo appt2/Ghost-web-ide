@@ -58,7 +58,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
-    implementation 'org.eclipse.jdt:org.eclipse.jdt.core:3.28.0'
     implementation 'com.jsibbold:zoomage:1.3.0'
     implementation 'com.lxj:xpopup:2.2.19'
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
@@ -116,6 +115,6 @@ dependencies {
     implementation 'de.larsgrefer.sass:sass-embedded-host:3.5.1'
     implementation "io.reactivex.rxjava3:rxjava:3.1.8"
     //make class java 
-    
+    implementation project(path: ':eclipse-standalone')
     implementation 'com.squareup:javapoet:1.13.0' 
 }

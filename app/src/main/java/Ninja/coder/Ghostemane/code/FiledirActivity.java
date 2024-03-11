@@ -177,16 +177,9 @@ public class FiledirActivity extends BaseCompat
   private List<String> folderList = new ArrayList<>();
   private List<String> fileList = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> files = new ArrayList<>();
-
   private ArrayList<HashMap<String, Object>> newlistmap = new ArrayList<>();
-
-  private ArrayList<HashMap<String, Object>> treeviewmap = new ArrayList<>();
   private ArrayList<String> pv = new ArrayList<>();
-  private ArrayList<HashMap<String, Object>> test = new ArrayList<>();
-  private ArrayList<String> copyOrMove = new ArrayList<>();
   private ArrayList<String> zip = new ArrayList<>();
-  private ArrayList<String> listStringShareFile = new ArrayList<>();
-
   private ArrayList<HashMap<String, Object>> upfile = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> map = new ArrayList<>();
   private ArrayList<String> str1 = new ArrayList<>();
@@ -470,8 +463,6 @@ public class FiledirActivity extends BaseCompat
     u.setColor(0xFF2B2122);
     u.setCornerRadius(25);
     u.setStroke(1, 0xFFF8B09A);
-
-    _fos();
     _materialYouss();
     paramentLayout_fileDir.setLayoutParams(
         new LinearLayout.LayoutParams(
@@ -512,30 +503,6 @@ public class FiledirActivity extends BaseCompat
     _refreshTabs();
     FileManagerUtils fileManagerUtils = new FileManagerUtils(this);
     
-//    if (FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/icon.zip")) {
-//    } else {
-//      FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/.icon");
-//      AssetsSoft assetsSoft = new AssetsSoft();
-//      assetsSoft.copyOneFileFromAssets(
-//          "icon.zip", "/storage/emulated/0/GhostWebIDE/", FiledirActivity.this);
-//      vvv12 =
-//          new TimerTask() {
-//            @Override
-//            public void run() {
-//              runOnUiThread(
-//                  new Runnable() {
-//                    @Override
-//                    public void run() {
-//                      _hsiunzip(
-//                          "/storage/emulated/0/GhostWebIDE/icon.zip",
-//                          "/storage/emulated/0/GhostWebIDE/.icon/");
-//                    }
-//                  });
-//            }
-//          };
-//      _timer.schedule(vvv12, (int) (3000));
-//    }
-//
     fabAdd = findViewById(R.id.fabAdd);
 
     AnimUtils.Worker(fabAdd);
@@ -561,6 +528,7 @@ public class FiledirActivity extends BaseCompat
     navs.getMenu().add(0, 12, 0, "Icon Shop").setIcon(R.drawable.color);
     navs.getMenu().add(0, 13, 0, "PL manager").setIcon(R.drawable.link);
     navs.getMenu().add(0, 14, 0, "Book mark (Beta)").setIcon(R.drawable.ic_bookmark_white);
+    navs.getMenu().add(0,15,0,"Apk manager").setIcon(R.drawable.arrow);
     navs.getMenu().add(0, 15, 0, "exit").setIcon(R.drawable.exit);
     _DrowerHandler();
   }
@@ -2443,51 +2411,6 @@ public class FiledirActivity extends BaseCompat
     dialog.show();
   }
 
-  public void _fos() {
-    if (getIntent().hasExtra("home")) {
-      Folder = getIntent().getStringExtra("home");
-      _getFiles("");
-    } else {
-      if (getIntent().hasExtra("sd")) {
-        Folder = getIntent().getStringExtra("sd");
-        _getFiles("");
-      } else {
-        if (getIntent().hasExtra("root")) {
-          Folder = getIntent().getStringExtra("root");
-          _getFiles("");
-        } else {
-          if (getIntent().hasExtra("music")) {
-            Folder = getIntent().getStringExtra("music");
-            _getFiles("");
-          } else {
-            if (getIntent().hasExtra("download")) {
-              Folder = getIntent().getStringExtra("download");
-              _getFiles("");
-            } else {
-              if (getIntent().hasExtra("themes")) {
-                Folder = getIntent().getStringExtra("themes");
-                _getFiles("");
-              } else {
-                if (save_path.contains("path")) {
-                  if (FileUtil.isExistFile(save_path.getString("path", ""))) {
-                    Folder = save_path.getString("path", "");
-                    _getFiles("");
-                  } else {
-                    Folder = FileUtil.getExternalStorageDir();
-                    _getFiles("");
-                  }
-                } else {
-                  Folder = FileUtil.getExternalStorageDir();
-                  _getFiles("");
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
   public void _DrowerHandler() {
     navs.bringToFront();
     navs.setClick(
@@ -2523,7 +2446,7 @@ public class FiledirActivity extends BaseCompat
               }
             case ((int) 5):
               {
-                com.blankj.utilcode.util.ThreadUtils.runOnUiThread(
+                runOnUiThread(
                     new Runnable() {
                       @Override
                       public void run() {
@@ -2561,10 +2484,10 @@ public class FiledirActivity extends BaseCompat
               }
             case ((int) 7):
               {
-                 var log = new Ninja.coder.Ghostemane.code.GitFamily.GitLog(FiledirActivity.this);
-                  log.test();
-//                getabout.setClass(getApplicationContext(), LeranActivity.class);
-//                startActivity(getabout);
+                var log = new Ninja.coder.Ghostemane.code.GitFamily.GitLog(FiledirActivity.this);
+                log.test();
+                //                getabout.setClass(getApplicationContext(), LeranActivity.class);
+                //                startActivity(getabout);
                 break;
               }
             case ((int) 8):
@@ -2599,10 +2522,6 @@ public class FiledirActivity extends BaseCompat
             case ((int) 12):
               {
                 var icon = new IconShop(FiledirActivity.this);
-
-                //                intentgetLogCat.setClass(getApplicationContext(),
-                // IconmodActivity.class);
-                //                startActivity(intentgetLogCat);
                 break;
               }
             case ((int) 13):
@@ -2618,6 +2537,14 @@ public class FiledirActivity extends BaseCompat
                 break;
               }
             case ((int) 15):
+              {
+                var b = new Intent();
+                b.setClass(getApplicationContext(), ApkViewActivity.class);
+                startActivity(b);
+
+                break;
+              }
+            case 16:
               {
                 finishAffinity();
                 break;

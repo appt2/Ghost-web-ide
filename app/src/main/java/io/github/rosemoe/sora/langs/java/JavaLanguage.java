@@ -179,10 +179,7 @@ public class JavaLanguage implements EditorLanguage {
 
     public String format() {
       var options = DefaultCodeFormatterOptions.getEclipseDefaultSettings();
-
       var codeFormatter = new DefaultCodeFormatter(options);
-      
-
       var edit =
           codeFormatter.format(
               DefaultCodeFormatter.K_COMPILATION_UNIT,
@@ -195,7 +192,7 @@ public class JavaLanguage implements EditorLanguage {
 
       var document = new Document(source);
       try {
-
+        
         edit.apply(document);
       } catch (Exception e) {
         throw new IllegalStateException(e);
