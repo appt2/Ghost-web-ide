@@ -2715,7 +2715,9 @@ public class FiledirActivity extends BaseCompat
               }
             case 2:
               {
-                var modl = new FactoryModelProject(FiledirActivity.this,Folder);
+                var modl = new FactoryModelProject(FiledirActivity.this,Folder,() ->{
+                  _getFiles("");
+                });
                 break;
               }
             case 3:
