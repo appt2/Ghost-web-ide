@@ -3,6 +3,7 @@ package Ninja.coder.Ghostemane.code.FileHelper;
 import Ninja.coder.Ghostemane.code.R;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -27,11 +28,10 @@ public class CreatorModule {
   protected Spinner spinner;
   protected String folder;
   protected OnCallBack call;
-  protected TextInputLayout inputLayout;
+  protected TextInputLayout inputLayout, input_pk;
   protected List<String> str = new ArrayList<>();
 
-  public CreatorModule(Context context, String folder
-    ,OnCallBack call) {
+  public CreatorModule(Context context, String folder, OnCallBack call) {
     this.context = context;
     this.folder = folder;
     this.call = call;
@@ -50,6 +50,7 @@ public class CreatorModule {
           var btn = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
           inputLayout = dialog.findViewById(R.id.input_ma);
           spinner = dialog.findViewById(R.id.sp1_main);
+          input_pk = dialog.findViewById(R.id.input_pack);
           spinner.setAdapter(
               new ArrayAdapter<String>(
                   context, android.R.layout.simple_spinner_dropdown_item, str));
@@ -57,8 +58,9 @@ public class CreatorModule {
           var myShap = new ShapeAppearanceModel.Builder();
           myShap.setAllCorners(CornerFamily.CUT, 20f);
           inputLayout.setShapeAppearanceModel(myShap.build());
-          inputLayout.setPadding(8, 8, 8, 8);
+          input_pk.setShapeAppearanceModel(myShap.build());
           inputLayout.setHintEnabled(true);
+          spinner.setDrawingCacheBackgroundColor(Color.BLUE);
           inputLayout.setHint("CreatorModule");
           inputLayout
               .getEditText()
@@ -76,13 +78,14 @@ public class CreatorModule {
                     public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
                       btn.setEnabled(s.toString().isEmpty() ? false : true);
                       spinner.setEnabled(s.toString().isEmpty() ? false : true);
+                      input_pk.getEditText().setEnabled(s.toString().isEmpty() ? false : true);
                     }
                   });
 
           btn.setOnClickListener(
               vc -> {
-                if(call != null) {
-                	call.reload();
+                if (call != null) {
+                  call.reload();
                 }
                 dialog.dismiss();
               });
@@ -95,8 +98,8 @@ public class CreatorModule {
                     case 0:
                       break;
                     case 1:
-                        makeModuleJava();
-                        break;
+                      makeModuleJava();
+                      break;
                     case 2:
                       makeModuleAndroid();
                       break;
@@ -129,13 +132,16 @@ public class CreatorModule {
               + "    sourceCompatibility = JavaVersion.VERSION_17\n"
               + "    targetCompatibility = JavaVersion.VERSION_17\n"
               + "}\n";
-
       String androidManifestContent =
           "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
               + "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\">\n"
               + "</manifest>\n";
       String mainJavaContent =
-          "public class Main {\n"
+          "package"
+              + input_pk.getEditText().getText().toString()
+              + ";"
+              + "\n \n"
+              + "public class Main {\n"
               + "    public static void main(String[] args) {\n"
               + "        // Your Java code here\n"
               + "    }\n"
@@ -143,8 +149,17 @@ public class CreatorModule {
 
       Files.write(moduleFolder.resolve("build.gradle"), buildGradleContent.getBytes());
       Files.write(moduleFolder.resolve(".gitignore"), "/build".getBytes());
-      Files.createDirectories(moduleFolder.resolve("src/main/java"));
-      Files.write(moduleFolder.resolve("src/main/java/Main.java"), mainJavaContent.getBytes());
+      Files.createDirectories(
+          moduleFolder.resolve(
+              "src/main/java/"
+                  + input_pk.getEditText().getText().toString().replace('.', '/')
+                  + "/"));
+      Files.write(
+          moduleFolder.resolve(
+              "src/main/java/"
+                  + input_pk.getEditText().getText().toString().replace('.', '/')
+                  + "Main.java"),
+          mainJavaContent.getBytes());
       Files.write(
           moduleFolder.resolve("src/main/AndroidManifest.xml"), androidManifestContent.getBytes());
     } catch (IOException e) {
@@ -156,13 +171,15 @@ public class CreatorModule {
     Path moduleFolder = Paths.get(folder, inputLayout.getEditText().getText().toString());
     try {
       Files.createDirectories(moduleFolder);
-
+          var pak = input_pk.getEditText().getText().toString();
       String buildGradleContent =
           "plugins {\n"
               + "    id 'com.android.library'\n"
               + "}\n\n"
               + "android {\n"
               + "    compileSdk 34\n"
+              + "    namespace " + "'" + pak + "'" 
+              + "\n"
               + "    defaultConfig {\n"
               + "        minSdkVersion 21\n"
               + "        targetSdkVersion 34\n"
@@ -170,26 +187,42 @@ public class CreatorModule {
               + "    buildTypes {\n"
               + "        release {\n"
               + "            minifyEnabled false\n"
-              + "            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n"
               + "        }\n"
+              + "    }\n"
+              + "    compileOptions {\n"
+              + "        sourceCompatibility JavaVersion.VERSION_17\n"
+              + "        targetCompatibility JavaVersion.VERSION_17\n"
               + "    }\n"
               + "}\n"
               + "dependencies {\n"
               + "    //add your dependencies\n"
+              + "    implementation \"androidx.appcompat:appcompat:1.7.0-alpha03\"\n"
+              + "    implementation \"androidx.constraintlayout:constraintlayout:2.1.4\"\n"
+              + "    implementation \"com.google.android.material:material:1.12.0-alpha03\"\n"
               + "}\n";
-
       String androidManifestContent =
           "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
               + "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n"
               + "</manifest>\n";
       String mainJavaContent =
-          "package $YourApp;\n\n\nimport androidx.core.app.ActivityCompat;\n\npublic class MainActivity extends AppCompatActivity {\n\n  @Override\n  protected void onCreate(Bundle _savedInstanceState) {\n    super.onCreate(_savedInstanceState);\n    setContentView($YourApp);\n \n  }\n}\n";
+          "package "
+              + pak
+              + ";\n\n\nimport androidx.core.app.ActivityCompat;\n\npublic class MainActivity extends AppCompatActivity {\n\n  @Override\n  protected void onCreate(Bundle _savedInstanceState) {\n    super.onCreate(_savedInstanceState);\n \n \n  }\n}\n";
 
       Files.write(moduleFolder.resolve("build.gradle"), buildGradleContent.getBytes());
       Files.write(moduleFolder.resolve(".gitignore"), "/build".getBytes());
-      Files.createDirectories(moduleFolder.resolve("src/main/java/com/example/app"));
+      Files.createDirectories(
+          moduleFolder.resolve(
+              "src/main/java/"
+                  + input_pk.getEditText().getText().toString().replace('.', '/')
+                  + "/"));
       Files.write(
-          moduleFolder.resolve("src/main/java/com/example/app/MainActivity.java"), mainJavaContent.getBytes());
+          moduleFolder.resolve(
+              "src/main/java/"
+                  + input_pk.getEditText().getText().toString().replace('.', '/')
+                  + "/"
+                  + "MainActivity.java"),
+          mainJavaContent.getBytes());
       Files.write(
           moduleFolder.resolve("src/main/AndroidManifest.xml"), androidManifestContent.getBytes());
     } catch (IOException e) {
@@ -201,12 +234,14 @@ public class CreatorModule {
     Path moduleFolder = Paths.get(folder, inputLayout.getEditText().getText().toString());
     try {
       Files.createDirectories(moduleFolder);
-
+      var pak = input_pk.getEditText().getText().toString();
       String buildGradleContent =
           "plugins {\n"
               + "    id('com.android.library')\n"
               + "}\n\n"
               + "android {\n"
+              + "    namespace " + "'" 
+              + pak + "'" + "\n"
               + "    compileSdk = 34\n"
               + "    defaultConfig {\n"
               + "        minSdk = 21\n"
@@ -215,33 +250,51 @@ public class CreatorModule {
               + "    buildTypes {\n"
               + "        getByName(\"release\") {\n"
               + "            isMinifyEnabled = false\n"
-              + "            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), file('proguard-rules.pro'))\n"
               + "        }\n"
               + "    }\n"
               + "}\n"
+              + "compileOptions {\n"
+              + "    sourceCompatibility JavaVersion.VERSION_17\n"
+              + "    targetCompatibility JavaVersion.VERSION_17\n"
+              + "}\n"
               + "dependencies {\n"
               + "    //add your dependencies\n"
+              + "    implementation(\"androidx.appcompat:appcompat:1.7.0-alpha03\")\n"
+              + "    implementation(\"androidx.constraintlayout:constraintlayout:2.1.4\")\n"
+              + "    implementation(\"com.google.android.material:material:1.12.0-alpha03\")\n"
               + "}\n";
-
       String androidManifestContent =
           "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
               + "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n"
               + "</manifest>\n";
       String mainKotlinContent =
-          "package $YourApp;\n\n\nimport androidx.core.app.ActivityCompat;\n\n class MainActivity : AppCompatActivity() {\n\n  override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setContentView($YourApp)\n \n val a = 20 \n println(a) }\n}\n";
+          "package "
+              + pak
+              + ";\n\n\nimport androidx.core.app.ActivityCompat;\n\n class MainActivity : AppCompatActivity() {\n\n  override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n }\n}\n";
 
       Files.write(moduleFolder.resolve("build.gradle.kts"), buildGradleContent.getBytes());
       Files.write(moduleFolder.resolve(".gitignore"), "/build".getBytes());
-      Files.createDirectories(moduleFolder.resolve("src/main/java/com/example/app"));
+
+      Files.createDirectories(
+          moduleFolder.resolve(
+              "src/main/java/"
+                  + input_pk.getEditText().getText().toString().replace('.', '/')
+                  + "/"));
       Files.write(
-          moduleFolder.resolve("src/main/java/com/example/app/MainActivity.kt"), mainKotlinContent.getBytes());
+          moduleFolder.resolve(
+              "src/main/java/"
+                  + input_pk.getEditText().getText().toString().replace('.', '/')
+                  + "/"
+                  + "MainActivity.kt"),
+          mainKotlinContent.getBytes());
       Files.write(
           moduleFolder.resolve("src/main/AndroidManifest.xml"), androidManifestContent.getBytes());
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
-  public interface OnCallBack{
+
+  public interface OnCallBack {
     public void reload();
   }
 }
