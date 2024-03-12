@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code;
 
+import Ninja.coder.Ghostemane.code.FileHelper.CreatorModule;
 import Ninja.coder.Ghostemane.code.FileHelper.FactoryModelProject;
 import Ninja.coder.Ghostemane.code.component.FastScrollCompat.FastScrollerBuilder;
 import Ninja.coder.Ghostemane.code.component.SwbData;
@@ -2627,6 +2628,7 @@ public class FiledirActivity extends BaseCompat
     sh.addItem("Folder Tree", R.drawable.foldermultipleplus);
     sh.addItem("FileTree", R.drawable.filemultiple);
     sh.addItem("Git Clone", R.drawable.git);
+    sh.addItem("test", R.drawable.git);
     sh.setOnItemClickLabe(
         (pos333) -> {
           switch (pos333) {
@@ -2642,9 +2644,13 @@ public class FiledirActivity extends BaseCompat
               }
             case 2:
               {
-                var modl = new FactoryModelProject(FiledirActivity.this,Folder,() ->{
-                  _getFiles("");
-                });
+                var modl =
+                    new FactoryModelProject(
+                        FiledirActivity.this,
+                        Folder,
+                        () -> {
+                          _getFiles("");
+                        });
                 break;
               }
             case 3:
@@ -2733,6 +2739,12 @@ public class FiledirActivity extends BaseCompat
               {
                 _dialoggits();
                 break;
+              }
+            case 8:
+              {
+                CreatorModule cvt = new CreatorModule(FiledirActivity.this, Folder,() ->{
+                  _getFiles("");
+                });
               }
           }
         });

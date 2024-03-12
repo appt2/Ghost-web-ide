@@ -1,5 +1,6 @@
 package io.github.rosemoe.sora.langs.java;
 
+import android.os.Build;
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
 import io.github.rosemoe.sora.interfaces.EditorLanguage;
@@ -59,8 +60,11 @@ public class JavaLanguage implements EditorLanguage {
 
   @Override
   public CharSequence format(CharSequence text) {
-        GoogleJavaFormatter formater=new GoogleJavaFormatter(text.toString());
-    return formater.format();
+    GoogleJavaFormatter formater = new GoogleJavaFormatter(text.toString());
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+      return formater.format();
+    }
+    return text;
   }
 
   private final NewlineHandler[] newLineHandlers =
