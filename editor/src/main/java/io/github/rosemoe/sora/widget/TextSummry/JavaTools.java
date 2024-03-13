@@ -30,7 +30,6 @@ public class JavaTools {
   protected HashMap<String, Object> mmap = new HashMap<>();
   protected ArrayList<HashMap<String, Object>> map = new ArrayList<>();
   protected ArrayList<String> listvariable = new ArrayList<>();
-  
 
   public JavaTools() {
     item = new ToolItem();
@@ -80,7 +79,7 @@ public class JavaTools {
           } else if (pos == 4) {
             shareText(editor);
           } else if (pos == 5) {
-            
+
           } else if (pos == 6) {
             installextractJavaClass(context, editor);
           } else if (pos == 7) {
@@ -245,6 +244,4 @@ public class JavaTools {
 
     dialogs.show();
   }
-
-  
 }

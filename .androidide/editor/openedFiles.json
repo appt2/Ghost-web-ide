@@ -1,20 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FileHelper/CreatorModule.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/editor/src/main/java/io/github/rosemoe/sora/widget/TextSummry/HtmlTool.java",
       "selection": {
         "end": {
-          "column": 100,
-          "index": 11146,
-          "line": 274
+          "column": 43,
+          "index": 145,
+          "line": 3
         },
         "start": {
-          "column": 100,
-          "index": 11146,
-          "line": 274
+          "column": 43,
+          "index": 145,
+          "line": 3
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/app/src/main/java/Ninja/coder/Ghostemane/code/FileHelper/CreatorModule.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/editor/src/main/java/io/github/rosemoe/sora/widget/TextSummry/HtmlTool.java"
 }
