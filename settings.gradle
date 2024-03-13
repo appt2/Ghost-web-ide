@@ -23,4 +23,3 @@ rootProject.name = "GhostWeb IDE"
 
 include(":app")
 include 'eclipse-standalone'
-include (":editor")
