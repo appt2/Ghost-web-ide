@@ -1,6 +1,7 @@
 package io.github.rosemoe.sora.widget.TextSummry;
 
 import Ninja.coder.Ghostemane.code.ColorAndroid12;
+import Ninja.coder.Ghostemane.code.IDEEDITOR;
 import Ninja.coder.Ghostemane.code.marco.ColorView;
 import Ninja.coder.Ghostemane.code.marco.HtmlTagView;
 import android.content.Context;
@@ -51,7 +52,7 @@ public class HtmlTool implements Serializable {
             editor.getCommentHelper().CustomComment("<!--", "-->");
           } else if (pos == 1) {
             HtmlTagView views = new HtmlTagView();
-            views.Start(editor.getText().toString(), context, editor);
+            views.Start(editor.getText().toString(), context, (IDEEDITOR) editor);
           } else if (pos == 2) {
             
           } else if (pos == 3) {
