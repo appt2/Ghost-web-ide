@@ -171,14 +171,17 @@ public class CreatorModule {
     Path moduleFolder = Paths.get(folder, inputLayout.getEditText().getText().toString());
     try {
       Files.createDirectories(moduleFolder);
-          var pak = input_pk.getEditText().getText().toString();
+      var pak = input_pk.getEditText().getText().toString();
       String buildGradleContent =
           "plugins {\n"
               + "    id 'com.android.library'\n"
               + "}\n\n"
               + "android {\n"
               + "    compileSdk 34\n"
-              + "    namespace " + "'" + pak + "'" 
+              + "    namespace "
+              + "'"
+              + pak
+              + "'"
               + "\n"
               + "    defaultConfig {\n"
               + "        minSdkVersion 21\n"
@@ -201,13 +204,11 @@ public class CreatorModule {
               + "    implementation \"com.google.android.material:material:1.12.0-alpha03\"\n"
               + "}\n";
       String androidManifestContent =
-          "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-              + "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n"
-              + "</manifest>\n";
+          "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n<manifest\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    \n>\n</manifest>\n";
       String mainJavaContent =
           "package "
               + pak
-              + ";\n\n\nimport androidx.core.app.ActivityCompat;\n\npublic class MainActivity extends AppCompatActivity {\n\n  @Override\n  protected void onCreate(Bundle _savedInstanceState) {\n    super.onCreate(_savedInstanceState);\n \n \n  }\n}\n";
+              + ";\n\n\nimport androidx.appcompat.app.AppCompatActivity;\n import android.os.Bundle; \n \npublic class MainActivity extends AppCompatActivity {\n\n  @Override\n  protected void onCreate(Bundle _savedInstanceState) {\n    super.onCreate(_savedInstanceState);\n \n \n  }\n}\n";
 
       Files.write(moduleFolder.resolve("build.gradle"), buildGradleContent.getBytes());
       Files.write(moduleFolder.resolve(".gitignore"), "/build".getBytes());
@@ -240,8 +241,11 @@ public class CreatorModule {
               + "    id('com.android.library')\n"
               + "}\n\n"
               + "android {\n"
-              + "    namespace " + "'" 
-              + pak + "'" + "\n"
+              + "    namespace "
+              + "'"
+              + pak
+              + "'"
+              + "\n"
               + "    compileSdk = 34\n"
               + "    defaultConfig {\n"
               + "        minSdk = 21\n"
@@ -264,13 +268,11 @@ public class CreatorModule {
               + "    implementation(\"com.google.android.material:material:1.12.0-alpha03\")\n"
               + "}\n";
       String androidManifestContent =
-          "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-              + "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n"
-              + "</manifest>\n";
+          "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n<manifest\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    \n>\n</manifest>\n";
       String mainKotlinContent =
           "package "
               + pak
-              + ";\n\n\nimport androidx.core.app.ActivityCompat;\n\n class MainActivity : AppCompatActivity() {\n\n  override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n }\n}\n";
+              + ";\n\n\nimport androidx.appcompat.app.AppCompatActivity;\n import android.os.Bundle \n\n class MainActivity : AppCompatActivity() {\n\n  override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n }\n}\n";
 
       Files.write(moduleFolder.resolve("build.gradle.kts"), buildGradleContent.getBytes());
       Files.write(moduleFolder.resolve(".gitignore"), "/build".getBytes());
