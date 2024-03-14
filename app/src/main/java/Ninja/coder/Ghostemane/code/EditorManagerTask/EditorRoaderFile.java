@@ -1,18 +1,13 @@
 package Ninja.coder.Ghostemane.code.EditorManagerTask;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.widget.ProgressBar;
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import android.view.*;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import io.github.rosemoe.sora.langs.desc.*;
 import io.github.rosemoe.sora.langs.html.HTMLLanguage;
 import io.github.rosemoe.sora.langs.java.*;
 import io.github.rosemoe.sora.langs.python.PythonLang;
+import io.github.rosemoe.sora.langs.sass.SassLangCompat;
 import io.github.rosemoe.sora.langs.universal.UniversalLanguage;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import java.io.*;
@@ -21,10 +16,7 @@ import io.github.rosemoe.sora.langs.ninjalang.NinjaLang;
 import io.github.rosemoe.sora.langs.javascript.JavaScriptLanguage;
 import io.github.rosemoe.sora.langs.ghostthemelang.ghostlang.ghostlangs;
 import io.github.rosemoe.sora.langs.xml.XMLLanguage;
-import java.nio.charset.StandardCharsets;
 import io.github.rosemoe.sora.langs.smali.SMLang;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.CompletableFuture;
 
 public class EditorRoaderFile {
 
@@ -70,7 +62,7 @@ public class EditorRoaderFile {
           400);
     } else if (_path.endsWith(".scss") || _path.endsWith(".sass")) {
       ReadFileCompat(editor, _path, bar);
-      editor.setEditorLanguage(new UniversalLanguage(new SCSSDescription()));
+      editor.setEditorLanguage(new SassLangCompat());
       _fab.postDelayed(() -> _fab.show(), 300);
     } else if (_path.endsWith(".c")) {
       ReadFileCompat(editor, _path, bar);

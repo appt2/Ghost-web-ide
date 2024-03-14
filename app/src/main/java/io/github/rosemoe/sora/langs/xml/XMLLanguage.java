@@ -1,5 +1,6 @@
 package io.github.rosemoe.sora.langs.xml;
 
+import Ninja.coder.Ghostemane.code.appConfig.JacksonFormatter;
 import android.util.Log;
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.sora.interfaces.EditorLanguage;
@@ -95,20 +96,23 @@ public class XMLLanguage implements EditorLanguage {
   @Override
   public CharSequence format(CharSequence ch) {
     var item = ch.toString();
+    JacksonFormatter jformat = new JacksonFormatter();
 
-    if (item.contains("<vector xmlns:android")) {
-      return formatXMLString(ch.toString());
-    } else if (item.contains("<?xml version")) {
-      Log.e("AndroidXml", "Android Xml not Format code");
-    } else {
-      return formatXml(ch.toString());
-    }
-    return ch;
+//    if (item.contains("<vector xmlns:android")) {
+//      return formatXMLString(ch.toString());
+//    } else if (item.contains("<?xml version")) {
+//      Log.e("AndroidXml", "Android Xml not Format code");
+//      return jformat.formatXml(item);
+//    } else {
+//      
+//    }
+    return jformat.formatXml(ch.toString());
   }
 
   private String formatXml(String xml) {
     Document doc = Jsoup.parse(xml, "", Parser.xmlParser());
     Document.OutputSettings outputSettings = doc.outputSettings();
+    
     outputSettings.syntax(Document.OutputSettings.Syntax.xml);
     outputSettings.indentAmount(2);
     outputSettings.prettyPrint(true);
