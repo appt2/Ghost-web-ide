@@ -27,7 +27,7 @@ import android.graphics.*;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.media.MediaPlayer;
-import android.net.*;
+
 import android.net.Uri;
 import android.os.*;
 import android.text.*;
@@ -54,23 +54,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.*;
-import androidx.recyclerview.selection.*;
-import androidx.recyclerview.widget.*;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.webkit.*;
 import arabware.file.*;
-import com.allenliu.badgeview.*;
-
-import com.blankj.utilcode.*;
-import com.bumptech.glide.*;
-import com.bumptech.glide.integration.avif.*;
-import com.bumptech.glide.integration.recyclerview.*;
-import com.caverock.androidsvg.*;
-import com.fasterxml.jackson.core.*;
-import com.github.angads25.filepicker.*;
-import com.github.junrar.*;
 import com.google.android.material.*;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.textfield.TextInputEditText;
@@ -78,12 +66,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hzy.lib7z.*;
-import com.jsibbold.zoomage.*;
+
 import com.lxj.xpopup.*;
 import com.mukesh.*;
 import com.neo.highlight.*;
 import com.skydoves.powermenu.*;
-import com.tapadoo.alerter.*;
 import com.zip4j.*;
 import fi.iki.elonen.*;
 import java.io.*;
@@ -94,19 +81,11 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.*;
+import ninjacoder.ghostide.androidtools.r8.android.R8Tools;
 import org.benf.cfr.reader.*;
-import org.beyka.tiffbitmapfactory.*;
-import org.json.*;
+
 import storage.sdcard.*;
-import xyz.doikki.videoplayer.*;
-import xyz.doikki.videoplayer.exo.*;
-import xyz.doikki.videoplayer.ijk.*;
-import io.github.rosemoe.sora.widget.*;
 import java.security.*;
-import com.github.angads25.filepicker.view.*;
-import com.github.angads25.filepicker.model.*;
-import com.github.angads25.filepicker.controller.*;
-import com.github.angads25.filepicker.utils.*;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zip4j.progress.ProgressMonitor;
@@ -415,7 +394,7 @@ public class FiledirActivity extends BaseCompat
     staticstring = files.get((int) pos).get("path").toString();
     if (FileUtil.isDirectory(staticstring)) {
       Folder = staticstring;
-      _getFiles("");
+      reLoadFile();
     } else {
       _dataOnClickItemList(pos);
     }
@@ -481,14 +460,14 @@ public class FiledirActivity extends BaseCompat
     if (save_path.contains("path")) {
       if (FileUtil.isExistFile(save_path.getString("path", ""))) {
         Folder = save_path.getString("path", "");
-        _getFiles("");
+        reLoadFile();
       } else {
         Folder = FileUtil.getExternalStorageDir();
-        _getFiles("");
+        reLoadFile();
       }
     } else {
       Folder = FileUtil.getExternalStorageDir();
-      _getFiles("");
+      reLoadFile();
     }
     user = new FileEventUser();
     user.setCallBack(
@@ -529,7 +508,7 @@ public class FiledirActivity extends BaseCompat
     navs.getMenu().add(0, 12, 0, "Icon Shop").setIcon(R.drawable.color);
     navs.getMenu().add(0, 13, 0, "PL manager").setIcon(R.drawable.link);
     navs.getMenu().add(0, 14, 0, "Book mark (Beta)").setIcon(R.drawable.ic_bookmark_white);
-    navs.getMenu().add(0,15,0,"Apk manager").setIcon(R.drawable.arrow);
+    navs.getMenu().add(0,15,0,"Apk manager").setIcon(R.drawable.default_image);
     navs.getMenu().add(0, 15, 0, "exit").setIcon(R.drawable.exit);
     _DrowerHandler();
   }
@@ -621,7 +600,7 @@ public class FiledirActivity extends BaseCompat
                     }
 
                     Folder = Folder.substring((int) (0), (int) (Folder.lastIndexOf("/")));
-                    _getFiles("");
+                    reLoadFile();
                   }
                 } else {
                   if (Folder.equals(FileUtil.getExternalStorageDir())) {
@@ -662,7 +641,7 @@ public class FiledirActivity extends BaseCompat
                           .show();
                     }
 
-                    _getFiles("");
+                    reLoadFile();
                   }
                 }
               }
@@ -694,7 +673,7 @@ public class FiledirActivity extends BaseCompat
     saveScrollPosition();
   }
 
-  public void _getFiles(final String _path) {
+  public void reLoadFile() {
     save_path.edit().putString("path", Folder).apply();
     list.clear();
     files.clear();
@@ -812,7 +791,7 @@ public class FiledirActivity extends BaseCompat
                           public void onSuccess(String content) {
                             // محتوای فایل با موفقیت خوانده شد
                             Toast.makeText(getApplicationContext(), content, 2).show();
-                            _getFiles("");
+                            reLoadFile();
                             if (recyclerview2 != null) {
                               recyclerview2.getAdapter().notifyItemChanged(files.size());
                               // fileListItem.addItem(files.size());
@@ -883,7 +862,7 @@ public class FiledirActivity extends BaseCompat
 
           @Override
           public void onDoneMakeFile(String toast) {
-            _getFiles("");
+            reLoadFile();
           }
 
           @Override
@@ -995,7 +974,7 @@ public class FiledirActivity extends BaseCompat
         this,
         (ps) -> {
           Folder = ps;
-          _getFiles("");
+          reLoadFile();
         },
         view);
   }
@@ -1004,7 +983,7 @@ public class FiledirActivity extends BaseCompat
   public void GoToTreeFile(View view) {
     if (!Folder.equals(Environment.getExternalStorageDirectory().getAbsolutePath())) {
       Folder = Folder.substring(0, Folder.lastIndexOf("/"));
-      _getFiles("");
+      reLoadFile();
       _distreeview();
     } else {
       Log.e("EndPath", "");
@@ -1025,7 +1004,7 @@ public class FiledirActivity extends BaseCompat
         && filteredItems.get(1).equals("emulated")
         && filteredItems.get(2).equals("0")) {
       List<String> combinedItems = new ArrayList<>();
-      combinedItems.add("sdcard");
+      combinedItems.add("Home");
       combinedItems.addAll(filteredItems.subList(3, filteredItems.size()));
       return combinedItems;
     }
@@ -1041,11 +1020,8 @@ public class FiledirActivity extends BaseCompat
     if (_resultCode == Activity.RESULT_OK) {
       if (_data != null) {
         utils.persistFolder(_data);
-      } else {
-
       }
-    } else {
-    }
+    } 
   }
 
   public void _clickAnimation(final View _view) {
@@ -1153,11 +1129,11 @@ public class FiledirActivity extends BaseCompat
                     FileUtil.makeDir(GetTab.concat("/".concat(editor.getText().toString())));
                     _TaskProjectInstallProgessDialog(
                         "project.zip", GetTab.concat("/".concat(editor.getText().toString())));
-                    _getFiles("");
+                    reLoadFile();
                   } else {
                     FileUtil.makeDir(GetTab.concat("/"));
                     _TaskProjectInstallProgessDialog("project.zip", GetTab);
-                    _getFiles("");
+                    reLoadFile();
                   }
                   ask =
                       new TimerTask() {
@@ -1171,7 +1147,7 @@ public class FiledirActivity extends BaseCompat
                                     _TaskProjectInstallProgessDialog(
                                         "bootstrap5.2.2.zip",
                                         GetTab.concat("/".concat(editor.getText().toString())));
-                                    _getFiles("");
+                                    reLoadFile();
                                   } else {
 
                                   }
@@ -1179,7 +1155,7 @@ public class FiledirActivity extends BaseCompat
                                     _TaskProjectInstallProgessDialog(
                                         "kotlin1.7.20.zip",
                                         GetTab.concat("/".concat(editor.getText().toString())));
-                                    _getFiles("");
+                                    reLoadFile();
                                   } else {
 
                                   }
@@ -1187,7 +1163,7 @@ public class FiledirActivity extends BaseCompat
                                     _TaskProjectInstallProgessDialog(
                                         "typescript4.8.4.zip",
                                         GetTab.concat("/".concat(editor.getText().toString())));
-                                    _getFiles("");
+                                    reLoadFile();
                                   } else {
 
                                   }
@@ -1195,7 +1171,7 @@ public class FiledirActivity extends BaseCompat
                                     _TaskProjectInstallProgessDialog(
                                         "angular9.1.13.zip",
                                         GetTab.concat("/".concat(editor.getText().toString())));
-                                    _getFiles("");
+                                    reLoadFile();
                                   } else {
 
                                   }
@@ -1205,7 +1181,7 @@ public class FiledirActivity extends BaseCompat
                       };
                   _timer.schedule(ask, (int) (900));
                 }
-                _getFiles("");
+                reLoadFile();
               });
         });
 
@@ -1349,7 +1325,7 @@ public class FiledirActivity extends BaseCompat
               } catch (net.lingala.zip4j.exception.ZipException e) {
                 showMessage(e.toString());
               }
-              _getFiles("");
+              reLoadFile();
               SketchwareUtil.showMessage(getApplicationContext(), "انجام شد");
             });
         di.setPositiveButton("خیر", (p1, d2) -> {});
@@ -1382,7 +1358,7 @@ public class FiledirActivity extends BaseCompat
         } catch (net.lingala.zip4j.exception.ZipException e) {
           showMessage(e.toString());
         }
-        _getFiles("");
+        reLoadFile();
         SketchwareUtil.showMessage(getApplicationContext(), "انجام شد");
       }
     }
@@ -1423,7 +1399,7 @@ public class FiledirActivity extends BaseCompat
 
               @Override
               protected void onPostExecute(String _result) {
-                _getFiles("");
+                reLoadFile();
               }
             }.execute("");
           });
@@ -1547,7 +1523,7 @@ public class FiledirActivity extends BaseCompat
                       pros.setEnabled(true);
                       pros.setVisibility(View.GONE);
                       positive.setEnabled(true);
-                      _getFiles("");
+                      reLoadFile();
                       dialog.dismiss();
                     }
                   }.execute("");
@@ -1611,7 +1587,7 @@ public class FiledirActivity extends BaseCompat
                   dYx4Y.renameTo(e5Cyk);
                 }
                 dialog.dismiss();
-                _getFiles("");
+                reLoadFile();
               });
         });
 
@@ -1652,7 +1628,7 @@ public class FiledirActivity extends BaseCompat
             @Override
             protected void onPostExecute(String _result) {
               prodel.dismiss();
-              _getFiles("");
+              reLoadFile();
             }
           }.execute("");
         });
@@ -1813,7 +1789,29 @@ public class FiledirActivity extends BaseCompat
       dialog.show();
     }
     if (staticstring.endsWith(".jar")) {
-      _jarPost();
+      var di = new MaterialAlertDialogBuilder(FiledirActivity.this);
+
+      di.setTitle("لطفا یکی از گزینه های زیر را انتخاب کنید");
+      di.setMessage(
+          "توجه داشته باشید که برای تغییر jar به dex گزینه مناسب را انتخاب کنید ممکن است تغییرات و یا دیکامپایل کردن چند دقیقه طول بکشد یا حتی این عمل انجام نشود");
+      di.setCancelable(false);
+
+      di.setNeutralButton(
+          "Dicompile",
+          (p, d) -> {
+            _dicomplier();
+          });
+      di.setNegativeButton(
+          "jar to dex",
+          (p3, d3) -> {
+            R8Tools tools = new R8Tools();
+            tools.onlyCompile(staticstring.trim(), GetTab.trim(), 26, FiledirActivity.this,() ->{
+              reLoadFile();
+            });
+          });
+      androidx.appcompat.app.AlertDialog dialog = di.show();
+
+      dialog.show();
     }
     if (staticstring.endsWith(".mp3")) {
       musicShow.setClass(getApplicationContext(), MusicplayerActivity.class);
@@ -1849,6 +1847,7 @@ public class FiledirActivity extends BaseCompat
       var myswb = new SwbData(this);
       myswb.init(staticstring);
     }
+    
     
     _zipviewandexsert(newpos, "path", files);
     _fontpost(files, "path", newpos);
@@ -1908,7 +1907,7 @@ public class FiledirActivity extends BaseCompat
                         } catch (net.lingala.zip4j.exception.ZipException e) {
                           showMessage(e.toString());
                         }
-                        _getFiles("");
+                        reLoadFile();
                       } else {
                         try {
 
@@ -1936,7 +1935,7 @@ public class FiledirActivity extends BaseCompat
                         } catch (net.lingala.zip4j.exception.ZipException e) {
                           showMessage(e.toString());
                         }
-                        _getFiles("");
+                        reLoadFile();
                       }
                     }
                   });
@@ -1994,7 +1993,7 @@ public class FiledirActivity extends BaseCompat
     vb.v(
         FiledirActivity.this,
         () -> {
-          _getFiles("");
+          reLoadFile();
         });
   }
 
@@ -2045,7 +2044,7 @@ public class FiledirActivity extends BaseCompat
               new AS.CallBack() {
                 @Override
                 public void end() {
-                  _getFiles("");
+                  reLoadFile();
                   Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
                 }
               });
@@ -2123,7 +2122,7 @@ public class FiledirActivity extends BaseCompat
                         } catch (net.lingala.zip4j.exception.ZipException e) {
                           showMessage(e.toString());
                         }
-                        _getFiles("");
+                        reLoadFile();
                       } else {
                         try {
 
@@ -2146,7 +2145,7 @@ public class FiledirActivity extends BaseCompat
                         } catch (net.lingala.zip4j.exception.ZipException e) {
                           showMessage(e.toString());
                         }
-                        _getFiles("");
+                        reLoadFile();
                       }
                     }
                   });
@@ -2165,29 +2164,7 @@ public class FiledirActivity extends BaseCompat
   }
 
   public void _jarPost() {
-    var di =
-        new MaterialAlertDialogBuilder(FiledirActivity.this);
-
-    di.setTitle("لطفا یکی از گزینه های زیر را انتخاب کنید");
-    di.setMessage(
-        "توجه داشته باشید که برای تغییر jar به dex گزینه مناسب را انتخاب کنید ممکن است تغییرات و یا دیکامپایل کردن چند دقیقه طول بکشد یا حتی این عمل انجام نشود");
-    di.setCancelable(false);
-
-    di.setNeutralButton(
-        "Dicompile",
-        (p, d) -> {
-          _dicomplier();
-        });
-    di.setNegativeButton(
-        "viewfile",
-        (p3, d3) -> {
-          void10.setClass(getApplicationContext(), ZipshowActivity.class);
-          void10.putExtra("zipview", staticstring);
-          startActivity(void10);
-        });
-    androidx.appcompat.app.AlertDialog dialog = di.show();
-
-    dialog.show();
+    
   }
 
   public void _targz(final String _in, final String _ou) {
@@ -2195,7 +2172,7 @@ public class FiledirActivity extends BaseCompat
         new TarGzExtractor(
             this,
             () -> {
-              _getFiles("");
+              reLoadFile();
             });
     // input    //out
     extra.extract(new File(_in), new File(_ou));
@@ -2206,7 +2183,7 @@ public class FiledirActivity extends BaseCompat
         new ZxExtractor(
             this,
             () -> {
-              _getFiles("");
+              reLoadFile();
             });
     zippos.extract(new File(_in), new File(_ou));
   }
@@ -2290,15 +2267,10 @@ public class FiledirActivity extends BaseCompat
         (var) -> {
           Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
           EditText mwidth = dialog.findViewById(R.id.mwidth);
-
           EditText mheight = dialog.findViewById(R.id.mheight);
-
           EditText lastpng = dialog.findViewById(R.id.lastpng);
-
           EditText lastsvg = dialog.findViewById(R.id.lastsvg);
-
           ImageView img = dialog.findViewById(R.id.img);
-
           SvgShow.GetFileSvg(_svg, img, FiledirActivity.this);
           lastsvg.setText(Uri.parse(_svg).getLastPathSegment());
           lastpng.setText(Uri.parse(_svg.replace(".svg", ".png")).getLastPathSegment());
@@ -2312,7 +2284,7 @@ public class FiledirActivity extends BaseCompat
                         new SvgToPng.OnConversionListener() {
                           @Override
                           public void onConversionSuccess() {
-                            _getFiles("");
+                            reLoadFile();
                           }
 
                           @Override
@@ -2402,7 +2374,7 @@ public class FiledirActivity extends BaseCompat
                                     Toast.LENGTH_SHORT)
                                 .show();
                             dialog.dismiss();
-                            _getFiles("");
+                            reLoadFile();
                           }
                         });
 
@@ -2457,7 +2429,7 @@ public class FiledirActivity extends BaseCompat
                           Folder = FileUtil.getExternalStorageDir();
                           SketchwareUtil.showMessage(
                               getApplicationContext(), FileUtil.getExternalStorageDir());
-                          _getFiles("");
+                          reLoadFile();
                           _drawer.closeDrawer(GravityCompat.START);
                         } else {
                           staticStorage = true;
@@ -2469,7 +2441,7 @@ public class FiledirActivity extends BaseCompat
                             SketchwareUtil.showMessage(
                                 getApplicationContext(), "مموری کارت پیدا نشد متاسفم");
                           }
-                          _getFiles("");
+                          reLoadFile();
                           _drawer.closeDrawer(GravityCompat.START);
                         }
                       }
@@ -2649,7 +2621,7 @@ public class FiledirActivity extends BaseCompat
                         FiledirActivity.this,
                         Folder,
                         () -> {
-                          _getFiles("");
+                          reLoadFile();
                         });
                 break;
               }
@@ -2683,7 +2655,7 @@ public class FiledirActivity extends BaseCompat
 
                             @Override
                             public void FinishEvent() {
-                              _getFiles("");
+                              reLoadFile();
                             }
 
                             @Override
@@ -2719,7 +2691,7 @@ public class FiledirActivity extends BaseCompat
 
                             @Override
                             public void FinishEvent() {
-                              _getFiles("");
+                              reLoadFile();
                             }
 
                             @Override
@@ -2743,7 +2715,7 @@ public class FiledirActivity extends BaseCompat
             case 8:
               {
                 CreatorModule cvt = new CreatorModule(FiledirActivity.this, Folder,() ->{
-                  _getFiles("");
+                  reLoadFile();
                 });
               }
           }
@@ -2932,7 +2904,7 @@ public class FiledirActivity extends BaseCompat
                               helper.setVisibility(View.GONE);
                               input.setVisibility(View.VISIBLE);
                               di.dismiss();
-                              _getFiles("");
+                              reLoadFile();
                             });
                       }
                     });

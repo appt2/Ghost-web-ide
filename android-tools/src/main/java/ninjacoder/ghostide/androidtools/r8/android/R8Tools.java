@@ -2,40 +2,43 @@ package ninjacoder.ghostide.androidtools.r8.android;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Looper;
-import com.android.tools.r8.CompilationMode;
-import com.android.tools.r8.OutputMode;
-import com.android.tools.r8.R8;
-import com.android.tools.r8.R8Command;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import com.android.tools.r8.D8;
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
+import com.google.android.material.shape.ShapeAppearanceModel;
+import java.util.ArrayList;
 
 public class R8Tools {
-  public void CompileR8Dex(String input, String output, int minapi) throws Exception {
-    var path = Paths.get(input);
-    var outputFile = Paths.get(output);
-    if (path.endsWith(".dex")) {
-      R8Command command =
-          R8Command.builder()
-              .setMinApiLevel(minapi)
-              .setAndroidPlatformBuild(true)
-              .addProgramFiles(path)
-              .setOutput(outputFile, OutputMode.DexIndexed)
-              .setMode(CompilationMode.RELEASE)
-              .build();
-      R8.run(command);
-    }
-  }
 
-  public void onlyCompile(String input, String output, int api, Context context) {
+  public void onlyCompile(String input, String output, int api, Context context,OnItemChange item) {
     var dialog = new ProgressDialog(context, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
-    dialog.setMessage("Compile jar to dex");
+    dialog.setTitle(" jar to dex");
+    dialog.setMessage("It may take a few minutes depending on your DEX");
+    dialog.setCancelable(false);
+    MaterialShapeDrawable shap = new MaterialShapeDrawable(ShapeAppearanceModel.builder().setAllCorners(CornerFamily.ROUNDED,20f).build());
+    shap.setFillColor(ColorStateList.valueOf(Color.parseColor("#FF0D1423")));
+    shap.setStroke(0.5f,ColorStateList.valueOf(Color.parseColor("#FF2EDCFF")));
+    dialog.getWindow().setBackgroundDrawable(shap);
     dialog.show();
+    
+    ArrayList<String> args = new ArrayList<>();
     new Thread(
             () -> {
               try {
-                CompileR8Dex(input, output, api);
+                args.clear();
+                args.add("--release");
+                args.add("--lib");
+                args.add("/storage/emulated/0/GhostWebIDE/android/android.jar");
+                args.add("--output");
+                args.add(output);
+                args.add(input);
+                D8.main(args.toArray(new String[0]));
+
               } catch (Exception err) {
                 runOnUiThread(
                     () -> {
@@ -47,14 +50,18 @@ public class R8Tools {
                     if (dialog != null) {
                       dialog.setMessage("Done");
                       dialog.dismiss();
+                      item.onItemResult();
                     }
                   });
             })
         .start();
-  } 
+  }
 
   private void runOnUiThread(Runnable d) {
     var handler = new Handler(Looper.getMainLooper());
     handler.post(d);
+  }
+  public interface OnItemChange{
+    public void onItemResult();
   }
 }
