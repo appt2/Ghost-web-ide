@@ -1,7 +1,6 @@
 package Ninja.coder.Ghostemane.code;
 
 import Ninja.coder.Ghostemane.code.GlideUtilApi.GlideCompat;
-
 import Ninja.coder.Ghostemane.code.component.FastScrollCompat.FastScrollNestedScrollView;
 import Ninja.coder.Ghostemane.code.component.FastScrollCompat.FastScrollerBuilder;
 import android.animation.*;
@@ -34,6 +33,7 @@ import androidx.fragment.app.Fragment;
 import androidx.palette.graphics.Palette;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.color.MaterialColors;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -90,23 +90,59 @@ public class MusicplayerActivity extends BaseCompat {
     } else {
       md.start();
     }
-   // ColorAndroid12.shapeView(backplay);
-    var palette = Palette.from(md.getImageBitmap()).generate();
-    getWindow().getDecorView().setBackgroundColor(palette.getDarkMutedColor(Color.BLUE));
-    tvname.setTextColor(palette.getLightMutedColor(Color.GREEN));
-    tvtr.setTextColor(palette.getLightMutedColor(Color.GREEN));
-    play.setColorFilter(palette.getLightMutedColor(Color.GREEN), PorterDuff.Mode.SRC_IN);
-    next.setColorFilter(palette.getLightMutedColor(Color.GREEN), PorterDuff.Mode.SRC_IN);
-    pre.setColorFilter(palette.getLightMutedColor(Color.GREEN), PorterDuff.Mode.SRC_IN);
-    mtoolbar.setTitleTextColor(palette.getDarkMutedColor(Color.RED));
-    getWindow().setNavigationBarColor(palette.getDarkMutedColor(Color.WHITE));
-    GradientDrawable dv = new GradientDrawable();
-    dv.setColor(palette.getDarkMutedColor(Color.BLACK));
-    dv.setStroke(1,palette.getLightMutedColor(Color.CYAN));
-    dv.setCornerRadius(99);
-    backplay.setBackground(dv);
-    
-    
+    mtoolbar.setVisibility(View.GONE);
+    var map = md.getImageBitmap();
+    if (map != null) {
+      var palette = Palette.from(map).generate();
+      if (palette != null) {
+        getWindow().getDecorView().setBackgroundColor(palette.getDarkMutedColor(Color.BLUE));
+        tvname.setTextColor(palette.getLightMutedColor(Color.GREEN));
+        tvtr.setTextColor(palette.getLightMutedColor(Color.GREEN));
+        play.setColorFilter(palette.getLightMutedColor(Color.GREEN), PorterDuff.Mode.SRC_IN);
+        next.setColorFilter(palette.getLightMutedColor(Color.GREEN), PorterDuff.Mode.SRC_IN);
+        pre.setColorFilter(palette.getLightMutedColor(Color.GREEN), PorterDuff.Mode.SRC_IN);
+        mtoolbar.setTitleTextColor(palette.getDarkMutedColor(Color.RED));
+        getWindow().setNavigationBarColor(palette.getDarkMutedColor(Color.WHITE));
+        GradientDrawable dv = new GradientDrawable();
+        dv.setColor(palette.getDarkMutedColor(Color.BLACK));
+        dv.setStroke(1, palette.getLightMutedColor(Color.CYAN));
+        dv.setCornerRadius(99);
+        backplay.setBackground(dv);
+        ac_musicPl_seekbar
+            .getThumb()
+            .setColorFilter(palette.getLightMutedColor(Color.BLUE), PorterDuff.Mode.SRC_IN);
+        ac_musicPl_seekbar
+            .getProgressDrawable()
+            .setColorFilter(palette.getLightMutedColor(Color.BLUE), PorterDuff.Mode.SRC_IN);
+        if (Build.VERSION.SDK_INT >= 28) {
+          getWindow().setNavigationBarDividerColor(palette.getLightMutedColor(Color.BLACK));
+        }
+      }
+    }else{
+      getWindow().getDecorView().setBackgroundColor(MaterialColors.getColor(getWindow().getDecorView(),ColorAndroid12.Back));
+        tvname.setTextColor(MaterialColors.getColor(tvname,ColorAndroid12.colorOnSurface,0));
+        tvtr.setTextColor(MaterialColors.getColor(tvtr,ColorAndroid12.colorOnSurface,0));
+        play.setColorFilter(MaterialColors.getColor(play,ColorAndroid12.colorOnSurface,0), PorterDuff.Mode.SRC_IN);
+        next.setColorFilter(MaterialColors.getColor(next,ColorAndroid12.colorOnSurface,0), PorterDuff.Mode.SRC_IN);
+        pre.setColorFilter(MaterialColors.getColor(pre,ColorAndroid12.colorOnSurface,0), PorterDuff.Mode.SRC_IN);
+        
+        getWindow().setNavigationBarColor(MaterialColors.getColor(MusicplayerActivity.this,ColorAndroid12.colorOnSurface,0));
+        GradientDrawable dv = new GradientDrawable();
+        dv.setColor(MaterialColors.getColor(MusicplayerActivity.this,ColorAndroid12.ButtonBack,0));
+        dv.setStroke(1, MaterialColors.getColor(MusicplayerActivity.this,ColorAndroid12.colorOnSurface,0));
+        dv.setCornerRadius(99);
+        backplay.setBackground(dv);
+        ac_musicPl_seekbar
+            .getThumb()
+            .setColorFilter(MaterialColors.getColor(ac_musicPl_seekbar,ColorAndroid12.colorOnSurface,0), PorterDuff.Mode.SRC_IN);
+        ac_musicPl_seekbar
+            .getProgressDrawable()
+            .setColorFilter(MaterialColors.getColor(ac_musicPl_seekbar,ColorAndroid12.colorOnSurface,0), PorterDuff.Mode.SRC_IN);
+        if (Build.VERSION.SDK_INT >= 28) {
+          getWindow().setNavigationBarDividerColor(MaterialColors.getColor(MusicplayerActivity.this,ColorAndroid12.colorOnSurface,0));
+        }
+    }
+
     ac_musicPl_seekbar.setOnSeekBarChangeListener(
         new SeekBar.OnSeekBarChangeListener() {
           @Override
@@ -367,7 +403,7 @@ public class MusicplayerActivity extends BaseCompat {
       mediaplayer.seekTo(seekToValue);
     }
 
-    public android.media.MediaPlayer getMediaPlayer() {
+    public MediaPlayer getMediaPlayer() {
       return mediaplayer;
     }
 

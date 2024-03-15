@@ -12,22 +12,19 @@
          android:fitsSystemWindows="true"
          android:theme="@style/AppTheme.AppBarOverlay">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+        <com.google.android.material.appbar.MaterialToolbar
+             android:layout_height="?attr/actionBarSize"
              android:layout_width="match_parent"
+             android:elevation="0dp"
+             app:popupTheme="@style/AppTheme.PopupOverlay"
+             android:id="@+id/mainToolbar" />
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+             android:layout_height="0dp"
+             android:layout_width="0dp"
              app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
              style="?attr/collapsingToolbarLayoutLargeStyle"
-             android:id="@+id/capsellToolbar">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                 android:layout_height="?attr/actionBarSize"
-                 android:layout_width="match_parent"
-                 android:elevation="0dp"
-                 app:layout_collapseMode="pin"
-                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                 android:id="@+id/mainToolbar" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+             android:id="@+id/capsellToolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -146,7 +146,13 @@ Rotate    : 'rotate(';
 Var       : 'var(';
 Rgba      : 'rgba(';
 Repeat    : 'repeat(';
+
+//for ghost web ide
+
 Hover     : '::';
+HoverUser : '(.*?:)';
+HoverDollar : '(.*?$)';
+HtmlH     : 'h[1-6]';
 
 PrefixMatch    : '^=';
 SuffixMatch    : '$=';
@@ -164,3 +170,4 @@ String_:
 
 // Give Ident least priority so that more specific rules matches first
 Ident: Nmstart Nmchar*;
+IDENTIFIER: [_a-zA-Z][_0-9a-zA-Z]*;

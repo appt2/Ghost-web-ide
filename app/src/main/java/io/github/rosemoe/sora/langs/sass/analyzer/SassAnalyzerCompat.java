@@ -1,7 +1,6 @@
 package io.github.rosemoe.sora.langs.sass.analyzer;
 
 import android.util.Log;
-
 import io.github.rosemoe.sora.langs.sass.ScssLexer;
 import io.github.rosemoe.sora.text.TextStyle;
 import java.util.Stack;
@@ -9,10 +8,8 @@ import io.github.rosemoe.sora.data.BlockLine;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.Token;
-
 import java.io.IOException;
 import java.io.StringReader;
-
 import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
 import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import io.github.rosemoe.sora.text.TextAnalyzer;
@@ -139,7 +136,7 @@ public class SassAnalyzerCompat implements CodeAnalyzer {
           case ScssLexer.Rbrack:
           case ScssLexer.Dot:
           case ScssLexer.Comma:
-          case ScssLexer.Colon:
+            /// case ScssLexer.Colon:
           case ScssLexer.Semi:
           case ScssLexer.Tilde:
           case ScssLexer.Under:
@@ -188,25 +185,25 @@ public class SassAnalyzerCompat implements CodeAnalyzer {
           case ScssLexer.LineComment:
             result.addIfNeeded(line, column, EditorColorScheme.COMMENT);
             break;
-          case ScssLexer.IDENTIFIER:{
-            if(prePreToken.getType() == ScssLexer.Dollar) {
-            	result.addIfNeeded(line, column, EditorColorScheme.AUTO_COMP_PANEL_CORNER);
-                break;
+          
+          case ScssLexer.HoverDollar:
+          case ScssLexer.HoverUser:
+          case ScssLexer.HtmlH:
+          result.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
+          break;
+          case ScssLexer.IDENTIFIER:
+            {
+              result.addIfNeeded(line, column, EditorColorScheme.ATTRIBUTE_NAME);
+              break;
             }
-            result.addIfNeeded(line, column, EditorColorScheme.ATTRIBUTE_NAME);
-            break;
-          }
-
           default:
             result.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
             prevIsTagName = false;
             classNamePrevious = false;
             break;
         }
-
         first = false;
       }
-
       result.determine(lastLine);
 
     } catch (IOException e) {
