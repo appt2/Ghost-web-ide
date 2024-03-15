@@ -94,7 +94,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'org.antlr:antlr4:4.13.1'
     implementation 'org.apache.commons:commons-compress:1.24.0'
-    implementation("com.github.pedrovgs:renderers:3.3.0")
+    implementation("com.github.pedrovgs:renderers:3.5.0")
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
     implementation 'com.squareup:seismic:1.0.3'
