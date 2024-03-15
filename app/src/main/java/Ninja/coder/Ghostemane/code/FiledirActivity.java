@@ -2600,7 +2600,7 @@ public class FiledirActivity extends BaseCompat
     sh.addItem("Folder Tree", R.drawable.foldermultipleplus);
     sh.addItem("FileTree", R.drawable.filemultiple);
     sh.addItem("Git Clone", R.drawable.git);
-    sh.addItem("test", R.drawable.git);
+    sh.addItem("Android module", R.drawable.mdapk);
     sh.setOnItemClickLabe(
         (pos333) -> {
           switch (pos333) {
