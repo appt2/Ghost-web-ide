@@ -12,8 +12,8 @@ android {
         applicationId "Ninja.coder.Ghostemane.code"
         minSdk 26
         targetSdk 30
-        versionCode 24
-        versionName "1.6.0"
+        versionCode 25
+        versionName "1.6.0-rc"
         
         vectorDrawables { 
             useSupportLibrary true
@@ -69,20 +69,15 @@ dependencies {
     implementation("com.blankj:utilcodex:1.31.1")
     
     implementation("com.allenliu.badgeview:library:1.1.1")
-     implementation 'androidx.webkit:webkit:1.9.0'
+    implementation 'androidx.webkit:webkit:1.9.0'
     implementation 'org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r'
-    
     implementation 'com.google.code.gson:gson:2.10.1'
-// https://mvnrepository.com/artifact/androidx.activity/activity
     implementation 'androidx.activity:activity:1.9.0-alpha01'
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.material:material:1.12.0-alpha03")
-    // https://mvnrepository.com/artifact/com.github.angads25/filepicker
     implementation 'com.github.angads25:filepicker:1.1.0'
-    // https://mvnrepository.com/artifact/com.github.junrar/junrar
     implementation 'com.github.junrar:junrar:7.5.5'
-    // https://mvnrepository.com/artifact/com.tapadoo.android/alerter
     implementation 'com.tapadoo.android:alerter:3.0.0'
     implementation 'org.nanohttpd:nanohttpd-webserver:2.3.1'
     implementation 'org.benf:cfr:0.152'
@@ -117,7 +112,6 @@ dependencies {
     //make class java 
     implementation project(path: ':eclipse-standalone')
     implementation project(path: ':android-tools')
-    
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2'
     implementation 'com.squareup:javapoet:1.13.0' 
     
