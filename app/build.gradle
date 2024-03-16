@@ -85,7 +85,7 @@ dependencies {
     implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.1'
     implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.1'
     implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
-    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.1'
+    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.7'
     implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.12'
     implementation'androidx.webkit:webkit:1.10.0-alpha01'
