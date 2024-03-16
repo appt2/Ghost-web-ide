@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
     <string-array name="SetKeyboard">
         <item>فارسی</item>
         <item>انتخاب بر اساس آخرین حالت کیبورد</item>

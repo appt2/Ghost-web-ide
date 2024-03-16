@@ -10,7 +10,7 @@ android {
         
     defaultConfig {
         applicationId "Ninja.coder.Ghostemane.code"
-        minSdk 26
+        minSdk 21
         targetSdk 30
         versionCode 25
         versionName "1.6.0-rc"
@@ -82,11 +82,11 @@ dependencies {
     implementation 'org.nanohttpd:nanohttpd-webserver:2.3.1'
     implementation 'org.benf:cfr:0.152'
     implementation 'io.github.beyka:Android-TiffBitmapFactory:0.9.9.1'
-    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.1'
-    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.1'
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.7'
     implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.7'
-    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.1'
-    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.1'
+    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.7'
+    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.7'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.12'
     implementation'androidx.webkit:webkit:1.10.0-alpha01'
     implementation("androidx.recyclerview:recyclerview:1.4.0-alpha01")
@@ -107,7 +107,7 @@ dependencies {
     implementation("io.getstream:photoview:1.0.1")
     implementation 'androidx.palette:palette:1.0.0'
     //using api 21 to run app 
-    implementation 'de.larsgrefer.sass:sass-embedded-android:3.5.1'
+    implementation 'de.larsgrefer.sass:sass-embedded-android:3.6.0'
     implementation "io.reactivex.rxjava3:rxjava:3.1.8"
     //make class java 
     implementation project(path: ':eclipse-standalone')
@@ -115,5 +115,4 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2'
     implementation 'com.squareup:javapoet:1.13.0' 
     
-
 }

@@ -303,36 +303,8 @@
             android:screenOrientation="portrait"
             
         />
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="Ninja.coder.Ghostemane.code.androidx-startup"
-            android:exported="false"
-            
-        >
-            <meta-data
-                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-                android:value="androidx.startup"
-                
-            />
-            <meta-data
-                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-                android:value="androidx.startup"
-                
-            />
-        </provider>
-        <provider
-            android:authorities="Ninja.coder.Ghostemane.code.provider"
-            android:name="androidx.core.content.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            
-        >
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"
-                
-            />
-        </provider>
+
+
 
 
         <provider
@@ -362,7 +334,7 @@
             android:name="Ninja.coder.Ghostemane.code.Keyboard.Theme"
         />
         <activity
-            android:exported="false"
+            
             android:name="Ninja.coder.Ghostemane.code.Keyboard.Background"
             
         />

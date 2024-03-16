@@ -101,7 +101,7 @@ public class MainActivity extends BaseCompat {
       FileUtil.writeFile("/storage/emulated/0/GhostWebIDE/theme/GhostThemeapp.ghost", bin);
     }
 
-    if (!FileUtil.isExistFile(" /storage/emulated/0/GhostWebIDE/android/android.jar")) {
+    if (!FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/android/android.jar")) {
 
       var asster = getAssets();
       Z7Extractor.extractAsset(
@@ -127,6 +127,8 @@ public class MainActivity extends BaseCompat {
               Toast.makeText(MainActivity.this, "done", 2).show();
             }
           });
+    }else{
+      
     }
 
     if (!FileUtil.isExistFile(
