@@ -66,7 +66,7 @@ public class AboutActivity extends BaseCompat implements DevAd.OnItemClick {
 
           @Override
           public void onErrorResponse(String _param1, String _param2) {
-            
+             
           }
         };
     getOnBackPressedDispatcher()
