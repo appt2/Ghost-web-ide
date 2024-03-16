@@ -107,7 +107,7 @@ dependencies {
     implementation("io.getstream:photoview:1.0.1")
     implementation 'androidx.palette:palette:1.0.0'
     //using api 21 to run app 
-    implementation 'de.larsgrefer.sass:sass-embedded-android:3.5.1'
+    implementation 'de.larsgrefer.sass:sass-embedded-android:3.6.0'
     implementation "io.reactivex.rxjava3:rxjava:3.1.8"
     //make class java 
     implementation project(path: ':eclipse-standalone')
