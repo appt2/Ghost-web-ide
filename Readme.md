@@ -67,7 +67,18 @@
 Refactoring codes
 Improve the speed of the program
 
+## Cooperation Request 
 
+You can apply for Ghost Web development cooperation but under the following conditions 
+
+- For testing, you can use `test`
+- Create a new attribute from `attribute`
+
+- You can use refactor to clean the code `refactor`
+
+### Features that are not accepted!
+
+- This project is 100% with Java, and if you are a Kotlin developer, your request will not be accepted except in special circumstances
 
 ### Developer
 
