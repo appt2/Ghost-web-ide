@@ -1,35 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/DevAd.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/build.gradle",
       "selection": {
         "end": {
-          "column": 7,
-          "index": 1101,
-          "line": 36
+          "column": 68,
+          "index": 2690,
+          "line": 84
         },
         "start": {
-          "column": 7,
-          "index": 1101,
-          "line": 36
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/AboutActivity.java",
-      "selection": {
-        "end": {
-          "column": 13,
-          "index": 2581,
-          "line": 68
-        },
-        "start": {
-          "column": 13,
-          "index": 2581,
-          "line": 68
+          "column": 68,
+          "index": 2690,
+          "line": 84
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/AboutActivity.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/build.gradle"
 }
