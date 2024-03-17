@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 import com.android.tools.r8.D8;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import dalvik.system.DexClassLoader;
 import java.io.*;
 import java.io.OutputStream;
@@ -25,6 +26,8 @@ import ninjacoder.ghostide.androidtools.r8.android.JarPackager;
 public class JavaCompilerBeta {
 
   protected static ProgressDialog pr;
+  private static String dirPath = "/storage/emulated/0/GhostWebIDE/java/";
+  
 
   public static void run(Context context, String input) {
 
@@ -32,10 +35,11 @@ public class JavaCompilerBeta {
       ProgressDialog pr;
       List<String> opt = new ArrayList<>();
       long ecjTime, dxTime;
+       File nameFile = new File(input);
 
       @Override
       protected void onPreExecute() {
-        pr = new ProgressDialog(context);
+        pr = new ProgressDialog(context,ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
 
         pr.setMessage("Running...");
 
@@ -48,16 +52,16 @@ public class JavaCompilerBeta {
       protected String doInBackground(String... params) {
         String _param = params[0];
         // code that prepares the files
-        FileUtil.deleteFile(FileUtil.getPackageDataDir(context).concat("/bin/"));
-        FileUtil.makeDir(FileUtil.getPackageDataDir(context).concat("/bin/"));
+        FileUtil.deleteFile(dirPath.concat("/bin/"));
+        FileUtil.makeDir(dirPath.concat("/bin/"));
         FileUtil.writeFile(
-            FileUtil.getPackageDataDir(context).concat("/bin/Main.java"),
+            dirPath.concat("/bin/Main.java"),
             input);
         // code that copies cp.jar from assets to temp folder (if not exists)
-        if (!FileUtil.isExistFile(FileUtil.getPackageDataDir(context).concat("/bin/cp.jar"))) {
+        if (!FileUtil.isExistFile(dirPath.concat("/bin/cp.jar"))) {
           try (InputStream input = context.getAssets().open("cp.jar");
               OutputStream output =
-                  new FileOutputStream(FileUtil.getPackageDataDir(context).concat("/bin/cp.jar"))) {
+                  new FileOutputStream(dirPath.concat("/bin/cp.jar"))) {
             byte[] buffer = new byte[input.available()];
             int length;
             while ((length = input.read(buffer)) != -1) {
@@ -78,13 +82,13 @@ public class JavaCompilerBeta {
         opt.add("-nowarn");
         opt.add("-deprecation");
         opt.add("-d");
-        opt.add(FileUtil.getPackageDataDir(context).concat("/bin/classes"));
+        opt.add(dirPath.concat("/bin/classes"));
         opt.add("-cp");
-        opt.add(FileUtil.getPackageDataDir(context).concat("/bin/cp.jar"));
+        opt.add(dirPath.concat("/bin/cp.jar"));
         opt.add("-proc:none");
         opt.add("-sourcepath");
         opt.add("ignore");
-        opt.add(FileUtil.getPackageDataDir(context).concat("/bin/Main.java"));
+        opt.add(dirPath.concat("/bin/Main.java"));
         PrintWriter printWriter =
             new PrintWriter(
                 new OutputStream() {
@@ -119,8 +123,8 @@ public class JavaCompilerBeta {
         publishProgress("Packaging JAR...");
         try {
           new JarPackager(
-                  FileUtil.getPackageDataDir(context).concat("/bin/classes/"),
-                  FileUtil.getPackageDataDir(context).concat("/bin/classes.jar"))
+                  dirPath.concat("/bin/classes/"),
+                  dirPath.concat("/bin/classes.jar"))
               .create();
         } catch (Exception e) {
           return "Packaging JAR failed: " + e.toString();
@@ -131,10 +135,10 @@ public class JavaCompilerBeta {
           publishProgress("Dexing with D8...");
           opt.clear();
           opt.add("--output");
-          opt.add(FileUtil.getPackageDataDir(context).concat("/bin/"));
+          opt.add(dirPath.concat("/bin/"));
           opt.add("--lib");
-          opt.add(FileUtil.getPackageDataDir(context).concat("/bin/cp.jar"));
-          opt.add(FileUtil.getPackageDataDir(context).concat("/bin/classes.jar"));
+          opt.add(dirPath.concat("/bin/cp.jar"));
+          opt.add(dirPath.concat("/bin/classes.jar"));
           D8.main(opt.toArray(new String[0]));
         } catch (Exception e) {
           return "Dex failed: " + e.toString();
@@ -185,12 +189,12 @@ public class JavaCompilerBeta {
 
             DexClassLoader dcl =
                 new DexClassLoader(
-                    FileUtil.getPackageDataDir(context).concat("/bin/classes.dex"),
+                    dirPath.concat("/bin/classes.dex"),
                     optimizedDir,
                     null,
                    context.getClassLoader());
 
-            Class calledClass = dcl.loadClass("Main");
+            Class calledClass = dcl.loadClass(nameFile.getName().replace(".java",""));
 
             java.lang.reflect.Method method = calledClass.getDeclaredMethod("main", String[].class);
 
@@ -230,8 +234,8 @@ public class JavaCompilerBeta {
   }
 
   public static void dialog(String title, String message, Context c) {
-    AlertDialog.Builder dialog =
-        new AlertDialog.Builder(c)
+    MaterialAlertDialogBuilder dialog =
+        new MaterialAlertDialogBuilder(c)
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton("OK", null)

@@ -454,7 +454,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     t = getSharedPreferences("t", Activity.MODE_PRIVATE);
     thememanagersoft = getSharedPreferences("thememanagersoft", Activity.MODE_PRIVATE);
     sf = getSharedPreferences("sf", Activity.MODE_PRIVATE);
-    
+
     recyclerview1.addOnScrollListener(
         new RecyclerView.OnScrollListener() {
           @Override
@@ -605,7 +605,6 @@ public class CodeeditorActivity extends AppCompatActivity {
             _managerpanel(menupopnew);
           }
         });
-
 
     imageview1.setOnClickListener(
         new View.OnClickListener() {
@@ -775,7 +774,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     editor.setAutoCompletionOnComposing(false);
     editor.setLineInfoTextSize(20f);
     editor.setBlockLineEnabled(true);
-    
+
     var projectz = new ProjectManager();
     projectz.setProjectName(getIntent().getStringExtra("root"));
 
@@ -1288,10 +1287,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-
-
-  
-
   private void restoreState(@NonNull Bundle savedInstanceState) {
     int leftLine = savedInstanceState.getInt(EDITOR_LEFT_LINE_KEY, 0);
     int leftColumn = savedInstanceState.getInt(EDITOR_LEFT_COLUMN_KEY, 0);
@@ -1403,7 +1398,7 @@ public class CodeeditorActivity extends AppCompatActivity {
                   EditorSearcherT.show(editor, FrameLayout01);
                   break;
                 }
-              
+
               case 1:
                 {
                   ColorPickerDialogBuilder.with(CodeeditorActivity.this)
@@ -1625,7 +1620,7 @@ public class CodeeditorActivity extends AppCompatActivity {
 
     if (re.getString("f380", "").equals("true")) {
       editor.setNonPrintablePaintingFlags(CodeEditor.FLAG_DRAW_LINE_SEPARATOR);
-    } 
+    }
   }
 
   public void _poz() {
@@ -1665,7 +1660,6 @@ public class CodeeditorActivity extends AppCompatActivity {
 
   private LiveviewebDialogFragmentActivity LiveviewebDialogFragmentActivityN;
   private FragmentManager LiveviewebDialogFragmentActivityFM;
-
 
   public void _fragmentdatapost() {
     LiveviewebDialogFragmentActivityN = new LiveviewebDialogFragmentActivity();
@@ -1754,11 +1748,10 @@ public class CodeeditorActivity extends AppCompatActivity {
     mmenuitempos.setSelectedEffect(true);
     mmenuitempos.setAutoDismiss(false);
     mmenuitempos.showAsDropDown(_v);
-    
+
     mmenuitempos.setTextTypeface(
         Typeface.create(
-            Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"),
-            Typeface.NORMAL));
+            Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL));
     if (ru.contains("rup")) {
       mmenuitempos.setMenuColor(0xFF2B2121);
       mmenuitempos.setTextColor(0xFFEEEEEE);
@@ -1926,7 +1919,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-  
   public void _fabCl() {
     try {
       try {
@@ -2008,8 +2000,9 @@ public class CodeeditorActivity extends AppCompatActivity {
                               shp.getString("pos_path", ""),
                               shp.getString("pos_path", ""));
 
-                        } else if(shp.getString("pos_path", "").contains(".java")){
-                           JavaCompilerBeta.run(CodeeditorActivity.this,editor.getText().toString());
+                        } else if (shp.getString("pos_path", "").contains(".java")) {
+                          JavaCompilerBeta.run(
+                              CodeeditorActivity.this, editor.getText().toString());
                         }
                       }
                     }
@@ -2113,8 +2106,6 @@ public class CodeeditorActivity extends AppCompatActivity {
     }
   }
 
-  
-
   public void _g4compiler() {
     final com.google.android.material.bottomsheet.BottomSheetDialog bottomSheetDialog =
         new com.google.android.material.bottomsheet.BottomSheetDialog(CodeeditorActivity.this);
@@ -2153,10 +2144,10 @@ public class CodeeditorActivity extends AppCompatActivity {
             _coordinator.setTranslationY(offsetY * progress);
           }
         });
-    
-      effect.setEnabled(thememanagersoft.contains("effect") ? true : false);
-    
+
+    effect.setEnabled(thememanagersoft.contains("effect") ? true : false);
   }
+
   public class Recyclerview1Adapter extends RecyclerView.Adapter<Recyclerview1Adapter.ViewHolder> {
 
     ArrayList<HashMap<String, Object>> _data;
@@ -2164,6 +2155,7 @@ public class CodeeditorActivity extends AppCompatActivity {
     public Recyclerview1Adapter(ArrayList<HashMap<String, Object>> _arr) {
       _data = _arr;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
       LayoutInflater _inflater = getLayoutInflater();
