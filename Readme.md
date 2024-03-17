@@ -14,7 +14,11 @@
     <img style="width: 25%; height: 80%; margin-bottom :2px; border-radius :9px; text-align :left; " src="https://raw.githubusercontent.com/appt2/Ghost-web-ide/main/images/img4.jpg">
 </div>
 
+### Install from myket 
 
+<p align="center">
+<a href="https://myket.ir/app/Ninja.coder.Ghostemane.code?utm_source=search-ads-gift&utm_medium=cpc"><img src="https://myket.ir/core/images/logo/get-en.png" width="200"/> </a>
+</p>
 
 #### features
 
@@ -83,3 +87,9 @@ You can apply for Ghost Web development cooperation but under the following cond
 ### Developer
 
 I must say that you do not have the right to register the program under your own name. It is an open source program and is released under the Ghost Web brand
+
+
+### User agreement 
+
+You can view, edit and update the ghost web codes, but if you change them to another language and update them in your personal repository, I am not satisfied personally and will be followed up.
+
