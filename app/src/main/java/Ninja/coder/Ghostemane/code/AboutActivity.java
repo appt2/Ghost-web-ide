@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import android.os.Bundle;
 import java.util.List;
+import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -69,6 +71,7 @@ public class AboutActivity extends BaseCompat implements DevAd.OnItemClick {
              
           }
         };
+    
     getOnBackPressedDispatcher()
         .addCallback(
             this,

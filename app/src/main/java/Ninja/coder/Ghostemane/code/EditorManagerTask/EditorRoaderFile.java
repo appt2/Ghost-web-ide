@@ -78,6 +78,11 @@ public class EditorRoaderFile {
     } else if (_path.endsWith(".java")) {
       ReadFileCompat(editor, _path, bar);
       editor.setEditorLanguage(new JavaLanguage());
+      _fab.postDelayed(
+          () -> {
+            _fab.show();
+          },
+          400);
     } else if (_path.endsWith(".cs")) {
       ReadFileCompat(editor, _path, bar);
       editor.setEditorLanguage(new UniversalLanguage(new sharpDescription()));

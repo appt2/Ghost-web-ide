@@ -145,7 +145,7 @@ public class IconManagerAdapter extends RecyclerView.Adapter<IconManagerAdapter.
       LayoutInflater.from(view.getContext()).inflate(R.layout.icon_manager_item, view);
       icon = view.findViewById(R.id.icon);
       title = view.findViewById(R.id.title);
-      ColorAndroid12.shap(view);
+      
     }
 
     public void bind(Icons icons) {

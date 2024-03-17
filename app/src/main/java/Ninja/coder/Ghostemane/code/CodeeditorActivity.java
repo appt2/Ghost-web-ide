@@ -136,6 +136,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import android.graphics.drawable.BitmapDrawable;
 import java.util.Timer;
+import Ninja.coder.Ghostemane.code.project.JavaCompilerBeta;
 import io.github.rosemoe.sora.widget.EditorAutoCompleteWindow;
 import Ninja.coder.Ghostemane.code.marco.WallpaperParallaxEffect;
 import androidx.appcompat.widget.Toolbar;
@@ -2007,8 +2008,8 @@ public class CodeeditorActivity extends AppCompatActivity {
                               shp.getString("pos_path", ""),
                               shp.getString("pos_path", ""));
 
-                        } else {
-
+                        } else if(shp.getString("pos_path", "").contains(".java")){
+                           JavaCompilerBeta.run(CodeeditorActivity.this,editor.getText().toString());
                         }
                       }
                     }

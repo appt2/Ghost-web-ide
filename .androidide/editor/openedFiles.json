@@ -1,0 +1,20 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/CodeeditorActivity.java",
+      "selection": {
+        "end": {
+          "column": 98,
+          "index": 79160,
+          "line": 2011
+        },
+        "start": {
+          "column": 98,
+          "index": 79160,
+          "line": 2011
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/CodeeditorActivity.java"
+}
