@@ -1,152 +1,155 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:theme="@style/Apple" style="@style/Apple">
-	
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto" android:theme="@style/Apple" style="@style/Apple">
 
-	<PreferenceCategory android:title="تنظیمات">
-    
-	<PreferenceScreen android:title="تنظیمات ظاهری" android:summary="در این بخش میتوانید ظاهر کیبورد را به دلخواه تغییر دهید">
-			
-			<ListPreference
-				android:entries="@array/Font"
-				android:title="فونت کیبورد"
-				android:key="Font" 
-				android:summary="انتخاب فونت کلمات کیبورد"
-				android:defaultValue="1"
-				android:entryValues="@array/Fontr" />
-			<SwitchPreference 
-				android:title="پیش نمایش نویسه(Preview)"
-				android:key="Preview" 
-				android:defaultValue="true" />
-			<PreferenceCategory android:title="سبک و چیدمان" />
-			<SwitchPreference 
-				android:title="نمایش ردیف اعداد" 
-				android:key="Number"
-				android:defaultValue="true" />
-			<PreferenceCategory android:title="حروف جایگزین" />
-			<SwitchPreference 
-				android:title="نمایش حروف دوم(پاپ اپ بالای کلمات)"
-				android:key="Kalamat"
-				android:defaultValue="true" />
 
-			<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
-				android:persistent="true"
-				android:title="سایز حروف دوم کیبورد(پاپ اپ بالای کلمات)" 
-				android:key="TextSize2"
-				android:defaultValue="20"
-				app:minValue="1.0"
-				app:maxValue="25.0"
-				app:logScale="true"
-				app:displayFormat="%.0f " />
+    <PreferenceCategory android:title="تنظیمات">
 
-			<CheckBoxPreference 
-				android:title="ارتفاع کیبورد" 
-				android:key="Height" 
-				android:defaultValue="true"
-				android:summaryOn="ارتفاع روی دستی تنظیم شد"
-				android:summaryOff="ارتفاع روی پیشفرض سیستم تنظیم شد" />
+        <PreferenceScreen android:title="تنظیمات ظاهری"
+                          android:summary="در این بخش میتوانید ظاهر کیبورد را به دلخواه تغییر دهید">
 
-			<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
-				android:title="ارتفاع کیبورد در حالت عمودی"
-				android:defaultValue="110"
-				android:key="Height_1"
-				android:persistent="true"
-				app:minValue="70"
-				app:maxValue="200"
-				app:logScale="true"
-				app:displayFormat="%.0f "/>
-			<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
-				android:title="ارتفاع کیبورد در حالت افقی"
-				android:defaultValue="70"
-				android:key="Height_2"
-				android:persistent="true"
-				app:minValue="50"
-				app:maxValue="150"
-				app:logScale="true"
-				app:displayFormat="%.0f "/>
-			<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
-				android:title="فاصله بین کلمات"
-				android:defaultValue="1"
-				android:key="Vertical"
-				android:persistent="true"
-				app:minValue="1"
-				app:maxValue="51"
-				app:logScale="true"
-				app:displayFormat="%.0f "/>
-		</PreferenceScreen>
+            <ListPreference
+                    android:entries="@array/Font"
+                    android:title="فونت کیبورد"
+                    android:key="Font"
+                    android:summary="انتخاب فونت کلمات کیبورد"
+                    android:defaultValue="1"
+                    android:entryValues="@array/Fontr"/>
+            <SwitchPreference
+                    android:title="پیش نمایش نویسه(Preview)"
+                    android:key="Preview"
+                    android:defaultValue="true"/>
+            <PreferenceCategory android:title="سبک و چیدمان"/>
+            <SwitchPreference
+                    android:title="نمایش ردیف اعداد"
+                    android:key="Number"
+                    android:defaultValue="true"/>
+            <PreferenceCategory android:title="حروف جایگزین"/>
+            <SwitchPreference
+                    android:title="نمایش حروف دوم(پاپ اپ بالای کلمات)"
+                    android:key="Kalamat"
+                    android:defaultValue="true"/>
 
-		<PreferenceScreen android:title="کارایی" android:summary="کارایی و امکانات کیبورد را کنترل کنید">
-			<PreferenceCategory android:title="میانبر های سوییپ" >
-				<ListPreference
-					android:entries="@array/Swip" 
-					android:title="سوییپ بالا"
-					android:defaultValue="1" 
-					android:key="swipeUp"
-					android:entryValues="@array/Swipr" />
-				<ListPreference
-					android:entries="@array/Swip" 
-					android:title="سوییپ پایین" 
-					android:defaultValue="1" 
-				
-					android:key="swipeDown"
-					android:entryValues="@array/Swipr" />
-				<ListPreference 
-					android:entries="@array/Swip"
-					android:title="سوییپ چپ" 
-					android:defaultValue="1"
-					android:key="swipeLeft"
-					android:entryValues="@array/Swipr" />
-				<ListPreference
-					android:entries="@array/Swip" 
-					android:title="سوییپ راست"
-					android:defaultValue="1"
-					android:key="swipeRight"
-					android:entryValues="@array/Swipr" />
-			</PreferenceCategory>
-			<ListPreference
-				android:entries="@array/SetKeyboard"
-				android:title="انتخاب ورودی پیشفرض"
-				android:key="SetKeyboard" 
-				android:summary="ورودی پیشفرض هنگام باز شدن کیبورد را انتخاب کنید."
-				android:defaultValue="2"
-				android:entryValues="@array/SetKeyboardr" />
+            <Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
+                    android:persistent="true"
+                    android:title="سایز حروف دوم کیبورد(پاپ اپ بالای کلمات)"
+                    android:key="TextSize2"
+                    android:defaultValue="20"
+                    app:minValue="1.0"
+                    app:maxValue="25.0"
+                    app:logScale="true"
+                    app:displayFormat="%.0f "/>
 
-			<CheckBoxPreference
-				android:title="تایپ مختلط" 
-				android:key="mcapsr" 
-				android:summary="با فعالسازی این گزینه هنگام تایپ انگلیسی حروف به صورت تصادفی کوچک و بزرگ تایپ میشوند." 
-				android:defaultValue="false" />
-		</PreferenceScreen>
+            <CheckBoxPreference
+                    android:title="ارتفاع کیبورد"
+                    android:key="Height"
+                    android:defaultValue="true"
+                    android:summaryOn="ارتفاع روی دستی تنظیم شد"
+                    android:summaryOff="ارتفاع روی پیشفرض سیستم تنظیم شد"/>
 
-		<PreferenceScreen android:title="سخت افزاری" android:summary="امکانات مربوط به سخت افزار صفحه کلید را کنترل کنید">
-			<PreferenceCategory android:title="بازخورد لمسی">
-				<SwitchPreference
-					android:title="صدا" 
-					android:key="Sound" 
-					android:defaultValue="false" />
-				<SwitchPreference
-					android:title="ویبره"
-					android:key="Vibrator"
-					android:defaultValue="false" />
-				<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
-					android:title="ویبره اولیه"
-					android:defaultValue="10"
-					app:minValue="5"
-					app:maxValue="200"
-					app:logScale="true"
-					app:displayFormat="%.0f "
-					android:key="Vibrator_1"
-					android:persistent="true"/>
-				<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
-					android:title="ویبره ثانویه"
-					android:defaultValue="20"
-					app:minValue="5"
-					app:maxValue="200"
-					app:logScale="true"
-					app:displayFormat="%.0f "
-					android:key="Vibrator_2"
-					android:persistent="true"/>
-			</PreferenceCategory>
-		</PreferenceScreen>
-	</PreferenceCategory>
+            <Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
+                    android:title="ارتفاع کیبورد در حالت عمودی"
+                    android:defaultValue="110"
+                    android:key="Height_1"
+                    android:persistent="true"
+                    app:minValue="70"
+                    app:maxValue="200"
+                    app:logScale="true"
+                    app:displayFormat="%.0f "/>
+            <Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
+                    android:title="ارتفاع کیبورد در حالت افقی"
+                    android:defaultValue="70"
+                    android:key="Height_2"
+                    android:persistent="true"
+                    app:minValue="50"
+                    app:maxValue="150"
+                    app:logScale="true"
+                    app:displayFormat="%.0f "/>
+            <Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
+                    android:title="فاصله بین کلمات"
+                    android:defaultValue="1"
+                    android:key="Vertical"
+                    android:persistent="true"
+                    app:minValue="1"
+                    app:maxValue="51"
+                    app:logScale="true"
+                    app:displayFormat="%.0f "/>
+        </PreferenceScreen>
+
+        <PreferenceScreen android:title="کارایی" android:summary="کارایی و امکانات کیبورد را کنترل کنید">
+            <PreferenceCategory android:title="میانبر های سوییپ">
+                <ListPreference
+                        android:entries="@array/Swip"
+                        android:title="سوییپ بالا"
+                        android:defaultValue="1"
+                        android:key="swipeUp"
+                        android:entryValues="@array/Swipr"/>
+                <ListPreference
+                        android:entries="@array/Swip"
+                        android:title="سوییپ پایین"
+                        android:defaultValue="1"
+
+                        android:key="swipeDown"
+                        android:entryValues="@array/Swipr"/>
+                <ListPreference
+                        android:entries="@array/Swip"
+                        android:title="سوییپ چپ"
+                        android:defaultValue="1"
+                        android:key="swipeLeft"
+                        android:entryValues="@array/Swipr"/>
+                <ListPreference
+                        android:entries="@array/Swip"
+                        android:title="سوییپ راست"
+                        android:defaultValue="1"
+                        android:key="swipeRight"
+                        android:entryValues="@array/Swipr"/>
+            </PreferenceCategory>
+            <ListPreference
+                    android:entries="@array/SetKeyboard"
+                    android:title="انتخاب ورودی پیشفرض"
+                    android:key="SetKeyboard"
+                    android:summary="ورودی پیشفرض هنگام باز شدن کیبورد را انتخاب کنید."
+                    android:defaultValue="2"
+                    android:entryValues="@array/SetKeyboardr"/>
+
+            <CheckBoxPreference
+                    android:title="تایپ مختلط"
+                    android:key="mcapsr"
+                    android:summary="با فعالسازی این گزینه هنگام تایپ انگلیسی حروف به صورت تصادفی کوچک و بزرگ تایپ میشوند."
+                    android:defaultValue="false"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen android:title="سخت افزاری"
+                          android:summary="امکانات مربوط به سخت افزار صفحه کلید را کنترل کنید">
+            <PreferenceCategory android:title="بازخورد لمسی">
+                <SwitchPreference
+                        android:title="صدا"
+                        android:key="Sound"
+                        android:defaultValue="false"/>
+                <SwitchPreference
+                        android:title="ویبره"
+                        android:key="Vibrator"
+                        android:defaultValue="false"/>
+                <Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
+                        android:title="ویبره اولیه"
+                        android:defaultValue="10"
+                        app:minValue="5"
+                        app:maxValue="200"
+                        app:logScale="true"
+                        app:displayFormat="%.0f "
+                        android:key="Vibrator_1"
+                        android:persistent="true"/>
+                <Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
+                        android:title="ویبره ثانویه"
+                        android:defaultValue="20"
+                        app:minValue="5"
+                        app:maxValue="200"
+                        app:logScale="true"
+                        app:displayFormat="%.0f "
+                        android:key="Vibrator_2"
+                        android:persistent="true"/>
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
 
 </PreferenceScreen>

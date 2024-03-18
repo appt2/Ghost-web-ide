@@ -17,9 +17,9 @@
 
 <!-- RelativeLayout used just to use Android layout preview with lynx_view.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-  <include layout="@layout/lynx_view"/>
+    <include layout="@layout/lynx_view"/>
 
 </RelativeLayout>

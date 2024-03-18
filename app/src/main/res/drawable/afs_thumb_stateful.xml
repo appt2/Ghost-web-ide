@@ -22,25 +22,25 @@
   ~ need to support API 21, you'll need to work around it yourself.
   -->
 <selector
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="UnusedResources">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="UnusedResources">
 
     <item android:state_pressed="true">
         <shape
-            android:shape="rectangle"
-            android:tint="?colorControlActivated">
-            <size android:width="8dp" android:height="48dp" />
-            <solid android:color="@android:color/white" />
+                android:shape="rectangle"
+                android:tint="?colorControlActivated">
+            <size android:width="8dp" android:height="48dp"/>
+            <solid android:color="@android:color/white"/>
         </shape>
     </item>
 
     <item>
         <shape
-            android:shape="rectangle"
-            android:tint="?colorControlNormal">
-            <size android:width="8dp" android:height="48dp" />
-            <solid android:color="@android:color/white" />
+                android:shape="rectangle"
+                android:tint="?colorControlNormal">
+            <size android:width="8dp" android:height="48dp"/>
+            <solid android:color="@android:color/white"/>
         </shape>
     </item>
 </selector>

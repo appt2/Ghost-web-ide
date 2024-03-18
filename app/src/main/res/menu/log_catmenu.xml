@@ -2,24 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/itemshow"
-        android:title="Menu item showing"
-        android:checked="false"
-        android:checkable="true"
-        
-            
+            android:id="@+id/itemshow"
+            android:title="Menu item showing"
+            android:checked="false"
+            android:checkable="true"
+
+
     />
     <item
-        android:id="@+id/autoScroll"
-        android:title="Auto Scroll"
-        android:checked="false"
-        android:checkable="true"
-            
+            android:id="@+id/autoScroll"
+            android:title="Auto Scroll"
+            android:checked="false"
+            android:checkable="true"
+
     />
     <item
-        android:id="@+id/log_cat_clear"
-        android:title="Clear log"
-            
+            android:id="@+id/log_cat_clear"
+            android:title="Clear log"
+
     />
 
 </menu>
