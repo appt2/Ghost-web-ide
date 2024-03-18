@@ -28,21 +28,22 @@ public class JavaCompilerBeta {
 
   protected static ProgressDialog pr;
   private static String dirPath = "/storage/emulated/0/GhostWebIDE/java/";
-  
 
   public static void run(Context context, String inputs) {
 
     new AsyncTask<String, String, String>() {
       ProgressDialog pr;
-      List<String> opt = new ArrayList<>();
       long ecjTime, dxTime;
-      File nameFile = new File(inputs);
+      ArrayList<String> opt = new ArrayList<>();
 
       @Override
       protected void onPreExecute() {
-        pr = new ProgressDialog(context, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
+        pr = new ProgressDialog(context);
+
         pr.setMessage("Running...");
+
         pr.setCancelable(false);
+
         pr.show();
       }
 
@@ -50,13 +51,18 @@ public class JavaCompilerBeta {
       protected String doInBackground(String... params) {
         String _param = params[0];
         // code that prepares the files
-        FileUtil.deleteFile(dirPath.concat("/bin/"));
-        FileUtil.makeDir(dirPath.concat("/bin/"));
-        FileUtil.writeFile(dirPath + "/bin/" + nameFile, nameFile.toString());
+        FileUtil.deleteFile(FileUtil.getPackageDataDir(context).concat("/bin/"));
+        FileUtil.makeDir(FileUtil.getPackageDataDir(context).concat("/bin/"));
+        FileUtil.writeFile(
+            FileUtil.getPackageDataDir(context).concat("/bin/Main.java"),
+            inputs);
         // code that copies cp.jar from assets to temp folder (if not exists)
-        if (!FileUtil.isExistFile(dirPath.concat("/bin/cp.jar"))) {
+        if (!FileUtil.isExistFile(
+            FileUtil.getPackageDataDir(context).concat("/bin/cp.jar"))) {
           try (InputStream input = context.getAssets().open("cp.jar");
-              OutputStream output = new FileOutputStream(dirPath.concat("/bin/cp.jar"))) {
+              OutputStream output =
+                  new FileOutputStream(
+                      FileUtil.getPackageDataDir(context).concat("/bin/cp.jar"))) {
             byte[] buffer = new byte[input.available()];
             int length;
             while ((length = input.read(buffer)) != -1) {
@@ -77,13 +83,13 @@ public class JavaCompilerBeta {
         opt.add("-nowarn");
         opt.add("-deprecation");
         opt.add("-d");
-        opt.add(dirPath.concat("/bin/classes"));
+        opt.add(FileUtil.getPackageDataDir(context).concat("/bin/classes"));
         opt.add("-cp");
-        opt.add(dirPath.concat("/bin/cp.jar"));
+        opt.add(FileUtil.getPackageDataDir(context).concat("/bin/cp.jar"));
         opt.add("-proc:none");
         opt.add("-sourcepath");
         opt.add("ignore");
-        opt.add(dirPath + "/bin/" + nameFile);
+        opt.add(FileUtil.getPackageDataDir(context).concat("/bin/Main.java"));
         PrintWriter printWriter =
             new PrintWriter(
                 new OutputStream() {
@@ -104,7 +110,9 @@ public class JavaCompilerBeta {
                   }
                 });
 
-        Main main = new Main(printWriter2, printWriter2, false, null, null);
+        org.eclipse.jdt.internal.compiler.batch.Main main =
+            new org.eclipse.jdt.internal.compiler.batch.Main(
+                printWriter2, printWriter2, false, null, null);
 
         main.compile(opt.toArray(new String[0]));
 
@@ -115,7 +123,9 @@ public class JavaCompilerBeta {
         // code that packages classes to a JAR
         publishProgress("Packaging JAR...");
         try {
-          new JarPackager(dirPath.concat("/bin/classes/"), dirPath.concat("/bin/classes.jar"))
+          new JarPackager(
+                  FileUtil.getPackageDataDir(context).concat("/bin/classes/"),
+                  FileUtil.getPackageDataDir(context).concat("/bin/classes.jar"))
               .create();
         } catch (Exception e) {
           return "Packaging JAR failed: " + e.toString();
@@ -124,12 +134,15 @@ public class JavaCompilerBeta {
         time = System.currentTimeMillis();
         try {
           publishProgress("Dexing with D8...");
+          /*
+
+          */
           opt.clear();
           opt.add("--output");
-          opt.add(dirPath.concat("/bin/"));
+          opt.add(FileUtil.getPackageDataDir(context).concat("/bin/"));
           opt.add("--lib");
-          opt.add(dirPath.concat("/bin/cp.jar"));
-          opt.add(dirPath.concat("/bin/classes.jar"));
+          opt.add(FileUtil.getPackageDataDir(context).concat("/bin/cp.jar"));
+          opt.add(FileUtil.getPackageDataDir(context).concat("/bin/classes.jar"));
           D8.main(opt.toArray(new String[0]));
         } catch (Exception e) {
           return "Dex failed: " + e.toString();
@@ -176,16 +189,17 @@ public class JavaCompilerBeta {
           System.setErr(new PrintStream(_outstream));
           // code that loads the final dex
           try {
-            String optimizedDir = context.getDir("odex", Context.MODE_PRIVATE).getAbsolutePath();
+            String optimizedDir =
+                context.getDir("odex", Context.MODE_PRIVATE).getAbsolutePath();
 
             DexClassLoader dcl =
                 new DexClassLoader(
-                    dirPath.concat("/bin/classes.dex"),
+                    FileUtil.getPackageDataDir(context).concat("/bin/classes.dex"),
                     optimizedDir,
                     null,
                     context.getClassLoader());
 
-            Class calledClass = dcl.loadClass(nameFile.getName().replace(".java", ""));
+            Class calledClass = dcl.loadClass("Main");
 
             java.lang.reflect.Method method = calledClass.getDeclaredMethod("main", String[].class);
 
@@ -193,7 +207,7 @@ public class JavaCompilerBeta {
 
             Object result = method.invoke(null, new Object[] {param});
           } catch (java.lang.reflect.InvocationTargetException i) {
-            dialog("Failed..", "Runtime error: " + i.getCause().toString(), context);
+            dialog("Failed..", "Runtime error: " + i.getCause().toString(),context);
             return;
           } catch (Exception e) {
             dialog(
@@ -201,12 +215,11 @@ public class JavaCompilerBeta {
                 "Couldn't execute the dex: "
                     + e.toString()
                     + "\n\nSystem logs:\n"
-                    + _outstream.toString(),
-                context);
+                    + _outstream.toString(),context);
             return;
           }
           // code that shows the dialog
-          new AlertDialog.Builder(context)
+          new MaterialAlertDialogBuilder(context)
               .setTitle("Output (ecj:" + ecjTime + "ms | d8:" + dxTime + "ms)")
               .setView(sc)
               .setPositiveButton("OK", null)
@@ -219,7 +232,7 @@ public class JavaCompilerBeta {
               .create()
               .show();
         } else {
-          dialog("Failed..", _result, context);
+          dialog("Failed..", _result,context);
         }
       }
     }.execute("");

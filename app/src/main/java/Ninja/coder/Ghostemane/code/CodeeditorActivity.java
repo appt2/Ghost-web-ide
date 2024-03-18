@@ -2001,7 +2001,7 @@ public class CodeeditorActivity extends AppCompatActivity {
                               shp.getString("pos_path", ""));
 
                         } else if (shp.getString("pos_path", "").contains(".java")) {
-                          var file = new File(shp.getString("pos_path", ""));
+                          
                           JavaCompilerBeta.run(
                               CodeeditorActivity.this, editor.getText().toString());
                         }
