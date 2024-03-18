@@ -54,7 +54,8 @@ public class AboutActivity extends BaseCompat implements DevAd.OnItemClick {
     listModel.add(new DevModel("Mister Java", "macro"));
     listModel.add(new DevModel("Psi", "Help to adding python"));
     listModel.add(new DevModel("EUP", "marco"));
-    GlideCompat.GlideNormal(appicon,R.mipmap.ghosticon);
+    listModel.add(new DevModel("timscriptov", "Tanks for Library layout preview"));
+    GlideCompat.GlideNormal(appicon, R.mipmap.ghosticon);
     devAd = new DevAd(listModel, this);
     rv_about_dev.setAdapter(devAd);
     rv_about_dev.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -67,11 +68,9 @@ public class AboutActivity extends BaseCompat implements DevAd.OnItemClick {
           }
 
           @Override
-          public void onErrorResponse(String _param1, String _param2) {
-             
-          }
+          public void onErrorResponse(String _param1, String _param2) {}
         };
-    
+
     getOnBackPressedDispatcher()
         .addCallback(
             this,
@@ -115,6 +114,9 @@ public class AboutActivity extends BaseCompat implements DevAd.OnItemClick {
         break;
       case 6:
         Toast.makeText(getApplicationContext(), "User not found Github page", 2).show();
+        break;
+      case 7:
+        openUrl("https://github.com/timscriptov");
         break;
     }
   }

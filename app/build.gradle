@@ -10,7 +10,7 @@ android {
         
     defaultConfig {
         applicationId "Ninja.coder.Ghostemane.code"
-        minSdk 21
+        minSdk 24
         targetSdk 30
         versionCode 25
         versionName "1.6.0-rc"
@@ -115,4 +115,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2'
     implementation 'com.squareup:javapoet:1.13.0' 
     implementation 'com.android.tools:r8:8.3.37' 
+    //ui 
+    implementation 'com.github.TimScriptov:App-UI-Designer:1.0.9'
 }

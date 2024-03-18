@@ -43,6 +43,9 @@ import android.view.animation.AnimationUtils;
 import android.media.AudioManager;
 import android.view.inputmethod.EditorInfo;
 import android.util.TypedValue;
+import com.mcal.uidesigner.XmlLayoutDesignActivity;
+import com.sdsmdg.harjot.vectormaster.VectorMasterView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import io.github.rosemoe.sora.data.Span;
 import io.github.rosemoe.sora.text.TextStyle;
 import io.github.rosemoe.sora.widget.CodeEditor;
@@ -2001,11 +2004,42 @@ public class CodeeditorActivity extends AppCompatActivity {
                               shp.getString("pos_path", ""));
 
                         } else if (shp.getString("pos_path", "").contains(".java")) {
-                          
+
                           JavaCompilerBeta.run(
                               CodeeditorActivity.this, editor.getText().toString());
                         } else if (shp.getString("pos_path", "").contains(".xml")) {
-                          EditorSearcherT.xmlparser(CodeeditorActivity.this,editor);
+
+                          if (editor.getText().toString().startsWith("<vector")) {
+                            var vectorShow = new VectorMasterView(CodeeditorActivity.this);
+                            var file = new File(shp.getString("pos_path", ""));
+                            var par =
+                                new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT);
+                            vectorShow.setLayoutParams(par);
+                            if (vectorShow.isVector()) {
+                              vectorShow.setVectorFile(file);
+                            }
+                            var sheet = new BottomSheetDialog(CodeeditorActivity.this);
+                            sheet.setContentView(vectorShow);
+                            if (sheet != null) {
+                              sheet.show();
+                            }
+                          } else if (editor.getText().toString().startsWith("<?xml")) {
+                            XmlLayoutDesignActivity.show(
+                                CodeeditorActivity.this,
+                                "xml",
+                                shp.getString("pos_path", ""),
+                                false,
+                                false);
+                          }else{
+                            XmlLayoutDesignActivity.show(
+                                CodeeditorActivity.this,
+                                "xml",
+                                shp.getString("pos_path", ""),
+                                false,
+                                false);
+                          }
                         }
                       }
                     }
@@ -2222,14 +2256,9 @@ public class CodeeditorActivity extends AppCompatActivity {
             selector.setBackground(SketchUi);
           }
         }
-        datas =
-            Uri.parse(_data.get((int) _position).get("path").toString())
-                .getLastPathSegment()
-                ;
+        datas = Uri.parse(_data.get((int) _position).get("path").toString()).getLastPathSegment();
         textview1.setText(
-            Uri.parse(_data.get((int) _position).get("path").toString())
-                .getLastPathSegment()
-                );
+            Uri.parse(_data.get((int) _position).get("path").toString()).getLastPathSegment());
 
         if (FileUtil.isDirectory(_data.get((int) _position).get("path").toString())) {
 
@@ -2241,8 +2270,7 @@ public class CodeeditorActivity extends AppCompatActivity {
               "FileNotFound*"
                   .concat(
                       Uri.parse(_data.get((int) _position).get("path").toString())
-                          .getLastPathSegment())
-                  );
+                          .getLastPathSegment()));
         }
         if (_data
             .get((int) _position)

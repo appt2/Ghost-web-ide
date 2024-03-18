@@ -12,19 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.color.MaterialColors;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputLayout;
-import coyamo.visualxml.lib.parser.AndroidXmlParser;
-import coyamo.visualxml.lib.parser.ReadOnlyParser;
-import coyamo.visualxml.lib.proxy.ProxyResources;
-import coyamo.visualxml.lib.ui.OutlineView;
-import coyamo.visualxml.lib.utils.MessageArray;
 import io.github.rosemoe.sora.widget.CodeEditor;
 
 public class EditorSearcherT {
@@ -91,46 +81,6 @@ public class EditorSearcherT {
 
   public static void show(IDEEDITOR editor, View views) {
     show(editor, views, "");
-  }
-
-  public static void xmlparser(Context context, CodeEditor editor) {
-    var sheet = new BottomSheetDialog(context);
-    try {
-      ProxyResources.getInstance().getViewIdMap().clear();
-      MessageArray.getInstanse().clear();
-    } catch (Exception err) {
-      err.printStackTrace();
-    }
-    OutlineView outline = new OutlineView(context, null);
-    LinearLayout.LayoutParams par =
-        new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-    outline.setLayoutParams(par);
-    outline.setHoldOutline(false);
-    outline.setDisplayType(OutlineView.DISPLAY_DESIGN);
-    AndroidXmlParser.with(outline)
-        .setOnParseListener(
-            new AndroidXmlParser.OnParseListener() {
-
-              @Override
-              public void onAddChildView(View v, ReadOnlyParser parser) {}
-
-              @Override
-              public void onFinish() {}
-
-              @Override
-              public void onJoin(ViewGroup viewGroup, ReadOnlyParser parser) {}
-
-              @Override
-              public void onRevert(ViewGroup viewGroup, ReadOnlyParser parser) {}
-
-              @Override
-              public void onStart() {}
-            })
-        .parse(editor.getText().toString());
-    sheet.setContentView(outline);
-    if (sheet != null) {
-      sheet.show();
-    }
+    
   }
 }
