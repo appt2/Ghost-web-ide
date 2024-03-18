@@ -13,71 +13,58 @@
     <item
         name="paste"
         type="string"
-        
-    >Paste</item>
+        >Paste</item>
     <item
         name="copy"
         type="string"
-        
-    >Copy</item>
+        >Copy</item>
     <item
         name="selectAll"
         type="string"
         formatted="true"
-        
-    >Select All</item>
+        >Select All</item>
     <item
         name="saveToProject"
         type="string"
         translatable="false"
-        
-    >Project</item>
+        >Project</item>
     <item
         name="cut"
         type="string"
-        
-    >Cut</item>
+        >Cut</item>
     <item
         name="last"
         type="string"
-        
-    >Last</item>
+        >Last</item>
     <item
         name="next"
         type="string"
-        
-    >Next</item>
+        >Next</item>
     <item
         name="replace"
         type="string"
-        
-    >Replace</item>
+        >Replace</item>
     <item
         name="replaceAll"
         type="string"
-        
-    >Replace All</item>
+        >Replace All</item>
     <item
         name="replacement"
         type="string"
-        
-    >Replacement</item>
+        >Replacement</item>
     <item
         name="cancel"
         type="string"
-        
-    >Cancel</item>
+        >Cancel</item>
     <item
         name="text_to_search"
         type="string"
-        
-    >Text to search</item>
+        >Text to search</item>
     <item
         name="more"
         type="string"
         translatable="false"
-        
-    >More</item>
+        >More</item>
     <string name="sting">App setting</string>
     <string name="java">java codes</string>
     <string name="googleplay">Add star to my app to myket</string>
@@ -137,7 +124,19 @@
     <string name="dev">Developer</string>
     <string name="color_tree">Text Color Tree</string>
     <string name="MaterialYou">MaterialYou</string>
-    <string name ="customtheme"> Custom Theme </string>
-    <string name ="customwindows"> Mode Custom Windows </string>
-  
+    <string name="customtheme">Custom Theme</string>
+    <string name="customwindows">Mode Custom Windows</string>
+    <string name="resource">Resource</string>
+    <string name="resource_manager">Resource Manager</string>
+    <string name="debug">Debug</string>
+    <string name="component_tree">Component Tree</string>
+    <string name="raw_xml">Raw XML</string>
+    <string name="ok">ok</string>
+    <string name="run">Run</string>
+    <string name="mode">Mode</string>
+    <string name="design_surface">Design surface</string>
+    <string name="view">View</string>
+    <string name="design">Design</string>
+    <string name="blueprint">Blueprint</string>
+
 </resources>

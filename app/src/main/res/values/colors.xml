@@ -6,6 +6,10 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="subBarColor">#e2e6ec</color>
+    <color name="subBarColor2">#f2f2f2</color>
+    <color name="colorAccent">#4084C9</color>
+    <color name="divider">#C0C0C0</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dkplayer_theme_color">#39C5BB</color>
     <color name="dkplayer_theme_color_translucent">#9939C5BB</color>

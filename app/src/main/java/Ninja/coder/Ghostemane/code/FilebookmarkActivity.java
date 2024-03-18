@@ -1,5 +1,10 @@
 package Ninja.coder.Ghostemane.code;
 
+import Ninja.coder.Ghostemane.code.AnimUtils;
+import Ninja.coder.Ghostemane.code.folderBuilder.FileIconHelper;
+import Ninja.coder.Ghostemane.code.marco.binder.BinderRecyclerview1;
+import Ninja.coder.Ghostemane.code.GlideUtilApi.GlideCompat;
+import java.io.IOException;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.AdapterView;
@@ -9,6 +14,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.widget.LinearLayout;
@@ -160,38 +166,40 @@ public class FilebookmarkActivity extends BaseCompat {
       final TextView textview1 = _view.findViewById(R.id.textview1);
 
       ColorAndroid12.shap(imageview1);
-      Toast.makeText(getApplicationContext(), _data.get((int) _position).get("list").toString(), 2)
-          .show();
+      AnimUtils.Sacla(_view);
       ColorAndroid12.setTextColor(textview1);
+      File file = new File(map.get((int) _position).get("list").toString());
+      FileIconHelper helper = new FileIconHelper(file.toString());
+      imageview1.setImageResource(helper.getFileIcon());
+      textview1.setText(file.getName());
+      if (file.isDirectory()) {
 
-      textview1.setText(
-          Uri.parse(map.get((int) _position).get("list").toString()).getLastPathSegment());
+      } else {
+        if (BinderRecyclerview1.TaskVideo(file.toString())) {
+          GlideCompat.GlideNormal(imageview1, file.toString());
+        } else if (BinderRecyclerview1.PhotoView(file.toString())) {
+          GlideCompat.GlideNormal(imageview1, file.toString());
+        }
+        if (file.toString().endsWith(".xml")) {
+          GlideCompat.LoadVector(file.toString(), imageview1);
+        } else if (file.toString().endsWith(".mp3")) {
+          GlideCompat.GlideLoadMp3(imageview1, file.toString());
+        } else if (file.toString().endsWith(".svg")) {
+          GlideCompat.LoadSvg(file.toString(), imageview1);
+        } else if (file.toString().endsWith(".pdf")) {
+          try {
+            GlideCompat.loadImgPdf(file, imageview1);
+          } catch (IOException err) {
+            imageview1.setImageResource(R.drawable.ic_material_pdf);
+          }
+        } else if (file.toString().endsWith(".apk")) {
+          GlideCompat.LoadApkFile(file.toString(), imageview1);
+        } else if (file.toString().endsWith(".swb")) {
+          GlideCompat.LoadSwbIcon(file.toString(), imageview1);
+        }
+      }
       return _view;
     }
-  }
-
-  public boolean FileText(String foo) {
-    return foo.endsWith(".java")
-        || foo.endsWith(".js")
-        || foo.endsWith(".css")
-        || foo.endsWith(".scss")
-        || foo.endsWith(".kt")
-        || foo.endsWith(".ninja")
-        || foo.endsWith(".ghost")
-        || foo.endsWith(".c")
-        || foo.endsWith(".cpp")
-        || foo.endsWith(".cs");
-  }
-
-  public boolean MediaEnd(String foo) {
-    return foo.endsWith(".mp3")
-        || foo.endsWith(".mp4")
-        || foo.endsWith(".gif")
-        || foo.endsWith(".png")
-        || foo.endsWith(".jpg")
-        || foo.endsWith(".tiff")
-        || foo.endsWith(".tif")
-        || foo.endsWith(".mva");
   }
 
   @Override

@@ -30,6 +30,8 @@ public class CreatorModule {
   protected OnCallBack call;
   protected TextInputLayout inputLayout, input_pk;
   protected List<String> str = new ArrayList<>();
+  protected String stringsxml = "<resources>" + "\n <string name =\"app_name\">" + "myapp" + "</string>" 
+  + "\n" + "</resources>";
 
   public CreatorModule(Context context, String folder, OnCallBack call) {
     this.context = context;
@@ -224,6 +226,7 @@ public class CreatorModule {
                   + "/"
                   + "MainActivity.java"),
           mainJavaContent.getBytes());
+      Files.write(moduleFolder.resolve("src/main/res/values/strings.xml"),stringsxml.getBytes());
       Files.write(
           moduleFolder.resolve("src/main/AndroidManifest.xml"), androidManifestContent.getBytes());
     } catch (IOException e) {

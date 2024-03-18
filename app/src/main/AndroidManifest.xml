@@ -85,6 +85,13 @@
             
         />
         <activity
+            android:name=".XmlViewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:hardwareAccelerated="true"
+            android:supportsPictureInPicture="true"
+            
+        />
+        <activity
             android:name=".SettingappActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
@@ -305,8 +312,6 @@
         />
 
 
-
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="Ninja.coder.Ghostemane.code.provider"
@@ -334,9 +339,7 @@
             android:name="Ninja.coder.Ghostemane.code.Keyboard.Theme"
         />
         <activity
-            
             android:name="Ninja.coder.Ghostemane.code.Keyboard.Background"
-            
         />
         <activity
             android:name="Ninja.coder.Ghostemane.code.Keyboard.Save"

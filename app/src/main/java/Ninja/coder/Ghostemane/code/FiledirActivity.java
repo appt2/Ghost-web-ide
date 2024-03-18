@@ -2821,8 +2821,7 @@ public class FiledirActivity extends BaseCompat
               mapz32.put("list", files.get((int) _position).get("path").toString());
               a.add(mapz32);
               book.edit().putString("hsipsot4444", new Gson().toJson(a)).apply();
-              SketchwareUtil.showMessage(
-                  getApplicationContext(), book.getString("hsipsot4444", ""));
+              showMessage("Added!");
             }
             bottomSheetDialog.dismiss();
           }

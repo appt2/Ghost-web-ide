@@ -92,7 +92,11 @@ public class EditorRoaderFile {
       XMLLanguage xmlLanguage = new XMLLanguage();
       xmlLanguage.setSyntaxCheckEnable(true);
       editor.setEditorLanguage(xmlLanguage);
-
+      _fab.postDelayed(
+          () -> {
+            _fab.show();
+          },
+          400);
     } else if (_path.endsWith(".ghost")) {
       ReadFileCompat(editor, _path, bar);
       editor.setEditorLanguage(new ghostlangs());

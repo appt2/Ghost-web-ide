@@ -2004,6 +2004,8 @@ public class CodeeditorActivity extends AppCompatActivity {
                           
                           JavaCompilerBeta.run(
                               CodeeditorActivity.this, editor.getText().toString());
+                        } else if (shp.getString("pos_path", "").contains(".xml")) {
+                          EditorSearcherT.xmlparser(CodeeditorActivity.this,editor);
                         }
                       }
                     }
@@ -2223,11 +2225,11 @@ public class CodeeditorActivity extends AppCompatActivity {
         datas =
             Uri.parse(_data.get((int) _position).get("path").toString())
                 .getLastPathSegment()
-                .toLowerCase();
+                ;
         textview1.setText(
             Uri.parse(_data.get((int) _position).get("path").toString())
                 .getLastPathSegment()
-                .toLowerCase());
+                );
 
         if (FileUtil.isDirectory(_data.get((int) _position).get("path").toString())) {
 
@@ -2240,7 +2242,7 @@ public class CodeeditorActivity extends AppCompatActivity {
                   .concat(
                       Uri.parse(_data.get((int) _position).get("path").toString())
                           .getLastPathSegment())
-                  .toLowerCase());
+                  );
         }
         if (_data
             .get((int) _position)
