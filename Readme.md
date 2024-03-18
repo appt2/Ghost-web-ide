@@ -95,5 +95,9 @@ Welcome to Ghost Web. What changes are accepted?
 Ghost Web is an Android project with Java. The following changes are not accepted and your account may even be blocked in this support
 
 1 - Using Kotlin 
+
 2 - Using libraries developed with Kotlin 
+
+
 3 - Strange features that are not related to the program
+
