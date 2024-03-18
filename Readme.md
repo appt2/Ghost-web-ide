@@ -89,7 +89,11 @@ You can apply for Ghost Web development cooperation but under the following cond
 I must say that you do not have the right to register the program under your own name. It is an open source program and is released under the Ghost Web brand
 
 
-### User agreement 
+### Cooperation terms 
 
-You can view, edit and update the ghost web codes, but if you change them to another language and update them in your personal repository, I am not satisfied personally and will be followed up.
+Welcome to Ghost Web. What changes are accepted? 
+Ghost Web is an Android project with Java. The following changes are not accepted and your account may even be blocked in this support
 
+1 - Using Kotlin 
+2 - Using libraries developed with Kotlin 
+3 - Strange features that are not related to the program
