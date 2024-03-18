@@ -1,4 +1,5 @@
 package io.github.rosemoe.sora.langs.groovy.lang;
+
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
 import io.github.rosemoe.sora.interfaces.NewlineHandler;
@@ -8,76 +9,78 @@ import io.github.rosemoe.sora.langs.groovy.GroovyLexer;
 import io.github.rosemoe.sora.langs.internal.MyCharacter;
 import io.github.rosemoe.sora.text.TextUtils;
 import io.github.rosemoe.sora.widget.SymbolPairMatch;
+
 import java.io.StringReader;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
 
-public class GroovyLanguage implements EditorLanguage{
-	public GroovyLanguage(){}
-	
-	
-	
-	@Override
-	public CharSequence format(CharSequence text) {
-		return text;
-	}
-	
-	@Override
-	public CodeAnalyzer getAnalyzer() {
-		return new GroovyAnalyzer();
-	}
-	
-	@Override
-	public AutoCompleteProvider getAutoCompleteProvider() {
-		return new GroovyAutoComplete();
-	}
-	
-	@Override
-	public int getIndentAdvance(String content) {
-		try {
-      GroovyLexer lexer = new GroovyLexer(CharStreams.fromReader(new StringReader(content)));
-      Token token;
-      int advance = 0;
-      while (((token = lexer.nextToken()) != null && token.getType() != token.EOF)) {
-        switch (token.getType()) {
-          case GroovyLexer.LBRACE:
-            advance++;
-            break;
-          case GroovyLexer.RBRACE:
-            advance--;
-            break;
-        }
-      }
-      advance = Math.max(0, advance);
-      return advance * 4;
-    } catch (Throwable e) {
-      
-    }
-    return 0;
-	}
-	
-	
-	@Override
-	public SymbolPairMatch getSymbolPairs() {
-		return null;
-	}
-	
-	@Override
-	public boolean isAutoCompleteChar(char ch) {
-		return MyCharacter.isJavaIdentifierStart(ch)|| ch == '.';
-	}
-	
-	@Override
-	public boolean useTab() {
-		return true;
-	}
+public class GroovyLanguage implements EditorLanguage {
     private final NewlineHandler[] newLineHandlers =
-            new NewlineHandler[] {
-                new BraceHandler(),
-                new TwoIndentHandler(),
-                new JavaDocStartHandler(),
-                new JavaDocHandler()
+            new NewlineHandler[]{
+                    new BraceHandler(),
+                    new TwoIndentHandler(),
+                    new JavaDocStartHandler(),
+                    new JavaDocHandler()
             };
+
+
+    public GroovyLanguage() {
+    }
+
+    @Override
+    public CharSequence format(CharSequence text) {
+        return text;
+    }
+
+    @Override
+    public CodeAnalyzer getAnalyzer() {
+        return new GroovyAnalyzer();
+    }
+
+    @Override
+    public AutoCompleteProvider getAutoCompleteProvider() {
+        return new GroovyAutoComplete();
+    }
+
+    @Override
+    public int getIndentAdvance(String content) {
+        try {
+            GroovyLexer lexer = new GroovyLexer(CharStreams.fromReader(new StringReader(content)));
+            Token token;
+            int advance = 0;
+            while (((token = lexer.nextToken()) != null && token.getType() != token.EOF)) {
+                switch (token.getType()) {
+                    case GroovyLexer.LBRACE:
+                        advance++;
+                        break;
+                    case GroovyLexer.RBRACE:
+                        advance--;
+                        break;
+                }
+            }
+            advance = Math.max(0, advance);
+            return advance * 4;
+        } catch (Throwable e) {
+
+        }
+        return 0;
+    }
+
+    @Override
+    public SymbolPairMatch getSymbolPairs() {
+        return null;
+    }
+
+    @Override
+    public boolean isAutoCompleteChar(char ch) {
+        return MyCharacter.isJavaIdentifierStart(ch) || ch == '.';
+    }
+
+    @Override
+    public boolean useTab() {
+        return true;
+    }
 
     @Override
     public NewlineHandler[] getNewlineHandlers() {

@@ -11,13 +11,21 @@ import java.util.Arrays;
 public final class TerminalBuffer {
 
     TerminalRow[] mLines;
-    /** The length of {@link #mLines}. */
+    /**
+     * The length of {@link #mLines}.
+     */
     int mTotalRows;
-    /** The number of rows and columns visible on the screen. */
+    /**
+     * The number of rows and columns visible on the screen.
+     */
     int mScreenRows, mColumns;
-    /** The number of rows kept in history. */
+    /**
+     * The number of rows kept in history.
+     */
     private int mActiveTranscriptRows = 0;
-    /** The index in the circular buffer where the visible screen starts. */
+    /**
+     * The index in the circular buffer where the visible screen starts.
+     */
     private int mScreenFirstRow = 0;
 
     /**
@@ -97,7 +105,7 @@ public final class TerminalBuffer {
                 builder.append(line, x1Index, lastPrintingCharIndex - x1Index + 1);
             boolean lineFillsWidth = lastPrintingCharIndex == x2Index - 1;
             if ((!joinBackLines || !rowLineWrap) && (!joinFullLines || !lineFillsWidth)
-                && row < selY2 && row < mScreenRows - 1) builder.append('\n');
+                    && row < selY2 && row < mScreenRows - 1) builder.append('\n');
         }
         return builder.toString();
     }
@@ -121,9 +129,9 @@ public final class TerminalBuffer {
         int textOffset = (y - y1) * mColumns + x;
 
         if (textOffset >= text.length()) {
-          // The click was to the right of the last word on the line, so
-          // there's no word to return
-          return "";
+            // The click was to the right of the last word on the line, so
+            // there's no word to return
+            return "";
         }
 
         // Set x1 and x2 to the indices of the last space before x and the
@@ -135,8 +143,8 @@ public final class TerminalBuffer {
         }
 
         if (x1 == x2) {
-          // The click was on a space, so there's no word to return
-          return "";
+            // The click was on a space, so there's no word to return
+            return "";
         }
         return text.substring(x1 + 1, x2);
     }
@@ -434,7 +442,7 @@ public final class TerminalBuffer {
     public void blockSet(int sx, int sy, int w, int h, int val, long style) {
         if (sx < 0 || sx + w > mColumns || sy < 0 || sy + h > mScreenRows) {
             throw new IllegalArgumentException(
-                "Illegal arguments! blockSet(" + sx + ", " + sy + ", " + w + ", " + h + ", " + val + ", " + mColumns + ", " + mScreenRows + ")");
+                    "Illegal arguments! blockSet(" + sx + ", " + sy + ", " + w + ", " + h + ", " + val + ", " + mColumns + ", " + mScreenRows + ")");
         }
         for (int y = 0; y < h; y++)
             for (int x = 0; x < w; x++)
@@ -456,7 +464,9 @@ public final class TerminalBuffer {
         return allocateFullLineIfNecessary(externalToInternalRow(externalRow)).getStyle(column);
     }
 
-    /** Support for http://vt100.net/docs/vt510-rm/DECCARA and http://vt100.net/docs/vt510-rm/DECCARA */
+    /**
+     * Support for http://vt100.net/docs/vt510-rm/DECCARA and http://vt100.net/docs/vt510-rm/DECCARA
+     */
     public void setOrClearEffect(int bits, boolean setOrClear, boolean reverse, boolean rectangular, int leftMargin, int rightMargin, int top, int left,
                                  int bottom, int right) {
         for (int y = top; y < bottom; y++) {

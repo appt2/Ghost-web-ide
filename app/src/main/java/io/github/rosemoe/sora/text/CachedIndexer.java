@@ -96,7 +96,7 @@ public class CachedIndexer implements Indexer, ContentListener {
         int min = index, dis = index;
         CharPosition nearestCharPosition = mZeroPoint;
         int targetIndex = 0;
-        for (int i = 0;i < mCachePositions.size();i++) {
+        for (int i = 0; i < mCachePositions.size(); i++) {
             CharPosition pos = mCachePositions.get(i);
             dis = Math.abs(pos.index - index);
             if (dis < min) {
@@ -127,7 +127,7 @@ public class CachedIndexer implements Indexer, ContentListener {
         int min = line, dis = line;
         CharPosition nearestCharPosition = mZeroPoint;
         int targetIndex = 0;
-        for (int i = 0;i < mCachePositions.size();i++) {
+        for (int i = 0; i < mCachePositions.size(); i++) {
             CharPosition pos = mCachePositions.get(i);
             dis = Math.abs(pos.line - line);
             if (dis < min) {

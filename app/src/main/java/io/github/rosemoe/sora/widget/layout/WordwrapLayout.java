@@ -120,7 +120,7 @@ public class WordwrapLayout extends AbstractLayout {
         int len = sequence.length();
 
         while (start < len) {
-            var next = (int)editor.findFirstVisibleChar(width, start, len, 0, sequence, line)[0];
+            var next = (int) editor.findFirstVisibleChar(width, start, len, 0, sequence, line)[0];
             breakpoints.add(next);
             start = next;
         }
@@ -270,8 +270,8 @@ public class WordwrapLayout extends AbstractLayout {
     class WordwrapLayoutRowItr implements RowIterator {
 
         private final Row result;
-        private int currentRow;
         private final int initRow;
+        private int currentRow;
 
         WordwrapLayoutRowItr(int initialRow) {
             initRow = currentRow = initialRow;

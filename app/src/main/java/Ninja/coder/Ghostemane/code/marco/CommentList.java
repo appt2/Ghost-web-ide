@@ -7,6 +7,6 @@ public class CommentList {
     public String saveAndExit = "***";
     public String showColorPi = "###";
     public String openSettingApp = ":::";
-    
+
 }
 //?

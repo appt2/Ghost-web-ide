@@ -5,32 +5,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-/** A combination of {@link GestureDetector} and {@link ScaleGestureDetector}. */
+/**
+ * A combination of {@link GestureDetector} and {@link ScaleGestureDetector}.
+ */
 final class GestureAndScaleRecognizer {
 
-    public interface Listener {
-        boolean onSingleTapUp(MotionEvent e);
-
-        boolean onDoubleTap(MotionEvent e);
-
-        boolean onScroll(MotionEvent e2, float dx, float dy);
-
-        boolean onFling(MotionEvent e, float velocityX, float velocityY);
-
-        boolean onScale(float focusX, float focusY, float scale);
-
-        boolean onDown(float x, float y);
-
-        boolean onUp(MotionEvent e);
-
-        void onLongPress(MotionEvent e);
-    }
-
+    final Listener mListener;
     private final GestureDetector mGestureDetector;
     private final ScaleGestureDetector mScaleDetector;
-    final Listener mListener;
     boolean isAfterLongPress;
-
     public GestureAndScaleRecognizer(Context context, Listener listener) {
         mListener = listener;
 
@@ -107,6 +90,24 @@ final class GestureAndScaleRecognizer {
 
     public boolean isInProgress() {
         return mScaleDetector.isInProgress();
+    }
+
+    public interface Listener {
+        boolean onSingleTapUp(MotionEvent e);
+
+        boolean onDoubleTap(MotionEvent e);
+
+        boolean onScroll(MotionEvent e2, float dx, float dy);
+
+        boolean onFling(MotionEvent e, float velocityX, float velocityY);
+
+        boolean onScale(float focusX, float focusY, float scale);
+
+        boolean onDown(float x, float y);
+
+        boolean onUp(MotionEvent e);
+
+        void onLongPress(MotionEvent e);
     }
 
 }

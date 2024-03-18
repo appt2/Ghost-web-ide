@@ -41,16 +41,13 @@ class RenderingHandler extends Handler {
     static final int MSG_RENDER_TASK = 1;
 
     private static final String TAG = RenderingHandler.class.getName();
-
+    private final SparseBooleanArray openedPages = new SparseBooleanArray();
     private PdfiumCore pdfiumCore;
     private PdfDocument pdfDocument;
-
     private PDFView pdfView;
-
     private RectF renderBounds = new RectF();
     private Rect roundedRenderBounds = new Rect();
     private Matrix renderMatrix = new Matrix();
-    private final SparseBooleanArray openedPages = new SparseBooleanArray();
     private boolean running = false;
 
     RenderingHandler(Looper looper, PDFView pdfView, PdfiumCore pdfiumCore, PdfDocument pdfDocument) {

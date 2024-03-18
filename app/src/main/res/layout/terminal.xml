@@ -14,7 +14,7 @@
          android:layout_weight="1"
          android:id="@+id/term" />
 
-    <Ninja.coder.Ghostemane.code.terminalkeywords.VirtualKeysView
+    <Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysView
          android:layout_height="75dp"
          android:layout_width="match_parent"
          

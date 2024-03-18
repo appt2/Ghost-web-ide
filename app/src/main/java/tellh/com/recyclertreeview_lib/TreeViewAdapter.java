@@ -324,6 +324,7 @@ public class TreeViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public interface OnTreeNodeListener {
         boolean onLongClick(TreeNode node, RecyclerView.ViewHolder holder);
+
         /**
          * called when TreeNodes were clicked.
          *

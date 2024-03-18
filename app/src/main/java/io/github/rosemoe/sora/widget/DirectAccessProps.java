@@ -13,63 +13,12 @@ import io.github.rosemoe.sora.annotations.InvalidateRequired;
 
 /**
  * Direct-access properties.
- *
+ * <p>
  * This object saves some feature settings of editor. These features are not accessed unless the user
  * does something that requires to check the state of the feature. So we save them here by public fields
  * so that you can modify them easily and do not have to call so many methods.
  */
 public class DirectAccessProps implements Serializable {
-
-    /**
-     * If set to be true, the editor will delete the whole line if the current line is empty (only tabs or spaces)
-     * when the users press the DELETE key.
-     *
-     * Default value is {@code true}
-     */
-    public boolean deleteEmptyLineFast = true;
-
-    /**
-     * Delete multiple spaces at a time when the user press the DELETE key.
-     * This only takes effect when selection is in leading spaces.
-     *
-     * Default Value: {@code 1}  -> The editor will always delete only 1 space.
-     * Special Value: {@code -1} -> Follow tab size
-     */
-    public int deleteMultiSpaces = 1;
-
-    /**
-     * Set to {@code false} if you don't want the editor to go fullscreen on devices with smaller screen size.
-     * Otherwise, set to {@code true}
-     * <p>
-     * Default value is {@code false}
-     */
-    public boolean allowFullscreen = false;
-
-    /**
-     * Control whether auto-completes for symbol pairs.
-     *
-     * Such as automatically adding a ')' when '(' is entered
-     */
-    public boolean symbolPairAutoCompletion = true;
-
-    /**
-     * Show auto-completion even when there is composing text set by the IME in editor.
-     *
-     * Note: composing text is usually a small piece of text you are typing. It is displayed with an
-     * underline in editor.
-     * This is useful when the user uses an input method that does not support the attitude {@link EditorInfo#TYPE_TEXT_FLAG_NO_SUGGESTIONS}.
-     * When this switch is set to false, the editor will not provide auto-completion
-     * when there is any composing text in editor.
-     */
-    public boolean autoCompletionOnComposing = true;
-
-    /**
-     * Set whether auto indent should be executed when user enters
-     * a NEWLINE.
-     *
-     * Enabling this will automatically copy the leading spaces on this line to the new line.
-     */
-    public boolean autoIndent = true;
 
     /**
      * Define symbol pairs for any language,
@@ -79,7 +28,51 @@ public class DirectAccessProps implements Serializable {
      */
     @NonNull
     public final SymbolPairMatch overrideSymbolPairs = new SymbolPairMatch();
-
+    /**
+     * If set to be true, the editor will delete the whole line if the current line is empty (only tabs or spaces)
+     * when the users press the DELETE key.
+     * <p>
+     * Default value is {@code true}
+     */
+    public boolean deleteEmptyLineFast = true;
+    /**
+     * Delete multiple spaces at a time when the user press the DELETE key.
+     * This only takes effect when selection is in leading spaces.
+     * <p>
+     * Default Value: {@code 1}  -> The editor will always delete only 1 space.
+     * Special Value: {@code -1} -> Follow tab size
+     */
+    public int deleteMultiSpaces = 1;
+    /**
+     * Set to {@code false} if you don't want the editor to go fullscreen on devices with smaller screen size.
+     * Otherwise, set to {@code true}
+     * <p>
+     * Default value is {@code false}
+     */
+    public boolean allowFullscreen = false;
+    /**
+     * Control whether auto-completes for symbol pairs.
+     * <p>
+     * Such as automatically adding a ')' when '(' is entered
+     */
+    public boolean symbolPairAutoCompletion = true;
+    /**
+     * Show auto-completion even when there is composing text set by the IME in editor.
+     * <p>
+     * Note: composing text is usually a small piece of text you are typing. It is displayed with an
+     * underline in editor.
+     * This is useful when the user uses an input method that does not support the attitude {@link EditorInfo#TYPE_TEXT_FLAG_NO_SUGGESTIONS}.
+     * When this switch is set to false, the editor will not provide auto-completion
+     * when there is any composing text in editor.
+     */
+    public boolean autoCompletionOnComposing = true;
+    /**
+     * Set whether auto indent should be executed when user enters
+     * a NEWLINE.
+     * <p>
+     * Enabling this will automatically copy the leading spaces on this line to the new line.
+     */
+    public boolean autoIndent = true;
     /**
      * Disallow suggestions from keyboard forcibly by preventing
      * {@link android.view.inputmethod.InputConnection#setComposingText(CharSequence, int)} and
@@ -135,7 +128,7 @@ public class DirectAccessProps implements Serializable {
 
     /**
      * Wave length of problem indicators.
-     *
+     * <p>
      * Unit DIP.
      */
     @InvalidateRequired
@@ -144,7 +137,7 @@ public class DirectAccessProps implements Serializable {
 
     /**
      * Wave width of problem indicators.
-     *
+     * <p>
      * Unit DIP.
      */
     @InvalidateRequired
@@ -153,7 +146,7 @@ public class DirectAccessProps implements Serializable {
 
     /**
      * Wave amplitude of problem indicators.
-     *
+     * <p>
      * Unit DIP.
      */
     @InvalidateRequired
@@ -162,7 +155,7 @@ public class DirectAccessProps implements Serializable {
 
     /**
      * Compare the text to commit with composing text.
-     *
+     * <p>
      * See detailed issue: #155
      */
     public boolean trackComposingTextOnCommit = true;

@@ -11,9 +11,8 @@ import static com.github.barteksc.pdfviewer.util.Constants.Cache.CACHE_SIZE;
 
 class PagesLoader {
 
+    private final RectF thumbnailRect = new RectF(0, 0, 1, 1);
     private PDFView pdfView;
-
-
     // variables set on every call to loadPages()
     private int cacheOrder;
     private float scaledHeight;
@@ -30,13 +29,6 @@ class PagesLoader {
     private int thumbnailWidth;
     private int thumbnailHeight;
     private float scaledSpacingPx;
-    private final RectF thumbnailRect = new RectF(0, 0, 1, 1);
-
-    private class Holder {
-        int page;
-        int row;
-        int col;
-    }
 
     PagesLoader(PDFView pdfView) {
         this.pdfView = pdfView;
@@ -271,5 +263,11 @@ class PagesLoader {
                 loaded += loadRelative(i, loaded, false);
             }
         }
+    }
+
+    private class Holder {
+        int page;
+        int row;
+        int col;
     }
 }

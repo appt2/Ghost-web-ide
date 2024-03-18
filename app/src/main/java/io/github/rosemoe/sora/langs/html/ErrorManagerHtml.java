@@ -1,9 +1,10 @@
 package io.github.rosemoe.sora.langs.html;
 
-import io.github.rosemoe.sora.text.TextAnalyzeResult;
-import java.util.List;
 import io.github.rosemoe.sora.data.Span;
+import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
+
+import java.util.List;
 
 public class ErrorManagerHtml {
     public static int[] setErrorSpan(TextAnalyzeResult colors, int line, int column) {

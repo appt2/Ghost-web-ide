@@ -53,12 +53,19 @@ public class EditorTouchEventHandler implements GestureDetector.OnGestureListene
     private final static int HIDE_DELAY_HANDLE = 5000;
     private static final long INTERACTION_END_DELAY = 250;
     private static final String TAG = "EditorTouchEventHandler";
+    private final static int LEFT_EDGE = 1;
+    private final static int RIGHT_EDGE = 1 << 1;
+    private final static int TOP_EDGE = 1 << 2;
+    private final static int BOTTOM_EDGE = 1 << 3;
     private final CodeEditor mEditor;
     private final OverScroller mScroller;
     boolean topOrBottom; //true for bottom
     boolean leftOrRight; //true for right
     boolean isScaling = false;
     float maxSize, minSize;
+    int mSelHandleType = -1;
+    Magnifier mMagnifier;
+    float mMotionX, mMotionY;
     private long mLastScroll = 0;
     private long mLastSetSelection = 0;
     private boolean mHoldingScrollbarVertical = false;
@@ -67,18 +74,10 @@ public class EditorTouchEventHandler implements GestureDetector.OnGestureListene
     private float downY = 0;
     private float downX = 0;
     private SelectionHandle insert = null, left = null, right = null;
-    int mSelHandleType = -1;
     private int mTouchedHandleType = -1;
-    Magnifier mMagnifier;
-
-    private final static int LEFT_EDGE = 1;
-    private final static int RIGHT_EDGE = 1 << 1;
-    private final static int TOP_EDGE = 1 << 2;
-    private final static int BOTTOM_EDGE = 1 << 3;
     private float edgeFieldSize;
     private int mEdgeFlags;
     private MotionEvent mThumb;
-    float mMotionX, mMotionY;
 
     /**
      * Create an event handler for the given editor
@@ -107,31 +106,31 @@ public class EditorTouchEventHandler implements GestureDetector.OnGestureListene
         return holdInsertHandle() || mSelHandleType != -1;
     }
 
-  private void selectWord(int line, int column) {
-    // Find word edges
-    int startLine = line, endLine = line;
-    var lineObj = mEditor.getText().getLine(line);
-    long edges = ICUUtils.getWordEdges(lineObj, column);
-    int startColumn = IntPair.getFirst(edges);
-    int endColumn = IntPair.getSecond(edges);
-    if (startColumn == endColumn) {
-      if (startColumn > 0) {
-        startColumn--;
-      } else if (endColumn < lineObj.length()) {
-        endColumn++;
-      } else {
-        if (line > 0) {
-          int lastColumn = mEditor.getText().getColumnCount(line - 1);
-          startLine = line - 1;
-          startColumn = lastColumn;
-        } else if (line < mEditor.getLineCount() - 1) {
-          endLine = line + 1;
-          endColumn = 0;
+    private void selectWord(int line, int column) {
+        // Find word edges
+        int startLine = line, endLine = line;
+        var lineObj = mEditor.getText().getLine(line);
+        long edges = ICUUtils.getWordEdges(lineObj, column);
+        int startColumn = IntPair.getFirst(edges);
+        int endColumn = IntPair.getSecond(edges);
+        if (startColumn == endColumn) {
+            if (startColumn > 0) {
+                startColumn--;
+            } else if (endColumn < lineObj.length()) {
+                endColumn++;
+            } else {
+                if (line > 0) {
+                    int lastColumn = mEditor.getText().getColumnCount(line - 1);
+                    startLine = line - 1;
+                    startColumn = lastColumn;
+                } else if (line < mEditor.getLineCount() - 1) {
+                    endLine = line + 1;
+                    endColumn = 0;
+                }
+            }
         }
-      }
+        mEditor.setSelectionRegion(startLine, startColumn, endLine, endColumn);
     }
-    mEditor.setSelectionRegion(startLine, startColumn, endLine, endColumn);
-  }
 
     /**
      * Checks whether the provided character is a whitespace
@@ -526,45 +525,45 @@ public class EditorTouchEventHandler implements GestureDetector.OnGestureListene
         return true;
     }
 
-  @Override
-  public void onLongPress(MotionEvent e) {
-    if (mEditor.getCursor().isSelected() || e.getPointerCount() != 1) {
-      return;
-    }
-    long res = mEditor.getPointPositionOnScreen(e.getX(), e.getY());
-    int line = IntPair.getFirst(res);
-    int column = IntPair.getSecond(res);
-    // Find word edges
-    var pa = mEditor.getText().getIndexer().getCharPosition(line, column);
-    mEditor.dispatchEvent(new LongPressEvent(mEditor, pa, e));
-    int startLine = line, endLine = line;
-    int startColumn = column;
-    while (startColumn > 0 && isIdentifierPart(mEditor.getText().charAt(line, startColumn - 1))) {
-      startColumn--;
-    }
-    int maxColumn = mEditor.getText().getColumnCount(line);
-    int endColumn = column;
-    while (endColumn < maxColumn && isIdentifierPart(mEditor.getText().charAt(line, endColumn))) {
-      endColumn++;
-    }
-    if (startColumn == endColumn) {
-      if (startColumn > 0) {
-        startColumn--;
-      } else if (endColumn < maxColumn) {
-        endColumn++;
-      } else {
-        if (line > 0) {
-          int lastColumn = mEditor.getText().getColumnCount(line - 1);
-          startLine = line - 1;
-          startColumn = lastColumn;
-        } else if (line < mEditor.getLineCount() - 1) {
-          endLine = line + 1;
-          endColumn = 0;
+    @Override
+    public void onLongPress(MotionEvent e) {
+        if (mEditor.getCursor().isSelected() || e.getPointerCount() != 1) {
+            return;
         }
-      }
+        long res = mEditor.getPointPositionOnScreen(e.getX(), e.getY());
+        int line = IntPair.getFirst(res);
+        int column = IntPair.getSecond(res);
+        // Find word edges
+        var pa = mEditor.getText().getIndexer().getCharPosition(line, column);
+        mEditor.dispatchEvent(new LongPressEvent(mEditor, pa, e));
+        int startLine = line, endLine = line;
+        int startColumn = column;
+        while (startColumn > 0 && isIdentifierPart(mEditor.getText().charAt(line, startColumn - 1))) {
+            startColumn--;
+        }
+        int maxColumn = mEditor.getText().getColumnCount(line);
+        int endColumn = column;
+        while (endColumn < maxColumn && isIdentifierPart(mEditor.getText().charAt(line, endColumn))) {
+            endColumn++;
+        }
+        if (startColumn == endColumn) {
+            if (startColumn > 0) {
+                startColumn--;
+            } else if (endColumn < maxColumn) {
+                endColumn++;
+            } else {
+                if (line > 0) {
+                    int lastColumn = mEditor.getText().getColumnCount(line - 1);
+                    startLine = line - 1;
+                    startColumn = lastColumn;
+                } else if (line < mEditor.getLineCount() - 1) {
+                    endLine = line + 1;
+                    endColumn = 0;
+                }
+            }
+        }
+        mEditor.setSelectionRegion(startLine, startColumn, endLine, endColumn);
     }
-    mEditor.setSelectionRegion(startLine, startColumn, endLine, endColumn);
-  }
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -676,7 +675,7 @@ public class EditorTouchEventHandler implements GestureDetector.OnGestureListene
             afterScrollX = Math.max(0, Math.min(afterScrollX, mEditor.getScrollMaxX()));
             afterScrollY = Math.max(0, Math.min(afterScrollY, mEditor.getScrollMaxY()));
             mEditor.dispatchEvent(new ScrollEvent(mEditor, mScroller.getCurrX(),
-                    mScroller.getCurrY(), (int)afterScrollX, (int)afterScrollY, ScrollEvent.CAUSE_SCALE_TEXT));
+                    mScroller.getCurrY(), (int) afterScrollX, (int) afterScrollY, ScrollEvent.CAUSE_SCALE_TEXT));
             mScroller.startScroll((int) afterScrollX, (int) afterScrollY, 0, 0, 0);
             isScaling = true;
             mEditor.invalidate();
@@ -712,23 +711,23 @@ public class EditorTouchEventHandler implements GestureDetector.OnGestureListene
         return true;
     }
 
-  @Override
-  public boolean onDoubleTap(MotionEvent e) {
-    if (mEditor.getCursor().isSelected() || e.getPointerCount() != 1) {
-      return true;
-    }
-    long res = mEditor.getPointPositionOnScreen(e.getX(), e.getY());
-    int line = IntPair.getFirst(res);
-    int column = IntPair.getSecond(res);
-    selectWord(line,column);
-    try {
-    	mEditor.dispatchEvent(new DoubleClickEvent(mEditor, mEditor.getText().getIndexer().getCharPosition(line, column), e));
-    } catch(Exception err) {
-    	err.printStackTrace();
-    }
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        if (mEditor.getCursor().isSelected() || e.getPointerCount() != 1) {
+            return true;
+        }
+        long res = mEditor.getPointPositionOnScreen(e.getX(), e.getY());
+        int line = IntPair.getFirst(res);
+        int column = IntPair.getSecond(res);
+        selectWord(line, column);
+        try {
+            mEditor.dispatchEvent(new DoubleClickEvent(mEditor, mEditor.getText().getIndexer().getCharPosition(line, column), e));
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
 
-    return true;
-  }
+        return true;
+    }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {

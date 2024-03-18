@@ -30,6 +30,13 @@ package io.github.rosemoe.sora.text;
  */
 public class TextStyle {
 
+    public final static int COLOR_ID_BIT_COUNT = 19;
+    public final static long FOREGROUND_BITS = ((1 << (COLOR_ID_BIT_COUNT)) - 1);
+    public final static long BACKGROUND_BITS = FOREGROUND_BITS << COLOR_ID_BIT_COUNT;
+    public final static long BOLD_BIT = 1L << (COLOR_ID_BIT_COUNT * 2);
+    public final static long ITALICS_BIT = BOLD_BIT << 1;
+    public final static long STRIKETHROUGH_BIT = ITALICS_BIT << 1;
+
     /**
      * Convenient method
      */
@@ -40,14 +47,14 @@ public class TextStyle {
 
     /**
      * Make a TextStyle with the given style arguments
-     *
+     * <p>
      * Note: colorId must be less than 20 bits
      */
     public static long makeStyle(int foregroundColorId, int backgroundColorId, boolean bold,
                                  boolean italic, boolean strikeThrough) {
         checkColorId(foregroundColorId);
         checkColorId(backgroundColorId);
-        return ((long)foregroundColorId) +
+        return ((long) foregroundColorId) +
                 (((long) backgroundColorId) << COLOR_ID_BIT_COUNT)
                 + (bold ? BOLD_BIT : 0)
                 + (italic ? ITALICS_BIT : 0)
@@ -77,18 +84,6 @@ public class TextStyle {
     public static long getStyleBits(long style) {
         return style & (~(BACKGROUND_BITS + FOREGROUND_BITS));
     }
-
-    public final static int COLOR_ID_BIT_COUNT = 19;
-
-    public final static long FOREGROUND_BITS = ((1 << (COLOR_ID_BIT_COUNT)) - 1);
-
-    public final static long BACKGROUND_BITS =  FOREGROUND_BITS << COLOR_ID_BIT_COUNT;
-
-    public final static long BOLD_BIT = 1L << (COLOR_ID_BIT_COUNT * 2);
-
-    public final static long ITALICS_BIT = BOLD_BIT << 1;
-
-    public final static long STRIKETHROUGH_BIT = ITALICS_BIT << 1;
 
     public static void checkColorId(int colorId) {
         if (colorId > (1 << COLOR_ID_BIT_COUNT) - 1 || colorId < 0) {

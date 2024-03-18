@@ -40,7 +40,7 @@
             android:id="@+id/BlureView"
             >
 
-            <Ninja.coder.Ghostemane.code.PraramnetLayoutNinja
+            <Ninja.coder.Ghostemane.code.widget.PraramnetLayoutNinja
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:background="#212121"
@@ -279,7 +279,7 @@
                     android:id="@+id/FrameLayout01"
                     >
 
-                    <Ninja.coder.Ghostemane.code.IDEEDITOR
+                    <Ninja.coder.Ghostemane.code.IdeEditor
                         android:layout_height="match_parent"
                         android:layout_width="match_parent"
                         android:gravity="left|top"
@@ -457,13 +457,13 @@
 
                 </LinearLayout>
 
-            </Ninja.coder.Ghostemane.code.PraramnetLayoutNinja>
+            </Ninja.coder.Ghostemane.code.widget.PraramnetLayoutNinja>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <Ninja.coder.Ghostemane.code.ExrtaFab
+    <Ninja.coder.Ghostemane.code.widget.ExrtaFab
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginBottom="63dp"

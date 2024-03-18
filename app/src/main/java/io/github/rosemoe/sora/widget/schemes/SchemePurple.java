@@ -26,9 +26,9 @@ package io.github.rosemoe.sora.widget.schemes;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
 
 public class SchemePurple extends EditorColorScheme {
-   public void applyDefault() {
-      super.applyDefault();
-      setColor(ANNOTATION, 0xFFFF6EAF);
+    public void applyDefault() {
+        super.applyDefault();
+        setColor(ANNOTATION, 0xFFFF6EAF);
         setColor(FUNCTION_NAME, 0xFF2FA5FC);
         setColor(IDENTIFIER_NAME, 0xFF2FA5FC);
         setColor(IDENTIFIER_VAR, 0xFF0677BE);
@@ -44,7 +44,7 @@ public class SchemePurple extends EditorColorScheme {
         setColor(SCROLL_BAR_THUMB, 0xFF00002C);
         setColor(SCROLL_BAR_THUMB_PRESSED, 0xFF00002C);
         setColor(SELECTED_TEXT_BACKGROUND, 0xFF005E78);
-		// search result highlight color
+        // search result highlight color
         setColor(MATCHED_TEXT_BACKGROUND, 0xFFFFC200);
         setColor(CURRENT_LINE, 0xFF0075C9);
         setColor(SELECTION_INSERT, 0xFF6AFFFF);
@@ -52,7 +52,7 @@ public class SchemePurple extends EditorColorScheme {
         setColor(BLOCK_LINE, 0xFF836BEB);
         setColor(BLOCK_LINE_CURRENT, 0xff5accc6);
         setColor(NON_PRINTABLE_CHAR, 0xFF000028);
-		
-		
-   }
+
+
+    }
 }

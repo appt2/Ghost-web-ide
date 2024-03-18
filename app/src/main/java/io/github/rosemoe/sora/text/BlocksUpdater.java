@@ -23,9 +23,9 @@
  */
 package io.github.rosemoe.sora.text;
 
-import java.util.List;
-
 import io.github.rosemoe.sora.data.BlockLine;
+
+import java.util.List;
 
 /**
  * Update block line positions on edit
@@ -34,16 +34,17 @@ public class BlocksUpdater {
 
     /**
      * Update blocks
+     *
      * @param blocks   Block lines to update
      * @param restrict Min line to update
-     * @param delta Delta for line index
+     * @param delta    Delta for line index
      */
     public static void update(List<BlockLine> blocks, int restrict, int delta) {
         if (delta == 0) {
             return;
         }
         var itr = blocks.iterator();
-        while(itr.hasNext()) {
+        while (itr.hasNext()) {
             var block = itr.next();
             if (block.startLine >= restrict) {
                 block.startLine += delta;

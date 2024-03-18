@@ -28,7 +28,7 @@
 				android:key="Kalamat"
 				android:defaultValue="true" />
 
-			<Ninja.coder.Ghostemane.code.Keyboard.SeekBarPreferenceString
+			<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
 				android:persistent="true"
 				android:title="سایز حروف دوم کیبورد(پاپ اپ بالای کلمات)" 
 				android:key="TextSize2"
@@ -45,7 +45,7 @@
 				android:summaryOn="ارتفاع روی دستی تنظیم شد"
 				android:summaryOff="ارتفاع روی پیشفرض سیستم تنظیم شد" />
 
-			<Ninja.coder.Ghostemane.code.Keyboard.SeekBarPreferenceString       
+			<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
 				android:title="ارتفاع کیبورد در حالت عمودی"
 				android:defaultValue="110"
 				android:key="Height_1"
@@ -54,7 +54,7 @@
 				app:maxValue="200"
 				app:logScale="true"
 				app:displayFormat="%.0f "/>
-			<Ninja.coder.Ghostemane.code.Keyboard.SeekBarPreferenceString       
+			<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
 				android:title="ارتفاع کیبورد در حالت افقی"
 				android:defaultValue="70"
 				android:key="Height_2"
@@ -63,7 +63,7 @@
 				app:maxValue="150"
 				app:logScale="true"
 				app:displayFormat="%.0f "/>
-			<Ninja.coder.Ghostemane.code.Keyboard.SeekBarPreferenceString       
+			<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
 				android:title="فاصله بین کلمات"
 				android:defaultValue="1"
 				android:key="Vertical"
@@ -127,7 +127,7 @@
 					android:title="ویبره"
 					android:key="Vibrator"
 					android:defaultValue="false" />
-				<Ninja.coder.Ghostemane.code.Keyboard.SeekBarPreferenceString       
+				<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
 					android:title="ویبره اولیه"
 					android:defaultValue="10"
 					app:minValue="5"
@@ -136,7 +136,7 @@
 					app:displayFormat="%.0f "
 					android:key="Vibrator_1"
 					android:persistent="true"/>
-				<Ninja.coder.Ghostemane.code.Keyboard.SeekBarPreferenceString       
+				<Ninja.coder.Ghostemane.code.keyboard.SeekBarPreferenceString
 					android:title="ویبره ثانویه"
 					android:defaultValue="20"
 					app:minValue="5"

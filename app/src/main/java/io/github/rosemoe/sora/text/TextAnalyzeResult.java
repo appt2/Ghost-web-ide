@@ -23,16 +23,16 @@
  */
 package io.github.rosemoe.sora.text;
 
-import java.lang.ref.SoftReference;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import io.github.rosemoe.sora.data.BlockLine;
 import io.github.rosemoe.sora.data.NavigationItem;
 import io.github.rosemoe.sora.data.ObjectAllocator;
 import io.github.rosemoe.sora.data.Span;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
+
+import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The result of analysis
@@ -40,6 +40,22 @@ import io.github.rosemoe.sora.widget.EditorColorScheme;
 public class TextAnalyzeResult {
 
     private static SoftReference<List<List<Span>>> ref;
+    protected final List<BlockLine> mBlocks;
+    protected final List<List<Span>> mSpanMap;
+    protected Object mExtra;
+    protected List<NavigationItem> mLabels;
+    protected Span mLast;
+    protected int mSuppressSwitch = Integer.MAX_VALUE;
+    boolean determined = false;
+    /**
+     * Create a new result
+     */
+    public TextAnalyzeResult() {
+        mLast = null;
+        mSpanMap = obtainSpanMap();
+        mBlocks = ObjectAllocator.obtainList();
+    }
+
     private static List<List<Span>> obtainSpanMap() {
         List<List<Span>> temp = null;
         synchronized (TextAnalyzeResult.class) {
@@ -51,6 +67,7 @@ public class TextAnalyzeResult {
         }
         return temp;
     }
+
     static synchronized void offerSpanMap(List<List<Span>> cache) {
         if (ref == null) {
             ref = new SoftReference<>(cache);
@@ -62,31 +79,14 @@ public class TextAnalyzeResult {
         }
     }
 
-    protected final List<BlockLine> mBlocks;
-    protected final List<List<Span>> mSpanMap;
-    protected Object mExtra;
-    protected List<NavigationItem> mLabels;
-    protected Span mLast;
-    protected int mSuppressSwitch = Integer.MAX_VALUE;
-    boolean determined = false;
-
-    /**
-     * Create a new result
-     */
-    public TextAnalyzeResult() {
-        mLast = null;
-        mSpanMap = obtainSpanMap();
-        mBlocks = ObjectAllocator.obtainList();
-    }
-
     /**
      * Add a new span if required.
-     *
+     * <p>
      * If no special style is specified, you can use colorId as style long integer
      *
      * @param spanLine Line
      * @param column   Column
-     * @param style Style of text
+     * @param style    Style of text
      */
     public void addIfNeeded(int spanLine, int column, long style) {
         if (mLast != null && mLast.style == style) {
@@ -261,17 +261,17 @@ public class TextAnalyzeResult {
     }
 
     /**
-     * Leave extra information for your language object
-     */
-    public void setExtra(Object extra) {
-        mExtra = extra;
-    }
-
-    /**
      * Get extra information set by the text analyzer
      */
     public Object getExtra() {
         return mExtra;
+    }
+
+    /**
+     * Leave extra information for your language object
+     */
+    public void setExtra(Object extra) {
+        mExtra = extra;
     }
 
     /**

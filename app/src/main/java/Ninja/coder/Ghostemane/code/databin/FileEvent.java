@@ -20,76 +20,76 @@ import java.util.EnumSet;
 
 public class FileEvent {
 
-  private EnumSet<FileEventType> eventTypeEnumSet;
-  private String path;
+    private EnumSet<FileEventType> eventTypeEnumSet;
+    private String path;
 
-  public static FileEvent create(int event, String path) {
-    return new FileEvent(event, path);
-  }
+    private FileEvent(int event, String path) {
+        this.eventTypeEnumSet = FileEventType.create(event);
+        this.path = path;
+    }
 
-  private FileEvent(int event, String path) {
-    this.eventTypeEnumSet = FileEventType.create(event);
-    this.path = path;
-  }
+    public static FileEvent create(int event, String path) {
+        return new FileEvent(event, path);
+    }
 
-  public EnumSet<FileEventType> getEventTypeEnumSet() {
-    return eventTypeEnumSet;
-  }
+    public EnumSet<FileEventType> getEventTypeEnumSet() {
+        return eventTypeEnumSet;
+    }
 
-  public String getPath() {
-    return path;
-  }
+    public String getPath() {
+        return path;
+    }
 
-  public boolean isAccess() {
-    return eventTypeEnumSet.contains(FileEventType.ACCESS);
-  }
+    public boolean isAccess() {
+        return eventTypeEnumSet.contains(FileEventType.ACCESS);
+    }
 
-  public boolean isModify() {
-    return eventTypeEnumSet.contains(FileEventType.MODIFY);
-  }
+    public boolean isModify() {
+        return eventTypeEnumSet.contains(FileEventType.MODIFY);
+    }
 
-  public boolean isAttrib() {
-    return eventTypeEnumSet.contains(FileEventType.ATTRIB);
-  }
+    public boolean isAttrib() {
+        return eventTypeEnumSet.contains(FileEventType.ATTRIB);
+    }
 
-  public boolean isCloseWrite() {
-    return eventTypeEnumSet.contains(FileEventType.CLOSE_WRITE);
-  }
+    public boolean isCloseWrite() {
+        return eventTypeEnumSet.contains(FileEventType.CLOSE_WRITE);
+    }
 
-  public boolean isCloseNoWrite() {
-    return eventTypeEnumSet.contains(FileEventType.CLOSE_NOWRITE);
-  }
+    public boolean isCloseNoWrite() {
+        return eventTypeEnumSet.contains(FileEventType.CLOSE_NOWRITE);
+    }
 
-  public boolean isOpen() {
-    return eventTypeEnumSet.contains(FileEventType.OPEN);
-  }
+    public boolean isOpen() {
+        return eventTypeEnumSet.contains(FileEventType.OPEN);
+    }
 
-  public boolean isMovedFrom() {
-    return eventTypeEnumSet.contains(FileEventType.MOVED_FROM);
-  }
+    public boolean isMovedFrom() {
+        return eventTypeEnumSet.contains(FileEventType.MOVED_FROM);
+    }
 
-  public boolean isMovedTo() {
-    return eventTypeEnumSet.contains(FileEventType.MOVED_TO);
-  }
+    public boolean isMovedTo() {
+        return eventTypeEnumSet.contains(FileEventType.MOVED_TO);
+    }
 
-  public boolean isMoveSelf() {
-    return eventTypeEnumSet.contains(FileEventType.MOVE_SELF);
-  }
+    public boolean isMoveSelf() {
+        return eventTypeEnumSet.contains(FileEventType.MOVE_SELF);
+    }
 
-  public boolean isCreate() {
-    return eventTypeEnumSet.contains(FileEventType.CREATE);
-  }
+    public boolean isCreate() {
+        return eventTypeEnumSet.contains(FileEventType.CREATE);
+    }
 
-  public boolean isDelete() {
-    return eventTypeEnumSet.contains(FileEventType.DELETE);
-  }
+    public boolean isDelete() {
+        return eventTypeEnumSet.contains(FileEventType.DELETE);
+    }
 
-  public boolean isDeleteSelf() {
-    return eventTypeEnumSet.contains(FileEventType.DELETE_SELF);
-  }
+    public boolean isDeleteSelf() {
+        return eventTypeEnumSet.contains(FileEventType.DELETE_SELF);
+    }
 
-  @Override
-  public String toString() {
-    return "FileEvent{" + "event=" + eventTypeEnumSet.toString() + ", path='" + path + '\'' + '}';
-  }
+    @Override
+    public String toString() {
+        return "FileEvent{" + "event=" + eventTypeEnumSet.toString() + ", path='" + path + '\'' + '}';
+    }
 }

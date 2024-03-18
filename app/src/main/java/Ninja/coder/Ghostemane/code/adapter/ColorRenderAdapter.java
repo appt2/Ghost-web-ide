@@ -1,75 +1,76 @@
 package Ninja.coder.Ghostemane.code.adapter;
 
 import Ninja.coder.Ghostemane.code.R;
-import android.graphics.Color;
-import android.widget.BaseAdapter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.google.android.material.shape.MaterialShapeDrawable;
-import android.view.LayoutInflater;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
-import android.content.res.ColorStateList;
 
-public class ColorRenderAdapter extends BaseAdapter{
+import java.util.ArrayList;
+import java.util.HashMap;
 
-  ArrayList<HashMap<String, Object>> _data;
-  Context context;
+public class ColorRenderAdapter extends BaseAdapter {
 
-  public ColorRenderAdapter(ArrayList<HashMap<String, Object>> _arr, Context context) {
-    _data = _arr;
-    this.context = context;
-    
-  }
+    ArrayList<HashMap<String, Object>> _data;
+    Context context;
 
-  @Override
-  public int getCount() {
-    return _data.size();
-  }
+    public ColorRenderAdapter(ArrayList<HashMap<String, Object>> _arr, Context context) {
+        _data = _arr;
+        this.context = context;
 
-  @Override
-  public HashMap<String, Object> getItem(int _index) {
-    return _data.get(_index);
-  }
+    }
 
-  @Override
-  public long getItemId(int _index) {
-    return _index;
-  }
+    @Override
+    public int getCount() {
+        return _data.size();
+    }
 
-  @Override
-  public View getView(final int _position, View _v, ViewGroup _container) {
+    @Override
+    public HashMap<String, Object> getItem(int _index) {
+        return _data.get(_index);
+    }
 
-    View _view = LayoutInflater.from(context).inflate(R.layout.lbs, null);
+    @Override
+    public long getItemId(int _index) {
+        return _index;
+    }
 
-    LinearLayout rooti = _view.findViewById(R.id.rooti);
+    @Override
+    public View getView(final int _position, View _v, ViewGroup _container) {
 
-    LinearLayout getTag = _view.findViewById(R.id.getTag);
-    TextView titleview = _view.findViewById(R.id.titleview);
-    TextView normaltext = _view.findViewById(R.id.normaltext);
+        View _view = LayoutInflater.from(context).inflate(R.layout.lbs, null);
 
-    normaltext.setText(_data.get(_position).get("colorBind").toString());
-    titleview.setText(normaltext.getText().toString().substring(0, 1));
-    getTag.setBackground(getShape(getTag));
-    titleview.setTextColor(Color.parseColor(_data.get(_position).get("colorBind").toString()));
-    normaltext.setTextColor(Color.parseColor(_data.get(_position).get("colorBind").toString()));
+        LinearLayout rooti = _view.findViewById(R.id.rooti);
 
-    return _view;
-  }
+        LinearLayout getTag = _view.findViewById(R.id.getTag);
+        TextView titleview = _view.findViewById(R.id.titleview);
+        TextView normaltext = _view.findViewById(R.id.normaltext);
 
-  private MaterialShapeDrawable getShape(View v) {
-    MaterialShapeDrawable shapeDrawable =
-        new MaterialShapeDrawable(
-            ShapeAppearanceModel.builder().setAllCorners(CornerFamily.ROUNDED, 18).build());
-    shapeDrawable.setFillColor(
-        ColorStateList.valueOf(MaterialColors.getColor(v, ColorAndroid12.Back, 0)));
-    return shapeDrawable;
-  }
+        normaltext.setText(_data.get(_position).get("colorBind").toString());
+        titleview.setText(normaltext.getText().toString().substring(0, 1));
+        getTag.setBackground(getShape(getTag));
+        titleview.setTextColor(Color.parseColor(_data.get(_position).get("colorBind").toString()));
+        normaltext.setTextColor(Color.parseColor(_data.get(_position).get("colorBind").toString()));
+
+        return _view;
+    }
+
+    private MaterialShapeDrawable getShape(View v) {
+        MaterialShapeDrawable shapeDrawable =
+                new MaterialShapeDrawable(
+                        ShapeAppearanceModel.builder().setAllCorners(CornerFamily.ROUNDED, 18).build());
+        shapeDrawable.setFillColor(
+                ColorStateList.valueOf(MaterialColors.getColor(v, ColorAndroid12.Back, 0)));
+        return shapeDrawable;
+    }
 }

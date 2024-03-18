@@ -28,7 +28,7 @@ import io.github.rosemoe.sora.langs.universal.LanguageDescription;
 /**
  * @author Rose
  */
- 
+
 public class KotlinDescription implements LanguageDescription {
 
     @Override
@@ -63,17 +63,17 @@ public class KotlinDescription implements LanguageDescription {
     public String[] getKeywords() {
         //noinspection SpellCheckingInspection
         return new String[]{
-                "as","class","break","continue","do","else",
-                "for","fun","false","true","if","in","interface","super",
-                "return","object","package", "null", "is", "try",
-                "throw","this","typeof","typealias","when","while","val","var","import","by","catch","constructor",
-                "delegate","dynamic","field","file","finally",
-		        "get","declares","is","init","param","property","receiver",
-		        "setparam","value","where","abstract","actual",
-		        "annotation","companion","const","crossinline","data",
-	      	  "enum","expect","external","final","infix","internal","lateinit",
-		        "noinline","open","out","override","public","private","protected",
-	      	  "reified","sealed","suspend","tailrec","vararg","field","it"
+                "as", "class", "break", "continue", "do", "else",
+                "for", "fun", "false", "true", "if", "in", "interface", "super",
+                "return", "object", "package", "null", "is", "try",
+                "throw", "this", "typeof", "typealias", "when", "while", "val", "var", "import", "by", "catch", "constructor",
+                "delegate", "dynamic", "field", "file", "finally",
+                "get", "declares", "is", "init", "param", "property", "receiver",
+                "setparam", "value", "where", "abstract", "actual",
+                "annotation", "companion", "const", "crossinline", "data",
+                "enum", "expect", "external", "final", "infix", "internal", "lateinit",
+                "noinline", "open", "out", "override", "public", "private", "protected",
+                "reified", "sealed", "suspend", "tailrec", "vararg", "field", "it"
         };
     }
 

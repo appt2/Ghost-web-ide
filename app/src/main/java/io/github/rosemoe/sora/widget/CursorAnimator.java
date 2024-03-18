@@ -32,11 +32,11 @@ import android.animation.ValueAnimator;
  */
 class CursorAnimator implements ValueAnimator.AnimatorUpdateListener {
 
+    private final CodeEditor editor;
     ValueAnimator animatorX;
     ValueAnimator animatorY;
     ValueAnimator animatorBgBottom;
     ValueAnimator animatorBackground;
-    private final CodeEditor editor;
     private float startX, startY, startSize, startBottom;
     private long lastAnimateTime;
 

@@ -3,9 +3,7 @@ package Ninja.coder.Ghostemane.code.tasks.app;
 
 import Ninja.coder.Ghostemane.code.R;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,8 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
+
 import java.text.NumberFormat;
 
 /**
@@ -36,31 +34,31 @@ import java.text.NumberFormat;
  * to inform the user of the task's progress.
  */
 
-public class ProgressDialogCompat extends AlertDialog{
-    
+public class ProgressDialogCompat extends AlertDialog {
+
     /**
      * Creates a ProgressDialogCompat with a circular, spinning progress
      * bar. This is the default.
      */
     public static final int STYLE_SPINNER = 0;
-    
+
     /**
      * Creates a ProgressDialogCompat with a horizontal progress bar.
      */
     public static final int STYLE_HORIZONTAL = 1;
-    
-    
+
+
     private ProgressBar mProgress;
-    
+
     private TextView mMessageView;
-    
+
     private int mProgressStyle = STYLE_SPINNER;
-    
+
     private TextView mProgressNumber;
     private String mProgressNumberFormat;
     private TextView mProgressPercent;
     private NumberFormat mProgressPercentFormat;
-    
+
     private int mMax;
     private int mProgressVal;
     private int mSecondaryProgressVal;
@@ -82,91 +80,85 @@ public class ProgressDialogCompat extends AlertDialog{
     public ProgressDialogCompat(Context context) {
         super(context);
         initFormats();
-        this.context=context;
+        this.context = context;
     }
 
     /**
      * Creates a Progress dialog.
      *
      * @param context the parent context
-     * @param theme the resource ID of the theme against which to inflate
-     *              this dialog, or {@code 0} to use the parent
-     *              {@code context}'s default alert dialog theme
+     * @param theme   the resource ID of the theme against which to inflate
+     *                this dialog, or {@code 0} to use the parent
+     *                {@code context}'s default alert dialog theme
      */
     public ProgressDialogCompat(Context context, int theme) {
         super(context, theme);
         initFormats();
-        this.context=context;
-    }
-
-    private void initFormats() {
-        mProgressNumberFormat = "%1d/%2d";
-        mProgressPercentFormat = NumberFormat.getPercentInstance();
-        mProgressPercentFormat.setMaximumFractionDigits(0);
+        this.context = context;
     }
 
     /**
      * Creates and shows a ProgressDialogCompat.
      *
      * @param context the parent context
-     * @param title the title text for the dialog's window
+     * @param title   the title text for the dialog's window
      * @param message the text to be displayed in the dialog
      * @return the ProgressDialogCompat
      */
     public static ProgressDialogCompat show(Context context, CharSequence title,
-            CharSequence message) {
+                                            CharSequence message) {
         return show(context, title, message, false);
     }
 
     /**
      * Creates and shows a ProgressDialogCompat.
      *
-     * @param context the parent context
-     * @param title the title text for the dialog's window
-     * @param message the text to be displayed in the dialog
+     * @param context       the parent context
+     * @param title         the title text for the dialog's window
+     * @param message       the text to be displayed in the dialog
      * @param indeterminate true if the dialog should be {@link #setIndeterminate(boolean)
-     *        indeterminate}, false otherwise
+     *                      indeterminate}, false otherwise
      * @return the ProgressDialogCompat
      */
     public static ProgressDialogCompat show(Context context, CharSequence title,
-            CharSequence message, boolean indeterminate) {
+                                            CharSequence message, boolean indeterminate) {
         return show(context, title, message, indeterminate, false, null);
     }
 
     /**
      * Creates and shows a ProgressDialogCompat.
      *
-     * @param context the parent context
-     * @param title the title text for the dialog's window
-     * @param message the text to be displayed in the dialog
+     * @param context       the parent context
+     * @param title         the title text for the dialog's window
+     * @param message       the text to be displayed in the dialog
      * @param indeterminate true if the dialog should be {@link #setIndeterminate(boolean)
-     *        indeterminate}, false otherwise
-     * @param cancelable true if the dialog is {@link #setCancelable(boolean) cancelable},
-     *        false otherwise
+     *                      indeterminate}, false otherwise
+     * @param cancelable    true if the dialog is {@link #setCancelable(boolean) cancelable},
+     *                      false otherwise
      * @return the ProgressDialogCompat
      */
     public static ProgressDialogCompat show(Context context, CharSequence title,
-            CharSequence message, boolean indeterminate, boolean cancelable) {
+                                            CharSequence message, boolean indeterminate, boolean cancelable) {
         return show(context, title, message, indeterminate, cancelable, null);
     }
 
     /**
      * Creates and shows a ProgressDialogCompat.
      *
-     * @param context the parent context
-     * @param title the title text for the dialog's window
-     * @param message the text to be displayed in the dialog
-     * @param indeterminate true if the dialog should be {@link #setIndeterminate(boolean)
-     *        indeterminate}, false otherwise
-     * @param cancelable true if the dialog is {@link #setCancelable(boolean) cancelable},
-     *        false otherwise
+     * @param context        the parent context
+     * @param title          the title text for the dialog's window
+     * @param message        the text to be displayed in the dialog
+     * @param indeterminate  true if the dialog should be {@link #setIndeterminate(boolean)
+     *                       indeterminate}, false otherwise
+     * @param cancelable     true if the dialog is {@link #setCancelable(boolean) cancelable},
+     *                       false otherwise
      * @param cancelListener the {@link #setOnCancelListener(OnCancelListener) listener}
-     *        to be invoked when the dialog is canceled
+     *                       to be invoked when the dialog is canceled
      * @return the ProgressDialogCompat
      */
     public static ProgressDialogCompat show(Context context, CharSequence title,
-            CharSequence message, boolean indeterminate,
-            boolean cancelable, OnCancelListener cancelListener) {
+                                            CharSequence message, boolean indeterminate,
+                                            boolean cancelable, OnCancelListener cancelListener) {
         ProgressDialogCompat dialog = new ProgressDialogCompat(context);
         dialog.setTitle(title);
         dialog.setMessage(message);
@@ -177,11 +169,17 @@ public class ProgressDialogCompat extends AlertDialog{
         return dialog;
     }
 
+    private void initFormats() {
+        mProgressNumberFormat = "%1d/%2d";
+        mProgressPercentFormat = NumberFormat.getPercentInstance();
+        mProgressPercentFormat.setMaximumFractionDigits(0);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(context);
         if (mProgressStyle == STYLE_HORIZONTAL) {
-            
+
             /* Use a separate handler to update the text views as they
              * must be updated on the same thread that created them.
              */
@@ -189,7 +187,7 @@ public class ProgressDialogCompat extends AlertDialog{
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-                    
+
                     /* Update the number and percent */
                     int progress = mProgress.getProgress();
                     int max = mProgress.getMax();
@@ -210,7 +208,7 @@ public class ProgressDialogCompat extends AlertDialog{
                     }
                 }
             };
-            
+
             View view = inflater.inflate(
                     R.layout.alert_dialog_progress, null);
             mProgress = (ProgressBar) view.findViewById(R.id.progress);
@@ -218,11 +216,11 @@ public class ProgressDialogCompat extends AlertDialog{
             mProgressPercent = (TextView) view.findViewById(R.id.progress_percent);
             setView(view);
         } else {
-      View view = inflater.inflate(R.layout.progress_dialog2, null);
-      mProgress = (ProgressBar) view.findViewById(android.R.id.progress);
-      mMessageView = (TextView) view.findViewById(R.id.message);
-      setView(view);
-    }
+            View view = inflater.inflate(R.layout.progress_dialog2, null);
+            mProgress = (ProgressBar) view.findViewById(android.R.id.progress);
+            mMessageView = (TextView) view.findViewById(R.id.message);
+            setView(view);
+        }
         if (mMax > 0) {
             setMax(mMax);
         }
@@ -251,50 +249,17 @@ public class ProgressDialogCompat extends AlertDialog{
         onProgressChanged();
         super.onCreate(savedInstanceState);
     }
-    
+
     @Override
     public void onStart() {
         super.onStart();
         mHasStarted = true;
     }
-    
+
     @Override
     protected void onStop() {
         super.onStop();
         mHasStarted = false;
-    }
-
-    /**
-     * Sets the current progress.
-     *
-     * @param value the current progress, a value between 0 and {@link #getMax()}
-     *
-     * @see ProgressBar#setProgress(int)
-     */
-    public void setProgress(int value) {
-        if (mHasStarted) {
-            mProgress.setProgress(value);
-            onProgressChanged();
-        } else {
-            mProgressVal = value;
-        }
-    }
-
-    /**
-     * Sets the secondary progress.
-     *
-     * @param secondaryProgress the current secondary progress, a value between 0 and
-     * {@link #getMax()}
-     *
-     * @see ProgressBar#setSecondaryProgress(int)
-     */
-    public void setSecondaryProgress(int secondaryProgress) {
-        if (mProgress != null) {
-            mProgress.setSecondaryProgress(secondaryProgress);
-            onProgressChanged();
-        } else {
-            mSecondaryProgressVal = secondaryProgress;
-        }
     }
 
     /**
@@ -310,6 +275,21 @@ public class ProgressDialogCompat extends AlertDialog{
     }
 
     /**
+     * Sets the current progress.
+     *
+     * @param value the current progress, a value between 0 and {@link #getMax()}
+     * @see ProgressBar#setProgress(int)
+     */
+    public void setProgress(int value) {
+        if (mHasStarted) {
+            mProgress.setProgress(value);
+            onProgressChanged();
+        } else {
+            mProgressVal = value;
+        }
+    }
+
+    /**
      * Gets the current secondary progress.
      *
      * @return the current secondary progress, a value between 0 and {@link #getMax()}
@@ -319,6 +299,22 @@ public class ProgressDialogCompat extends AlertDialog{
             return mProgress.getSecondaryProgress();
         }
         return mSecondaryProgressVal;
+    }
+
+    /**
+     * Sets the secondary progress.
+     *
+     * @param secondaryProgress the current secondary progress, a value between 0 and
+     *                          {@link #getMax()}
+     * @see ProgressBar#setSecondaryProgress(int)
+     */
+    public void setSecondaryProgress(int secondaryProgress) {
+        if (mProgress != null) {
+            mProgress.setSecondaryProgress(secondaryProgress);
+            onProgressChanged();
+        } else {
+            mSecondaryProgressVal = secondaryProgress;
+        }
     }
 
     /**
@@ -349,7 +345,7 @@ public class ProgressDialogCompat extends AlertDialog{
      * Increments the current progress value.
      *
      * @param diff the amount by which the current progress will be incremented,
-     * up to {@link #getMax()}
+     *             up to {@link #getMax()}
      */
     public void incrementProgressBy(int diff) {
         if (mProgress != null) {
@@ -364,7 +360,7 @@ public class ProgressDialogCompat extends AlertDialog{
      * Increments the current secondary progress value.
      *
      * @param diff the amount by which the current secondary progress will be incremented,
-     * up to {@link #getMax()}
+     *             up to {@link #getMax()}
      */
     public void incrementSecondaryProgressBy(int diff) {
         if (mProgress != null) {
@@ -379,7 +375,6 @@ public class ProgressDialogCompat extends AlertDialog{
      * Sets the drawable to be used to display the progress value.
      *
      * @param d the drawable to be used
-     *
      * @see ProgressBar#setProgressDrawable(Drawable)
      */
     public void setProgressDrawable(Drawable d) {
@@ -394,7 +389,6 @@ public class ProgressDialogCompat extends AlertDialog{
      * Sets the drawable to be used to display the indeterminate progress value.
      *
      * @param d the drawable to be used
-     *
      * @see ProgressBar#setProgressDrawable(Drawable)
      * @see #setIndeterminate(boolean)
      */
@@ -403,26 +397,6 @@ public class ProgressDialogCompat extends AlertDialog{
             mProgress.setIndeterminateDrawable(d);
         } else {
             mIndeterminateDrawable = d;
-        }
-    }
-
-    /**
-     * Change the indeterminate mode for this ProgressDialogCompat. In indeterminate
-     * mode, the progress is ignored and the dialog shows an infinite
-     * animation instead.
-     *
-     * <p><strong>Note:</strong> A ProgressDialogCompat with style {@link #STYLE_SPINNER}
-     * is always indeterminate and will ignore this setting.</p>
-     *
-     * @param indeterminate true to enable indeterminate mode, false otherwise
-     *
-     * @see #setProgressStyle(int)
-     */
-    public void setIndeterminate(boolean indeterminate) {
-        if (mProgress != null) {
-            mProgress.setIndeterminate(indeterminate);
-        } else {
-            mIndeterminate = indeterminate;
         }
     }
 
@@ -437,7 +411,26 @@ public class ProgressDialogCompat extends AlertDialog{
         }
         return mIndeterminate;
     }
-    
+
+    /**
+     * Change the indeterminate mode for this ProgressDialogCompat. In indeterminate
+     * mode, the progress is ignored and the dialog shows an infinite
+     * animation instead.
+     *
+     * <p><strong>Note:</strong> A ProgressDialogCompat with style {@link #STYLE_SPINNER}
+     * is always indeterminate and will ignore this setting.</p>
+     *
+     * @param indeterminate true to enable indeterminate mode, false otherwise
+     * @see #setProgressStyle(int)
+     */
+    public void setIndeterminate(boolean indeterminate) {
+        if (mProgress != null) {
+            mProgress.setIndeterminate(indeterminate);
+        } else {
+            mIndeterminate = indeterminate;
+        }
+    }
+
     @Override
     public void setMessage(CharSequence message) {
         if (mProgress != null) {
@@ -460,7 +453,7 @@ public class ProgressDialogCompat extends AlertDialog{
      * indeterminate} setting.</p>
      *
      * @param style the style of this ProgressDialogCompat, either {@link #STYLE_SPINNER} or
-     * {@link #STYLE_HORIZONTAL}
+     *              {@link #STYLE_HORIZONTAL}
      */
     public void setProgressStyle(int style) {
         mProgressStyle = style;
@@ -470,9 +463,10 @@ public class ProgressDialogCompat extends AlertDialog{
      * Change the format of the small text showing current and maximum units
      * of progress.  The default is "%1d/%2d".
      * Should not be called during the number is progressing.
+     *
      * @param format A string passed to {@link String#format String.format()};
-     * use "%1d" for the current number and "%2d" for the maximum.  If null,
-     * nothing will be shown.
+     *               use "%1d" for the current number and "%2d" for the maximum.  If null,
+     *               nothing will be shown.
      */
     public void setProgressNumberFormat(String format) {
         mProgressNumberFormat = format;
@@ -484,14 +478,15 @@ public class ProgressDialogCompat extends AlertDialog{
      * The default is
      * {@link NumberFormat#getPercentInstance() NumberFormat.getPercentageInstnace().}
      * Should not be called during the number is progressing.
+     *
      * @param format An instance of a {@link NumberFormat} to generate the
-     * percentage text.  If null, nothing will be shown.
+     *               percentage text.  If null, nothing will be shown.
      */
     public void setProgressPercentFormat(NumberFormat format) {
         mProgressPercentFormat = format;
         onProgressChanged();
     }
-    
+
     private void onProgressChanged() {
         if (mProgressStyle == STYLE_HORIZONTAL) {
             if (mViewUpdateHandler != null && !mViewUpdateHandler.hasMessages(0)) {

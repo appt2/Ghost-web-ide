@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectManager {
-    private String projectName ;
+    private String projectName;
     private String projectDir;
     private List<ProjectManager> listProject = new ArrayList<>();
 
-    public ProjectManager() {}
+    public ProjectManager() {
+    }
 
     public String getProjectName() {
         return this.projectName;

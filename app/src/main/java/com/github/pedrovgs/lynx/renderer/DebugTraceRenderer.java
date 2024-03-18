@@ -21,7 +21,7 @@ import com.github.pedrovgs.lynx.LynxConfig;
 
 /**
  * TraceRenderer implementation used to render Trace objects with TraceLevel.DEBUG trace level.
- *
+ * <p>
  * To learn more about Renderers library take a look to the repository:
  * https://github.com/pedrovgs/Renderers
  *
@@ -29,12 +29,12 @@ import com.github.pedrovgs.lynx.LynxConfig;
  */
 class DebugTraceRenderer extends TraceRenderer {
 
-	DebugTraceRenderer(LynxConfig lynxConfig) {
-		super(lynxConfig);
-	}
+    DebugTraceRenderer(LynxConfig lynxConfig) {
+        super(lynxConfig);
+    }
 
-	@Override
-	protected int getTraceColor() {
-		return 0xFF0084FF;
-	}
+    @Override
+    protected int getTraceColor() {
+        return 0xFF0084FF;
+    }
 }

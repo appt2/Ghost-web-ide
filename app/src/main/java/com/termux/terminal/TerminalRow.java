@@ -10,21 +10,34 @@ import java.util.Arrays;
 public final class TerminalRow {
 
     private static final float SPARE_CAPACITY_FACTOR = 1.5f;
-
-    /** The number of columns in this terminal row. */
-    private final int mColumns;
-    /** The text filling this terminal row. */
-    public char[] mText;
-    /** The number of java char:s used in {@link #mText}. */
-    private short mSpaceUsed;
-    /** If this row has been line wrapped due to text output at the end of line. */
-    boolean mLineWrap;
-    /** The style bits of each cell in the row. See {@link TextStyle}. */
+    /**
+     * The style bits of each cell in the row. See {@link TextStyle}.
+     */
     final long[] mStyle;
-    /** If this row might contain chars with width != 1, used for deactivating fast path */
+    /**
+     * The number of columns in this terminal row.
+     */
+    private final int mColumns;
+    /**
+     * The text filling this terminal row.
+     */
+    public char[] mText;
+    /**
+     * If this row has been line wrapped due to text output at the end of line.
+     */
+    boolean mLineWrap;
+    /**
+     * If this row might contain chars with width != 1, used for deactivating fast path
+     */
     boolean mHasNonOneWidthOrSurrogateChars;
+    /**
+     * The number of java char:s used in {@link #mText}.
+     */
+    private short mSpaceUsed;
 
-    /** Construct a blank row (containing only whitespace, ' ') with a specified style. */
+    /**
+     * Construct a blank row (containing only whitespace, ' ') with a specified style.
+     */
     public TerminalRow(int columns, long style) {
         mColumns = columns;
         mText = new char[(int) (SPARE_CAPACITY_FACTOR * columns)];
@@ -32,7 +45,9 @@ public final class TerminalRow {
         clear(style);
     }
 
-    /** NOTE: The sourceX2 is exclusive. */
+    /**
+     * NOTE: The sourceX2 is exclusive.
+     */
     public void copyInterval(TerminalRow line, int sourceX1, int sourceX2, int destinationX) {
         mHasNonOneWidthOrSurrogateChars |= line.mHasNonOneWidthOrSurrogateChars;
         final int x1 = line.findStartOfColumn(sourceX1);
@@ -62,7 +77,9 @@ public final class TerminalRow {
         return mSpaceUsed;
     }
 
-    /** Note that the column may end of second half of wide character. */
+    /**
+     * Note that the column may end of second half of wide character.
+     */
     public int findStartOfColumn(int column) {
         if (column == mColumns) return getSpaceUsed();
 

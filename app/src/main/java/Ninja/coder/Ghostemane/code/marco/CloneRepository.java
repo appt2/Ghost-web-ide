@@ -1,14 +1,15 @@
 package Ninja.coder.Ghostemane.code.marco;
 
-import android.util.Log;
-import android.os.Looper;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ProgressMonitor;
+
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.io.File;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.ProgressMonitor;
 
 /*
 code by ninja
@@ -18,12 +19,11 @@ dont share in code to other app...
 */
 
 public class CloneRepository {
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private File directory;
     private Git git = null;
     private String urlName;
-
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final Handler handler = new Handler(Looper.getMainLooper());
 
     public void setDirectory(File directory) {
         this.directory = directory;
@@ -83,7 +83,8 @@ public class CloneRepository {
                                                         }
 
                                                         @Override
-                                                        public void showDuration(boolean arg0) {}
+                                                        public void showDuration(boolean arg0) {
+                                                        }
                                                     })
                                             .call();
                         }

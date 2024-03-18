@@ -44,100 +44,100 @@ import com.pedrogomez.renderers.Renderer;
  */
 class TraceRenderer extends Renderer<Trace> {
 
-  private final LynxConfig lynxConfig;
+    private final LynxConfig lynxConfig;
 
-  private TextView tv_trace;
-  private LinearLayout linear1, viewHelper;
-  private TextView logName;
+    private TextView tv_trace;
+    private LinearLayout linear1, viewHelper;
+    private TextView logName;
 
-  TraceRenderer(LynxConfig lynxConfig) {
-    this.lynxConfig = lynxConfig;
-  }
-
-  @Override
-  protected View inflate(LayoutInflater inflater, ViewGroup parent) {
-    return inflater.inflate(R.layout.trace_row, parent, false);
-  }
-
-  @Override
-  protected void setUpView(View rootView) {
-    tv_trace = (TextView) rootView.findViewById(R.id.tv_trace);
-   // linear1 = (LinearLayout) rootView.findViewById(R.id.postView);
-    logName = (TextView) rootView.findViewById(R.id.logName);
-    viewHelper = (LinearLayout) rootView.findViewById(R.id.viewHelper);
-    tv_trace.setTypeface(Typeface.MONOSPACE);
-    logName.setTypeface(Typeface.MONOSPACE);
-    if (lynxConfig.hasTextSizeInPx()) {
-      float textSize = lynxConfig.getTextSizeInPx();
-     // tv_trace.setTextSize(textSize);
-      logName.setTextSize(textSize);
+    TraceRenderer(LynxConfig lynxConfig) {
+        this.lynxConfig = lynxConfig;
     }
-    tv_trace.setTextSize(18f);
-        
-  }
 
-  @Override
-  protected void hookListeners(View rootView) {
-    // Empty
-  }
-
-  @Override
-  public void render() {
-    Trace trace = getContent();
-    String traceMessage = trace.getMessage();
-
-    Spannable traceRepresentation = getTraceVisualRepresentation(trace.getLevel(), traceMessage);
-    tv_trace.setText(trace.getLevel().toString().substring(0, 1));
-  //  tv_trace.setTextColor(getTraceColor());
-    logName.setText(trace.getMessage().toString());
-    logName.setTextColor(Color.WHITE);
-    var texts = trace.getLevel().toString().substring(0, 1);
-    switch (texts) {
-      case "E":
-        viewHelper.setBackgroundColor(Color.parseColor("#FF3A0000"));
-       // linear1.setBackgroundColor(Color.parseColor("#FF3A0000"));    
-            tv_trace.setTextColor(Color.WHITE);
-        break;
-      case "V":
-        viewHelper.setBackgroundColor(Color.parseColor("#FF040A0E"));
-      //  linear1.setBackgroundColor(Color.parseColor("#FF040A0E"));    
-            tv_trace.setTextColor(Color.BLACK);
-        break;
-      case "A":
-            viewHelper.setBackgroundColor(Color.parseColor("#FF004410"));
-            tv_trace.setTextColor(Color.BLACK);
-        break;
-      case "I":
-            viewHelper.setBackgroundColor(Color.parseColor("#FF582600"));
-        //    linear1.setBackgroundColor(Color.parseColor("#FF582600"));
-            tv_trace.setTextColor(Color.WHITE);
-        break;
-      case "F":
-            viewHelper.setBackgroundColor(Color.LTGRAY);
-            tv_trace.setTextColor(Color.WHITE);
-        break;
-      case "W":
-            viewHelper.setBackgroundColor(Color.parseColor("#FFFF7700"));
-         //   linear1.setBackgroundColor(Color.parseColor("#FF584500"));
-            tv_trace.setTextColor(Color.BLACK);
-        break;
-       case "D" :
-            viewHelper.setBackgroundColor(Color.parseColor("#FF242953"));
-            tv_trace.setTextColor(Color.WHITE);
-            break;
+    @Override
+    protected View inflate(LayoutInflater inflater, ViewGroup parent) {
+        return inflater.inflate(R.layout.trace_row, parent, false);
     }
-  }
 
-  protected int getTraceColor() {
-    return Color.parseColor("#FFB0B0B0");
-  }
+    @Override
+    protected void setUpView(View rootView) {
+        tv_trace = (TextView) rootView.findViewById(R.id.tv_trace);
+        // linear1 = (LinearLayout) rootView.findViewById(R.id.postView);
+        logName = (TextView) rootView.findViewById(R.id.logName);
+        viewHelper = (LinearLayout) rootView.findViewById(R.id.viewHelper);
+        tv_trace.setTypeface(Typeface.MONOSPACE);
+        logName.setTypeface(Typeface.MONOSPACE);
+        if (lynxConfig.hasTextSizeInPx()) {
+            float textSize = lynxConfig.getTextSizeInPx();
+            // tv_trace.setTextSize(textSize);
+            logName.setTextSize(textSize);
+        }
+        tv_trace.setTextSize(18f);
 
-  private Spannable getTraceVisualRepresentation(TraceLevel level, String traceMessage) {
-    traceMessage = " " + level.getValue() + "  " + traceMessage;
-    Spannable traceRepresentation = new SpannableString(traceMessage);
-    int traceColor = getTraceColor();
-    traceRepresentation.setSpan(
-        new BackgroundColorSpan(traceColor), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-    return traceRepresentation;
-  }
+    }
+
+    @Override
+    protected void hookListeners(View rootView) {
+        // Empty
+    }
+
+    @Override
+    public void render() {
+        Trace trace = getContent();
+        String traceMessage = trace.getMessage();
+
+        Spannable traceRepresentation = getTraceVisualRepresentation(trace.getLevel(), traceMessage);
+        tv_trace.setText(trace.getLevel().toString().substring(0, 1));
+        //  tv_trace.setTextColor(getTraceColor());
+        logName.setText(trace.getMessage().toString());
+        logName.setTextColor(Color.WHITE);
+        var texts = trace.getLevel().toString().substring(0, 1);
+        switch (texts) {
+            case "E":
+                viewHelper.setBackgroundColor(Color.parseColor("#FF3A0000"));
+                // linear1.setBackgroundColor(Color.parseColor("#FF3A0000"));
+                tv_trace.setTextColor(Color.WHITE);
+                break;
+            case "V":
+                viewHelper.setBackgroundColor(Color.parseColor("#FF040A0E"));
+                //  linear1.setBackgroundColor(Color.parseColor("#FF040A0E"));
+                tv_trace.setTextColor(Color.BLACK);
+                break;
+            case "A":
+                viewHelper.setBackgroundColor(Color.parseColor("#FF004410"));
+                tv_trace.setTextColor(Color.BLACK);
+                break;
+            case "I":
+                viewHelper.setBackgroundColor(Color.parseColor("#FF582600"));
+                //    linear1.setBackgroundColor(Color.parseColor("#FF582600"));
+                tv_trace.setTextColor(Color.WHITE);
+                break;
+            case "F":
+                viewHelper.setBackgroundColor(Color.LTGRAY);
+                tv_trace.setTextColor(Color.WHITE);
+                break;
+            case "W":
+                viewHelper.setBackgroundColor(Color.parseColor("#FFFF7700"));
+                //   linear1.setBackgroundColor(Color.parseColor("#FF584500"));
+                tv_trace.setTextColor(Color.BLACK);
+                break;
+            case "D":
+                viewHelper.setBackgroundColor(Color.parseColor("#FF242953"));
+                tv_trace.setTextColor(Color.WHITE);
+                break;
+        }
+    }
+
+    protected int getTraceColor() {
+        return Color.parseColor("#FFB0B0B0");
+    }
+
+    private Spannable getTraceVisualRepresentation(TraceLevel level, String traceMessage) {
+        traceMessage = " " + level.getValue() + "  " + traceMessage;
+        Spannable traceRepresentation = new SpannableString(traceMessage);
+        int traceColor = getTraceColor();
+        traceRepresentation.setSpan(
+                new BackgroundColorSpan(traceColor), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return traceRepresentation;
+    }
 }

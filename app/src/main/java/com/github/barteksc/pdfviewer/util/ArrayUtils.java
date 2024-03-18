@@ -24,7 +24,9 @@ public class ArrayUtils {
         // Prevents instantiation
     }
 
-    /** Transforms (0,1,2,2,3) to (0,1,2,3) */
+    /**
+     * Transforms (0,1,2,2,3) to (0,1,2,3)
+     */
     public static int[] deleteDuplicatedPages(int[] pages) {
         List<Integer> result = new ArrayList<>();
         int lastInt = -1;
@@ -41,7 +43,9 @@ public class ArrayUtils {
         return arrayResult;
     }
 
-    /** Transforms (0, 4, 4, 6, 6, 6, 3) into (0, 1, 1, 2, 2, 2, 3) */
+    /**
+     * Transforms (0, 4, 4, 6, 6, 6, 3) into (0, 1, 1, 2, 2, 2, 3)
+     */
     public static int[] calculateIndexesInDuplicateArray(int[] originalUserPages) {
         int[] result = new int[originalUserPages.length];
         if (originalUserPages.length == 0) {

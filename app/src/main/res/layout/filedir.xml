@@ -39,7 +39,7 @@
             android:orientation="vertical"
                 >
 
-            <Ninja.coder.Ghostemane.code.PraramnetLayoutNinja
+            <Ninja.coder.Ghostemane.code.widget.PraramnetLayoutNinja
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
@@ -77,7 +77,7 @@
 
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            </Ninja.coder.Ghostemane.code.PraramnetLayoutNinja>
+            </Ninja.coder.Ghostemane.code.widget.PraramnetLayoutNinja>
 
         </LinearLayout>
 

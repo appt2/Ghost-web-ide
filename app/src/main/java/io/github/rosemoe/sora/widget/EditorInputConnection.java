@@ -45,9 +45,8 @@ import io.github.rosemoe.sora.text.Cursor;
  */
 class EditorInputConnection extends BaseInputConnection {
 
-    private final static String LOG_TAG = "EditorInputConnection";
     final static int TEXT_LENGTH_LIMIT = 500000;
-
+    private final static String LOG_TAG = "EditorInputConnection";
     private final CodeEditor mEditor;
     protected int mComposingLine = -1;
     protected int mComposingStart = -1;
@@ -252,10 +251,10 @@ class EditorInputConnection extends BaseInputConnection {
                 mEditor.getText().insert(getCursor().getRightLine(), getCursor().getRightColumn(), autoSurroundPair[1]);
                 mEditor.getText().endBatchEdit();
                 //cancel selected
-                mEditor.setSelection(getCursor().getLeftLine(), getCursor().getLeftColumn() + autoSurroundPair[0].length()-1);
+                mEditor.setSelection(getCursor().getLeftLine(), getCursor().getLeftColumn() + autoSurroundPair[0].length() - 1);
 
             } else {
-                getCursor().onCommitText(replacement.text,applyAutoIndent);
+                getCursor().onCommitText(replacement.text, applyAutoIndent);
                 int delta = (replacement.text.length() - replacement.selection);
                 if (delta != 0) {
                     int newSel = Math.max(getCursor().getLeft() - delta, 0);

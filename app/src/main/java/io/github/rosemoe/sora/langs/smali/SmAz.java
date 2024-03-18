@@ -7,7 +7,9 @@ import io.github.rosemoe.sora.text.TextAnalyzer;
 import io.github.rosemoe.sora.text.TextStyle;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
 import org.antlr.runtime.Token;
+
 import java.io.StringReader;
+
 import org.jf.smali.smaliFlexLexer;
 import org.jf.smali.smaliParser;
 

@@ -25,34 +25,28 @@ package io.github.rosemoe.sora.text;
 
 import android.text.GetChars;
 import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
-
 import io.github.rosemoe.sora.annotations.UnsupportedUserUsage;
 
 public class ContentLine implements CharSequence, GetChars {
 
     @UnsupportedUserUsage
     public char[] value;
-
-    private int length;
-
-    /**
-     * Id in BinaryHeap
-     */
-    private int id;
-
-    /**
-     * Measured width of line
-     */
-    private int width;
-
     /**
      * Width of each character inside
      */
     @UnsupportedUserUsage
     public float[] widthCache;
     public long timestamp;
+    private int length;
+    /**
+     * Id in BinaryHeap
+     */
+    private int id;
+    /**
+     * Measured width of line
+     */
+    private int width;
 
     public ContentLine() {
         this(true);

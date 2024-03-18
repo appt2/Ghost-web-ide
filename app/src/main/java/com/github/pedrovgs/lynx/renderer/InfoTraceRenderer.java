@@ -21,7 +21,7 @@ import com.github.pedrovgs.lynx.LynxConfig;
 
 /**
  * TraceRenderer implementation used to render Trace objects with TraceLevel.INFO trace level.
- *
+ * <p>
  * To learn more about Renderers library take a look to the repository:
  * https://github.com/pedrovgs/Renderers
  *
@@ -29,12 +29,12 @@ import com.github.pedrovgs.lynx.LynxConfig;
  */
 class InfoTraceRenderer extends TraceRenderer {
 
-	InfoTraceRenderer(LynxConfig lynxConfig) {
-		super(lynxConfig);
-	}
+    InfoTraceRenderer(LynxConfig lynxConfig) {
+        super(lynxConfig);
+    }
 
-	@Override
-	protected int getTraceColor() {
-		return 0xFFFF9100;
-	}
+    @Override
+    protected int getTraceColor() {
+        return 0xFFFF9100;
+    }
 }

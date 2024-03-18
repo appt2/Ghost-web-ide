@@ -1,16 +1,17 @@
 package project.gouid;
 
 public class serif {
-    
-    public void nullpor(int v , char a ,boolean w){
-        
+
+    public void nullpor(int v, char a, boolean w) {
+
     }
-    public boolean charset(char b , boolean bool){
-        
-        if(bool){
+
+    public boolean charset(char b, boolean bool) {
+
+        if (bool) {
             bool = true;
-            
-        }else{
+
+        } else {
             bool = false;
         }
         return bool;

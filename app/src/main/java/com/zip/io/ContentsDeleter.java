@@ -1,6 +1,7 @@
 package com.balatong.zip.io;
 
 import com.logger.Logger;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +17,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
 import com.balatong.zip.helper.StatsUtil;
 import android.content.Context;
 import android.content.Intent;
@@ -23,10 +25,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 public class ContentsDeleter extends AsyncTask<Object, Object, Integer> {
-
-    private static Logger logger = Logger.getLogger(ContentsDeleter.class.getName());
-
-    private static final int MAX_BYTES = 24 * 1024;
 
     public static final String NEW_ENTRY = "NEW_ENTRY";
     public static final String OLD_ENTRY = "OLD_ENTRY";
@@ -36,7 +34,8 @@ public class ContentsDeleter extends AsyncTask<Object, Object, Integer> {
     public static final String TOTAL_FILES = "TOTAL_FILES";
     public static final String TOTAL_SIZE = "TOTAL_SIZE";
     protected static final String TaskError = "";
-
+    private static final int MAX_BYTES = 24 * 1024;
+    private static Logger logger = Logger.getLogger(ContentsDeleter.class.getName());
     private File file;
     private Context context;
 

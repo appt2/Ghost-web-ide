@@ -24,13 +24,12 @@
 package io.github.rosemoe.sora.text;
 
 import android.util.Log;
-
-import java.util.List;
-
 import io.github.rosemoe.sora.data.BlockLine;
 import io.github.rosemoe.sora.data.ObjectAllocator;
 import io.github.rosemoe.sora.data.Span;
 import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
+
+import java.util.List;
 
 /**
  * This is a manager of analyzing text
@@ -42,6 +41,7 @@ public class TextAnalyzer {
     private static int sThreadId = 0;
     public final RecycleObjContainer mObjContainer = new RecycleObjContainer();
     private final Object mLock = new Object();
+    private final CodeAnalyzer mCodeAnalyzer;
     /**
      * Debug:Start time
      */
@@ -49,7 +49,7 @@ public class TextAnalyzer {
     private TextAnalyzeResult mResult;
     private Callback mCallback;
     private AnalyzeThread mThread;
-    private final CodeAnalyzer mCodeAnalyzer;
+
     /**
      * Create a new manager for the given codeAnalyzer
      *

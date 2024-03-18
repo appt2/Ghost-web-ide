@@ -22,6 +22,7 @@
  *     additional information or have any questions
  */
 package io.github.rosemoe.sora.widget;
+
 import Ninja.coder.Ghostemane.code.R;
 import android.view.Gravity;
 import android.widget.PopupWindow;
@@ -54,9 +55,9 @@ class EditorBasePopupWindow extends PopupWindow {
         super.setTouchable(true);
         setElevation(0 * editor.getDpUnit());
         GradientDrawable gradientDrawable = new GradientDrawable();
-		setAnimationStyle(R.style.hso);
-		gradientDrawable.setCornerRadius(13f);
-	//	setBackgroundDrawable(gradientDrawable);
+        setAnimationStyle(R.style.hso);
+        gradientDrawable.setCornerRadius(13f);
+        //	setBackgroundDrawable(gradientDrawable);
     }
 
     /**

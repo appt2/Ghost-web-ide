@@ -6,14 +6,30 @@ import io.github.rosemoe.sora.interfaces.EditorLanguage;
 import io.github.rosemoe.sora.interfaces.NewlineHandler;
 import io.github.rosemoe.sora.langs.internal.MyCharacter;
 import io.github.rosemoe.sora.text.TextUtils;
+
 import java.io.StringReader;
+
 import org.antlr.v4.runtime.CharStreams;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
 import io.github.rosemoe.sora.widget.SymbolPairMatch;
 import org.antlr.v4.runtime.Token;
 
 public class KotlinLanguage implements EditorLanguage {
+
+    private final NewlineHandler[] newLineHandlers =
+            new NewlineHandler[]{
+                    new BraceHandler(),
+                    new TwoIndentHandler(),
+                    new JavaDocStartHandler(),
+                    new JavaDocHandler()
+            };
+
+    protected static boolean number(char c) {
+        return (c >= '0' && c <= '9');
+    }
 
     @Override
     public boolean useTab() {
@@ -22,8 +38,8 @@ public class KotlinLanguage implements EditorLanguage {
 
     @Override
     public boolean isAutoCompleteChar(char ch) {
-        return MyCharacter.isJavaIdentifierPart(ch) 
-        || ch == '.' || number(ch);
+        return MyCharacter.isJavaIdentifierPart(ch)
+                || ch == '.' || number(ch);
     }
 
     @Override
@@ -31,28 +47,26 @@ public class KotlinLanguage implements EditorLanguage {
         return new SymbolPairMatch.DefaultSymbolPairs();
     }
 
-
-
     @Override
     public int getIndentAdvance(String content) {
         try {
-        	KotlinLexer lexer = new KotlinLexer(CharStreams.fromReader(new StringReader(content)));
+            KotlinLexer lexer = new KotlinLexer(CharStreams.fromReader(new StringReader(content)));
             Token token;
             int advance = 0;
             while (((token = lexer.nextToken()) != null && token.getType() != token.EOF)) {
-                switch(token.getType()){
+                switch (token.getType()) {
                     case KotlinLexer.LCURL:
-                    advance ++;
-                    break;
+                        advance++;
+                        break;
                     case KotlinLexer.RCURL:
-                    advance --;
-                    break;
+                        advance--;
+                        break;
                 }
             }
-            advance = Math.max(0,advance);
+            advance = Math.max(0, advance);
             return advance * 4;
-        } catch(Exception err) {
-        	
+        } catch (Exception err) {
+
         }
         return 0;
     }
@@ -71,124 +85,10 @@ public class KotlinLanguage implements EditorLanguage {
     public CharSequence format(CharSequence text) {
         return javaFormat(text.toString());
     }
-    private final NewlineHandler[] newLineHandlers =
-            new NewlineHandler[] {
-                new BraceHandler(),
-                new TwoIndentHandler(),
-                new JavaDocStartHandler(),
-                new JavaDocHandler()
-            };
 
     @Override
     public NewlineHandler[] getNewlineHandlers() {
         return newLineHandlers;
-    }
-
-    class BraceHandler implements NewlineHandler {
-
-        @Override
-        public boolean matchesRequirement(String beforeText, String afterText) {
-            return beforeText.endsWith("{") && afterText.startsWith("}");
-        }
-
-        @Override
-        public HandleResult handleNewline(String beforeText, String afterText, int tabSize) {
-            int count = TextUtils.countLeadingSpaceCount(beforeText, tabSize);
-            int advanceBefore = getIndentAdvance(beforeText);
-            int advanceAfter = getIndentAdvance(afterText);
-            String text;
-            StringBuilder sb =
-                    new StringBuilder("\n")
-                            .append(
-                                    TextUtils.createIndent(
-                                            count + advanceBefore, tabSize, useTab()))
-                            .append('\n')
-                            .append(
-                                    text =
-                                            TextUtils.createIndent(
-                                                    count + advanceAfter, tabSize, useTab()));
-            int shiftLeft = text.length() + 1;
-            return new HandleResult(sb, shiftLeft);
-        }
-    }
-
-    class JavaDocStartHandler implements NewlineHandler {
-
-        private boolean shouldCreateEnd = true;
-
-        @Override
-        public boolean matchesRequirement(String beforeText, String afterText) {
-            return beforeText.trim().startsWith("/**");
-        }
-
-        @Override
-        public HandleResult handleNewline(String beforeText, String afterText, int tabSize) {
-            int count = TextUtils.countLeadingSpaceCount(beforeText, tabSize);
-            int advanceAfter = getIndentAdvance(afterText);
-            String text = "";
-            StringBuilder sb =
-                    new StringBuilder()
-                            .append("\n")
-                            .append(TextUtils.createIndent(count + advanceAfter, tabSize, useTab()))
-                            .append(" * ");
-            if (shouldCreateEnd) {
-                sb.append("\n")
-                        .append(
-                                text =
-                                        TextUtils.createIndent(
-                                                count + advanceAfter, tabSize, useTab()))
-                        .append(" */");
-            }
-            return new HandleResult(sb, text.length() + 4);
-        }
-    }
-
-    class JavaDocHandler implements NewlineHandler {
-
-        @Override
-        public boolean matchesRequirement(String beforeText, String afterText) {
-            return beforeText.trim().startsWith("*") && !beforeText.trim().startsWith("*/");
-        }
-
-        @Override
-        public HandleResult handleNewline(String beforeText, String afterText, int tabSize) {
-            int count = TextUtils.countLeadingSpaceCount(beforeText, tabSize);
-            int advanceAfter = getIndentAdvance(afterText);
-            StringBuilder sb =
-                    new StringBuilder()
-                            .append("\n")
-                            .append(TextUtils.createIndent(count + advanceAfter, tabSize, useTab()))
-                            .append("* ");
-            return new HandleResult(sb, 0);
-        }
-    }
-
-    class TwoIndentHandler implements NewlineHandler {
-
-        @Override
-        public boolean matchesRequirement(String beforeText, String afterText) {
-            //  Log.d("BeforeText", beforeText);
-            if (beforeText.replace("\r", "").trim().startsWith(".")) {
-                return false;
-            }
-            return beforeText.endsWith(")") && !afterText.startsWith(";");
-        }
-
-        @Override
-        public HandleResult handleNewline(String beforeText, String afterText, int tabSize) {
-            int count = TextUtils.countLeadingSpaceCount(beforeText, tabSize);
-            int advanceAfter = getIndentAdvance(afterText) + (4 * 2);
-            String text;
-            StringBuilder sb =
-                    new StringBuilder()
-                            .append('\n')
-                            .append(
-                                    text =
-                                            TextUtils.createIndent(
-                                                    count + advanceAfter, tabSize, useTab()));
-            int shiftLeft = 0;
-            return new HandleResult(sb, shiftLeft);
-        }
     }
 
     private void sum(StringBuilder content, int indents) {
@@ -330,7 +230,111 @@ public class KotlinLanguage implements EditorLanguage {
                         .map(s -> s.trim())
                         .collect(Collectors.joining("\n")));
     }
-    protected static boolean number(char c) {
-		return (c >= '0' && c <= '9');
-	}
+
+    class BraceHandler implements NewlineHandler {
+
+        @Override
+        public boolean matchesRequirement(String beforeText, String afterText) {
+            return beforeText.endsWith("{") && afterText.startsWith("}");
+        }
+
+        @Override
+        public HandleResult handleNewline(String beforeText, String afterText, int tabSize) {
+            int count = TextUtils.countLeadingSpaceCount(beforeText, tabSize);
+            int advanceBefore = getIndentAdvance(beforeText);
+            int advanceAfter = getIndentAdvance(afterText);
+            String text;
+            StringBuilder sb =
+                    new StringBuilder("\n")
+                            .append(
+                                    TextUtils.createIndent(
+                                            count + advanceBefore, tabSize, useTab()))
+                            .append('\n')
+                            .append(
+                                    text =
+                                            TextUtils.createIndent(
+                                                    count + advanceAfter, tabSize, useTab()));
+            int shiftLeft = text.length() + 1;
+            return new HandleResult(sb, shiftLeft);
+        }
+    }
+
+    class JavaDocStartHandler implements NewlineHandler {
+
+        private boolean shouldCreateEnd = true;
+
+        @Override
+        public boolean matchesRequirement(String beforeText, String afterText) {
+            return beforeText.trim().startsWith("/**");
+        }
+
+        @Override
+        public HandleResult handleNewline(String beforeText, String afterText, int tabSize) {
+            int count = TextUtils.countLeadingSpaceCount(beforeText, tabSize);
+            int advanceAfter = getIndentAdvance(afterText);
+            String text = "";
+            StringBuilder sb =
+                    new StringBuilder()
+                            .append("\n")
+                            .append(TextUtils.createIndent(count + advanceAfter, tabSize, useTab()))
+                            .append(" * ");
+            if (shouldCreateEnd) {
+                sb.append("\n")
+                        .append(
+                                text =
+                                        TextUtils.createIndent(
+                                                count + advanceAfter, tabSize, useTab()))
+                        .append(" */");
+            }
+            return new HandleResult(sb, text.length() + 4);
+        }
+    }
+
+    class JavaDocHandler implements NewlineHandler {
+
+        @Override
+        public boolean matchesRequirement(String beforeText, String afterText) {
+            return beforeText.trim().startsWith("*") && !beforeText.trim().startsWith("*/");
+        }
+
+        @Override
+        public HandleResult handleNewline(String beforeText, String afterText, int tabSize) {
+            int count = TextUtils.countLeadingSpaceCount(beforeText, tabSize);
+            int advanceAfter = getIndentAdvance(afterText);
+            StringBuilder sb =
+                    new StringBuilder()
+                            .append("\n")
+                            .append(TextUtils.createIndent(count + advanceAfter, tabSize, useTab()))
+                            .append("* ");
+            return new HandleResult(sb, 0);
+        }
+    }
+
+    class TwoIndentHandler implements NewlineHandler {
+
+        @Override
+        public boolean matchesRequirement(String beforeText, String afterText) {
+            //  Log.d("BeforeText", beforeText);
+            if (beforeText.replace("\r", "").trim().startsWith(".")) {
+                return false;
+            }
+            return beforeText.endsWith(")") && !afterText.startsWith(";");
+        }
+
+        @Override
+        public HandleResult handleNewline(String beforeText, String afterText, int tabSize) {
+            int count = TextUtils.countLeadingSpaceCount(beforeText, tabSize);
+            int advanceAfter = getIndentAdvance(afterText) + (4 * 2);
+            String text;
+            StringBuilder sb =
+                    new StringBuilder()
+                            .append('\n')
+                            .append(
+                                    text =
+                                            TextUtils.createIndent(
+                                                    count + advanceAfter, tabSize, useTab()));
+            int shiftLeft = 0;
+            return new HandleResult(sb, shiftLeft);
+        }
+    }
 }

@@ -42,155 +42,155 @@ import io.github.rosemoe.sora.text.Cursor;
 @SuppressWarnings("deprecated")
 public class EditorSearcher {
 
-  private final CodeEditor mEditor;
-  protected String mSearchText;
+    private final CodeEditor mEditor;
+    protected String mSearchText;
 
-  EditorSearcher(CodeEditor editor) {
-    mEditor = editor;
-  }
-
-  private void checkState() {
-    if (mSearchText == null) {
-      throw new IllegalStateException("search text has not been set");
+    EditorSearcher(CodeEditor editor) {
+        mEditor = editor;
     }
-  }
 
-  public void search(String text) {
-    if (text != null && text.length() == 0) {
-      text = null;
-    }
-    mSearchText = text;
-    mEditor.postInvalidate();
-  }
-
-  @SuppressWarnings("UnusedReturnValue")
-  public boolean replaceThis(String newText) {
-    checkState();
-    Content text = mEditor.getText();
-    Cursor cursor = text.getCursor();
-    if (cursor.isSelected()) {
-      String selectedText =
-          text.subContent(
-                  cursor.getLeftLine(),
-                  cursor.getLeftColumn(),
-                  cursor.getRightLine(),
-                  cursor.getRightColumn())
-              .toString();
-      if (selectedText.equals(mSearchText)) {
-        cursor.onCommitText(newText);
-        mEditor.hideAutoCompleteWindow();
-        gotoNext(false);
-        return true;
-      }
-    }
-    gotoNext(false);
-    return false;
-  }
-
-  public void replaceAll(final String newText) {
-    checkState();
-    ProgressDialog progressDialog =
-        new ProgressDialog(mEditor.getContext(), ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
-    progressDialog.setTitle("Replaceing..");
-    progressDialog.setMessage("Editor is now replacing texts");
-    progressDialog.getWindow().setBackgroundDrawable(fb());
-    progressDialog.setCanceledOnTouchOutside(false);
-    progressDialog.setCancelable(false);
-    progressDialog.show();
-    //	 ProgressDialog.show(mEditor.getContext(), "Replacing", "Editor is now replacing texts,
-    // please wait", true, false);
-    final String searchText = mSearchText;
-    new Thread() {
-
-      @Override
-      public void run() {
-        String text = null;
-        Exception ex = null;
-        try {
-          text = mEditor.getText().toString().replace(searchText, newText);
-        } catch (Exception e) {
-          e.printStackTrace();
-          ex = e;
+    private void checkState() {
+        if (mSearchText == null) {
+            throw new IllegalStateException("search text has not been set");
         }
-        final Exception ex2 = ex;
-        final String text2 = text;
-        mEditor.post(
-            () -> {
-              if (text2 == null) {
-                Toast.makeText(mEditor.getContext(), String.valueOf(ex2), Toast.LENGTH_SHORT)
+    }
+
+    public void search(String text) {
+        if (text != null && text.length() == 0) {
+            text = null;
+        }
+        mSearchText = text;
+        mEditor.postInvalidate();
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public boolean replaceThis(String newText) {
+        checkState();
+        Content text = mEditor.getText();
+        Cursor cursor = text.getCursor();
+        if (cursor.isSelected()) {
+            String selectedText =
+                    text.subContent(
+                                    cursor.getLeftLine(),
+                                    cursor.getLeftColumn(),
+                                    cursor.getRightLine(),
+                                    cursor.getRightColumn())
+                            .toString();
+            if (selectedText.equals(mSearchText)) {
+                cursor.onCommitText(newText);
+                mEditor.hideAutoCompleteWindow();
+                gotoNext(false);
+                return true;
+            }
+        }
+        gotoNext(false);
+        return false;
+    }
+
+    public void replaceAll(final String newText) {
+        checkState();
+        ProgressDialog progressDialog =
+                new ProgressDialog(mEditor.getContext(), ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
+        progressDialog.setTitle("Replaceing..");
+        progressDialog.setMessage("Editor is now replacing texts");
+        progressDialog.getWindow().setBackgroundDrawable(fb());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        //	 ProgressDialog.show(mEditor.getContext(), "Replacing", "Editor is now replacing texts,
+        // please wait", true, false);
+        final String searchText = mSearchText;
+        new Thread() {
+
+            @Override
+            public void run() {
+                String text = null;
+                Exception ex = null;
+                try {
+                    text = mEditor.getText().toString().replace(searchText, newText);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ex = e;
+                }
+                final Exception ex2 = ex;
+                final String text2 = text;
+                mEditor.post(
+                        () -> {
+                            if (text2 == null) {
+                                Toast.makeText(mEditor.getContext(), String.valueOf(ex2), Toast.LENGTH_SHORT)
+                                        .show();
+                            } else {
+                                int line = mEditor.getCursor().getLeftLine();
+                                int column = mEditor.getCursor().getLeftColumn();
+                                mEditor
+                                        .getText()
+                                        .replace(
+                                                0,
+                                                0,
+                                                mEditor.getLineCount() - 1,
+                                                mEditor.getText().getColumnCount(mEditor.getLineCount() - 1),
+                                                text2);
+                                mEditor.setSelectionAround(line, column);
+                                mEditor.invalidate();
+                            }
+                            progressDialog.cancel();
+                        });
+            }
+        }.start();
+    }
+
+    public void gotoNext() {
+        gotoNext(true);
+    }
+
+    private void gotoNext(boolean tip) {
+        checkState();
+        Content text = mEditor.getText();
+        Cursor cursor = text.getCursor();
+        int line = cursor.getRightLine();
+        int column = cursor.getRightColumn();
+        for (int i = line; i < text.getLineCount(); i++) {
+            int idx =
+                    column >= text.getColumnCount(i) ? -1 : text.getLine(i).indexOf(mSearchText, column);
+            if (idx != -1) {
+                mEditor.setSelectionRegion(i, idx, i, idx + mSearchText.length());
+                return;
+            }
+            column = 0;
+        }
+        if (tip) {
+            Toast.makeText(mEditor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT)
                     .show();
-              } else {
-                int line = mEditor.getCursor().getLeftLine();
-                int column = mEditor.getCursor().getLeftColumn();
-                mEditor
-                    .getText()
-                    .replace(
-                        0,
-                        0,
-                        mEditor.getLineCount() - 1,
-                        mEditor.getText().getColumnCount(mEditor.getLineCount() - 1),
-                        text2);
-                mEditor.setSelectionAround(line, column);
-                mEditor.invalidate();
-              }
-              progressDialog.cancel();
-            });
-      }
-    }.start();
-  }
-
-  public void gotoNext() {
-    gotoNext(true);
-  }
-
-  private void gotoNext(boolean tip) {
-    checkState();
-    Content text = mEditor.getText();
-    Cursor cursor = text.getCursor();
-    int line = cursor.getRightLine();
-    int column = cursor.getRightColumn();
-    for (int i = line; i < text.getLineCount(); i++) {
-      int idx =
-          column >= text.getColumnCount(i) ? -1 : text.getLine(i).indexOf(mSearchText, column);
-      if (idx != -1) {
-        mEditor.setSelectionRegion(i, idx, i, idx + mSearchText.length());
-        return;
-      }
-      column = 0;
+            mEditor.jumpToLine(0);
+        }
     }
-    if (tip) {
-      Toast.makeText(mEditor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT)
-          .show();
-      mEditor.jumpToLine(0);
+
+    public void gotoLast() {
+        checkState();
+        Content text = mEditor.getText();
+        Cursor cursor = text.getCursor();
+        int line = cursor.getLeftLine();
+        int column = cursor.getLeftColumn();
+        for (int i = line; i >= 0; i--) {
+            int idx = column - 1 < 0 ? -1 : text.getLine(i).lastIndexOf(mSearchText, column - 1);
+            if (idx != -1) {
+                mEditor.setSelectionRegion(i, idx, i, idx + mSearchText.length());
+                return;
+            }
+            column = i - 1 >= 0 ? text.getColumnCount(i - 1) : 0;
+        }
+        Toast.makeText(mEditor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
     }
-  }
 
-  public void gotoLast() {
-    checkState();
-    Content text = mEditor.getText();
-    Cursor cursor = text.getCursor();
-    int line = cursor.getLeftLine();
-    int column = cursor.getLeftColumn();
-    for (int i = line; i >= 0; i--) {
-      int idx = column - 1 < 0 ? -1 : text.getLine(i).lastIndexOf(mSearchText, column - 1);
-      if (idx != -1) {
-        mEditor.setSelectionRegion(i, idx, i, idx + mSearchText.length());
-        return;
-      }
-      column = i - 1 >= 0 ? text.getColumnCount(i - 1) : 0;
+    public void stopSearch() {
+        search(null);
     }
-    Toast.makeText(mEditor.getContext(), "Not found in this direction", Toast.LENGTH_SHORT).show();
-  }
 
-  public void stopSearch() {
-    search(null);
-  }
-
-  private GradientDrawable fb() {
-    GradientDrawable gradientDrawable = new GradientDrawable();
-    gradientDrawable.setColor(ColorStateList.valueOf(Color.parseColor("#FF291E1C")));
-    gradientDrawable.setStroke(1, ColorStateList.valueOf(Color.parseColor("#FFFFAF7A")));
-    gradientDrawable.setShape(GradientDrawable.LINE);
-    return gradientDrawable;
-  }
+    private GradientDrawable fb() {
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setColor(ColorStateList.valueOf(Color.parseColor("#FF291E1C")));
+        gradientDrawable.setStroke(1, ColorStateList.valueOf(Color.parseColor("#FFFFAF7A")));
+        gradientDrawable.setShape(GradientDrawable.LINE);
+        return gradientDrawable;
+    }
 }

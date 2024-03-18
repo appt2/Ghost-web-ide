@@ -30,7 +30,18 @@ public class CCppEngine {
     private final static String C_COMPILER_DIR = "c_compiler";
 
     private final static String GCC_VERSION = "7.2.0";
-
+    /**
+     * C 编译器
+     */
+    private volatile static CCompiler cCompiler;
+    /**
+     * CPP 编译器
+     */
+    private volatile static CppCompiler cppCompiler;
+    /**
+     * CPP 编译器
+     */
+    private volatile static CCppExecutor cCppExecutor;
 
     /**
      * 安装编译器
@@ -132,7 +143,7 @@ public class CCppEngine {
                         @Override
                         public void run() {
                             onInstallListener.onError(e.toString());
-                            Log.e("error","not install gcc");
+                            Log.e("error", "not install gcc");
                         }
                     });
                 }
@@ -148,7 +159,6 @@ public class CCppEngine {
         return gccFile.exists() && gccFile.listFiles() != null;
     }
 
-
     /**
      * 检测 Intent环境
      */
@@ -156,12 +166,6 @@ public class CCppEngine {
         File intent = new File(context.getFilesDir().getAbsolutePath() + File.separator + C_COMPILER_DIR + File.separator + "indent");
         return intent.exists();
     }
-
-
-    /**
-     * C 编译器
-     */
-    private volatile static CCompiler cCompiler;
 
     public static CCompiler getCCompiler() {
         if (cCompiler == null) {
@@ -174,11 +178,6 @@ public class CCppEngine {
         return cCompiler;
     }
 
-    /**
-     * CPP 编译器
-     */
-    private volatile static CppCompiler cppCompiler;
-
     public static CppCompiler getCppCompiler() {
         if (cppCompiler == null) {
             synchronized (CppCompiler.class) {
@@ -189,12 +188,6 @@ public class CCppEngine {
         }
         return cppCompiler;
     }
-
-
-    /**
-     * CPP 编译器
-     */
-    private volatile static CCppExecutor cCppExecutor;
 
     public static CCppExecutor getCExecutor() {
         if (cCppExecutor == null) {
@@ -212,7 +205,7 @@ public class CCppEngine {
      * 获取编译器的目录
      */
     public static String getCompilerDirPath(Context context) {
-        return context.getFilesDir().getAbsolutePath() + File.separator + C_COMPILER_DIR ;
+        return context.getFilesDir().getAbsolutePath() + File.separator + C_COMPILER_DIR;
     }
 
     /**
@@ -224,6 +217,12 @@ public class CCppEngine {
         ShellUtils.execCmd("chmod 777 " + file.getAbsolutePath(), false);
     }
 
+
+    public interface OnInstallListener {
+        void onSuccess();
+
+        void onError(String error);
+    }
 
     private static class InterceptorOutputStream extends PrintStream {
         private ArrayList<PrintStream> streams;
@@ -250,12 +249,6 @@ public class CCppEngine {
                 }
             }
         }
-    }
-
-    public interface OnInstallListener {
-        void onSuccess();
-
-        void onError(String error);
     }
 
 }

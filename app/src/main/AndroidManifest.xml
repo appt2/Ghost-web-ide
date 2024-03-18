@@ -50,91 +50,91 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FiledirActivity"
+            android:name=".activities.FileDirActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".CodeeditorActivity"
+            android:name=".activities.CodeEditorActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".HtmlrunerActivity"
+            android:name=".activities.HtmlRunerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".JsrunerActivity"
+            android:name=".activities.JsRunerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".AnjctorcolorActivity"
+            android:name=".activities.InjectorColorActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".XmlViewActivity"
+            android:name=".activities.XmlViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".SettingappActivity"
+            android:name=".activities.SettingAppActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".ErrormanagerActivity"
+            android:name=".activities.ErrorManagerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".AboutActivity"
+            android:name=".activities.AboutActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".ShellcodeActivity"
+            android:name=".activities.ShellCodeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".TerminalActivity"
+            android:name=".terminal.TerminalActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".JsonviewerActivity"
+            android:name=".activities.JsonViewerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".MdcodeviewActivity"
+            android:name=".activities.MdCodeViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
@@ -142,50 +142,14 @@
         />
 
         <activity
-            android:name=".JavamanagerlayoutActivity"
+            android:name=".activities.JavaManagerLayoutActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".VideoviewsActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            android:screenOrientation="portrait"
-            
-        />
-        <activity
-            android:name=".PdfviewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            
-        />
-        <activity
-            android:name=".ZipshowActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            
-        />
-        <activity
-            android:name=".GouidhtmlActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            
-        />
-        <activity
-            android:name=".ResultActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            
-        />
-        <activity
-            android:name=".MianbarActivity"
+            android:name=".activities.VideoViewsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
@@ -193,21 +157,57 @@
             
         />
         <activity
-            android:name=".FontviewActivity"
+            android:name=".activities.PdfViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".LogcatviewActivity"
+            android:name=".activities.ZipShowActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".LeranpdfActivity"
+            android:name=".activities.GouidHtmlActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:hardwareAccelerated="true"
+            android:supportsPictureInPicture="true"
+            
+        />
+        <activity
+            android:name=".activities.ResultActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:hardwareAccelerated="true"
+            android:supportsPictureInPicture="true"
+            
+        />
+        <activity
+            android:name=".activities.MianbarActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:hardwareAccelerated="true"
+            android:supportsPictureInPicture="true"
+            android:screenOrientation="portrait"
+            
+        />
+        <activity
+            android:name=".activities.FontViewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:hardwareAccelerated="true"
+            android:supportsPictureInPicture="true"
+            
+        />
+        <activity
+            android:name=".activities.LogCatViewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:hardwareAccelerated="true"
+            android:supportsPictureInPicture="true"
+            
+        />
+        <activity
+            android:name=".activities.LeranPdfActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
@@ -216,57 +216,49 @@
             
         />
         <activity
-            android:name=".ImgshowActivity"
+            android:name=".activities.ImgShowActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".IconmodActivity"
+            android:name=".activities.IconModActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".MusicplayerActivity"
+            android:name=".activities.MusicPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".FontchakerActivity"
+            android:name=".activities.FontChakerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".StreamsoftappActivity"
+            android:name=".activities.StreamSoftAppActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".BrowserActivity"
+            android:name=".activities.BrowserActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
             
         />
         <activity
-            android:name=".PdfviewnewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            android:screenOrientation="portrait"
-            
-        />
-        <activity
-            android:name=".PytestActivity"
+            android:name=".activities.PdfViewNewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
@@ -274,7 +266,7 @@
             
         />
         <activity
-            android:name=".PluginManagerActivity"
+            android:name=".activities.PytestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
@@ -282,7 +274,7 @@
             
         />
         <activity
-            android:name=".PhpActivity"
+            android:name=".activities.PluginManagerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
@@ -290,7 +282,7 @@
             
         />
         <activity
-            android:name=".FilebookmarkActivity"
+            android:name=".activities.PhpActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
@@ -298,7 +290,15 @@
             
         />
         <activity
-            android:name=".SetHomeWallpActivity"
+            android:name=".activities.FileBookmarkActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+            android:hardwareAccelerated="true"
+            android:supportsPictureInPicture="true"
+            android:screenOrientation="portrait"
+            
+        />
+        <activity
+            android:name=".activities.SetHomeWallpActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
@@ -328,7 +328,7 @@
         <activity
             android:theme="@style/Apple"
             android:exported="false"
-            android:name="Ninja.coder.Ghostemane.code.Keyboard.Setting"
+            android:name="Ninja.coder.Ghostemane.code.keyboard.Setting"
             
         >
             <intent-filter>
@@ -336,22 +336,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="Ninja.coder.Ghostemane.code.Keyboard.Theme"
+            android:name="Ninja.coder.Ghostemane.code.keyboard.Theme"
         />
         <activity
-            android:name="Ninja.coder.Ghostemane.code.Keyboard.Background"
+            android:name="Ninja.coder.Ghostemane.code.keyboard.Background"
         />
         <activity
-            android:name="Ninja.coder.Ghostemane.code.Keyboard.Save"
+            android:name="Ninja.coder.Ghostemane.code.keyboard.Save"
         />
         <activity
-            android:name="Ninja.coder.Ghostemane.code.Keyboard.Reset"
+            android:name="Ninja.coder.Ghostemane.code.keyboard.Reset"
         />
 
         <service
             android:label="GhostWebIdeKeyboardv1"
             android:exported="false"
-            android:name="Ninja.coder.Ghostemane.code.Keyboard.KeyboardSamsung"
+            android:name="Ninja.coder.Ghostemane.code.keyboard.KeyboardSamsung"
             android:permission="android.permission.BIND_INPUT_METHOD"
             
         >
@@ -465,13 +465,13 @@
             </intent-filter>
         </activity-alias>
         <service
-            android:name=".MediaListenerService"
+            android:name=".services.MediaListenerService"
             android:enabled="true"
             android:exported="false"
             
         />
         <service
-            android:name=".FileEventUser"
+            android:name=".services.FileEventUser"
             android:enabled="true"
             android:exported="false"
             
@@ -487,7 +487,7 @@
             </intent-filter>
         </receiver>
         <activity
-            android:name=".ApkViewActivity"
+            android:name=".activities.ApkViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"

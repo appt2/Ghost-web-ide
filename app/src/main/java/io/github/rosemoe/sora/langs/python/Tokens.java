@@ -86,7 +86,7 @@ public enum Tokens {
     WITH,
     EXCEPT,
     LAMBDA,
-    
+
     IS,
     CLASS,
     YIELD,

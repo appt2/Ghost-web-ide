@@ -27,6 +27,7 @@ public class MathUtils {
 
     /**
      * Limits the given <b>number</b> between the other values
+     *
      * @param number  The number to limit.
      * @param between The smallest value the number can take.
      * @param and     The biggest value the number can take.
@@ -44,6 +45,7 @@ public class MathUtils {
 
     /**
      * Limits the given <b>number</b> between the other values
+     *
      * @param number  The number to limit.
      * @param between The smallest value the number can take.
      * @param and     The biggest value the number can take.
@@ -91,14 +93,18 @@ public class MathUtils {
      * Methods from libGDX - https://github.com/libgdx/libgdx
      */
 
-    /** Returns the largest integer less than or equal to the specified float. This method will only properly floor floats from
-     * -(2^14) to (Float.MAX_VALUE - 2^14). */
+    /**
+     * Returns the largest integer less than or equal to the specified float. This method will only properly floor floats from
+     * -(2^14) to (Float.MAX_VALUE - 2^14).
+     */
     static public int floor(float value) {
         return (int) (value + BIG_ENOUGH_FLOOR) - BIG_ENOUGH_INT;
     }
 
-    /** Returns the smallest integer greater than or equal to the specified float. This method will only properly ceil floats from
-     * -(2^14) to (Float.MAX_VALUE - 2^14). */
+    /**
+     * Returns the smallest integer greater than or equal to the specified float. This method will only properly ceil floats from
+     * -(2^14) to (Float.MAX_VALUE - 2^14).
+     */
     static public int ceil(float value) {
         return (int) (value + BIG_ENOUGH_CEIL) - BIG_ENOUGH_INT;
     }
