@@ -399,6 +399,21 @@ public class FiledirActivity extends BaseCompat
       _dataOnClickItemList(pos);
     }
   }
+  
+  void savePath(){
+    if (save_path.contains("path")) {
+      if (FileUtil.isExistFile(save_path.getString("path", ""))) {
+        Folder = save_path.getString("path", "");
+        reLoadFile();
+      } else {
+        Folder = FileUtil.getExternalStorageDir();
+        reLoadFile();
+      }
+    } else {
+      Folder = FileUtil.getExternalStorageDir();
+      reLoadFile();
+    }
+  }
 
   private void initializeLogic() {
 
@@ -457,17 +472,12 @@ public class FiledirActivity extends BaseCompat
     copypath.getWindow().setBackgroundDrawable(u);
 
     sd_stor = new SdCardUtil(this);
-    if (save_path.contains("path")) {
-      if (FileUtil.isExistFile(save_path.getString("path", ""))) {
-        Folder = save_path.getString("path", "");
-        reLoadFile();
-      } else {
-        Folder = FileUtil.getExternalStorageDir();
-        reLoadFile();
-      }
-    } else {
-      Folder = FileUtil.getExternalStorageDir();
+    
+    if (getIntent().hasExtra("bookmarkDir")) {
+      Folder = getIntent().getStringExtra("bookmarkDir");
       reLoadFile();
+    } else {
+      savePath();
     }
     user = new FileEventUser();
     user.setCallBack(
@@ -509,7 +519,7 @@ public class FiledirActivity extends BaseCompat
     navs.getMenu().add(0, 13, 0, "PL manager").setIcon(R.drawable.link);
     navs.getMenu().add(0, 14, 0, "Book mark (Beta)").setIcon(R.drawable.ic_bookmark_white);
     navs.getMenu().add(0,15,0,"Apk manager").setIcon(R.drawable.default_image);
-    navs.getMenu().add(0, 15, 0, "exit").setIcon(R.drawable.exit);
+    navs.getMenu().add(0, 16, 0, "exit").setIcon(R.drawable.exit);
     _DrowerHandler();
   }
   

@@ -30,9 +30,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-//tnks for codeassist and tryon ...
-// rewinter code by ninja coder and appt2 
-
+// tnks for codeassist and tryon ...
+// rewinter code by ninja coder and appt2
 
 public class IconShop {
   protected Context context;
@@ -55,12 +54,17 @@ public class IconShop {
     serachIcon = view.findViewById(R.id.icon_shop_serach);
     nullview = view.findViewById(R.id.null_view);
     serachIcon.setHint("Search Icon");
-    serachIcon.setEndIconVisible(endIconShow ? false : true);
+    serachIcon.setEndIconVisible(endIconShow ? true : false);
     serachIcon.setEndIconDrawable(R.drawable.closecompat);
     var shap = new ShapeAppearanceModel.Builder();
     shap.setAllCorners(CornerFamily.CUT, 20f);
     serachIcon.setShapeAppearanceModel(shap.build());
-    serachIcon.setEndIconOnClickListener(c -> {});
+    serachIcon.setEndIconOnClickListener(
+        c -> {
+          Icons.clear();
+          loadIcons();
+          serachIcon.getEditText().setText("");
+        });
     nullview.setVisibility(GONE);
     serachIcon
         .getEditText()
@@ -119,18 +123,18 @@ public class IconShop {
               }
               File[] files = iconDir.listFiles(File::isFile);
               if (files != null) {
-                 //sort by in lastModified
+                // sort by in lastModified
                 Arrays.sort(files, Comparator.comparingLong(File::lastModified));
                 for (File file : files) {
 
                   if (file.exists()) {
-                    ///winter class #Icons model and select #File 
+                    /// winter class #Icons model and select #File
                     Icons icon = new Icons(new File(file.getAbsolutePath().replaceAll("%20", " ")));
-                    /// lock getRootFile == Path 
+                    /// lock getRootFile == Path
                     if (icon.getRootFile().getName().endsWith(".svg")) {
                       Icons.add(icon);
                     }
-                    //dont using xml mode library svg loader not render vector mode ...
+                    // dont using xml mode library svg loader not render vector mode ...
                     if (icon.getRootFile().getName().endsWith(".xml")) {
                       Icons.add(icon);
                     }

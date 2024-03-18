@@ -1,15 +1,12 @@
 package Ninja.coder.Ghostemane.code;
 
-import Ninja.coder.Ghostemane.code.FileEventUser;
 import android.content.Intent;
-import android.graphics.PorterDuff;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.appbar.AppBarLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.color.MaterialColors;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -26,7 +23,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.net.Uri;
-import java.util.List;
 
 public class FilebookmarkActivity extends BaseCompat {
 
@@ -37,13 +33,9 @@ public class FilebookmarkActivity extends BaseCompat {
   private String Folder = "";
   private double position = 0;
   private String UPFolder = "";
-  
-  private List<String> listbookmark = new ArrayList<>();
-  private ArrayList<HashMap<String, Object>> File_map = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> map = new ArrayList<>();
   private ListView listview1;
   private LinearLayout layout_bookmark_emptyview;
-  
 
   private SharedPreferences book, shp;
 
@@ -52,7 +44,6 @@ public class FilebookmarkActivity extends BaseCompat {
     super.onCreate(_savedInstanceState);
     setContentView(R.layout.filebookmark);
     initialize(_savedInstanceState);
-    
   }
 
   private void initialize(Bundle _savedInstanceState) {
@@ -69,12 +60,12 @@ public class FilebookmarkActivity extends BaseCompat {
             onBackPressed();
           }
         });
-    
+
     listview1 = findViewById(R.id.listview_bookmark);
     layout_bookmark_emptyview = findViewById(R.id.layout_bookmark_emptyview);
     book = getSharedPreferences("hsipsot4444", Activity.MODE_PRIVATE);
     shp = getSharedPreferences("path", Activity.MODE_PRIVATE);
-    
+
     initializeLogic();
     listview1.setVisibility(View.VISIBLE);
     listview1.setEmptyView(layout_bookmark_emptyview);
@@ -85,29 +76,46 @@ public class FilebookmarkActivity extends BaseCompat {
                 new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType());
     listview1.setAdapter(new Listview1Adapter(map));
     ((BaseAdapter) listview1.getAdapter()).notifyDataSetChanged();
-    Toast.makeText(getApplication(),new Gson().toJson(book.getString("hsipsot4444","")),2).show();
-    
-    ListView mylist = new ListView(getApplicationContext());
-    ListView.LayoutParams par = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,ListView.LayoutParams.WRAP_CONTENT);
-    var dialog = new MaterialAlertDialogBuilder(this);
-    dialog.setTitle("Test");
-    dialog.setView(mylist);
-    dialog.show();
-    mylist.setAdapter(new Listview1Adapter(map));
+    Toast.makeText(getApplication(), new Gson().toJson(book.getString("hsipsot4444", "")), 2)
+        .show();
+
     listview1.setOnItemClickListener(
         new AdapterView.OnItemClickListener() {
           @Override
           public void onItemClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
             final int _position = _param3;
+            var utils = map.get(_position).get("list").toString();
+            if (FileUtil.isDirectory(utils)) {
+              Intent i = new Intent();
+              i.putExtra("bookmarkDir", utils);
+              i.setClass(getApplicationContext(), FiledirActivity.class);
+              if (i != null) {
+                startActivity(i);
+              }
+            } else {
+              Log.e("TAG", "Not work file");
+            }
+          }
+        });
+    listview1.setDividerHeight(0);
+    listview1.setOnItemLongClickListener(
+        new AdapterView.OnItemLongClickListener() {
+          @Override
+          public boolean onItemLongClick(
+              AdapterView<?> _param1, View _param2, int _param3, long _param4) {
+            final int _position = _param3;
             map.remove(_position);
-            ((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+            book.edit().putString("hsipsot4444", new Gson().toJson(map)).apply();
+            ((BaseAdapter) listview1.getAdapter()).notifyDataSetChanged();
+
+            return true;
           }
         });
   }
 
   private void initializeLogic() {
     ColorAndroid12.setToolbarinit(_toolbar);
-  //  ColorAndroid12.setTextColor(textview1);
+    //  ColorAndroid12.setTextColor(textview1);
   }
 
   public void _RefreshData() {
@@ -155,8 +163,9 @@ public class FilebookmarkActivity extends BaseCompat {
       Toast.makeText(getApplicationContext(), _data.get((int) _position).get("list").toString(), 2)
           .show();
       ColorAndroid12.setTextColor(textview1);
-      
-      textview1.setText(Uri.parse(map.get((int)_position).get("list").toString()).getLastPathSegment());
+
+      textview1.setText(
+          Uri.parse(map.get((int) _position).get("list").toString()).getLastPathSegment());
       return _view;
     }
   }
@@ -190,5 +199,4 @@ public class FilebookmarkActivity extends BaseCompat {
     super.onResume();
     // TODO: Implement this method
   }
-  
 }

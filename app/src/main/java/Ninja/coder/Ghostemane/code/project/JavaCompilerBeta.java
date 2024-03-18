@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import ninjacoder.ghostide.androidtools.r8.android.JarPackager;
+import org.eclipse.jdt.internal.compiler.batch.Main;
 
 public class JavaCompilerBeta {
 
@@ -29,22 +30,19 @@ public class JavaCompilerBeta {
   private static String dirPath = "/storage/emulated/0/GhostWebIDE/java/";
   
 
-  public static void run(Context context, String input) {
+  public static void run(Context context, String inputs) {
 
     new AsyncTask<String, String, String>() {
       ProgressDialog pr;
       List<String> opt = new ArrayList<>();
       long ecjTime, dxTime;
-       File nameFile = new File(input);
+      File nameFile = new File(inputs);
 
       @Override
       protected void onPreExecute() {
-        pr = new ProgressDialog(context,ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
-
+        pr = new ProgressDialog(context, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
         pr.setMessage("Running...");
-
         pr.setCancelable(false);
-
         pr.show();
       }
 
@@ -54,14 +52,11 @@ public class JavaCompilerBeta {
         // code that prepares the files
         FileUtil.deleteFile(dirPath.concat("/bin/"));
         FileUtil.makeDir(dirPath.concat("/bin/"));
-        FileUtil.writeFile(
-            dirPath.concat("/bin/Main.java"),
-            input);
+        FileUtil.writeFile(dirPath + "/bin/" + nameFile, nameFile.toString());
         // code that copies cp.jar from assets to temp folder (if not exists)
         if (!FileUtil.isExistFile(dirPath.concat("/bin/cp.jar"))) {
           try (InputStream input = context.getAssets().open("cp.jar");
-              OutputStream output =
-                  new FileOutputStream(dirPath.concat("/bin/cp.jar"))) {
+              OutputStream output = new FileOutputStream(dirPath.concat("/bin/cp.jar"))) {
             byte[] buffer = new byte[input.available()];
             int length;
             while ((length = input.read(buffer)) != -1) {
@@ -88,7 +83,7 @@ public class JavaCompilerBeta {
         opt.add("-proc:none");
         opt.add("-sourcepath");
         opt.add("ignore");
-        opt.add(dirPath.concat("/bin/Main.java"));
+        opt.add(dirPath + "/bin/" + nameFile);
         PrintWriter printWriter =
             new PrintWriter(
                 new OutputStream() {
@@ -109,9 +104,7 @@ public class JavaCompilerBeta {
                   }
                 });
 
-        org.eclipse.jdt.internal.compiler.batch.Main main =
-            new org.eclipse.jdt.internal.compiler.batch.Main(
-                printWriter2, printWriter2, false, null, null);
+        Main main = new Main(printWriter2, printWriter2, false, null, null);
 
         main.compile(opt.toArray(new String[0]));
 
@@ -122,9 +115,7 @@ public class JavaCompilerBeta {
         // code that packages classes to a JAR
         publishProgress("Packaging JAR...");
         try {
-          new JarPackager(
-                  dirPath.concat("/bin/classes/"),
-                  dirPath.concat("/bin/classes.jar"))
+          new JarPackager(dirPath.concat("/bin/classes/"), dirPath.concat("/bin/classes.jar"))
               .create();
         } catch (Exception e) {
           return "Packaging JAR failed: " + e.toString();
@@ -192,9 +183,9 @@ public class JavaCompilerBeta {
                     dirPath.concat("/bin/classes.dex"),
                     optimizedDir,
                     null,
-                   context.getClassLoader());
+                    context.getClassLoader());
 
-            Class calledClass = dcl.loadClass(nameFile.getName().replace(".java",""));
+            Class calledClass = dcl.loadClass(nameFile.getName().replace(".java", ""));
 
             java.lang.reflect.Method method = calledClass.getDeclaredMethod("main", String[].class);
 
@@ -202,7 +193,7 @@ public class JavaCompilerBeta {
 
             Object result = method.invoke(null, new Object[] {param});
           } catch (java.lang.reflect.InvocationTargetException i) {
-            dialog("Failed..", "Runtime error: " + i.getCause().toString(),context);
+            dialog("Failed..", "Runtime error: " + i.getCause().toString(), context);
             return;
           } catch (Exception e) {
             dialog(
@@ -210,12 +201,13 @@ public class JavaCompilerBeta {
                 "Couldn't execute the dex: "
                     + e.toString()
                     + "\n\nSystem logs:\n"
-                    + _outstream.toString(),context);
+                    + _outstream.toString(),
+                context);
             return;
           }
           // code that shows the dialog
           new AlertDialog.Builder(context)
-              .setTitle("Output (ecj:" + ecjTime + "ms | d8:" + dxTime + "ms)") 
+              .setTitle("Output (ecj:" + ecjTime + "ms | d8:" + dxTime + "ms)")
               .setView(sc)
               .setPositiveButton("OK", null)
               .setNegativeButton("Cancel", null)
@@ -227,7 +219,7 @@ public class JavaCompilerBeta {
               .create()
               .show();
         } else {
-          dialog("Failed..", _result,context);
+          dialog("Failed..", _result, context);
         }
       }
     }.execute("");
