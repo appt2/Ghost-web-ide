@@ -1,10 +1,10 @@
 plugins {
-    id 'com.android.library'
+    id "com.android.library"
 }
 
 android {
     compileSdk 34
-    namespace 'ninjacoder.ghostide.androidtools.r8.android'
+    namespace "ninjacoder.ghostide.androidtools.r8.android"
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 34
@@ -19,15 +19,14 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 }
+
 dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
     //add your dependencies
-  	implementation 'com.android.tools:r8:8.3.37' 
-    implementation "androidx.appcompat:appcompat:1.7.0-alpha03"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "com.google.android.material:material:1.12.0-alpha03"
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation("com.android.tools:r8:8.3.37")
+    implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.material:material:1.12.0-alpha03")
     // https://mvnrepository.com/artifact/org.eclipse.jdt.core.compiler/batch
-  //  implementation 'org.eclipse.jdt.core.compiler:batch:3.7.0'
-
-
+    // implementation "org.eclipse.jdt.core.compiler:batch:3.7.0"
 }
