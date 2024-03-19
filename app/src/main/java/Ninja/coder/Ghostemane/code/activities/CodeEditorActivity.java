@@ -7,6 +7,7 @@ import Ninja.coder.Ghostemane.code.RequestNetwork;
 import Ninja.coder.Ghostemane.code.adapter.DirAdapter;
 import Ninja.coder.Ghostemane.code.adapter.SyspiarAdapter;
 import Ninja.coder.Ghostemane.code.layoutmanager.LogCatBottomSheet;
+import Ninja.coder.Ghostemane.code.marco.ColorView;
 import Ninja.coder.Ghostemane.code.marco.EditorSearcherT;
 import Ninja.coder.Ghostemane.code.marco.NinjaMacroFileUtil;
 import Ninja.coder.Ghostemane.code.marco.WallpaperParallaxEffect;
@@ -1278,6 +1279,7 @@ public class CodeEditorActivity extends AppCompatActivity {
                         .addItem(new PowerMenuItem("Log cat", false, R.drawable.codeformat))
                         .addItem(new PowerMenuItem("ذخیره", false, R.drawable.save))
                         .addItem(new PowerMenuItem("ذخیره همه", false, R.drawable.setsavefileall))
+                        .addItem(new PowerMenuItem("Code nave", false, R.drawable.setsavefileall))
                         .build();
         pvr.setSelectedMenuColor(0xFFFDA893);
         pvr.setIconPadding(8);
@@ -1403,6 +1405,10 @@ public class CodeEditorActivity extends AppCompatActivity {
                                 _AllSaveFile(_coordinator);
                                 break;
                             }
+                          case 5:{
+                            var colorview = new ColorView();
+                            colorview.runJavaAsSmail(CodeEditorActivity.this,shp.getString("pos_path", ""),editor);
+                          }
                         }
                     }
                 });

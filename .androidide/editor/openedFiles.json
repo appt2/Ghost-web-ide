@@ -1,35 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/res/layout/terminal.xml",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/activities/CodeEditorActivity.java",
       "selection": {
         "end": {
-          "column": 25,
-          "index": 367,
-          "line": 9
+          "column": 45,
+          "index": 62215,
+          "line": 1283
         },
         "start": {
-          "column": 25,
-          "index": 367,
-          "line": 9
-        }
-      }
-    },
-    {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/terminal/key/VirtualKeysView.java",
-      "selection": {
-        "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
-        },
-        "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 45,
+          "index": 62215,
+          "line": 1283
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/terminal/key/VirtualKeysView.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/activities/CodeEditorActivity.java"
 }

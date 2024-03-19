@@ -1,62 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:orientation="vertical">
 
     <LinearLayout
-            android:id="@+id/rooti"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="4dp">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:gravity="center_vertical"
+         android:padding="4dp"
+         android:orientation="horizontal"
+         android:id="@+id/rooti">
 
         <LinearLayout
-                android:id="@+id/linear2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:orientation="vertical"
+             android:id="@+id/linear2">
 
             <LinearLayout
-                    android:id="@+id/getTag"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="#693C00"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
+                 android:layout_height="40dp"
+                 android:layout_width="40dp"
+                 android:background="#693C00"
+                 android:gravity="center_horizontal|center_vertical"
+                 android:orientation="horizontal"
+                 android:id="@+id/getTag">
 
                 <TextView
-                        android:id="@+id/titleview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:text="A"
-                        android:textColor="#FFDCBD"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:textSize="18sp"
+                     android:textColor="#FFDCBD"
+                     android:focusable="false"
+                     android:id="@+id/titleview"
+                     android:text="A"
+                     android:textStyle="bold" />
+
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/linear3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:orientation="vertical"
+             android:id="@+id/linear3">
 
             <TextView
-                    android:id="@+id/normaltext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="TextView"
-                    android:textColor="#D5C3B5"
-                    android:textSize="18sp"/>
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:gravity="center_vertical"
+                 android:padding="8dp"
+                 android:textSize="18sp"
+                 android:textColor="#D5C3B5"
+                 android:focusable="false"
+                 android:id="@+id/normaltext"
+                 android:text="TextView" />
+
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
