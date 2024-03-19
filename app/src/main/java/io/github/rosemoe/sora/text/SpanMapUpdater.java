@@ -23,11 +23,11 @@
  */
 package io.github.rosemoe.sora.text;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.github.rosemoe.sora.data.Span;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Update spans on text change event
@@ -163,7 +163,7 @@ public class SpanMapUpdater {
         // Add original spans to new line
         List<Span> endLineSpans = map.get(endLine);
         int idx = extendedSpanIndex;
-        while (idx  < startLineSpans.size()) {
+        while (idx < startLineSpans.size()) {
             Span span = startLineSpans.get(idx++);
             endLineSpans.add(span.copy().setColumn(Math.max(0, span.column - startColumn + endColumn)));
         }

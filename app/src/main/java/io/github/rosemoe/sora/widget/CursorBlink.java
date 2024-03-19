@@ -71,10 +71,10 @@ final class CursorBlink implements Runnable {
                 buffer = editor.mLayout.getCharLayoutOffset(editor.getCursor().getLeftLine(), editor.getCursor().getLeftColumn(), buffer);
                 if (!editor.getCursor().isSelected() && isSelectionVisible()) {
                     // Invalidate dirty region
-                    var delta = (int)(editor.getDpUnit() * 10);
-                    var l = (int)buffer[1] - delta;
+                    var delta = (int) (editor.getDpUnit() * 10);
+                    var l = (int) buffer[1] - delta;
                     var r = l + delta * 2;
-                    var b = (int)buffer[0] + delta;
+                    var b = (int) buffer[0] + delta;
                     var t = b - delta * 2;
                     editor.postInvalidate(l, t, r, b);
                 }

@@ -25,7 +25,6 @@ package io.github.rosemoe.sora.text;
 
 import android.icu.text.BreakIterator;
 import android.os.Build;
-
 import io.github.rosemoe.sora.util.IntPair;
 import io.github.rosemoe.sora.util.MyCharacter;
 
@@ -37,39 +36,41 @@ import io.github.rosemoe.sora.util.MyCharacter;
  */
 public class ICUUtils {
 
-  /**
-   * Get word edges for the given offset
-   *
-   * @param text Text to analyze
-   * @param offset Required char offset of word
-   * @return Packed value of (start, end) pair. Always contains the position {@code offset}
-   */
-  public static long getWordEdges(CharSequence text, int offset) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-      var itr = BreakIterator.getWordInstance();
-      itr.setText(new CharSequenceIterator(text));
-      int end = itr.following(offset);
-      int start = itr.previous();
-      if (offset >= start && offset <= end) {
-        return IntPair.pack(start, end);
-      } else {
-        return getWordEdgesFallback(text, offset);
-      }
-    } else {
-      return getWordEdgesFallback(text, offset);
+    /**
+     * Get word edges for the given offset
+     *
+     * @param text   Text to analyze
+     * @param offset Required char offset of word
+     * @return Packed value of (start, end) pair. Always contains the position {@code offset}
+     */
+    public static long getWordEdges(CharSequence text, int offset) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            var itr = BreakIterator.getWordInstance();
+            itr.setText(new CharSequenceIterator(text));
+            int end = itr.following(offset);
+            int start = itr.previous();
+            if (offset >= start && offset <= end) {
+                return IntPair.pack(start, end);
+            } else {
+                return getWordEdgesFallback(text, offset);
+            }
+        } else {
+            return getWordEdgesFallback(text, offset);
+        }
     }
-  }
 
-  /** Primitive implementation of {@link #getWordEdges(CharSequence, int)} */
-  private static long getWordEdgesFallback(CharSequence text, int offset) {
-    int start = offset;
-    int end = offset;
-    while (start > 0 && MyCharacter.isJavaIdentifierPart(text.charAt(start - 1))) {
-      start--;
+    /**
+     * Primitive implementation of {@link #getWordEdges(CharSequence, int)}
+     */
+    private static long getWordEdgesFallback(CharSequence text, int offset) {
+        int start = offset;
+        int end = offset;
+        while (start > 0 && MyCharacter.isJavaIdentifierPart(text.charAt(start - 1))) {
+            start--;
+        }
+        while (end < text.length() && MyCharacter.isJavaIdentifierPart(text.charAt(end))) {
+            end++;
+        }
+        return IntPair.pack(start, end);
     }
-    while (end < text.length() && MyCharacter.isJavaIdentifierPart(text.charAt(end))) {
-      end++;
-    }
-    return IntPair.pack(start, end);
-  }
 }

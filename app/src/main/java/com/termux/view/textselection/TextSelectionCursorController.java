@@ -21,16 +21,14 @@ public class TextSelectionCursorController implements CursorController {
 
     private final TerminalView terminalView;
     private final TextSelectionHandleView mStartHandle, mEndHandle;
-    private boolean mIsSelectingText = false;
-    private long mShowStartTime = System.currentTimeMillis();
-
     private final int mHandleHeight;
-    private int mSelX1 = -1, mSelX2 = -1, mSelY1 = -1, mSelY2 = -1;
-
-    private ActionMode mActionMode;
     private final int ACTION_COPY = 1;
     private final int ACTION_PASTE = 2;
     private final int ACTION_MORE = 3;
+    private boolean mIsSelectingText = false;
+    private long mShowStartTime = System.currentTimeMillis();
+    private int mSelX1 = -1, mSelX2 = -1, mSelY1 = -1, mSelY2 = -1;
+    private ActionMode mActionMode;
 
     public TextSelectionCursorController(TerminalView terminalView) {
         this.terminalView = terminalView;
@@ -104,7 +102,7 @@ public class TextSelectionCursorController implements CursorController {
             }
         }
     }
-    
+
     public void setActionModeCallBacks() {
         final ActionMode.Callback callback = new ActionMode.Callback() {
             @Override

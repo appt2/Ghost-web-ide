@@ -25,7 +25,7 @@ package com.github.pedrovgs.lynx.model;
  */
 public class TimeProvider {
 
-  public long getCurrentTimeMillis() {
-    return System.currentTimeMillis();
-  }
+    public long getCurrentTimeMillis() {
+        return System.currentTimeMillis();
+    }
 }

@@ -2,12 +2,15 @@ package io.github.rosemoe.sora.langs.xml.analyzer;
 
 import android.graphics.Color;
 import android.os.Handler;
+import io.github.rosemoe.sora.data.BlockLine;
 import io.github.rosemoe.sora.data.Span;
+import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
 import io.github.rosemoe.sora.langs.xml.XMLAutoComplete;
+import io.github.rosemoe.sora.langs.xml.XMLLexer;
+import io.github.rosemoe.sora.text.TextAnalyzeResult;
+import io.github.rosemoe.sora.text.TextAnalyzer;
 import io.github.rosemoe.sora.text.TextStyle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import kotlin.text.Regex;
+import io.github.rosemoe.sora.widget.EditorColorScheme;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.Token;
@@ -16,19 +19,16 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Stack;
 
-import io.github.rosemoe.sora.data.BlockLine;
-import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
-import io.github.rosemoe.sora.langs.xml.XMLLexer;
-import io.github.rosemoe.sora.text.TextAnalyzeResult;
-import io.github.rosemoe.sora.text.TextAnalyzer;
-import io.github.rosemoe.sora.widget.EditorColorScheme;
-
 /**
  * For highlight and code block line.
  *
  * <p>Note:Android Studio xml highlight style.
  */
 public class HighLightAnalyzer implements CodeAnalyzer {
+    private final Handler handler = new Handler();
+    long delay = 1000L;
+    long lastTime;
+    CompileRunnable runnable = new CompileRunnable();
     private int lastLine;
 
     public int getLastLine() {
@@ -66,7 +66,7 @@ public class HighLightAnalyzer implements CodeAnalyzer {
                     case XMLLexer.S:
                         if (first) colors.addNormalIfNull();
                         break;
-                        // <?xml
+                    // <?xml
                     case XMLLexer.XMLDeclOpen:
                         // <?
                         colors.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
@@ -76,44 +76,43 @@ public class HighLightAnalyzer implements CodeAnalyzer {
                     case XMLLexer.EQUALS:
                         // colors.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
                         // break;
-                    case XMLLexer.STRING:
-                        {
-                            auto.setEn(true);
-                            String text = token.getText();
-                            if (text.startsWith("\"#")) {
-                                try {
-                                    int color =
-                                            Color.parseColor(text.substring(1, text.length() - 1));
-                                    colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
+                    case XMLLexer.STRING: {
+                        auto.setEn(true);
+                        String text = token.getText();
+                        if (text.startsWith("\"#")) {
+                            try {
+                                int color =
+                                        Color.parseColor(text.substring(1, text.length() - 1));
+                                colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
 
-                                    Span span = Span.obtain(column + 1, EditorColorScheme.LITERAL);
-                                    span.setUnderlineColor(color);
-                                    colors.add(line, span);
+                                Span span = Span.obtain(column + 1, EditorColorScheme.LITERAL);
+                                span.setUnderlineColor(color);
+                                colors.add(line, span);
 
-                                    Span middle =
-                                            Span.obtain(
-                                                    column + text.length() - 1,
-                                                    EditorColorScheme.LITERAL);
-                                    middle.setUnderlineColor(Color.TRANSPARENT);
-                                    colors.add(line, middle);
+                                Span middle =
+                                        Span.obtain(
+                                                column + text.length() - 1,
+                                                EditorColorScheme.LITERAL);
+                                middle.setUnderlineColor(Color.TRANSPARENT);
+                                colors.add(line, middle);
 
-                                    Span end =
-                                            Span.obtain(
-                                                    column + text.length(),
-                                                    TextStyle.makeStyle(
-                                                            EditorColorScheme.TEXT_NORMAL));
-                                    end.setUnderlineColor(Color.TRANSPARENT);
-                                    colors.add(line, end);
-                                    break;
-                                } catch (Exception ignore) {
+                                Span end =
+                                        Span.obtain(
+                                                column + text.length(),
+                                                TextStyle.makeStyle(
+                                                        EditorColorScheme.TEXT_NORMAL));
+                                end.setUnderlineColor(Color.TRANSPARENT);
+                                colors.add(line, end);
+                                break;
+                            } catch (Exception ignore) {
                                 ignore.printStackTrace();
-                                }
                             }
-                            colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
-                            break;
                         }
+                        colors.addIfNeeded(line, column, EditorColorScheme.LITERAL);
+                        break;
+                    }
 
-                        // />
+                    // />
                     case XMLLexer.SLASH_CLOSE:
                         colors.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
                         // set block line end position
@@ -128,7 +127,7 @@ public class HighLightAnalyzer implements CodeAnalyzer {
                             }
                         }
                         break;
-                        // /
+                    // /
                     case XMLLexer.SLASH:
                         colors.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
                         // When we get "/", check the previous token.
@@ -215,10 +214,6 @@ public class HighLightAnalyzer implements CodeAnalyzer {
         }
     }
 
-    private final Handler handler = new Handler();
-    long delay = 1000L;
-    long lastTime;
-
     private void compile(TextAnalyzeResult colors) {
         handler.removeCallbacks(runnable);
         lastTime = System.currentTimeMillis();
@@ -226,13 +221,12 @@ public class HighLightAnalyzer implements CodeAnalyzer {
         handler.postDelayed(runnable, delay);
     }
 
-    CompileRunnable runnable = new CompileRunnable();
-
     private class CompileRunnable implements Runnable {
 
         private TextAnalyzeResult colors;
 
-        public CompileRunnable() {}
+        public CompileRunnable() {
+        }
 
         public void setColors(TextAnalyzeResult colors) {
             this.colors = colors;

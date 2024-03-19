@@ -22,7 +22,6 @@ public interface TerminalViewClient {
     float onScale(float scale);
 
 
-
     /**
      * On a single tap on the terminal if terminal mouse reporting not enabled.
      */
@@ -37,9 +36,7 @@ public interface TerminalViewClient {
     boolean isTerminalViewSelected();
 
 
-
     void copyModeChanged(boolean copyMode);
-
 
 
     boolean onKeyDown(int keyCode, KeyEvent e, TerminalSession session);
@@ -49,7 +46,6 @@ public interface TerminalViewClient {
     boolean onLongPress(MotionEvent event);
 
 
-
     boolean readControlKey();
 
     boolean readAltKey();
@@ -57,7 +53,6 @@ public interface TerminalViewClient {
     boolean readShiftKey();
 
     boolean readFnKey();
-
 
 
     boolean onCodePoint(int codePoint, boolean ctrlDown, TerminalSession session);

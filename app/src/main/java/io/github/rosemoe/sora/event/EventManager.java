@@ -25,26 +25,19 @@ package io.github.rosemoe.sora.event;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import io.github.rosemoe.sora.widget.CodeEditor;
 
 /**
  * This class manages event dispatching in editor.
  * Users can either register their event receivers here or dispatch event to
  * the receivers in this manager.
- *
+ * <p>
  * There may be several EventManagers in one editor instance. For example, each plugin
  * will have it own EventManager and the editor also has a root event manager for external
  * listeners.
- *
+ * <p>
  * Note that the event type must be exact. That's to say, you need to use a terminal class instead
  * of using its parent classes. For instance, if you register a receiver with the event type {@link Event},
  * no event will be sent to your receiver.
@@ -56,6 +49,7 @@ public class EventManager {
     @SuppressWarnings("rawtypes")
     private final Map<Class<?>, Receivers> receivers;
     private final ReadWriteLock lock;
+    private final EventReceiver<?>[][] caches = new EventReceiver[10][];
 
     public EventManager() {
         receivers = new HashMap<>();
@@ -94,8 +88,8 @@ public class EventManager {
      * Register a receiver of the given event.
      *
      * @param eventType Event type to be received
-     * @param receiver Receiver of event
-     * @param <T> Event type
+     * @param receiver  Receiver of event
+     * @param <T>       Event type
      */
     public <T extends Event> void subscribeEvent(Class<T> eventType, EventReceiver<T> receiver) {
         var receivers = getReceivers(eventType);
@@ -113,13 +107,14 @@ public class EventManager {
 
     /**
      * Dispatch the given event to its receivers registered in this manager.
+     *
      * @param event Event to dispatch
-     * @param <T> Event type
+     * @param <T>   Event type
      */
     @SuppressWarnings("unchecked")
     public <T extends Event> void dispatchEvent(T event) {
         // Safe cast
-        var receivers = getReceivers((Class<T>)event.getClass());
+        var receivers = getReceivers((Class<T>) event.getClass());
         receivers.lock.readLock().lock();
         EventReceiver<T>[] receiverArr;
         int count;
@@ -133,7 +128,7 @@ public class EventManager {
         List<EventReceiver<T>> unsubscribedReceivers = null;
         try {
             Unsubscribe unsubscribe = new Unsubscribe();
-            for (int i = 0;i < count;i++) {
+            for (int i = 0; i < count; i++) {
                 var receiver = receiverArr[i];
                 receiver.onReceive(event, unsubscribe);
                 if (unsubscribe.isUnsubscribed()) {
@@ -157,25 +152,11 @@ public class EventManager {
         }
     }
 
-    /**
-     * Internal class for saving receivers of each type
-     * @param <T> Event type
-     */
-    private static class Receivers<T extends Event> {
-
-        ReadWriteLock lock = new ReentrantReadWriteLock();
-
-        List<EventReceiver<T>> receivers = new ArrayList<>();
-
-    }
-
-    private final EventReceiver<?>[][] caches = new EventReceiver[10][];
-
     @SuppressWarnings("unchecked")
     private <V extends Event> EventReceiver<V>[] obtainBuffer(int size) {
         EventReceiver<V>[] res = null;
         synchronized (this) {
-            for (int i = 0;i < caches.length;i++) {
+            for (int i = 0; i < caches.length; i++) {
                 if (caches[i] != null && caches[i].length >= size) {
                     res = (EventReceiver<V>[]) caches[i];
                     caches[i] = null;
@@ -193,13 +174,26 @@ public class EventManager {
         if (array == null) {
             return;
         }
-        for (int i = 0;i < caches.length;i++) {
+        for (int i = 0; i < caches.length; i++) {
             if (caches[i] == null) {
                 Arrays.fill(array, null);
                 caches[i] = array;
                 break;
             }
         }
+    }
+
+    /**
+     * Internal class for saving receivers of each type
+     *
+     * @param <T> Event type
+     */
+    private static class Receivers<T extends Event> {
+
+        ReadWriteLock lock = new ReentrantReadWriteLock();
+
+        List<EventReceiver<T>> receivers = new ArrayList<>();
+
     }
 
 }

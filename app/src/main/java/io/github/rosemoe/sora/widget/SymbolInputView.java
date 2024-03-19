@@ -72,7 +72,7 @@ public class SymbolInputView extends LinearLayout {
      * Set text color in the panel
      */
     public void setTextColor(int color) {
-        for (int i = 0;i < getChildCount();i++) {
+        for (int i = 0; i < getChildCount(); i++) {
             ((Button) getChildAt(i)).setTextColor(color);
         }
         textColor = color;
@@ -88,7 +88,7 @@ public class SymbolInputView extends LinearLayout {
     /**
      * Add symbols to the view.
      *
-     * @param display The texts displayed in button
+     * @param display    The texts displayed in button
      * @param insertText The actual text to be inserted to editor when the button is clicked
      */
     public void addSymbols(String[] display, final String[] insertText) {

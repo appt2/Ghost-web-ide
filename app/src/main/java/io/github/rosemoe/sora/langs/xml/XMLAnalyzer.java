@@ -1,7 +1,6 @@
 package io.github.rosemoe.sora.langs.xml;
 
 
-
 import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
 import io.github.rosemoe.sora.langs.xml.analyzer.BasicSyntaxPullAnalyzer;
 import io.github.rosemoe.sora.langs.xml.analyzer.HighLightAnalyzer;

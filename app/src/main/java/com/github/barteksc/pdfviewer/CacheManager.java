@@ -18,6 +18,7 @@ package com.github.barteksc.pdfviewer;
 import android.graphics.RectF;
 import androidx.annotation.Nullable;
 import com.github.barteksc.pdfviewer.model.PagePart;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -42,6 +43,16 @@ class CacheManager {
         activeCache = new PriorityQueue<>(CACHE_SIZE, comparator);
         passiveCache = new PriorityQueue<>(CACHE_SIZE, comparator);
         thumbnails = new ArrayList<>();
+    }
+
+    @Nullable
+    private static PagePart find(PriorityQueue<PagePart> vector, PagePart fakePart) {
+        for (PagePart part : vector) {
+            if (part.equals(fakePart)) {
+                return part;
+            }
+        }
+        return null;
     }
 
     public void cachePart(PagePart part) {
@@ -118,16 +129,6 @@ class CacheManager {
             }
             return false;
         }
-    }
-
-    @Nullable
-    private static PagePart find(PriorityQueue<PagePart> vector, PagePart fakePart) {
-        for (PagePart part : vector) {
-            if (part.equals(fakePart)) {
-                return part;
-            }
-        }
-        return null;
     }
 
     public List<PagePart> getPageParts() {

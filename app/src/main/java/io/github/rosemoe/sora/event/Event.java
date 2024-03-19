@@ -24,10 +24,9 @@
 package io.github.rosemoe.sora.event;
 
 import androidx.annotation.NonNull;
+import io.github.rosemoe.sora.widget.CodeEditor;
 
 import java.util.Objects;
-
-import io.github.rosemoe.sora.widget.CodeEditor;
 
 /**
  * An Event object describes an event of editor. It includes several attributes such as time and the
@@ -37,59 +36,65 @@ import io.github.rosemoe.sora.widget.CodeEditor;
  */
 public abstract class Event {
 
-  private final long mEventTime;
-  private final CodeEditor mEditor;
-  private boolean mIntercepted;
+    private final long mEventTime;
+    private final CodeEditor mEditor;
+    private boolean mIntercepted;
 
-  public Event(@NonNull CodeEditor editor) {
-    this(editor, System.currentTimeMillis());
-  }
-
-  public Event(@NonNull CodeEditor editor, long eventTime) {
-    mEditor = Objects.requireNonNull(editor);
-    mEventTime = eventTime;
-    mIntercepted = false;
-  }
-
-  /** Get event time */
-  public long getEventTime() {
-    return mEventTime;
-  }
-
-  /** Get the editor */
-  @NonNull
-  public CodeEditor getEditor() {
-    return mEditor;
-  }
-
-  /**
-   * Check whether this event can be intercepted (so that the event is not sent to other receivers
-   * after being intercepted) Intercept-able events:
-   *
-   * @see LongPressEvent
-   * @see ClickEvent
-   * @see DoubleClickEvent
-   * @see EditorKeyEvent
-   */
-  public boolean canIntercept() {
-    return false;
-  }
-
-  /**
-   * Intercept the event.
-   *
-   * <p>Make sure {@link #canIntercept()} returns true. Otherwise, an {@link
-   * UnsupportedOperationException} will be thrown.
-   */
-  public void intercept() {
-    if (!canIntercept()) {
-      throw new UnsupportedOperationException("intercept() not supported");
+    public Event(@NonNull CodeEditor editor) {
+        this(editor, System.currentTimeMillis());
     }
-    mIntercepted = true;
-  }
 
-  /** Check whether this event is intercepted */
-  public boolean isIntercepted() {
-    return mIntercepted;
-  }
+    public Event(@NonNull CodeEditor editor, long eventTime) {
+        mEditor = Objects.requireNonNull(editor);
+        mEventTime = eventTime;
+        mIntercepted = false;
+    }
+
+    /**
+     * Get event time
+     */
+    public long getEventTime() {
+        return mEventTime;
+    }
+
+    /**
+     * Get the editor
+     */
+    @NonNull
+    public CodeEditor getEditor() {
+        return mEditor;
+    }
+
+    /**
+     * Check whether this event can be intercepted (so that the event is not sent to other receivers
+     * after being intercepted) Intercept-able events:
+     *
+     * @see LongPressEvent
+     * @see ClickEvent
+     * @see DoubleClickEvent
+     * @see EditorKeyEvent
+     */
+    public boolean canIntercept() {
+        return false;
+    }
+
+    /**
+     * Intercept the event.
+     *
+     * <p>Make sure {@link #canIntercept()} returns true. Otherwise, an {@link
+     * UnsupportedOperationException} will be thrown.
+     */
+    public void intercept() {
+        if (!canIntercept()) {
+            throw new UnsupportedOperationException("intercept() not supported");
+        }
+        mIntercepted = true;
+    }
+
+    /**
+     * Check whether this event is intercepted
+     */
+    public boolean isIntercepted() {
+        return mIntercepted;
+    }
 }

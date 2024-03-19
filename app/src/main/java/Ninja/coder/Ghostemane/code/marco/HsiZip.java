@@ -1,25 +1,26 @@
 package Ninja.coder.Ghostemane.code.marco;
 
-import Ninja.coder.Ghostemane.code.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.tasks.AsyncTaskCompat;
 import Ninja.coder.Ghostemane.code.tasks.app.ProgressDialogCompat;
-import android.app.ProgressDialog;
+import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.content.Context;
-import android.graphics.Color;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
+
 import java.io.*;
-import java.util.zip.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class HsiZip extends AsyncTaskCompat<String, Object, Boolean> {
 
     private Context context;
     private ProgressDialogCompat progressDialog;
-	private String destDirectory ="";
+    private String destDirectory = "";
 
     public HsiZip(Context context) {
         this.context = context;
@@ -28,16 +29,16 @@ public class HsiZip extends AsyncTaskCompat<String, Object, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-		MaterialShapeDrawable shap = new MaterialShapeDrawable(ShapeAppearanceModel.builder().setAllCorners(CornerFamily.CUT,19f).build()
-		);
-		shap.setFillColor(ColorStateList.valueOf(MaterialColors.getColor(context,ColorAndroid12.Back,Color.BLACK)));
-		shap.setStroke(1f,MaterialColors.getColor(context,ColorAndroid12.TvColor,Color.RED));
+        MaterialShapeDrawable shap = new MaterialShapeDrawable(ShapeAppearanceModel.builder().setAllCorners(CornerFamily.CUT, 19f).build()
+        );
+        shap.setFillColor(ColorStateList.valueOf(MaterialColors.getColor(context, ColorAndroid12.Back, Color.BLACK)));
+        shap.setStroke(1f, MaterialColors.getColor(context, ColorAndroid12.TvColor, Color.RED));
         progressDialog = new ProgressDialogCompat(context);
         progressDialog.setTitle("در حال استخراج فایل");
         progressDialog.setMessage("لطفاً منتظر بمانید...");
         progressDialog.setIndeterminate(false);
         progressDialog.setMax(100);
-		progressDialog.getWindow().getDecorView().setBackground(shap);
+        progressDialog.getWindow().getDecorView().setBackground(shap);
         progressDialog.setProgressStyle(ProgressDialogCompat.STYLE_HORIZONTAL);
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -46,7 +47,7 @@ public class HsiZip extends AsyncTaskCompat<String, Object, Boolean> {
     @Override
     protected Boolean doInBackground(String... params) {
         String zipFilePath = params[0];
-         destDirectory = params[1];
+        destDirectory = params[1];
 
         // ساخت شیء ZipInputStream
         ZipInputStream zipIn = null;
@@ -105,18 +106,18 @@ public class HsiZip extends AsyncTaskCompat<String, Object, Boolean> {
         progressDialog.dismiss();
         if (result) {
             // نمایش پیغام موفقیت
-			Dialoginit("Done","saved for " +destDirectory.toLowerCase().trim());
+            Dialoginit("Done", "saved for " + destDirectory.toLowerCase().trim());
         } else {
             // نمایش پیغام خطا
-			Dialoginit("Error" ,"");
-			
+            Dialoginit("Error", "");
+
         }
     }
-	
 
-	private void Dialoginit(CharSequence title, CharSequence msg) {
-		new MaterialAlertDialogBuilder(context).setTitle(title).setMessage(msg)
-				.setPositiveButton("ok", null).show();
-	}
-	
+
+    private void Dialoginit(CharSequence title, CharSequence msg) {
+        new MaterialAlertDialogBuilder(context).setTitle(title).setMessage(msg)
+                .setPositiveButton("ok", null).show();
+    }
+
 }

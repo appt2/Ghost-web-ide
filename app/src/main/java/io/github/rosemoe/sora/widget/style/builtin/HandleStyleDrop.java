@@ -54,8 +54,8 @@ public class HandleStyleDrop implements SelectionHandleStyle {
             lastColor = color;
             drawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
         }
-        var cx = (int)x;
-        var ty = (int)y;
+        var cx = (int) x;
+        var ty = (int) y;
         drawable.setBounds(cx - width / 2, ty, cx + width / 2, ty + height);
         drawable.draw(canvas);
         descriptor.set(cx - width / 2, ty, cx + width / 2, ty + height, ALIGN_CENTER);

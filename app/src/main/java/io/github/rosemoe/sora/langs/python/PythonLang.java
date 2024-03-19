@@ -10,6 +10,8 @@ import io.github.rosemoe.sora.widget.SymbolPairMatch;
 
 public class PythonLang implements EditorLanguage {
 
+    private NewlineHandler[] newlineHandlers = new NewlineHandler[]{new ColonHandler()};
+
     @Override
     public boolean useTab() {
         return true;
@@ -24,8 +26,6 @@ public class PythonLang implements EditorLanguage {
     public SymbolPairMatch getSymbolPairs() {
         return new SymbolPairMatch.DefaultSymbolPairs();
     }
-
-    private NewlineHandler[] newlineHandlers = new NewlineHandler[] {new ColonHandler()};
 
     @Override
     public NewlineHandler[] getNewlineHandlers() {

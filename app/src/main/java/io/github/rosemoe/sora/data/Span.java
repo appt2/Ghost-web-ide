@@ -24,45 +24,44 @@
 package io.github.rosemoe.sora.data;
 
 import androidx.annotation.NonNull;
+import io.github.rosemoe.sora.interfaces.ExternalRenderer;
+import io.github.rosemoe.sora.text.TextStyle;
+import io.github.rosemoe.sora.widget.EditorColorScheme;
 
 import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import io.github.rosemoe.sora.interfaces.ExternalRenderer;
-import io.github.rosemoe.sora.text.TextStyle;
-import io.github.rosemoe.sora.widget.EditorColorScheme;
-
 /**
  * The span model
  *
  * @author Rose
  */
- 
+
 public class Span {
 
     /**
      * Flag for {@link Span#problemFlags}.
-     *
+     * <p>
      * Indicates this span is in ERROR region
      */
     public static final int FLAG_ERROR = 1 << 3;
     /**
      * Flag for {@link Span#problemFlags}.
-     *
+     * <p>
      * Indicates this span is in WARNING region
      */
     public static final int FLAG_WARNING = 1 << 2;
     /**
      * Flag for {@link Span#problemFlags}.
-     *
+     * <p>
      * Indicates this span is in TYPO region
      */
     public static final int FLAG_TYPO = 1 << 1;
     /**
      * Flag for {@link Span#problemFlags}.
-     *
+     * <p>
      * Indicates this span is in DEPRECATED region
      */
     public static final int FLAG_DEPRECATED = 1;
@@ -88,8 +87,8 @@ public class Span {
     /**
      * Create a new span
      *
-     * @param column  Start column of span
-     * @param style Style made from {@link io.github.rosemoe.sora.text.TextStyle}
+     * @param column Start column of span
+     * @param style  Style made from {@link io.github.rosemoe.sora.text.TextStyle}
      * @see Span#obtain(int, long)
      */
     private Span(int column, long style) {

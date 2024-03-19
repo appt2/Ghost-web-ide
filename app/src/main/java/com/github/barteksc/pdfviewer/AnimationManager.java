@@ -84,7 +84,7 @@ class AnimationManager {
         if (scroller.computeScrollOffset()) {
             pdfView.moveTo(scroller.getCurrX(), scroller.getCurrY());
             pdfView.loadPageByOffset();
-        } else if(flinging) { // fling finished
+        } else if (flinging) { // fling finished
             flinging = false;
             pdfView.loadPages();
             hideHandle();
@@ -102,6 +102,12 @@ class AnimationManager {
     public void stopFling() {
         flinging = false;
         scroller.forceFinished(true);
+    }
+
+    private void hideHandle() {
+        if (pdfView.getScrollHandle() != null) {
+            pdfView.getScrollHandle().hideDelayed();
+        }
     }
 
     class XAnimation implements AnimatorUpdateListener {
@@ -158,12 +164,6 @@ class AnimationManager {
         public void onAnimationStart(Animator animation) {
         }
 
-    }
-
-    private void hideHandle() {
-        if (pdfView.getScrollHandle() != null) {
-            pdfView.getScrollHandle().hideDelayed();
-        }
     }
 
 }

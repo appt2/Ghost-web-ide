@@ -8,43 +8,43 @@ import io.github.rosemoe.sora.widget.SymbolPairMatch;
 
 public class LogLang implements EditorLanguage {
 
-  @Override
-  public CharSequence format(CharSequence text) {
-    return text;
-  }
+    @Override
+    public CharSequence format(CharSequence text) {
+        return text;
+    }
 
-  @Override
-  public CodeAnalyzer getAnalyzer() {
-    return new LogAnalyzer();
-  }
+    @Override
+    public CodeAnalyzer getAnalyzer() {
+        return new LogAnalyzer();
+    }
 
-  @Override
-  public AutoCompleteProvider getAutoCompleteProvider() {
-    return null;
-  }
+    @Override
+    public AutoCompleteProvider getAutoCompleteProvider() {
+        return null;
+    }
 
-  @Override
-  public int getIndentAdvance(String content) {
-    return 0;
-  }
+    @Override
+    public int getIndentAdvance(String content) {
+        return 0;
+    }
 
-  @Override
-  public NewlineHandler[] getNewlineHandlers() {
-    return null;
-  }
+    @Override
+    public NewlineHandler[] getNewlineHandlers() {
+        return null;
+    }
 
-  @Override
-  public SymbolPairMatch getSymbolPairs() {
-    return null;
-  }
+    @Override
+    public SymbolPairMatch getSymbolPairs() {
+        return null;
+    }
 
-  @Override
-  public boolean isAutoCompleteChar(char ch) {
-    return false;
-  }
+    @Override
+    public boolean isAutoCompleteChar(char ch) {
+        return false;
+    }
 
-  @Override
-  public boolean useTab() {
-    return false;
-  }
+    @Override
+    public boolean useTab() {
+        return false;
+    }
 }

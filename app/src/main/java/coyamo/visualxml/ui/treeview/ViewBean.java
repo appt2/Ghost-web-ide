@@ -51,10 +51,12 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import Ninja.coder.Ghostemane.code.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import coyamo.visualxml.lib.parser.ReadOnlyParser;
 import coyamo.visualxml.lib.proxy.ProxyResources;
 import coyamo.visualxml.lib.proxy.ViewCreator;

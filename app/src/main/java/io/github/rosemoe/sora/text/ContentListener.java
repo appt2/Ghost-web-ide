@@ -69,7 +69,7 @@ public interface ContentListener {
      * Internal API
      */
     default void beforeModification(Content content) {
-        
+
     }
 
 }

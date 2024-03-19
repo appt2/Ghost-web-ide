@@ -8,23 +8,23 @@ import io.github.rosemoe.sora.langs.internal.TrieTree;
  */
 public class PythonTextTokenizer {
 
+    public static String[] CodeSppined = {
+            "forEach", "Time", "Json", "PrintUser", "forIn", "forInRange"
+    };
+    protected static String[] sKeywords;
     private static TrieTree<Tokens> keywords;
 
     static {
         doStaticInit();
     }
 
-    public static TrieTree<Tokens> getTree() {
-        return keywords;
-    }
-
-    private CharSequence source;
     protected int bufferLen;
+    protected int offset;
+    protected int length;
+    private CharSequence source;
     private int line;
     private int column;
     private int index;
-    protected int offset;
-    protected int length;
     private Tokens currToken;
     private boolean lcCal;
     private boolean skipWS;
@@ -36,6 +36,110 @@ public class PythonTextTokenizer {
         }
         this.source = src;
         init();
+    }
+
+    public static TrieTree<Tokens> getTree() {
+        return keywords;
+    }
+
+    protected static void doStaticInit() {
+        sKeywords =
+                new String[]{
+                        "def",
+                        "return",
+                        "raise",
+                        "from",
+                        "import",
+                        "nonlocal",
+                        "as",
+                        "global",
+                        "assert",
+                        "if",
+                        "elif",
+                        "else",
+                        "while",
+                        "for",
+                        "in",
+                        "try",
+                        "none",
+                        "finally",
+                        "with",
+                        "except",
+                        "lambda",
+                        "or",
+                        "and",
+                        "not",
+                        "is",
+                        "class",
+                        "yield",
+                        "del",
+                        "pass",
+                        "continue",
+                        "break",
+                        "async",
+                        "await",
+                        "print",
+                        "exec",
+                        "true",
+                        "false"
+                };
+
+        Tokens[] sTokens =
+                new Tokens[]{
+                        Tokens.DEF,
+                        Tokens.RETURN,
+                        Tokens.RAISE,
+                        Tokens.FROM,
+                        Tokens.IMPORT,
+                        Tokens.NONLOCAL,
+                        Tokens.AS,
+                        Tokens.GLOBAL,
+                        Tokens.ASSERT,
+                        Tokens.IF,
+                        Tokens.ELIF,
+                        Tokens.ELSE,
+                        Tokens.WHILE,
+                        Tokens.FOR,
+                        Tokens.IN,
+                        Tokens.TRY,
+                        Tokens.NONE,
+                        Tokens.FINALLY,
+                        Tokens.WITH,
+                        Tokens.EXCEPT,
+                        Tokens.LAMBDA,
+                        Tokens.OR,
+                        Tokens.AND,
+                        Tokens.NOT,
+                        Tokens.IS,
+                        Tokens.CLASS,
+                        Tokens.YIELD,
+                        Tokens.DEL,
+                        Tokens.PASS,
+                        Tokens.CONTINUE,
+                        Tokens.BREAK,
+                        Tokens.ASYNC,
+                        Tokens.AWAIT,
+                        Tokens.PRINT,
+                        Tokens.EXEC,
+                        Tokens.TRUE,
+                        Tokens.FALSE
+                };
+        keywords = new TrieTree<>();
+        for (int i = 0; i < sKeywords.length; i++) {
+            keywords.put(sKeywords[i], sTokens[i]);
+        }
+    }
+
+    protected static boolean isDigit(char c) {
+        return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'));
+    }
+
+    protected static boolean isPrimeDigit(char c) {
+        return (c >= '0' && c <= '9');
+    }
+
+    protected static boolean isWhitespace(char c) {
+        return (c == '\t' || c == ' ' || c == '\f' || c == '\n' || c == '\r');
     }
 
     private void init() {
@@ -249,6 +353,8 @@ public class PythonTextTokenizer {
         }
     }
 
+    /* The following methods have been simplified for syntax high light */
+
     protected void scanNewline() {
         if (offset + length < bufferLen && charAt(offset + length) == '\n') {
             length++;
@@ -396,8 +502,6 @@ public class PythonTextTokenizer {
         }
     }
 
-    /* The following methods have been simplified for syntax high light */
-
     protected Tokens scanDIV() {
         if (offset + 1 == bufferLen) {
             return Tokens.DIV;
@@ -453,111 +557,5 @@ public class PythonTextTokenizer {
         offset = 0;
         currToken = Tokens.WHITESPACE;
         bufferLen = src.length();
-    }
-
-    protected static String[] sKeywords;
-
-    protected static void doStaticInit() {
-        sKeywords =
-                new String[] {
-                    "def",
-                    "return",
-                    "raise",
-                    "from",
-                    "import",
-                    "nonlocal",
-                    "as",
-                    "global",
-                    "assert",
-                    "if",
-                    "elif",
-                    "else",
-                    "while",
-                    "for",
-                    "in",
-                    "try",
-                    "none",
-                    "finally",
-                    "with",
-                    "except",
-                    "lambda",
-                    "or",
-                    "and",
-                    "not",
-                    "is",
-                    "class",
-                    "yield",
-                    "del",
-                    "pass",
-                    "continue",
-                    "break",
-                    "async",
-                    "await",
-                    "print",
-                    "exec",
-                    "true",
-                    "false"
-                };
-
-        Tokens[] sTokens =
-                new Tokens[] {
-                    Tokens.DEF,
-                    Tokens.RETURN,
-                    Tokens.RAISE,
-                    Tokens.FROM,
-                    Tokens.IMPORT,
-                    Tokens.NONLOCAL,
-                    Tokens.AS,
-                    Tokens.GLOBAL,
-                    Tokens.ASSERT,
-                    Tokens.IF,
-                    Tokens.ELIF,
-                    Tokens.ELSE,
-                    Tokens.WHILE,
-                    Tokens.FOR,
-                    Tokens.IN,
-                    Tokens.TRY,
-                    Tokens.NONE,
-                    Tokens.FINALLY,
-                    Tokens.WITH,
-                    Tokens.EXCEPT,
-                    Tokens.LAMBDA,
-                    Tokens.OR,
-                    Tokens.AND,
-                    Tokens.NOT,
-                    Tokens.IS,
-                    Tokens.CLASS,
-                    Tokens.YIELD,
-                    Tokens.DEL,
-                    Tokens.PASS,
-                    Tokens.CONTINUE,
-                    Tokens.BREAK,
-                    Tokens.ASYNC,
-                    Tokens.AWAIT,
-                    Tokens.PRINT,
-                    Tokens.EXEC,
-                    Tokens.TRUE,
-                    Tokens.FALSE
-                };
-        keywords = new TrieTree<>();
-        for (int i = 0; i < sKeywords.length; i++) {
-            keywords.put(sKeywords[i], sTokens[i]);
-        }
-    }
-
-    public static String[] CodeSppined = {
-        "forEach", "Time", "Json", "PrintUser", "forIn", "forInRange"
-    };
-
-    protected static boolean isDigit(char c) {
-        return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'));
-    }
-
-    protected static boolean isPrimeDigit(char c) {
-        return (c >= '0' && c <= '9');
-    }
-
-    protected static boolean isWhitespace(char c) {
-        return (c == '\t' || c == ' ' || c == '\f' || c == '\n' || c == '\r');
     }
 }

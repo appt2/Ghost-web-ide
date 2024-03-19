@@ -55,6 +55,14 @@ public class ProxyResources {
         return instance;
     }
 
+    public static String parseReferName(String reference) {
+        return parseReferName(reference, "/");
+    }
+
+    public static String parseReferName(String reference, String sep) {
+        return reference.substring(reference.indexOf(sep) + 1);
+    }
+
     public Map<String, String> getDrawableMap() {
         return drawableMap;
     }
@@ -77,6 +85,12 @@ public class ProxyResources {
         colorMap.clear();
         stringMap.clear();
     }
+	/*
+	 If true, resource references will be walked; if
+	 false, <var>outValue</var> may be a
+	 TYPE_REFERENCE.  In either case, it will never
+	 be a TYPE_ATTRIBUTE.
+	 */
 
     public void putString(String name, String text) {
         stringMap.put(name, text);
@@ -98,12 +112,6 @@ public class ProxyResources {
         }
         return reference;
     }
-	/*
-	 If true, resource references will be walked; if
-	 false, <var>outValue</var> may be a
-	 TYPE_REFERENCE.  In either case, it will never
-	 be a TYPE_ATTRIBUTE.
-	 */
 
     //不太清楚具体
     //获取套娃引用的最终值
@@ -118,7 +126,6 @@ public class ProxyResources {
         debug.logE("getRes err：" + attr);
         return -1;
     }
-
 
     public int getStyle(String style) {
         if (style.startsWith("@android:style/")) {
@@ -171,7 +178,6 @@ public class ProxyResources {
     public View findViewById(String id) {
         return findViewById((Activity) ctx, id);
     }
-
 
     public Drawable getDrawable(String reference) {
         //颜色
@@ -227,14 +233,6 @@ public class ProxyResources {
         }
         debug.logE("找不到 Color ：" + reference);
         return Color.TRANSPARENT;
-    }
-
-    public static String parseReferName(String reference) {
-        return parseReferName(reference, "/");
-    }
-
-    public static String parseReferName(String reference, String sep) {
-        return reference.substring(reference.indexOf(sep) + 1);
     }
 
     //图片的路径 只支持普通图片

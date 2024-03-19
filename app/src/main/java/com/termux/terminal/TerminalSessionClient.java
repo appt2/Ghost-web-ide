@@ -24,9 +24,7 @@ public interface TerminalSessionClient {
     void onTerminalCursorStateChange(boolean state);
 
 
-
     Integer getTerminalCursorStyle();
-
 
 
     void logError(String tag, String message);

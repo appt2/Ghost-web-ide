@@ -48,161 +48,161 @@ import io.github.rosemoe.sora.widget.SymbolPairMatch;
  */
 public class UniversalLanguage implements EditorLanguage, CodeAnalyzer {
 
-  private final LanguageDescription mLanguage;
-  private final UniversalTokenizer tokenizer;
-  private final UniversalTokenizer tokenizer2;
+    private final LanguageDescription mLanguage;
+    private final UniversalTokenizer tokenizer;
+    private final UniversalTokenizer tokenizer2;
 
-  public UniversalLanguage(LanguageDescription languageDescription) {
-    mLanguage = languageDescription;
-    tokenizer = new UniversalTokenizer(mLanguage);
-    tokenizer2 = new UniversalTokenizer(mLanguage);
-  }
-
-  @Override
-  public CodeAnalyzer getAnalyzer() {
-    return this;
-  }
-
-  @Override
-  public AutoCompleteProvider getAutoCompleteProvider() {
-    IdentifierAutoComplete autoComplete = new IdentifierAutoComplete();
-    autoComplete.setKeywords(mLanguage.getKeywords());
-    return autoComplete;
-  }
-
-  @Override
-  public boolean isAutoCompleteChar(char ch) {
-    return MyCharacter.isJavaIdentifierPart(ch);
-  }
-
-  @Override
-  public int getIndentAdvance(String content) {
-    int advance = 0;
-    try {
-      tokenizer2.setInput(content);
-      UniversalTokens token;
-      while ((token = tokenizer2.nextToken()) != EOF) {
-        if (token == UniversalTokens.OPERATOR) {
-          advance += mLanguage.getOperatorAdvance(tokenizer.getTokenString().toString());
-        }
-      }
-    } catch (Exception e) {
-      advance = 0;
+    public UniversalLanguage(LanguageDescription languageDescription) {
+        mLanguage = languageDescription;
+        tokenizer = new UniversalTokenizer(mLanguage);
+        tokenizer2 = new UniversalTokenizer(mLanguage);
     }
-    return Math.max(4, advance);
-  }
 
-  @Override
-  public boolean useTab() {
-    return mLanguage.useTab();
-  }
+    @Override
+    public CodeAnalyzer getAnalyzer() {
+        return this;
+    }
 
-  @Override
-  public CharSequence format(CharSequence text) {
-    return text;
-  }
+    @Override
+    public AutoCompleteProvider getAutoCompleteProvider() {
+        IdentifierAutoComplete autoComplete = new IdentifierAutoComplete();
+        autoComplete.setKeywords(mLanguage.getKeywords());
+        return autoComplete;
+    }
 
-  @Override
-  public void analyze(
-      CharSequence content,
-      TextAnalyzeResult result,
-      TextAnalyzer.AnalyzeThread.Delegate delegate) {
-    StringBuilder text =
-        content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
-    tokenizer.setInput(text);
-    LineNumberCalculator helper = new LineNumberCalculator(text);
-    IdentifierAutoComplete autoComplete = new IdentifierAutoComplete();
-    autoComplete.setKeywords(mLanguage.getKeywords());
-    IdentifierAutoComplete.Identifiers identifiers = new IdentifierAutoComplete.Identifiers();
-    identifiers.begin();
-    int maxSwitch = 0;
-    int layer = 0;
-    int currSwitch = 0;
-    try {
-      UniversalTokens token;
-      Stack<BlockLine> stack = new Stack<>();
-      while ((token = tokenizer.nextToken()) != EOF) {
-        int index = tokenizer.getOffset();
-        int line = helper.getLine();
-        int column = helper.getColumn();
-        switch (token) {
-          case KEYWORD:
-            result.addIfNeeded(line, column, EditorColorScheme.Ninja);
-            break;
-          case IDENTIFIER:
-            identifiers.addIdentifier(text.substring(index, index + tokenizer.getTokenLength()));
-            result.addIfNeeded(line, column, EditorColorScheme.HTML_TAG);
-            break;
-          case LITERAL:
-            result.addIfNeeded(line, column, EditorColorScheme.print);
-            break;
-          case LINE_COMMENT:
-            result.addIfNeeded(line, column, EditorColorScheme.COMMENT);
-            break;
-          case LONG_COMMENT:
-            result.addIfNeeded(line, column, EditorColorScheme.COMMENT);
-            break;
-          case OPERATOR:
-            result.addIfNeeded(line, column, EditorColorScheme.IDENTIFIER_NAME);
-            if (mLanguage.isSupportBlockLine()) {
-              String op = text.substring(index, index + tokenizer.getTokenLength());
-              if (mLanguage.isBlockStart(op)) {
-                BlockLine blockLine = result.obtainNewBlock();
-                blockLine.startLine = line;
-                blockLine.startColumn = column;
-                stack.add(blockLine);
-                if (layer == 0) {
-                  currSwitch = 1;
-                } else {
-                  currSwitch++;
+    @Override
+    public boolean isAutoCompleteChar(char ch) {
+        return MyCharacter.isJavaIdentifierPart(ch);
+    }
+
+    @Override
+    public int getIndentAdvance(String content) {
+        int advance = 0;
+        try {
+            tokenizer2.setInput(content);
+            UniversalTokens token;
+            while ((token = tokenizer2.nextToken()) != EOF) {
+                if (token == UniversalTokens.OPERATOR) {
+                    advance += mLanguage.getOperatorAdvance(tokenizer.getTokenString().toString());
                 }
-                layer++;
-              } else if (mLanguage.isBlockEnd(op)) {
-                if (!stack.isEmpty()) {
-                  BlockLine blockLine = stack.pop();
-                  blockLine.endLine = line;
-                  blockLine.endColumn = column;
-                  result.addBlockLine(blockLine);
-                  if (layer == 1) {
-                    if (currSwitch > maxSwitch) {
-                      maxSwitch = currSwitch;
-                    }
-                  }
-                  layer--;
-                }
-              }
             }
-            break;
-          case WHITESPACE:
-          case NEWLINE:
-            result.addNormalIfNull();
-            break;
-          case UNKNOWN:
-            result.addIfNeeded(line, column, EditorColorScheme.IDENTIFIER_NAME);
-            break;
+        } catch (Exception e) {
+            advance = 0;
         }
-        helper.update(tokenizer.getTokenLength());
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+        return Math.max(4, advance);
     }
-    result.determine(helper.getLine());
-    identifiers.finish();
-    result.setExtra(identifiers);
-    tokenizer.setInput(null);
-    if (currSwitch > maxSwitch) {
-      maxSwitch = currSwitch;
+
+    @Override
+    public boolean useTab() {
+        return mLanguage.useTab();
     }
-    result.setSuppressSwitch(maxSwitch + 50);
-  }
 
-  @Override
-  public SymbolPairMatch getSymbolPairs() {
-    return new SymbolPairMatch.DefaultSymbolPairs();
-  }
+    @Override
+    public CharSequence format(CharSequence text) {
+        return text;
+    }
 
-  @Override
-  public NewlineHandler[] getNewlineHandlers() {
-    return new NewlineHandler[0];
-  }
+    @Override
+    public void analyze(
+            CharSequence content,
+            TextAnalyzeResult result,
+            TextAnalyzer.AnalyzeThread.Delegate delegate) {
+        StringBuilder text =
+                content instanceof StringBuilder ? (StringBuilder) content : new StringBuilder(content);
+        tokenizer.setInput(text);
+        LineNumberCalculator helper = new LineNumberCalculator(text);
+        IdentifierAutoComplete autoComplete = new IdentifierAutoComplete();
+        autoComplete.setKeywords(mLanguage.getKeywords());
+        IdentifierAutoComplete.Identifiers identifiers = new IdentifierAutoComplete.Identifiers();
+        identifiers.begin();
+        int maxSwitch = 0;
+        int layer = 0;
+        int currSwitch = 0;
+        try {
+            UniversalTokens token;
+            Stack<BlockLine> stack = new Stack<>();
+            while ((token = tokenizer.nextToken()) != EOF) {
+                int index = tokenizer.getOffset();
+                int line = helper.getLine();
+                int column = helper.getColumn();
+                switch (token) {
+                    case KEYWORD:
+                        result.addIfNeeded(line, column, EditorColorScheme.Ninja);
+                        break;
+                    case IDENTIFIER:
+                        identifiers.addIdentifier(text.substring(index, index + tokenizer.getTokenLength()));
+                        result.addIfNeeded(line, column, EditorColorScheme.HTML_TAG);
+                        break;
+                    case LITERAL:
+                        result.addIfNeeded(line, column, EditorColorScheme.print);
+                        break;
+                    case LINE_COMMENT:
+                        result.addIfNeeded(line, column, EditorColorScheme.COMMENT);
+                        break;
+                    case LONG_COMMENT:
+                        result.addIfNeeded(line, column, EditorColorScheme.COMMENT);
+                        break;
+                    case OPERATOR:
+                        result.addIfNeeded(line, column, EditorColorScheme.IDENTIFIER_NAME);
+                        if (mLanguage.isSupportBlockLine()) {
+                            String op = text.substring(index, index + tokenizer.getTokenLength());
+                            if (mLanguage.isBlockStart(op)) {
+                                BlockLine blockLine = result.obtainNewBlock();
+                                blockLine.startLine = line;
+                                blockLine.startColumn = column;
+                                stack.add(blockLine);
+                                if (layer == 0) {
+                                    currSwitch = 1;
+                                } else {
+                                    currSwitch++;
+                                }
+                                layer++;
+                            } else if (mLanguage.isBlockEnd(op)) {
+                                if (!stack.isEmpty()) {
+                                    BlockLine blockLine = stack.pop();
+                                    blockLine.endLine = line;
+                                    blockLine.endColumn = column;
+                                    result.addBlockLine(blockLine);
+                                    if (layer == 1) {
+                                        if (currSwitch > maxSwitch) {
+                                            maxSwitch = currSwitch;
+                                        }
+                                    }
+                                    layer--;
+                                }
+                            }
+                        }
+                        break;
+                    case WHITESPACE:
+                    case NEWLINE:
+                        result.addNormalIfNull();
+                        break;
+                    case UNKNOWN:
+                        result.addIfNeeded(line, column, EditorColorScheme.IDENTIFIER_NAME);
+                        break;
+                }
+                helper.update(tokenizer.getTokenLength());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        result.determine(helper.getLine());
+        identifiers.finish();
+        result.setExtra(identifiers);
+        tokenizer.setInput(null);
+        if (currSwitch > maxSwitch) {
+            maxSwitch = currSwitch;
+        }
+        result.setSuppressSwitch(maxSwitch + 50);
+    }
+
+    @Override
+    public SymbolPairMatch getSymbolPairs() {
+        return new SymbolPairMatch.DefaultSymbolPairs();
+    }
+
+    @Override
+    public NewlineHandler[] getNewlineHandlers() {
+        return new NewlineHandler[0];
+    }
 }

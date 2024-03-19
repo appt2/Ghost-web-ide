@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import coyamo.visualxml.lib.utils.MessageArray;
 import coyamo.visualxml.lib.utils.XmlMessage;
 

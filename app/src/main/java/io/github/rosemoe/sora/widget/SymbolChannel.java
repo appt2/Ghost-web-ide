@@ -27,6 +27,7 @@ import io.github.rosemoe.sora.text.Cursor;
 
 /**
  * A channel to insert symbols in {@link CodeEditor}
+ *
  * @author Rosemoe
  */
 public class SymbolChannel {
@@ -43,10 +44,10 @@ public class SymbolChannel {
      * This method allows you to insert texts externally to the content of editor.
      * The content of {@param symbolText} is not checked to be exactly characters of symbols.
      *
-     * @throws IllegalArgumentException If the {@param selectionRegion} is invalid
-     * @param symbolText Text to insert, usually a text of symbols
+     * @param symbolText      Text to insert, usually a text of symbols
      * @param selectionOffset New selection position relative to the start of text to insert.
      *                        Ranging from 0 to symbolText.length()
+     * @throws IllegalArgumentException If the {@param selectionRegion} is invalid
      */
     public void insertSymbol(String symbolText, int selectionOffset) {
         if (selectionOffset < 0 || selectionOffset > symbolText.length()) {

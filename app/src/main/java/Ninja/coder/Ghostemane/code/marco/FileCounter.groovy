@@ -1,13 +1,13 @@
 package Ninja.coder.Ghostemane.code.marco
 
 import Ninja.coder.Ghostemane.code.tasks.AsyncTaskCompat
-import android.os.*
-import android.widget.*
-import android.view.*
-import java.io.IOException
-import java.nio.file.*
-import java.util.*
-import java.util.stream.*
+import android.view.View
+import android.widget.TextView
+
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.util.stream.Collectors
 
 class FileCounter extends AsyncTaskCompat<String, Void, String> {
     private TextView textView

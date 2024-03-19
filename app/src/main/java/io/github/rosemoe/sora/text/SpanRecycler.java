@@ -24,18 +24,18 @@
 package io.github.rosemoe.sora.text;
 
 import android.util.Log;
+import io.github.rosemoe.sora.data.Span;
 
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-
-import io.github.rosemoe.sora.data.Span;
 
 public class SpanRecycler {
 
     private static SpanRecycler INSTANCE;
     private final BlockingQueue<List<List<Span>>> taskQueue;
     private Thread recycleThread;
+
     private SpanRecycler() {
         taskQueue = new ArrayBlockingQueue<>(8);
     }

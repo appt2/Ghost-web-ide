@@ -10,10 +10,6 @@ public class FormatJsonTask extends AsyncTask<Void, Void, String> {
     private ProgressBar progressBar;
     private OnJsonFormattedListener listener;
 
-    public interface OnJsonFormattedListener {
-        void onJsonFormatted(String formattedJson);
-    }
-
     public FormatJsonTask(ProgressBar progressBar, String code, OnJsonFormattedListener listener) {
         this.progressBar = progressBar;
         this.code = code;
@@ -44,5 +40,9 @@ public class FormatJsonTask extends AsyncTask<Void, Void, String> {
     private String formatJson(String code) {
 
         return code;
+    }
+
+    public interface OnJsonFormattedListener {
+        void onJsonFormatted(String formattedJson);
     }
 }

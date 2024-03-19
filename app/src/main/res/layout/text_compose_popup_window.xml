@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="match_parent"
-     android:layout_width="wrap_content"
-     android:orientation="vertical">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:orientation="vertical">
 
     <LinearLayout
-         android:layout_height="match_parent"
-         android:layout_width="wrap_content"
-         android:orientation="vertical"
-         android:id="@+id/linear1">
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linear1">
 
         <ListView
-             android:layout_height="match_parent"
-             android:layout_width="wrap_content"
-             android:padding="8dp"
-             android:layout_weight="1"
-             android:id="@+id/rvEditor">
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:padding="8dp"
+                android:layout_weight="1"
+                android:id="@+id/rvEditor">
 
         </ListView>
 

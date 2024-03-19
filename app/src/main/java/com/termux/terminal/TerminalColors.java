@@ -1,9 +1,13 @@
 package com.termux.terminal;
 
-/** Current terminal colors (if different from default). */
+/**
+ * Current terminal colors (if different from default).
+ */
 public final class TerminalColors {
 
-    /** Static data - a bit ugly but ok for now. */
+    /**
+     * Static data - a bit ugly but ok for now.
+     */
     public static final TerminalColorScheme COLOR_SCHEME = new TerminalColorScheme();
 
     /**
@@ -12,19 +16,11 @@ public final class TerminalColors {
      */
     public final int[] mCurrentColors = new int[TextStyle.NUM_INDEXED_COLORS];
 
-    /** Create a new instance with default colors from the theme. */
+    /**
+     * Create a new instance with default colors from the theme.
+     */
     public TerminalColors() {
         reset();
-    }
-
-    /** Reset a particular indexed color with the default color from the color theme. */
-    public void reset(int index) {
-        mCurrentColors[index] = COLOR_SCHEME.mDefaultColors[index];
-    }
-
-    /** Reset all indexed colors with the default color from the color theme. */
-    public void reset() {
-        System.arraycopy(COLOR_SCHEME.mDefaultColors, 0, mCurrentColors, 0, TextStyle.NUM_INDEXED_COLORS);
     }
 
     /**
@@ -67,7 +63,23 @@ public final class TerminalColors {
         }
     }
 
-    /** Try parse a color from a text parameter and into a specified index. */
+    /**
+     * Reset a particular indexed color with the default color from the color theme.
+     */
+    public void reset(int index) {
+        mCurrentColors[index] = COLOR_SCHEME.mDefaultColors[index];
+    }
+
+    /**
+     * Reset all indexed colors with the default color from the color theme.
+     */
+    public void reset() {
+        System.arraycopy(COLOR_SCHEME.mDefaultColors, 0, mCurrentColors, 0, TextStyle.NUM_INDEXED_COLORS);
+    }
+
+    /**
+     * Try parse a color from a text parameter and into a specified index.
+     */
     public void tryParseColor(int intoIndex, String textParameter) {
         int c = parse(textParameter);
         if (c != 0) mCurrentColors[intoIndex] = c;

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.zip.CRC32;
+
 import com.logger.Logger;
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +14,11 @@ import android.os.AsyncTask;
 
 public class DigestExtractor extends AsyncTask<File, Void, HashMap<String, String>> {
 
-    private Logger logger = Logger.getLogger(DigestExtractor.class.getName());
-
-    private Context context;
     public static final String MD5 = "MD5";
     public static final String SHA1 = "SHA1";
     public static final String CRC = "CRC";
+    private Logger logger = Logger.getLogger(DigestExtractor.class.getName());
+    private Context context;
 
     public DigestExtractor(Context context) {
         this.context = context;
@@ -83,7 +83,8 @@ public class DigestExtractor extends AsyncTask<File, Void, HashMap<String, Strin
     }
 
     @Override
-    protected void onPostExecute(HashMap<String, String> result) {}
+    protected void onPostExecute(HashMap<String, String> result) {
+    }
 
     private Intent wrapIntent(String action, Object... extras) {
         Intent intent = new Intent();

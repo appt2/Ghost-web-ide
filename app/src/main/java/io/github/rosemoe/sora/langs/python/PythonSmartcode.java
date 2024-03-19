@@ -1,6 +1,7 @@
 package io.github.rosemoe.sora.langs.python;
 
 import io.github.rosemoe.sora.data.CompletionItem;
+
 import java.util.List;
 
 public class PythonSmartcode {

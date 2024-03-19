@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="match_parent"
-     android:layout_width="match_parent"
-     android:orientation="vertical"
-     android:id="@+id/rootPos">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/rootPos">
 
     <com.termux.view.TerminalView
-         android:layout_height="match_parent"
-         android:layout_width="wrap_content"
-         android:layout_weight="1"
-         android:id="@+id/term" />
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/term"/>
 
-    <Ninja.coder.Ghostemane.code.terminalkeywords.VirtualKeysView
-         android:layout_height="75dp"
-         android:layout_width="match_parent"
-         
-         android:layout_gravity="right|bottom"
-         android:id="@+id/keysterm" />
+    <Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysView
+            android:layout_height="75dp"
+            android:layout_width="match_parent"
+
+            android:layout_gravity="right|bottom"
+            android:id="@+id/keysterm"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

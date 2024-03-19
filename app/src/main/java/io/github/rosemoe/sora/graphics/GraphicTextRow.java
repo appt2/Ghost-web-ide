@@ -37,16 +37,15 @@ import io.github.rosemoe.sora.text.ContentLine;
 public class GraphicTextRow {
 
     private final static float SKEW_X = -0.2f;
+    private final static GraphicTextRow[] sCached = new GraphicTextRow[5];
     private final Paint mPaint = new Paint();
+    private final float[] mBuffer;
     private ContentLine mText;
     private int mStart;
     private int mEnd;
     private int mTabWidth;
     private List<Span> mSpans;
     private Typeface mLastTypeface;
-    private final float[] mBuffer;
-
-    private final static GraphicTextRow[] sCached = new GraphicTextRow[5];
 
     private GraphicTextRow() {
         mBuffer = new float[2];
@@ -109,7 +108,7 @@ public class GraphicTextRow {
     /**
      * From {@code start} to measure characters, until measured width add next char's width is bigger
      * than {@code advance}.
-     *
+     * <p>
      * Note that the result array should not be stored.
      *
      * @return Element 0 is offset, Element 1 is measured width
@@ -118,7 +117,7 @@ public class GraphicTextRow {
         if (mText.widthCache != null) {
             float w = 0f;
             var cache = mText.widthCache;
-            for (int i = start; i < mEnd;i++) {
+            for (int i = start; i < mEnd; i++) {
                 if (w > advance) {
                     mBuffer[0] = i;
                     mBuffer[1] = w;
@@ -203,7 +202,7 @@ public class GraphicTextRow {
                 break;
             }
 
-            index ++;
+            index++;
             regionStart = regionEnd;
             if (regionEnd == mEnd) {
                 break;
@@ -229,7 +228,7 @@ public class GraphicTextRow {
         if (mText.widthCache != null) {
             float width = 0f;
             var cache = mText.widthCache;
-            for (int i = start;i < end;i++) {
+            for (int i = start; i < end; i++) {
                 width += cache[i];
             }
             return width;

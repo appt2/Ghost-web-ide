@@ -21,11 +21,11 @@
   ~ Utils.getGradientDrawableWithTintAttr() as well.
   -->
 <shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle"
-    android:tint="?colorControlActivated">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="rectangle"
+        android:tint="?colorControlActivated">
 
-    <size android:width="8dp" android:height="48dp" />
+    <size android:width="8dp" android:height="48dp"/>
 
-    <solid android:color="@android:color/white" />
+    <solid android:color="@android:color/white"/>
 </shape>

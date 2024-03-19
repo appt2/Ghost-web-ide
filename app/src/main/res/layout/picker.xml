@@ -16,61 +16,61 @@
 -->
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_gravity="center"
-    >
-
-    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        >
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_gravity="center"
+>
 
-        <Ninja.coder.Ghostemane.code.Keyboard.SwatchView
-            android:id="@+id/swatchView"
+    <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:radialMargin="16dp"
-            />
+            android:layout_weight="1"
+    >
 
-        <Ninja.coder.Ghostemane.code.Keyboard.HueSatView
-            android:id="@+id/hueSatView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+        <Ninja.coder.Ghostemane.code.keyboard.SwatchView
+                android:id="@+id/swatchView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:radialMargin="16dp"
+        />
+
+        <Ninja.coder.Ghostemane.code.keyboard.HueSatView
+                android:id="@+id/hueSatView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        />
     </FrameLayout>
 
-    <Ninja.coder.Ghostemane.code.Keyboard.ValueView
-        android:id="@+id/valueView"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        />
+    <Ninja.coder.Ghostemane.code.keyboard.ValueView
+            android:id="@+id/valueView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+    />
 
-    <Ninja.coder.Ghostemane.code.Keyboard.AlphaView
-        android:id="@+id/alphaView"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        />
+    <Ninja.coder.Ghostemane.code.keyboard.AlphaView
+            android:id="@+id/alphaView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+    />
 
     <EditText
-        android:id="@+id/hexEdit"
-        android:text="00000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:digits="0123456789ABCDEFabcdef"
-        android:gravity="center_horizontal"
-        android:maxLength="8"
-        android:typeface="monospace"
-        android:inputType="textNoSuggestions"
-        android:imeOptions="flagNoExtractUi"
-        />
+            android:id="@+id/hexEdit"
+            android:text="00000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:digits="0123456789ABCDEFabcdef"
+            android:gravity="center_horizontal"
+            android:maxLength="8"
+            android:typeface="monospace"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="flagNoExtractUi"
+    />
 
 </LinearLayout>

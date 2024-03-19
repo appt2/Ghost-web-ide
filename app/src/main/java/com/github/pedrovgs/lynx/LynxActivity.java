@@ -48,7 +48,7 @@ public class LynxActivity extends Activity {
      * Generates an Intent to start LynxActivity with a LynxConfig configuration passed as
      * parameter.
      *
-     * @param context the application context
+     * @param context    the application context
      * @param lynxConfig the lynx configuration
      * @return a new {@code Intent} to start {@link LynxActivity}
      */

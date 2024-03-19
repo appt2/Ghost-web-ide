@@ -24,16 +24,16 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shareInterpolator="false">
+     android:shareInterpolator="false">
     <translate
-        android:duration="250"
-        android:fromXDelta="0%"
-        android:fromYDelta="20%"
-        android:toXDelta="0%"
-        android:toYDelta="0%" />
+            android:duration="250"
+            android:fromXDelta="0%"
+            android:fromYDelta="20%"
+            android:toXDelta="0%"
+            android:toYDelta="0%"/>
     <alpha
-        android:fromAlpha="0.0"
-        android:toAlpha="1.0"
-        android:duration="250"
-        />
+            android:fromAlpha="0.0"
+            android:toAlpha="1.0"
+            android:duration="250"
+    />
 </set>

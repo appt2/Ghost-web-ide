@@ -85,7 +85,7 @@ public class Paint extends android.graphics.Paint {
             var cache = text.widthCache;
             var offset = start;
             var currAdvance = 0f;
-            for (;offset < end && currAdvance < advance;offset++) {
+            for (; offset < end && currAdvance < advance; offset++) {
                 currAdvance += cache[offset];
             }
             if (currAdvance > advance) {

@@ -23,11 +23,7 @@
  */
 package io.github.rosemoe.sora.text;
 
-import android.text.DynamicLayout;
-import android.text.Editable;
-import android.text.Layout;
-import android.text.Selection;
-import android.text.TextPaint;
+import android.text.*;
 
 /**
  * Helper class for indirectly calling Paint#getTextRunCursor(), which is
@@ -43,6 +39,12 @@ public class TextLayoutHelper {
         sLocal = new ThreadLocal<>();
     }
 
+    private final Editable text = Editable.Factory.getInstance().newEditable("");
+    private final DynamicLayout layout;
+    private TextLayoutHelper() {
+        layout = new DynamicLayout(text, new TextPaint(), Integer.MAX_VALUE / 2, Layout.Alignment.ALIGN_NORMAL, 0, 0, true);
+    }
+
     public static TextLayoutHelper get() {
         var v = sLocal.get();
         if (v == null) {
@@ -50,13 +52,6 @@ public class TextLayoutHelper {
             sLocal.set(v);
         }
         return v;
-    }
-
-    private final Editable text = Editable.Factory.getInstance().newEditable("");
-    private final DynamicLayout layout;
-
-    private TextLayoutHelper() {
-        layout = new DynamicLayout(text, new TextPaint(), Integer.MAX_VALUE / 2, Layout.Alignment.ALIGN_NORMAL, 0, 0 , true);
     }
 
     public int getCurPosLeft(int offset, CharSequence s) {

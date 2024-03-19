@@ -55,8 +55,8 @@ public enum FileEventType {
 
     public static EnumSet<FileEventType> create(int event) {
         EnumSet<FileEventType> result = EnumSet.noneOf(FileEventType.class);
-        for(Map.Entry<Integer, FileEventType> entry : fileObserverMap.entrySet()) {
-            if((entry.getKey() & event) == entry.getKey()) {
+        for (Map.Entry<Integer, FileEventType> entry : fileObserverMap.entrySet()) {
+            if ((entry.getKey() & event) == entry.getKey()) {
                 result.add(entry.getValue());
             }
         }

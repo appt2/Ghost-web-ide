@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
  * Marks you must call {@link View#invalidate()} after changing this property
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ ElementType.FIELD })
+@Target({ElementType.FIELD})
 public @interface InvalidateRequired {
 }

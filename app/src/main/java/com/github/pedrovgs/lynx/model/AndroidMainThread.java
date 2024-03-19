@@ -27,13 +27,13 @@ import android.os.Looper;
  */
 public class AndroidMainThread implements MainThread {
 
-	private final Handler handler;
+    private final Handler handler;
 
-	public AndroidMainThread() {
-		handler = new Handler(Looper.getMainLooper());
-	}
+    public AndroidMainThread() {
+        handler = new Handler(Looper.getMainLooper());
+    }
 
-	public void post(Runnable runnable) {
-		handler.post(runnable);
-	}
+    public void post(Runnable runnable) {
+        handler.post(runnable);
+    }
 }

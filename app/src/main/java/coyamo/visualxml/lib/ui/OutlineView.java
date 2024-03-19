@@ -185,6 +185,7 @@ public class OutlineView extends LinearLayout {
 
     /**
      * 设置显示的类型
+     *
      * @param displayType
      */
     public void setDisplayType(int displayType) {
@@ -228,6 +229,7 @@ public class OutlineView extends LinearLayout {
 
     /**
      * 如果View在group内。就显示选中的边框
+     *
      * @param v
      */
     public void select(View v) {
@@ -372,6 +374,7 @@ public class OutlineView extends LinearLayout {
         void onDown(View v, int displayType);
 
         void onCancel(View v, int displayType);
+
         void onClick(View v, int displayType);
     }
 

@@ -60,7 +60,7 @@ public abstract class AbstractLayout implements Layout {
     }
 
     protected float[] orderedFindCharIndex(float targetOffset, ContentLine str, int line) {
-       return orderedFindCharIndex(targetOffset, str, line, 0, str.length());
+        return orderedFindCharIndex(targetOffset, str, line, 0, str.length());
     }
 
 

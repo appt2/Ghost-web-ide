@@ -5,11 +5,23 @@ import android.os.ParcelFileDescriptor;
 
 
 import androidx.collection.ArrayMap;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class PdfDocument {
+
+    /*package*/ final Map<Integer, Long> mNativePagesPtr = new ArrayMap<>();
+    /*package*/ long mNativeDocPtr;
+    /*package*/ ParcelFileDescriptor parcelFileDescriptor;
+
+    /*package*/ PdfDocument() {
+    }
+
+    public boolean hasPage(int index) {
+        return mNativePagesPtr.containsKey(index);
+    }
 
     public static class Meta {
         String title;
@@ -55,10 +67,10 @@ public class PdfDocument {
     }
 
     public static class Bookmark {
-        private List<Bookmark> children = new ArrayList<>();
         String title;
         long pageIdx;
         long mNativePtr;
+        private List<Bookmark> children = new ArrayList<>();
 
         public List<Bookmark> getChildren() {
             return children;
@@ -99,17 +111,5 @@ public class PdfDocument {
         public RectF getBounds() {
             return bounds;
         }
-    }
-
-    /*package*/ PdfDocument() {
-    }
-
-    /*package*/ long mNativeDocPtr;
-    /*package*/ ParcelFileDescriptor parcelFileDescriptor;
-
-    /*package*/ final Map<Integer, Long> mNativePagesPtr = new ArrayMap<>();
-
-    public boolean hasPage(int index) {
-        return mNativePagesPtr.containsKey(index);
     }
 }

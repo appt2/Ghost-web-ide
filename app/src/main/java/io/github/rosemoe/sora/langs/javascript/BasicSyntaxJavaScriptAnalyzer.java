@@ -8,6 +8,7 @@ import io.github.rosemoe.sora.text.TextAnalyzer;
 import java.io.StringReader;
 
 import java.util.List;
+
 import io.github.rosemoe.sora.data.Span;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -15,7 +16,9 @@ import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Parser;
 
-/** Basic syntax analyzer with JavaScript using Rhino parser. */
+/**
+ * Basic syntax analyzer with JavaScript using Rhino parser.
+ */
 public class BasicSyntaxJavaScriptAnalyzer implements CodeAnalyzer {
 
     @Override

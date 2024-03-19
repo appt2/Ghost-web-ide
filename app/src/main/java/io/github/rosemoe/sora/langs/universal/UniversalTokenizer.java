@@ -35,6 +35,7 @@ public class UniversalTokenizer {
 
     private final LanguageDescription mLanguage;
     private final TrieTree<Object> mKeywords;
+    private final char[] operatorBuffer = new char[64];
     private CharSequence input;
     private int bufferLen;
     private int offset;
@@ -42,7 +43,6 @@ public class UniversalTokenizer {
     private UniversalTokens currToken;
     private boolean skipWS;
     private boolean skipComment;
-    private final char[] operatorBuffer = new char[64];
 
     public UniversalTokenizer(LanguageDescription languageDescription) {
         mLanguage = languageDescription;
@@ -52,6 +52,18 @@ public class UniversalTokenizer {
         }
         setSkipComment(false);
         setSkipWhitespace(false);
+    }
+
+    protected static boolean isDigit(char c) {
+        return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'));
+    }
+
+    protected static boolean isPrimeDigit(char c) {
+        return (c >= '0' && c <= '9');
+    }
+
+    protected static boolean isWhitespace(char c) {
+        return (c == '\t' || c == ' ' || c == '\f' || c == '\n' || c == '\r');
     }
 
     public void setInput(CharSequence input) {
@@ -325,24 +337,12 @@ public class UniversalTokenizer {
         }
     }
 
-    protected static boolean isDigit(char c) {
-        return ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'));
-    }
-
-    protected static boolean isPrimeDigit(char c) {
-        return (c >= '0' && c <= '9');
-    }
-
     private boolean isIdentifierPart(char ch) {
         return MyCharacter.isJavaIdentifierPart(ch);
     }
 
     private boolean isIdentifierStart(char ch) {
         return MyCharacter.isJavaIdentifierStart(ch);
-    }
-
-    protected static boolean isWhitespace(char c) {
-        return (c == '\t' || c == ' ' || c == '\f' || c == '\n' || c == '\r');
     }
 
 }

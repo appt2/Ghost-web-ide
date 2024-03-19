@@ -17,19 +17,18 @@ import com.termux.view.TerminalView;
 
 @SuppressLint("ViewConstructor")
 public class TextSelectionHandleView extends View {
+    public static final int LEFT = 0;
+    public static final int RIGHT = 2;
+    final int[] mTempCoords = new int[2];
     private final TerminalView terminalView;
-    private PopupWindow mHandle;
     private final CursorController mCursorController;
-
     private final Drawable mHandleLeftDrawable;
     private final Drawable mHandleRightDrawable;
-    private Drawable mHandleDrawable;
-
-    private boolean mIsDragging;
-
-    final int[] mTempCoords = new int[2];
+    private final int mInitialOrientation;
     Rect mTempRect;
-
+    private PopupWindow mHandle;
+    private Drawable mHandleDrawable;
+    private boolean mIsDragging;
     private int mPointX;
     private int mPointY;
     private float mTouchToWindowOffsetX;
@@ -39,16 +38,9 @@ public class TextSelectionHandleView extends View {
     private float mTouchOffsetY;
     private int mLastParentX;
     private int mLastParentY;
-
     private int mHandleHeight;
     private int mHandleWidth;
-
-    private final int mInitialOrientation;
     private int mOrientation;
-
-    public static final int LEFT = 0;
-    public static final int RIGHT = 2;
-
     private long mLastTime;
 
     public TextSelectionHandleView(TerminalView terminalView, CursorController cursorController, int initialOrientation) {
@@ -65,7 +57,7 @@ public class TextSelectionHandleView extends View {
 
     private void initHandle() {
         mHandle = new PopupWindow(terminalView.getContext(), null,
-            android.R.attr.textSelectHandleWindowStyle);
+                android.R.attr.textSelectHandleWindowStyle);
         mHandle.setSplitTouchEnabled(true);
         mHandle.setClippingEnabled(false);
         mHandle.setWindowLayoutType(WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL);
@@ -142,7 +134,7 @@ public class TextSelectionHandleView extends View {
 
     public void removeFromParent() {
         if (!isParentNull()) {
-            ((ViewGroup)this.getParent()).removeView(this);
+            ((ViewGroup) this.getParent()).removeView(this);
         }
     }
 
@@ -266,7 +258,7 @@ public class TextSelectionHandleView extends View {
         final int posY = coords[1] + mPointY + (int) mHotspotY;
 
         return posX >= clip.left && posX <= clip.right &&
-            posY >= clip.top && posY <= clip.bottom;
+                posY >= clip.top && posY <= clip.bottom;
     }
 
     @Override
@@ -316,7 +308,7 @@ public class TextSelectionHandleView extends View {
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(mHandleDrawable.getIntrinsicWidth(),
-            mHandleDrawable.getIntrinsicHeight());
+                mHandleDrawable.getIntrinsicHeight());
     }
 
     public int getHandleHeight() {

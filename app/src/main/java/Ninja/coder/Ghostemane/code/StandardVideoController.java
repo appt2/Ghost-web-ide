@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code;
 
+import Ninja.coder.Ghostemane.code.widget.component.*;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.util.AttributeSet;
@@ -10,18 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import Ninja.coder.Ghostemane.code.component.CompleteView;
-import Ninja.coder.Ghostemane.code.component.ErrorView;
-import Ninja.coder.Ghostemane.code.component.GestureView;
-import Ninja.coder.Ghostemane.code.component.LiveControlView;
-import Ninja.coder.Ghostemane.code.component.PrepareView;
-import Ninja.coder.Ghostemane.code.component.TitleView;
-import Ninja.coder.Ghostemane.code.component.VodControlView;
 import xyz.doikki.videoplayer.controller.GestureVideoController;
 import xyz.doikki.videoplayer.player.VideoView;
 import xyz.doikki.videoplayer.util.PlayerUtils;
@@ -66,6 +58,7 @@ public class StandardVideoController extends GestureVideoController implements V
 
     /**
      * 快速添加各个组件
+     *
      * @param title  标题
      * @param isLive 是否为直播
      */
