@@ -1,7 +1,22 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/AboutActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/res/layout/terminal.xml",
+      "selection": {
+        "end": {
+          "column": 25,
+          "index": 367,
+          "line": 9
+        },
+        "start": {
+          "column": 25,
+          "index": 367,
+          "line": 9
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/terminal/key/VirtualKeysView.java",
       "selection": {
         "end": {
           "column": 0,
@@ -16,5 +31,5 @@
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/AboutActivity.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/terminal/key/VirtualKeysView.java"
 }
