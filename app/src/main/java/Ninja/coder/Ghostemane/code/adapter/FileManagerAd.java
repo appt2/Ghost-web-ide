@@ -39,232 +39,232 @@ import java.util.List;
 
 // fileListItem
 public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
-        implements PopupTextProvider {
-    public static boolean Files = false;
-    public static boolean Folder = false;
-    protected Context context;
-    protected onClick click;
-    protected List<HashMap<String, Object>> filteredFiles;
-    protected HashMap<String, Object> name = new HashMap<>();
-    private List<HashMap<String, Object>> files = new ArrayList<>();
+    implements PopupTextProvider {
+  public static boolean Files = false;
+  public static boolean Folder = false;
+  protected Context context;
+  protected onClick click;
+  protected List<HashMap<String, Object>> filteredFiles;
+  protected HashMap<String, Object> name = new HashMap<>();
+  private List<HashMap<String, Object>> files = new ArrayList<>();
 
-    public FileManagerAd(List<HashMap<String, Object>> files, Context context, onClick click) {
-        this.context = context;
-        this.files = files;
-        this.filteredFiles = files;
-        this.click = click;
-        registerAdapterDataObserver(
-                new RecyclerView.AdapterDataObserver() {
+  public FileManagerAd(List<HashMap<String, Object>> files, Context context, onClick click) {
+    this.context = context;
+    this.files = files;
+    this.filteredFiles = files;
+    this.click = click;
+    registerAdapterDataObserver(
+        new RecyclerView.AdapterDataObserver() {
 
-                    @Override
-                    public void onChanged() {
-                        super.onChanged();
-                        if (getItemCount() == 0) {
-                            Log.e("item reday", "getItemCount()");
-                        } else {
-                            Log.e("item not redy", "0");
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public int getItemCount() {
-        return filteredFiles.size();
-    }
-
-    @Override
-    public VH onCreateViewHolder(ViewGroup parnt, int pos) {
-        View view =
-                LayoutInflater.from(parnt.getContext()).inflate(R.layout.folder_remster, parnt, false);
-        RecyclerView.LayoutParams _lp =
-                new RecyclerView.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        view.setLayoutParams(_lp);
-        return new VH(view);
-    }
-
-    @Override
-    public void onBindViewHolder(VH viewHolder, int pos) {
-        View view = viewHolder.itemView;
-        var ripdr =
-                new RippleDrawable(
-                        new ColorStateList(new int[][]{new int[]{}}, new int[]{Color.GREEN}),
-                        new ColorDrawable(0),
-                        null);
-        view.setBackground(ripdr);
-        RecyclerView.LayoutParams _lp =
-                new RecyclerView.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        view.setLayoutParams(_lp);
-        AnimUtils.Sacla(viewHolder.itemView);
-        setSettingTextView(viewHolder.folderName);
-        var myfile = new File(filteredFiles.get(pos).get("path").toString());
-        viewHolder.folderName.setText(myfile.getName());
-        FileIconHelper fileIconHelper = new FileIconHelper(myfile.toString());
-        viewHolder.icon.setImageResource(fileIconHelper.getFileIcon());
-        fileIconHelper.setDynamicFolderEnabled(true);
-        fileIconHelper.setEnvironmentEnabled(true);
-        if (FileUtil.isDirectory(filteredFiles.get(pos).get("path").toString())) {
-            Folder = true;
-            Files = false;
-            viewHolder.icon.setPadding(9, 9, 9, 9);
-            fileIconHelper.bindIcon(viewHolder.icon);
-            ColorAndroid12.shapeViews(viewHolder.icon);
-            FileCounter mfileC = new FileCounter(viewHolder.tvTools);
-            mfileC.execute(myfile.toString());
-
-            viewHolder.tvTools.setText("");
-        } else if (FileUtil.isExistFile(filteredFiles.get(pos).get("path").toString())) {
-            viewHolder.icon.setPadding(0, 0, 0, 0);
-            getTime(myfile.toString(), viewHolder.tvTools);
-            viewHolder.icon.setBackgroundColor(0);
-            if (BinderRecyclerview1.TaskVideo(myfile.toString())) {
-                GlideCompat.GlideNormal(viewHolder.icon, myfile.toString());
-            } else if (BinderRecyclerview1.PhotoView(myfile.toString())) {
-                GlideCompat.GlideNormal(viewHolder.icon, myfile.toString());
+          @Override
+          public void onChanged() {
+            super.onChanged();
+            if (getItemCount() == 0) {
+              Log.e("item reday", "getItemCount()");
+            } else {
+              Log.e("item not redy", "0");
             }
-            if (myfile.toString().endsWith(".xml")) {
-                GlideCompat.LoadVector(myfile.toString(), viewHolder.icon);
-            } else if (myfile.toString().endsWith(".mp3")) {
-                GlideCompat.GlideLoadMp3(viewHolder.icon, myfile.toString());
-            } else if (myfile.toString().endsWith(".svg")) {
-                GlideCompat.LoadSvg(myfile.toString(), viewHolder.icon);
-            } else if (myfile.toString().endsWith(".pdf")) {
-                try {
-                    GlideCompat.loadImgPdf(myfile, viewHolder.icon);
-                } catch (IOException err) {
-                    viewHolder.icon.setImageResource(R.drawable.ic_material_pdf);
-                }
-            } else if (myfile.toString().endsWith(".apk")) {
-                GlideCompat.LoadApkFile(myfile.toString(), viewHolder.icon);
-            } else if (myfile.toString().endsWith(".swb")) {
-                GlideCompat.LoadSwbIcon(myfile.toString(), viewHolder.icon);
-            }
-        }
+          }
+        });
+  }
 
-        viewHolder.itemView.setClickable(true);
-    }
+  @Override
+  public int getItemCount() {
+    return filteredFiles.size();
+  }
 
-    @NonNull
-    private HashMap<String, Object> getitem(int position) {
-        return filteredFiles.get(position);
-    }
+  @Override
+  public VH onCreateViewHolder(ViewGroup parnt, int pos) {
+    View view =
+        LayoutInflater.from(parnt.getContext()).inflate(R.layout.folder_remster, parnt, false);
+    RecyclerView.LayoutParams _lp =
+        new RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    view.setLayoutParams(_lp);
+    return new VH(view);
+  }
 
-    @Override
-    public long getItemId(int position) {
-        return getitem(position).hashCode();
-    }
+  @Override
+  public void onBindViewHolder(VH viewHolder, int pos) {
+    View view = viewHolder.itemView;
+    var ripdr =
+        new RippleDrawable(
+            new ColorStateList(new int[][] {new int[] {}}, new int[] {Color.GREEN}),
+            new ColorDrawable(0),
+            null);
+    view.setBackground(ripdr);
+    RecyclerView.LayoutParams _lp =
+        new RecyclerView.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    view.setLayoutParams(_lp);
+    AnimUtils.Sacla(viewHolder.itemView);
+    setSettingTextView(viewHolder.folderName);
+    var myfile = new File(filteredFiles.get(pos).get("path").toString());
+    viewHolder.folderName.setText(myfile.getName());
+    FileIconHelper fileIconHelper = new FileIconHelper(myfile.toString());
+    viewHolder.icon.setImageResource(fileIconHelper.getFileIcon());
+    fileIconHelper.setDynamicFolderEnabled(true);
+    fileIconHelper.setEnvironmentEnabled(true);
+    if (FileUtil.isDirectory(filteredFiles.get(pos).get("path").toString())) {
+      Folder = true;
+      Files = false;
+      viewHolder.icon.setPadding(9, 9, 9, 9);
+      fileIconHelper.bindIcon(viewHolder.icon);
+      ColorAndroid12.shapeViews(viewHolder.icon);
+      FileCounter mfileC = new FileCounter(viewHolder.tvTools);
+      mfileC.execute(myfile.toString());
 
-    @Override
-    @NonNull
-    public CharSequence getPopupText(int position) {
-        HashMap<String, Object> map = getitem(position);
-        return map.get("path").toString().substring(0, 1).toUpperCase();
-    }
-
-    public void setSettingTextView(TextView tv) {
-        if (tv != null) {
-            tv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-            tv.setMarqueeRepeatLimit(-1);
-            tv.setSelected(true);
-            tv.setSingleLine(true);
-        }
-    }
-
-    public void addItem(int Position) {
-        notifyItemInserted(Position);
-    }
-
-    public void removedItem(int pos) {
-        files.remove(pos);
-        notifyItemRemoved(pos);
-    }
-
-    public void makeFile(String path) {
-        var filemaker = new FileMaker(context);
-        filemaker.setFolderName(path);
-        filemaker.setCallBack(
-                new FileCallBack() {
-
-                    @Override
-                    public void onError(String error) {
-                        Toast.makeText(context, error, 2).show();
-                    }
-
-                    @Override
-                    public void onDoneMakeFile(String toast) {
-                        // notifyDataSetChanged();
-                    }
-                });
-    }
-
-    public void search(String query) {
-        if (query.length() > 0) {
-            List<HashMap<String, Object>> result = new ArrayList<>();
-            for (HashMap<String, Object> file : this.files) {
-                if (file.get("path").toString().toLowerCase().contains(query.toLowerCase())) {
-                    result.add(file);
-                }
-            }
-
-            this.filteredFiles = result;
-            notifyDataSetChanged();
-        } else {
-            this.filteredFiles = this.files;
-            notifyDataSetChanged();
-        }
-    }
-
-    private void getTime(String path, TextView view) {
+      viewHolder.tvTools.setText("");
+    } else if (FileUtil.isExistFile(filteredFiles.get(pos).get("path").toString())) {
+      viewHolder.icon.setPadding(0, 0, 0, 0);
+      getTime(myfile.toString(), viewHolder.tvTools);
+      viewHolder.icon.setBackgroundColor(0);
+      if (BinderRecyclerview1.TaskVideo(myfile.toString())) {
+        GlideCompat.GlideNormal(viewHolder.icon, myfile.toString());
+      } else if (BinderRecyclerview1.PhotoView(myfile.toString())) {
+        GlideCompat.GlideNormal(viewHolder.icon, myfile.toString());
+      }
+      if (myfile.toString().endsWith(".xml")) {
+        GlideCompat.LoadVector(myfile.toString(), viewHolder.icon);
+      } else if (myfile.toString().endsWith(".mp3")) {
+        GlideCompat.GlideLoadMp3(viewHolder.icon, myfile.toString());
+      } else if (myfile.toString().endsWith(".svg")) {
+        GlideCompat.LoadSvg(myfile.toString(), viewHolder.icon);
+      } else if (myfile.toString().endsWith(".pdf")) {
         try {
-
-            if (view != null) {
-                view.setText(
-                        MFileClass.convertBytes(FileUtil.getFileLength(path))
-                                .concat(", ".concat(MFileClass.getLastModifiedOfFile(path, "HH:mm,dd/MM/yyyy"))));
-            }
-        } catch (Exception err) {
-            err.printStackTrace();
+          GlideCompat.loadImgPdf(myfile, viewHolder.icon);
+        } catch (IOException err) {
+          viewHolder.icon.setImageResource(R.drawable.ic_material_pdf);
         }
+      } else if (myfile.toString().endsWith(".apk")) {
+        GlideCompat.LoadApkFile(myfile.toString(), viewHolder.icon);
+      } else if (myfile.toString().endsWith(".swb")) {
+        GlideCompat.LoadSwbIcon(myfile.toString(), viewHolder.icon);
+      }
     }
 
-    public String getMp3Format(String txt) {
-        List<String> list = Arrays.asList(FileHelper.AUDIO_FILES);
-        for (var item : list) {
-            return item + txt;
+    viewHolder.itemView.setClickable(true);
+  }
+
+  @NonNull
+  private HashMap<String, Object> getitem(int position) {
+    return filteredFiles.get(position);
+  }
+
+  @Override
+  public long getItemId(int position) {
+    return getitem(position).hashCode();
+  }
+
+  @Override
+  @NonNull
+  public CharSequence getPopupText(int position) {
+    HashMap<String, Object> map = getitem(position);
+    return map.get("path").toString().substring(0, 1).toUpperCase();
+  }
+
+  public void setSettingTextView(TextView tv) {
+    if (tv != null) {
+      tv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+      tv.setMarqueeRepeatLimit(-1);
+      tv.setSelected(true);
+      tv.setSingleLine(true);
+    }
+  }
+
+  public void addItem(int Position) {
+    notifyItemInserted(Position);
+  }
+
+  public void removedItem(int pos) {
+    files.remove(pos);
+    notifyItemRemoved(pos);
+  }
+
+  public void makeFile(String path) {
+    var filemaker = new FileMaker(context);
+    filemaker.setFolderName(path);
+    filemaker.setCallBack(
+        new FileCallBack() {
+
+          @Override
+          public void onError(String error) {
+            Toast.makeText(context, error, 2).show();
+          }
+
+          @Override
+          public void onDoneMakeFile(String toast) {
+            // notifyDataSetChanged();
+          }
+        });
+  }
+
+  public void search(String query) {
+    if (query.length() > 0) {
+      List<HashMap<String, Object>> result = new ArrayList<>();
+      for (HashMap<String, Object> file : this.files) {
+        if (file.get("path").toString().toLowerCase().contains(query.toLowerCase())) {
+          result.add(file);
         }
-        return txt;
+      }
+
+      this.filteredFiles = result;
+      notifyDataSetChanged();
+    } else {
+      this.filteredFiles = this.files;
+      notifyDataSetChanged();
     }
+  }
 
-    public interface onClick {
-        public void onClick(View view, int pos);
+  private void getTime(String path, TextView view) {
+    try {
 
-        public void onLongClick(View view, int pos);
+      if (view != null) {
+        view.setText(
+            MFileClass.convertBytes(FileUtil.getFileLength(path))
+                .concat(", ".concat(MFileClass.getLastModifiedOfFile(path, "HH:mm,dd/MM/yyyy"))));
+      }
+    } catch (Exception err) {
+      err.printStackTrace();
     }
+  }
 
-    public class VH extends RecyclerView.ViewHolder {
-        protected TextView folderName, tvTools;
-        protected LinearLayout roots;
-        protected ImageView icon;
-        View getPos;
-
-        public VH(View view) {
-            super(view);
-            getPos = view;
-            folderName = view.findViewById(R.id.folderName);
-            tvTools = view.findViewById(R.id.tvTools);
-            roots = view.findViewById(R.id.roots);
-            icon = view.findViewById(R.id.icon);
-            getPos.setOnClickListener(
-                    c -> {
-                        click.onClick(c, getPosition());
-                    });
-            getPos.setOnLongClickListener(
-                    v -> {
-                        click.onLongClick(v, getPosition());
-                        return false;
-                    });
-        }
+  public String getMp3Format(String txt) {
+    List<String> list = Arrays.asList(FileHelper.AUDIO_FILES);
+    for (var item : list) {
+      return item + txt;
     }
+    return txt;
+  }
+
+  public interface onClick {
+    public void onClick(View view, int pos);
+
+    public void onLongClick(View view, int pos);
+  }
+
+  public class VH extends RecyclerView.ViewHolder {
+    protected TextView folderName, tvTools;
+    protected LinearLayout roots;
+    protected ImageView icon;
+    View getPos;
+
+    public VH(View view) {
+      super(view);
+      getPos = view;
+      folderName = view.findViewById(R.id.folderName);
+      tvTools = view.findViewById(R.id.tvTools);
+      roots = view.findViewById(R.id.roots);
+      icon = view.findViewById(R.id.icon);
+      getPos.setOnClickListener(
+          c -> {
+            click.onClick(c, getPosition());
+          });
+      getPos.setOnLongClickListener(
+          v -> {
+            click.onLongClick(v, getPosition());
+            return false;
+          });
+    }
+  }
 }
