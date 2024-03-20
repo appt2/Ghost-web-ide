@@ -1,17 +1,47 @@
 {
   "allFiles": [
     {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/config/PHPServerHelper.java",
+      "selection": {
+        "end": {
+          "column": 18,
+          "index": 9198,
+          "line": 297
+        },
+        "start": {
+          "column": 18,
+          "index": 9198,
+          "line": 297
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/PHPProcess.java",
+      "selection": {
+        "end": {
+          "column": 3,
+          "index": 5588,
+          "line": 179
+        },
+        "start": {
+          "column": 2,
+          "index": 4537,
+          "line": 149
+        }
+      }
+    },
+    {
       "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/activities/PhpActivity.java",
       "selection": {
         "end": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 36,
+          "index": 2711,
+          "line": 87
         },
         "start": {
-          "column": 0,
-          "index": 0,
-          "line": 0
+          "column": 36,
+          "index": 2711,
+          "line": 87
         }
       }
     }

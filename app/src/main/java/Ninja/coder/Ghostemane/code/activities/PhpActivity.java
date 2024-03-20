@@ -85,7 +85,8 @@ public class PhpActivity extends BaseCompat {
     File file = new File(getIntent().getStringExtra("phpcode"));
     if (getIntent().hasExtra("phpcode")) {
       String path = file.toString();
-      web.loadUrl("file:///" + path);
+      
+      web.loadUrl("file:///" + getIntent().hasExtra("phpcode"));
     }
     Intent intent = new Intent(this, PHPProcess.class);
     intent.putExtra("port", 8080);
