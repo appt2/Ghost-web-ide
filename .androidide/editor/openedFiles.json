@@ -1,20 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/activities/CodeEditorActivity.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/marco/ColorView.java",
       "selection": {
         "end": {
-          "column": 45,
-          "index": 62215,
-          "line": 1283
+          "column": 46,
+          "index": 13142,
+          "line": 352
         },
         "start": {
-          "column": 45,
-          "index": 62215,
-          "line": 1283
+          "column": 46,
+          "index": 13142,
+          "line": 352
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/activities/CodeEditorActivity.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/marco/ColorView.java"
 }

@@ -29,6 +29,7 @@ import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 import io.github.rosemoe.sora.langs.java.JavaLanguage;
 import io.github.rosemoe.sora.langs.smali.SMLang;
+import io.github.rosemoe.sora.langs.xml.XMLLanguage;
 import io.github.rosemoe.sora.widget.CodeEditor;
 
 import java.io.File;
@@ -40,6 +41,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jf.smali.Smali;
 
+/**
+ * This class is made by Ninja Kader for various navigation functions, from the sample color of XML
+ * tags and ...
+ */
 public class ColorView {
 
   private ArrayList<HashMap<String, Object>> map = new ArrayList<>();
@@ -177,6 +182,10 @@ public class ColorView {
         "linker");
   }
 
+  public void StringXml(CodeEditor editor, Context context) {
+    linkview(editor, context, "(?<=\\\\?>)([a-z]\\w+)(?=<)", "String res View", "Res");
+  }
+
   public void colorview(CodeEditor editor, Context context) {
     // "#\\b([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\\b"
     var listview = new ListView(context);
@@ -193,7 +202,7 @@ public class ColorView {
         c -> {
           List<String> httpsLinks = new ArrayList<>();
 
-          Pattern pat = Pattern.compile("#\\b([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\\b");
+          Pattern pat = Pattern.compile("#\\b([0-9a-fA-F]{6}|[0-9a-fA-F]{8})\\b");
           Matcher mat = pat.matcher(editor.getText().toString());
           while (mat.find()) {
             httpsLinks.add(mat.group().trim());
@@ -329,16 +338,19 @@ public class ColorView {
         rv.setAdapter(ad);
         rv.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         new MaterialAlertDialogBuilder(context)
-            .setTitle("Test")
+            .setTitle("Nav Parser")
+            .setMessage("Java and Smail Data Viewer")
             .setView(rv)
             .setPositiveButton(android.R.string.cancel, null)
             .show();
       } catch (IOException err) {
         err.printStackTrace();
       }
+    } else if (editor.getEditorLanguage() instanceof XMLLanguage) {
+      StringXml(editor, context);
     } else {
       new MaterialAlertDialogBuilder(context)
-          .setTitle("Not Lang ")
+          .setTitle("Language is not supported")
           .setPositiveButton(android.R.string.cancel, null)
           .show();
     }
