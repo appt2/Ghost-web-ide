@@ -1,0 +1,35 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/Plugin/src/main/java/Ninja/coder/Ghostemane/code/PluginManager/PluginFactory.java",
+      "selection": {
+        "end": {
+          "column": 9,
+          "index": 94,
+          "line": 3
+        },
+        "start": {
+          "column": 9,
+          "index": 94,
+          "line": 3
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/Plugin/src/main/java/Ninja/coder/Ghostemane/code/PluginManager/Plugin.java",
+      "selection": {
+        "end": {
+          "column": 19,
+          "index": 93,
+          "line": 4
+        },
+        "start": {
+          "column": 13,
+          "index": 87,
+          "line": 4
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/Plugin/src/main/java/Ninja/coder/Ghostemane/code/PluginManager/Plugin.java"
+}

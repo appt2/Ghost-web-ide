@@ -12,7 +12,7 @@ android {
         minSdk 24
         targetSdk 30
         versionCode 25
-        versionName "1.6.0-rc"
+        versionName "1.6.1"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -105,4 +105,5 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxjava:3.1.8")
     //ui 
     implementation("com.github.TimScriptov:App-UI-Designer:1.0.9")
+    implementation project(path: ":Plugin")
 }

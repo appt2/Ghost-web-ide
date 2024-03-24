@@ -24,3 +24,4 @@ rootProject.name = "GhostWeb IDE"
 include(":app")
 include 'eclipse-standalone'
 include(":android-tools")
+include(":Plugin")
