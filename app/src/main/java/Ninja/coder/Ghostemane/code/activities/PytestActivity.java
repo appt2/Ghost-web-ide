@@ -45,7 +45,7 @@ public class PytestActivity extends BaseCompat {
         if (getIntent().hasExtra("path")) {
             String i = getIntent().getStringExtra("path");
             if (i != null) {
-                TerminalUtils.RunPythonCode(trm, this, i + "\r");
+                TerminalUtils.RunPythonCode(trm, this, i);
             }
             setTitle("Python3 CodeRuner");
         } else {
@@ -56,13 +56,7 @@ public class PytestActivity extends BaseCompat {
                 }
                 setTitle("Cpp CodeRuner");
             } else {
-                if (getIntent().hasExtra("phpcode")) {
-                    String i4 = getIntent().getStringExtra("phpcode");
-                    if (i4 != null) {
-                        TerminalUtils.RunPhp(trm, this, i4 + "\r");
-                    }
-                    setTitle("Php CodeRuner");
-                }
+                
             }
         }
     }

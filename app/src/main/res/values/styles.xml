@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <style
-            name="MyAlertDialogStyle"
-            parent="Theme.AppCompat.Light.Dialog.Alert"
-
-    >
+        name="MyAlertDialogStyle"
+        parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">#FF201B16</item>
         <item name="android:textColorPrimary">#ffFFDCBD</item>
     </style>
     <style
-            name="Theme.Transparent"
-            parent="android:Theme"
-
-    >
+        name="Theme.Transparent"
+        parent="android:Theme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">#00000000</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -21,46 +17,36 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
     <style
-            name="fab_square"
-            parent="ShapeAppearance.MaterialComponents.SmallComponent"
-
-    >
+        name="fab_square"
+        parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">15dp</item>
     </style>
     <style
-            name="Cut"
-            parent="ShapeAppearance.MaterialComponents.SmallComponent"
-
-    >
+        name="Cut"
+        parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">13dp</item>
     </style>
     <style
-            name="Ghostwebfabstyle"
-            parent=""
-
-    >
+        name="Ghostwebfabstyle"
+        parent="">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">10dp</item>
     </style>
     <style
-            name="AppTheme.Theme.Transparent"
-            parent="AppTheme"
-
-    >
+        name="AppTheme.Theme.Transparent"
+        parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">?@attr/colorSurface</item>
+        <item name="android:windowBackground">#00000000</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
     <style
-            name="AppTheme"
-            parent="Theme.Material3.Dark.NoActionBar"
-
-    >
+        name="AppTheme"
+        parent="Theme.Material3.Dark.NoActionBar">
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
         <item name="popupMenuBackground">@drawable/menucustom</item>
@@ -115,39 +101,29 @@
 
     </style>
     <style
-            name="TextAppearance.App.BodyLarge"
-            parent="TextAppearance.Material3.BodyLarge"
-
-    >
+        name="TextAppearance.App.BodyLarge"
+        parent="TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
     <style
-            name="AppTheme.FullScreen"
-            parent="AppTheme"
-
-    >
+        name="AppTheme.FullScreen"
+        parent="AppTheme">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
     <style
-            name="PostData"
-            parent="AppTheme"
-
-    >
+        name="PostData"
+        parent="AppTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
     <style
-            name="AppTheme.AppBarOverlay"
-            parent="ThemeOverlay.Material3.Dark.ActionBar"
-
-    />
+        name="AppTheme.AppBarOverlay"
+        parent="ThemeOverlay.Material3.Dark.ActionBar" />
     <style
-            name="ThemeOverlay.App.BottomSheetDialog"
-            parent="ThemeOverlay.Material3.BottomSheetDialog"
-
-    >
+        name="ThemeOverlay.App.BottomSheetDialog"
+        parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
     </style>
@@ -160,10 +136,8 @@
         <item name="android:textSize">15sp</item>
     </style>
     <style
-            name="Apple"
-            parent="AppTheme"
-
-    >
+        name="Apple"
+        parent="AppTheme">
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textColorSecondary">?attr/colorPrimary</item>
     </style>
@@ -181,38 +155,28 @@
         <item name="android:windowExitAnimation">@anim/anim_diagnostic_tooltip_window_exit</item>
     </style>
     <style
-            name="AppTheme.PopupOverlay"
-            parent="ThemeOverlay.Material3.Dark"
-
-    />
+        name="AppTheme.PopupOverlay"
+        parent="ThemeOverlay.Material3.Dark" />
     <style
-            name="ModalBottomSheetDialog"
-            parent="Widget.Material3.BottomSheet.Modal"
-
-    >
+        name="ModalBottomSheetDialog"
+        parent="Widget.Material3.BottomSheet.Modal">
         <item name="backgroundTint">?@attr/colorSurface</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
     </style>
     <style
-            name="ShapeAppearance.App.LargeComponent"
-            parent="ShapeAppearance.Material3.LargeComponent"
-
-    >
+        name="ShapeAppearance.App.LargeComponent"
+        parent="ShapeAppearance.Material3.LargeComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">15dp</item>
     </style>
     <style
-            name="ThemeOverlay.App.MaterialAlertDialog"
-            parent="ThemeOverlay.Material3.MaterialAlertDialog"
-
-    >
+        name="ThemeOverlay.App.MaterialAlertDialog"
+        parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
     </style>
     <style
-            name="MaterialAlertDialog.App"
-            parent="MaterialAlertDialog.Material3"
-
-    >
+        name="MaterialAlertDialog.App"
+        parent="MaterialAlertDialog.Material3">
         <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
         <item name="android:textColorPrimary">?attr/colorPrimary</item>
         <item name="shapeAppearanceOverlay">@null</item>
@@ -221,10 +185,8 @@
         <item name="android:windowExitAnimation">@anim/fadecompatout</item>
     </style>
     <style
-            name="ShapeAppearance.App.MediumComponent"
-            parent="ShapeAppearance.Material3.MediumComponent"
-
-    >
+        name="ShapeAppearance.App.MediumComponent"
+        parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">15dp</item>
     </style>

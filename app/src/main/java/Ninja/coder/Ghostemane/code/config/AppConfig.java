@@ -121,4 +121,7 @@ public class AppConfig {
     public void setShowHomeNewAc(boolean ShowHomeNewAc) {
         this.ShowHomeNewAc = ShowHomeNewAc;
     }
+  public void r(){
+    
+  }
 }

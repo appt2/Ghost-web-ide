@@ -2,6 +2,8 @@ package Ninja.coder.Ghostemane.code.activities;
 
 import Ninja.coder.Ghostemane.code.PHPProcess;
 import Ninja.coder.Ghostemane.code.R;
+import Ninja.coder.Ghostemane.code.ServerHost;
+import Ninja.coder.Ghostemane.code.config.PHPServerHelper;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +18,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PhpActivity extends BaseCompat {
 
@@ -85,9 +89,10 @@ public class PhpActivity extends BaseCompat {
     File file = new File(getIntent().getStringExtra("phpcode"));
     if (getIntent().hasExtra("phpcode")) {
       String path = file.toString();
-      
-      web.loadUrl("file:///" + getIntent().hasExtra("phpcode"));
     }
+    
+    web.loadUrl(PHPServerHelper.Companion.runOffline(getApplicationContext(),file));
+    
     Intent intent = new Intent(this, PHPProcess.class);
     intent.putExtra("port", 8080);
     intent.putExtra("projectPath", file.getAbsolutePath());
@@ -99,7 +104,6 @@ public class PhpActivity extends BaseCompat {
     ColorAndroid12.setToolbarinit(_toolbar);
   }
 
-  @Deprecated
   public void showMessage(String _s) {
     Toast.makeText(getApplicationContext(), _s, Toast.LENGTH_SHORT).show();
   }

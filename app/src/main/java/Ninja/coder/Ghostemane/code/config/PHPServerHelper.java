@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Process;
+import androidx.vectordrawable.graphics.drawable.PathInterpolatorCompat;
 import java.io.*;
 import java.util.List;
 import kotlin.jvm.internal.DefaultConstructorMarker;
@@ -81,7 +82,41 @@ public final class PHPServerHelper {
 
   public void startServer(Handler handler, Runnable runnable) {
     if (!this.running) {
-      new Thread(() -> run(handler, runnable)).start();
+      new Thread(
+              () -> {
+                while (getRunning()) {
+                  if (getPidFile().exists() || read(getPidFile()).equals("")) {
+                    startService();
+                  } else {
+                    PHPServerHelper phpServerHelper = this;
+                    String pidFileContent = read(phpServerHelper.getPidFile());
+
+                    phpServerHelper.setProcessPID(Integer.parseInt(pidFileContent));
+                    if (getErrorFile().exists()) {
+                      if (getErrorTryingTimes() < 3) {
+                        setRunning(false);
+                        getErrorFile().delete();
+                        getPidFile().delete();
+                        PHPServerHelper phpServerHelper2 = this;
+                        phpServerHelper2.setErrorTryingTimes(
+                            phpServerHelper2.getErrorTryingTimes() + 1);
+                      } else {
+                        handler.post(runnable);
+                        stopServer();
+                      }
+                    } else if (!isProcessExist(getContext(), getProcessPID())
+                        && !isServiceExisted(getContext(), PHPProcess.class.getName())) {
+                      startService();
+                    }
+                  }
+                  try {
+                    Thread.sleep(1000);
+                  } catch (InterruptedException e) {
+                    // Handle interruption if needed
+                  }
+                }
+              })
+          .start();
     }
   }
 
@@ -304,6 +339,17 @@ public final class PHPServerHelper {
         byteArrayOutputStream.close();
         return byteArrayOutputStream.toByteArray();
       }
+    }
+  }
+
+  public final void startService() {
+    Intent serviceIntent = getServiceIntent();
+    serviceIntent.putExtra("port", "8080");
+    serviceIntent.putExtra("projectPath", getProjectDir().getPath());
+    try {
+      getContext().startService(serviceIntent);
+    } catch (Exception ignored) {
+      // Handle exception here if needed
     }
   }
 }

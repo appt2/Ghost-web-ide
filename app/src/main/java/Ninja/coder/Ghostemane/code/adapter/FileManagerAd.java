@@ -77,26 +77,12 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
   public VH onCreateViewHolder(ViewGroup parnt, int pos) {
     View view =
         LayoutInflater.from(parnt.getContext()).inflate(R.layout.folder_remster, parnt, false);
-    RecyclerView.LayoutParams _lp =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    view.setLayoutParams(_lp);
     return new VH(view);
   }
 
   @Override
   public void onBindViewHolder(VH viewHolder, int pos) {
     View view = viewHolder.itemView;
-    var ripdr =
-        new RippleDrawable(
-            new ColorStateList(new int[][] {new int[] {}}, new int[] {Color.GREEN}),
-            new ColorDrawable(0),
-            null);
-    view.setBackground(ripdr);
-    RecyclerView.LayoutParams _lp =
-        new RecyclerView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    view.setLayoutParams(_lp);
     AnimUtils.Sacla(viewHolder.itemView);
     setSettingTextView(viewHolder.folderName);
     var myfile = new File(filteredFiles.get(pos).get("path").toString());
@@ -256,7 +242,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
       tvTools = view.findViewById(R.id.tvTools);
       roots = view.findViewById(R.id.roots);
       icon = view.findViewById(R.id.icon);
-      getPos.setOnClickListener(
+      roots.setOnClickListener(
           c -> {
             click.onClick(c, getPosition());
           });
