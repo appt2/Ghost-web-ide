@@ -99,6 +99,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import ninja.coder.codecomment.rule.CommentRule;
 
 public class CodeEditorActivity extends AppCompatActivity {
 
@@ -458,6 +459,7 @@ public class CodeEditorActivity extends AppCompatActivity {
                     .addItem(
                         new PowerMenuItem(
                             "پس زمینه", false, R.drawable.keyboardlisnertalluserpost_3))
+                    .addItem(new PowerMenuItem("test"))
                     .build();
             mmenucog.setIconPadding(8);
             mmenucog.setIconSize(25);
@@ -519,6 +521,11 @@ public class CodeEditorActivity extends AppCompatActivity {
 
                           break;
                         }
+                    case 2 :{
+                      CommentRule ctx = new CommentRule();
+                      editor.setText(ctx.getJavaNormal());
+                     break;
+                    }
                     }
                   }
                 });

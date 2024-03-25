@@ -246,7 +246,7 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
           c -> {
             click.onClick(c, getPosition());
           });
-      getPos.setOnLongClickListener(
+      roots.setOnLongClickListener(
           v -> {
             click.onLongClick(v, getPosition());
             return false;
