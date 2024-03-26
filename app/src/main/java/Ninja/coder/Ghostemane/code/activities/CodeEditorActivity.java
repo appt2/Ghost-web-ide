@@ -521,11 +521,11 @@ public class CodeEditorActivity extends AppCompatActivity {
 
                           break;
                         }
-                    case 2 :{
-                      CommentRule ctx = new CommentRule();
-                      editor.setText(ctx.getJavaNormal());
-                     break;
-                    }
+                      case 2:
+                        {
+                          editor.getCommentHelper().MakeCommentJava();
+                          break;
+                        }
                     }
                   }
                 });
@@ -1423,16 +1423,16 @@ public class CodeEditorActivity extends AppCompatActivity {
                   var colorview = new ColorView();
                   colorview.runJavaAsSmail(
                       CodeEditorActivity.this, shp.getString("pos_path", ""), editor);
-                 break;
+                  break;
                 }
               case 6:
                 {
-                  var test = new CommonFactoryData(CodeEditorActivity.this,editor);
+                  var test = new CommonFactoryData(CodeEditorActivity.this, editor);
                   var file = new File(shp.getString("pos_path", ""));
                   test.setlistFile(file.getParentFile().toString());
                   Toast.makeText(CodeEditorActivity.this, file.getParentFile().toString(), 2)
                       .show();
-                 break;
+                  break;
                 }
             }
           }

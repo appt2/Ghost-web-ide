@@ -11,12 +11,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.color.MaterialColors;
 import com.hzy.lib7z.IExtractCallback;
 import com.hzy.lib7z.Z7Extractor;
 
@@ -32,6 +35,7 @@ public class MainActivity extends BaseCompat {
   private Intent gotopage = new Intent();
   private TimerTask ask;
   private SharedPreferences setac;
+  
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -68,6 +72,8 @@ public class MainActivity extends BaseCompat {
 
   private void initialize(Bundle _savedInstanceState) {
     setac = getSharedPreferences("setac", Activity.MODE_PRIVATE);
+    
+    getWindow().getDecorView().setBackgroundColor(0);
   }
 
   private void initializeLogic() {
@@ -151,6 +157,11 @@ public class MainActivity extends BaseCompat {
       var softApi = new AssetsSoft();
       softApi.copyOneFileFromAssets("php.ini", getFilesDir().getAbsolutePath() + "/", this);
     }
+    if(!FileUtil.isExistFile("/storage/emulated/0/ghostweb/comment/comment.json")) {
+    	var soft = new AssetsSoft();
+     soft.copyOneFileFromAssets("comment.json","/storage/emulated/0/ghostweb/comment/",this);
+    }
+    
     FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/");
     FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/.icon");
     FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/android");

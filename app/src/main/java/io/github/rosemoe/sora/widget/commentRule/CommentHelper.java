@@ -35,6 +35,7 @@ public class CommentHelper implements PluginFactory {
     this.editor = editor;
     pl = new Plugin("comment", true);
     rule = new CommentRule(editor.getContext());
+    
   }
 
   public void MakeCommentJava() {
@@ -137,7 +138,5 @@ public class CommentHelper implements PluginFactory {
 
   @Override
   public void getName(String name, boolean show) {
-    pl.getName() = name;
-    pl.getEnabel() = show;
   }
 }

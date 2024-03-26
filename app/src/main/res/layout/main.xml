@@ -1,38 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:layout_width="match_parent"
-	android:layout_height="200dp"
-	android:orientation="vertical"
-	android:background="@drawable/homewallpap"
-	android:gravity="center_vertical|center_horizontal">
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_height="200dp"
+     android:layout_width="match_parent"
+     android:background="@drawable/homewallpap"
+     android:layout_marginRight="9dp"
+     android:layout_marginLeft="9dp"
+     android:id="@+id/shapeviews">
 
-	<ImageView
-		android:layout_width="60dp"
-		android:layout_height="60dp"
-		android:src="@drawable/ghosticon_spash"
-		android:adjustViewBounds="true"
-		android:layout_gravity="center_vertical|center_horizontal"/>
+    <LinearLayout
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:gravity="center"
+         android:orientation="vertical">
 
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Ghost web ide"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:textStyle="bold"/>
+        <ImageView
+             android:layout_height="60dp"
+             android:layout_width="60dp"
+             android:src="@drawable/ghosticon_spash"
+             android:adjustViewBounds="true"
+             android:layout_gravity="center_vertical|center_horizontal" />
 
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"/>
+        <com.google.android.material.textview.MaterialTextView
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:textAppearance="?android:attr/textAppearanceLarge"
+             android:text="Ghost web ide"
+             android:textStyle="bold" />
 
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="app by ninja coder"
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:gravity="bottom"/>
+        <LinearLayout
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:gravity="bottom"
+             android:textAppearance="?android:attr/textAppearanceSmall"
+             android:text="app by ninja coder" />
+
+    </LinearLayout>
 
 </LinearLayout>
-
