@@ -8,7 +8,7 @@
     <Ninja.coder.Ghostemane.code.keyboard.Keyboard_View
             android:id="@+id/KeyboardView"
             android:background="@color/Background_yellow"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:keyBackground="@drawable/yellow"
             android:shadowColor="#00000000"

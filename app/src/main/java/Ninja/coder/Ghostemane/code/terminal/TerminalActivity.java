@@ -2,6 +2,7 @@ package Ninja.coder.Ghostemane.code.terminal;
 
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.activities.BaseCompat;
+import Ninja.coder.Ghostemane.code.terminal.TermuxActivityRootView;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysView;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeyButton;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.SizeUtils;
 import com.termux.terminal.TerminalEmulator;
 import com.termux.terminal.TerminalSession;
 import com.termux.view.TerminalViewClient;
@@ -38,18 +40,20 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
   private HashMap<String, Object> imap = new HashMap<>();
   private String pos = "";
   protected SharedPreferences getvb;
-
+  private boolean mIsVisible ;
   private TerminalView terminals;
   protected VirtualKeysView keys;
   protected KeyListener listener;
-  CoordinatorLayout layoutRoot;
+  TermuxActivityRootView layoutRoot;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
+    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     super.onCreate(_savedInstanceState);
     setContentView(R.layout.terminal);
     initialize(_savedInstanceState);
     initializeLogic();
+    
   }
 
   private KeyListener getKeyListener() {
@@ -61,6 +65,18 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     getvb = getSharedPreferences("getvb", Activity.MODE_PRIVATE);
     keys = findViewById(R.id.keysterm);
     layoutRoot = findViewById(R.id.rootPos);
+    layoutRoot.setActivity(this);
+    
+    layoutRoot.setOnApplyWindowInsetsListener(new TermuxActivityRootView.WindowInsetsListener());
+
+  }
+  
+  public boolean isVisible() {
+        return mIsVisible;
+    }
+  
+  public View getTermuxActivityBottomSpaceView(){
+    return keys;
   }
 
   private void initializeLogic() {
@@ -72,6 +88,7 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     Map<String, String> maps = new HashMap<>();
     maps.put("HOME", shell);
     var helper = maps.get("HOME");
+    keys.setVisibility(mIsVisible ? View.GONE : View.VISIBLE);
 
     String[] envVars = null;
     String[] argsList = {};
@@ -173,8 +190,8 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     if (terminalSession != null) {
       terminals.attachSession(terminalSession);
     }
-
-    terminals.setTextSize(30);
+    terminals.setTextSize(SizeUtils.dp2px(12f));
+    terminals.setKeepScreenOn(true);
 
     terminalSession.titleChanged("1", shell);
     terminals.post(

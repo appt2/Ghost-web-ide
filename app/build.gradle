@@ -1,6 +1,6 @@
 plugins {
     id "com.android.application"
-    id 'kotlin-android'
+    id "kotlin-android"
 }
 
 android {
@@ -107,4 +107,5 @@ dependencies {
     implementation("com.github.TimScriptov:App-UI-Designer:1.0.9")
     implementation project(path: ":Plugin")
   	implementation project(path: ":pl-codecomment") 	
+    implementation "androidx.core:core:1.6.0"  
 }
