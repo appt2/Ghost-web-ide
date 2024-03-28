@@ -10,8 +10,11 @@ import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysInfo;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysConstants;
 import Ninja.coder.Ghostemane.code.utils.Commands;
 import Ninja.coder.Ghostemane.code.terminal.key.SpecialButton;
+import Ninja.coder.Ghostemane.code.utils.FileUtil;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,25 +25,31 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SizeUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.termux.terminal.TerminalColorScheme;
+import com.termux.terminal.TerminalColors;
 import com.termux.terminal.TerminalEmulator;
 import com.termux.terminal.TerminalSession;
+import com.termux.terminal.TextStyle;
 import com.termux.view.TerminalViewClient;
 import io.github.rosemoe.sora.widget.AndroidClassHelper.helper;
 import com.termux.terminal.TerminalSessionClient;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import com.termux.view.TerminalView;
 import android.os.Bundle;
 import java.util.Map;
+import java.util.Properties;
 import org.json.JSONException;
 
-
 public class TerminalActivity extends BaseCompat implements TerminalViewClient {
- 
+
   private HashMap<String, Object> imap = new HashMap<>();
   private String pos = "";
   protected SharedPreferences getvb;
-  private boolean mIsVisible ;
+  private boolean mIsVisible;
   private TerminalView terminals;
   protected VirtualKeysView keys;
   protected KeyListener listener;
@@ -54,6 +63,7 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     initialize(_savedInstanceState);
     initializeLogic();
     
+    
   }
 
   private KeyListener getKeyListener() {
@@ -66,16 +76,15 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     keys = findViewById(R.id.keysterm);
     layoutRoot = findViewById(R.id.rootPos);
     layoutRoot.setActivity(this);
-    
-    layoutRoot.setOnApplyWindowInsetsListener(new TermuxActivityRootView.WindowInsetsListener());
 
+    layoutRoot.setOnApplyWindowInsetsListener(new TermuxActivityRootView.WindowInsetsListener());
   }
-  
+
   public boolean isVisible() {
-        return mIsVisible;
-    }
-  
-  public View getTermuxActivityBottomSpaceView(){
+    return mIsVisible;
+  }
+
+  public View getTermuxActivityBottomSpaceView() {
     return keys;
   }
 
@@ -98,8 +107,6 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
         .setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-    ColorAndroid12.setColorBackground(terminals);
     if (getvb.getString("wall", "").equals("true")) {
       // BlurImage.setBlurInWallpaperMobile(this, 20, getWindow().getDecorView());
       Toast.makeText(getApplicationContext(), "1", 1).show();
@@ -194,10 +201,35 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     terminals.setKeepScreenOn(true);
 
     terminalSession.titleChanged("1", shell);
+    var str = "";
     terminals.post(
         () -> {
-          terminals.mTermSession.write(Commands.getBasicCommand(TerminalActivity.this));
+          if (str.equals("pyshell")) {
+            terminals.mTermSession.write(Commands.getPythonShellCommand(TerminalActivity.this));
+          } else terminals.mTermSession.write(Commands.getBasicCommand(TerminalActivity.this));
         });
+    try {
+      Properties pr = new Properties();
+      if (getvb != null) {
+        if (getvb.contains("themes")) {
+          pr.load(new FileInputStream(getvb.getString("themes", "")));
+          String color = pr.getProperty("background");
+          getWindow()
+              .getDecorView()
+              .setBackgroundColor(Color.parseColor(color != null ? color : "#ff000000"));
+          var forg = pr.getProperty("foreground");
+          if(Build.VERSION.SDK_INT >= 28) getWindow().setNavigationBarDividerColor(Color.parseColor(forg != null ? forg : "#ff202820"));
+          if(Build.VERSION.SDK_INT >= 21){
+            getWindow().setNavigationBarColor(Color.parseColor(color != null ? color : "#ff000000"));
+            getWindow().setStatusBarColor(Color.parseColor(color != null ? color : "#ff000000"));
+          }
+          TerminalColors.COLOR_SCHEME.updateWith(pr);
+        }
+      }
+
+    } catch (Exception err) {
+
+    }
   }
 
   @Override
