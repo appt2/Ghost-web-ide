@@ -1,20 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/io/github/rosemoe/sora/langs/properties/ProAnalyzer.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/terminal/TerminalActivity.java",
       "selection": {
         "end": {
-          "column": 47,
-          "index": 47,
-          "line": 0
+          "column": 71,
+          "index": 3493,
+          "line": 98
         },
         "start": {
-          "column": 37,
-          "index": 37,
-          "line": 0
+          "column": 71,
+          "index": 3493,
+          "line": 98
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/io/github/rosemoe/sora/langs/properties/ProAnalyzer.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/terminal/TerminalActivity.java"
 }

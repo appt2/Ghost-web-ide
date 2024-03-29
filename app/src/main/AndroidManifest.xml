@@ -270,14 +270,7 @@
             android:screenOrientation="portrait"
             
         />
-        <activity
-            android:name=".activities.PytestActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            android:screenOrientation="portrait"
-            
-        />
+
         <activity
             android:name=".activities.PluginManagerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"

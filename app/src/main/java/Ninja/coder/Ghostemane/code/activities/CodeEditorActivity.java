@@ -15,6 +15,7 @@ import Ninja.coder.Ghostemane.code.marco.WallpaperParallaxEffect;
 import Ninja.coder.Ghostemane.code.project.JavaCompilerBeta;
 import Ninja.coder.Ghostemane.code.project.ProjectManager;
 import Ninja.coder.Ghostemane.code.tasks.app.SassForAndroid;
+import Ninja.coder.Ghostemane.code.terminal.TerminalActivity;
 import Ninja.coder.Ghostemane.code.utils.*;
 import Ninja.coder.Ghostemane.code.widget.BlurImage;
 import Ninja.coder.Ghostemane.code.widget.ExrtaFab;
@@ -1866,13 +1867,13 @@ public class CodeEditorActivity extends AppCompatActivity {
                   getmd.putExtra("v", shp.getString("pos_path", ""));
                   startActivity(getmd);
                 } else {
-                  if (shp.getString("pos_path", "").contains(".cpp")) {
-                    getmd.setClass(getApplicationContext(), PytestActivity.class);
+                  if (shp.getString("pos_path", "").contains(".notDpr")) {
+                    getmd.setClass(getApplicationContext(), TerminalActivity.class);
                     getmd.putExtra("pathCpp", shp.getString("pos_path", ""));
                     startActivity(getmd);
                   } else {
                     if (shp.getString("pos_path", "").contains(".py")) {
-                      getmd.setClass(getApplicationContext(), PytestActivity.class);
+                      getmd.setClass(getApplicationContext(), TerminalActivity.class);
                       getmd.putExtra("path", shp.getString("pos_path", ""));
                       startActivity(getmd);
                     } else {
