@@ -78,6 +78,11 @@ public class FileIconHelper {
 
         if (FileUtil.isDirectory(filePath) || SAFUtil.isDirectory(mimeType)) setupFolderIcons();
         else setupFileIcons();
+       
+    }
+  
+    public FileEnvironmentHelper getfileEnvHelper(){
+      return fileEnvHelper;
     }
 
     private void setupFolderIcons() {

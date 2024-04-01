@@ -11,6 +11,8 @@ import Ninja.coder.Ghostemane.code.compressor.ZxExtractor;
 import Ninja.coder.Ghostemane.code.databin.FileMaker;
 import Ninja.coder.Ghostemane.code.filehelper.CreatorModule;
 import Ninja.coder.Ghostemane.code.filehelper.FactoryModelProject;
+import Ninja.coder.Ghostemane.code.folder.FileIconHelper;
+import Ninja.coder.Ghostemane.code.git.GitTaskUtils;
 import Ninja.coder.Ghostemane.code.interfaces.FileCallBack;
 import Ninja.coder.Ghostemane.code.layoutmanager.EmptyRecyclerView;
 import Ninja.coder.Ghostemane.code.layoutmanager.NavigationViewCompnet;
@@ -36,13 +38,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -50,6 +50,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -199,8 +200,8 @@ public class FileDirActivity extends BaseCompat
   private TimerTask ask;
 
   private SharedPreferences war;
-  private RequestNetwork AppUpdeat;
-  private RequestNetwork.RequestListener _AppUpdeat_request_listener;
+  private RequestNetwork CheckNewVersion;
+  private RequestNetwork.RequestListener UpdateCheck;
   private Intent finalintentpostfont = new Intent();
   private Intent intentgetLogCat = new Intent();
   private SharedPreferences tmp;
@@ -238,7 +239,7 @@ public class FileDirActivity extends BaseCompat
           },
           1000);
     } else {
-      initializeLogic();
+      initStartApp();
     }
   }
 
@@ -247,7 +248,7 @@ public class FileDirActivity extends BaseCompat
       int requestCode, String[] permissions, int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     if (requestCode == 1000) {
-      initializeLogic();
+      initStartApp();
     }
   }
 
@@ -286,7 +287,7 @@ public class FileDirActivity extends BaseCompat
     delfile = getSharedPreferences("delfile", Activity.MODE_PRIVATE);
     zipCuntishen = getSharedPreferences("zipCuntishen", Activity.MODE_PRIVATE);
     war = getSharedPreferences("war", Activity.MODE_PRIVATE);
-    AppUpdeat = new RequestNetwork(this);
+    CheckNewVersion = new RequestNetwork(this);
     tmp = getSharedPreferences("tmp", Activity.MODE_PRIVATE);
     base = getSharedPreferences("base", Activity.MODE_PRIVATE);
     save_path = getSharedPreferences("save_path", Activity.MODE_PRIVATE);
@@ -303,7 +304,7 @@ public class FileDirActivity extends BaseCompat
 
               @Override
               public void CallBackLeft(int pos) {
-                _project();
+                MakeZipFileFromThread((int) pos);
                 recyclerview2.getAdapter().notifyDataSetChanged();
               }
 
@@ -340,7 +341,7 @@ public class FileDirActivity extends BaseCompat
           }
         });
 
-    _AppUpdeat_request_listener =
+    UpdateCheck =
         new RequestNetwork.RequestListener() {
           @Override
           public void onResponse(String _param1, String _param2, HashMap<String, Object> _param3) {
@@ -410,23 +411,23 @@ public class FileDirActivity extends BaseCompat
     }
   }
 
-  private void initializeLogic() {
+  private void initStartApp() {
 
     getWindow()
         .setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-    AppUpdeat.startRequestNetwork(
+    CheckNewVersion.startRequestNetwork(
         RequestNetworkController.GET,
         "https://raw.githubusercontent.com/appt2/appt2/main/log.json",
         "",
-        _AppUpdeat_request_listener);
+        UpdateCheck);
     if (war.contains("val")) {}
 
     var progress_m = new com.zip4j.progress.ProgressMonitor();
 
     try {
-      android.content.pm.PackageInfo pInfo =
+      var pInfo =
           getApplicationContext()
               .getPackageManager()
               .getPackageInfo(getApplicationContext().getPackageName(), 0);
@@ -446,25 +447,15 @@ public class FileDirActivity extends BaseCompat
     proveg = new ProgressDialog(FileDirActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
     copydir = new ProgressDialog(FileDirActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
     copypath = new ProgressDialog(FileDirActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
-    /// result code By Ninja coder.ir my love java
-    /// result code By Ninja coder.ir my love java
-
     GradientDrawable u = new GradientDrawable();
     u.setColor(0xFF2B2122);
     u.setCornerRadius(25);
     u.setStroke(1, 0xFFF8B09A);
-    _materialYouss();
+
     paramentLayout_fileDir.setLayoutParams(
         new LinearLayout.LayoutParams(
             SketchwareUtil.getDisplayWidthPixels(getApplicationContext()),
             SketchwareUtil.getDisplayHeightPixels(getApplicationContext())));
-    progressDilaog.getWindow().setBackgroundDrawable(u);
-    unzip.getWindow().setBackgroundDrawable(u);
-    mprodialog.getWindow().setBackgroundDrawable(u);
-    prodel.getWindow().setBackgroundDrawable(u);
-    proveg.getWindow().setBackgroundDrawable(u);
-    copydir.getWindow().setBackgroundDrawable(u);
-    copypath.getWindow().setBackgroundDrawable(u);
 
     sd_stor = new SdCardUtil(this);
 
@@ -485,7 +476,7 @@ public class FileDirActivity extends BaseCompat
     sharedPreferences = getSharedPreferences("fileSp", Context.MODE_PRIVATE);
     utils = new HichemSoftFileUtil(sharedPreferences, FileDirActivity.this).loadData();
     utils.requestPermissionAllFilesAccess(); // if not allowed
-    _refreshTabs();
+    RefreshTabs();
     FileManagerUtils fileManagerUtils = new FileManagerUtils(this);
 
     fabAdd = findViewById(R.id.fabAdd);
@@ -497,7 +488,7 @@ public class FileDirActivity extends BaseCompat
     ColorAndroid12.setFab(fabAdd);
     fabAdd.setOnClickListener(
         v -> {
-          _dialogjni();
+          DialogItemSheet();
         });
     navs.getMenu().add(0, 1, 0, "Setting").setIcon(R.drawable.cog);
     navs.getMenu().add(0, 2, 0, "Java code").setIcon(R.drawable.javanull);
@@ -515,10 +506,10 @@ public class FileDirActivity extends BaseCompat
     navs.getMenu().add(0, 14, 0, "Book mark (Beta)").setIcon(R.drawable.ic_bookmark_white);
     navs.getMenu().add(0, 15, 0, "Apk manager").setIcon(R.drawable.default_image);
     navs.getMenu().add(0, 16, 0, "exit").setIcon(R.drawable.exit);
-    _DrowerHandler();
+    DrowerHandler();
   }
 
-  public void filterFile() {
+  public void FilterFile() {
     var view = LayoutInflater.from(this).inflate(R.layout.reminderlist, null, false);
     var dialog = new MaterialAlertDialogBuilder(this);
     dialog.setTitle("Filter List");
@@ -655,12 +646,12 @@ public class FileDirActivity extends BaseCompat
   @Override
   public void onResume() {
     super.onResume();
-    _refreshTabs();
+    RefreshTabs();
     restoreScrollPosition();
   }
 
   private void saveScrollPosition() {
-    int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+    var firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
     SharedPreferences.Editor editor = mSharedPreferences.edit();
     editor.putInt(ITEM_POSITION_KEY, firstVisibleItemPosition);
     editor.apply();
@@ -748,7 +739,7 @@ public class FileDirActivity extends BaseCompat
     _distreeview();
   }
 
-  public void _folder() {
+  public void FolderMaker() {
     androidx.appcompat.app.AlertDialog dialog =
         new GhostWebMaterialDialog(FileDirActivity.this)
             .setView(R.layout.makefolder)
@@ -857,7 +848,7 @@ public class FileDirActivity extends BaseCompat
     dialog.show();
   }
 
-  public void _file() {
+  public void FileMaker() {
 
     var folders = new FileMaker(this);
     folders.setFolderName(Folder);
@@ -883,7 +874,7 @@ public class FileDirActivity extends BaseCompat
     _view.setBackground(ripdr);
   }
 
-  public void _refreshTabs() {
+  public void RefreshTabs() {
     if (shp.contains("path")) {
       if (!shp.getString("path", "").equals("")) {
         newlistmap =
@@ -895,7 +886,7 @@ public class FileDirActivity extends BaseCompat
     }
   }
 
-  public void _checkListMap2(
+  public void SendDataFromCodeEditor(
       int _position,
       String _key,
       List<HashMap<String, Object>> _listmap1,
@@ -950,12 +941,6 @@ public class FileDirActivity extends BaseCompat
       }
     }
   }
-
-  public void _checkListMap3(
-      final double _position,
-      final String _key,
-      final ArrayList<HashMap<String, Object>> _listmap1,
-      final ArrayList<HashMap<String, Object>> _listmap2) {}
 
   public void _distreeview() {
 
@@ -1229,7 +1214,7 @@ public class FileDirActivity extends BaseCompat
       di.setPositiveButton(
           "استخراج",
           (p1, d2) -> {
-            _hsiunzip(_map.get((int) _pos).get(_path).toString(), GetTab);
+            UnZipDataFromDir(_map.get((int) _pos).get(_path).toString(), GetTab);
           });
       androidx.appcompat.app.AlertDialog dialog = di.show();
 
@@ -1388,7 +1373,7 @@ public class FileDirActivity extends BaseCompat
                     new Runnable() {
                       @Override
                       public void run() {
-                        _hsiunzip(_maps.get((int) _number).get(_pathz).toString(), Folder);
+                        UnZipDataFromDir(_maps.get((int) _number).get(_pathz).toString(), Folder);
                       }
                     });
                 return "";
@@ -1635,88 +1620,88 @@ public class FileDirActivity extends BaseCompat
   public void _dataOnClickItemList(int _pos) {
     newpos = _pos;
     if (staticstring.endsWith(".txt")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".go")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".css")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".php")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".js")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".html")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".dart")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".kt")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".swift")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".rb")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".rbw")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".c")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".scss") || staticstring.endsWith(".sass")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".cs")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".java")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".json")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".cpp")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".py")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".ghost")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".xml")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".ninja")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".md")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".sh")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".smali")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".groovy") || staticstring.endsWith(".gradle")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".g4")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".ts")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".properties")) {
-      _checkListMap2(newpos, "path", files, newlistmap);
+      SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".svg")) {
       androidx.appcompat.app.AlertDialog dialog =
@@ -1755,12 +1740,12 @@ public class FileDirActivity extends BaseCompat
                           case 0:
                             {
                               dialog.dismiss();
-                              _checkListMap2(newpos, "path", files, newlistmap);
+                              SendDataFromCodeEditor(newpos, "path", files, newlistmap);
                               break;
                             }
                           case 1:
                             {
-                              _vector(staticstring, GetTab.concat("/"));
+                              VectorImageShow(staticstring, GetTab.concat("/"));
                               dialog.dismiss();
                               break;
                             }
@@ -1826,7 +1811,7 @@ public class FileDirActivity extends BaseCompat
       startActivity(govirwFilm);
     }
     if (staticstring.endsWith(".apk")) {
-      _apkinit();
+      apkShowDataRoom();
     }
     if (staticstring.endsWith(".pdf")) {
       getabout.setClass(getApplicationContext(), PdfViewNewActivity.class);
@@ -1855,101 +1840,74 @@ public class FileDirActivity extends BaseCompat
     _insertData(newpos);
   }
 
-  public void _addproject(double _number) {
-    var di = new MaterialAlertDialogBuilder(this);
+  public void MakeZipFileFromThread(int pos) {
+    MakeZipFileFromThread(pos, "Add project?", "ایا میخواهید یک پروژه بسازید؟", ".project");
+  }
 
-    di.setTitle("Add project?");
-    di.setMessage("ایا میخواهید یک پروژه بسازید؟");
+  public void MakeZipFileFromThreads(int pos) {
+    MakeZipFileFromThread(pos, "Make ZipFile", "Add Zip ?", ".zip");
+  }
+
+  void MakeZipFileFromThread(int _number, String title, String massges, String format) {
+    MaterialAlertDialogBuilder di = new MaterialAlertDialogBuilder(this);
+
+    di.setTitle(title);
+    di.setMessage(massges);
     di.setPositiveButton(
         "بله",
         (p1, d2) -> {
-          new AsyncTask<String, String, String>() {
-            @Override
-            protected void onPreExecute() {
-              copydir.setCanceledOnTouchOutside(false);
-              copydir.setTitle("Loading...");
-              copydir.setCancelable(false);
-              copydir.show();
-            }
+          var copydir = new ProgressDialog(this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
+          copydir.setCanceledOnTouchOutside(false);
+          copydir.setTitle("Loading...");
+          copydir.setCancelable(false);
+          copydir.show();
 
-            @Override
-            protected String doInBackground(String... params) {
-              String _param = params[0];
-              runOnUiThread(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      if (FileUtil.isDirectory(files.get((int) _number).get("path").toString())) {
-                        try {
-
-                          new net.lingala.zip4j.ZipFile(
-                                  Folder.concat(
-                                      "/"
-                                          .concat(
-                                              Uri.parse(
-                                                      files
-                                                          .get((int) _number)
-                                                          .get("path")
-                                                          .toString())
-                                                  .getLastPathSegment()
-                                                  .concat(
-                                                      String.valueOf(
-                                                              (long)
-                                                                  (SketchwareUtil.getRandom(
-                                                                      (int) (0), (int) (1375))))
-                                                          .concat(".project")))))
-                              .addFolder(
-                                  new java.io.File(
-                                      files.get((int) _number).get("path").toString()));
-
-                        } catch (net.lingala.zip4j.exception.ZipException e) {
-                          showMessage(e.toString());
-                        }
-                        reLoadFile();
-                      } else {
-                        try {
-
-                          new net.lingala.zip4j.ZipFile(
-                                  new java.io.File(
-                                      Folder.concat(
-                                          "/"
-                                              .concat(
-                                                  Uri.parse(
-                                                          files
-                                                              .get((int) _number)
-                                                              .get("path")
-                                                              .toString())
-                                                      .getLastPathSegment()
-                                                      .concat(
-                                                          String.valueOf(
-                                                                  (long)
-                                                                      (SketchwareUtil.getRandom(
-                                                                          (int) (0), (int) (1375))))
-                                                              .concat(".project"))))))
-                              .addFile(
-                                  new java.io.File(
-                                      files.get((int) _number).get("path").toString()));
-
-                        } catch (net.lingala.zip4j.exception.ZipException e) {
-                          showMessage(e.toString());
-                        }
-                        reLoadFile();
+          Thread thread =
+              new Thread(
+                  () -> {
+                    if (FileUtil.isDirectory(files.get(_number).get("path").toString())) {
+                      try {
+                        String originalFilePath = files.get(_number).get("path").toString();
+                        String outputFilePath =
+                            Folder.concat("/")
+                                .concat(
+                                    Uri.parse(originalFilePath)
+                                        .getLastPathSegment()
+                                        .concat(format));
+                        new net.lingala.zip4j.ZipFile(outputFilePath)
+                            .addFolder(new File(originalFilePath));
+                      } catch (Exception e) {
+                        runOnUiThread(() -> showMessage(e.toString()));
+                      }
+                    } else {
+                      try {
+                        String originalFilePath = files.get(_number).get("path").toString();
+                        String outputFilePath =
+                            Folder.concat("/")
+                                .concat(
+                                    Uri.parse(originalFilePath)
+                                        .getLastPathSegment()
+                                        .replaceAll("\\.\\w+$", "")
+                                        .concat(format));
+                        new net.lingala.zip4j.ZipFile(outputFilePath)
+                            .addFile(new java.io.File(originalFilePath));
+                      } catch (Exception e) {
+                        runOnUiThread(() -> showMessage(e.toString()));
                       }
                     }
-                  });
-              return "";
-            }
 
-            @Override
-            protected void onPostExecute(String _result) {
-              copydir.dismiss();
-            }
-          }.execute("");
+                    runOnUiThread(
+                        () -> {
+                          reLoadFile();
+                          copydir.dismiss();
+                        });
+                  });
+          thread.start();
         });
+
     di.setNeutralButton("خیر", null);
 
     AlertDialog dialog = di.show();
-
     dialog.show();
   }
 
@@ -1984,7 +1942,7 @@ public class FileDirActivity extends BaseCompat
     maindialogPrfex.show();
   }
 
-  public void _vector(final String _input, final String _output) {
+  public void VectorImageShow(final String _input, final String _output) {
     VectorHelper.iconPath = _input;
     VectorHelper.projectResourceDirectory = _output;
     VectorHelper.v(
@@ -1994,12 +1952,12 @@ public class FileDirActivity extends BaseCompat
         });
   }
 
-  public void _hsiunzip(final String _input, final String _output) {
+  public void UnZipDataFromDir(final String _input, final String _output) {
     HsiZip task = new HsiZip(this);
     task.execute(_input, _output);
   }
 
-  public void _apkinit() {
+  public void apkShowDataRoom() {
     String pathToFile = staticstring;
     PackageManager packageManager = getPackageManager();
     PackageInfo packageInfo = packageManager.getPackageArchiveInfo(pathToFile, 0);
@@ -2021,11 +1979,11 @@ public class FileDirActivity extends BaseCompat
       sb.append("Min SDK Version: ").append(minSdkVersion).append("\n");
     }
     // دریافت آیکون برنامه و نام برنامه
-    ApplicationInfo applicationInfo = packageInfo.applicationInfo;
-    Drawable icon = applicationInfo.loadIcon(packageManager);
-    String appName = applicationInfo.loadLabel(packageManager).toString();
+    var applicationInfo = packageInfo.applicationInfo;
+    var icon = applicationInfo.loadIcon(packageManager);
+    var appName = applicationInfo.loadLabel(packageManager).toString();
     // ساخت دیالوگ با MaterialAlertDialogBuilder و نمایش آیکون و نام برنامه در آن
-    var builder = new GhostWebMaterialDialog(this);
+    var builder = new MaterialAlertDialogBuilder(this);
     builder.setTitle(appName);
     builder.setIcon(icon);
     builder.setMessage(sb.toString());
@@ -2047,15 +2005,13 @@ public class FileDirActivity extends BaseCompat
         (p, d) -> {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
               && !getPackageManager().canRequestPackageInstalls()) {
-            MaterialAlertDialogBuilder cbuilder =
-                new MaterialAlertDialogBuilder(FileDirActivity.this);
+            var cbuilder = new MaterialAlertDialogBuilder(this);
             cbuilder.setTitle("Application request to install app");
             cbuilder.setMessage("To install the application requires permission.");
             cbuilder.setPositiveButton(
                 "Request",
                 (cc, fdd) -> {
-                  Intent mintent =
-                      new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+                  Intent mintent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
                   mintent.setData(Uri.parse("package:" + getPackageName()));
                   startActivity(mintent);
                 });
@@ -2070,93 +2026,6 @@ public class FileDirActivity extends BaseCompat
 
     builder.show();
   }
-
-  public void _zipfileandFolder(final double _number) {
-    var di = new GhostWebMaterialDialog(FileDirActivity.this);
-    di.setTitle("Add project?");
-    di.setMessage("ایا میخواهید یک پروژه بسازید؟");
-    di.setPositiveButton(
-        "بله",
-        (p1, d2) -> {
-          new AsyncTask<String, String, String>() {
-            @Override
-            protected void onPreExecute() {
-              copydir.setCanceledOnTouchOutside(false);
-              copydir.setTitle("Loading...");
-              copydir.setCancelable(false);
-              copydir.show();
-            }
-
-            @Override
-            protected String doInBackground(String... params) {
-              String _param = params[0];
-              runOnUiThread(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      if (FileUtil.isDirectory(files.get((int) _number).get("path").toString())) {
-                        try {
-
-                          new net.lingala.zip4j.ZipFile(
-                                  Folder.concat(
-                                      "/"
-                                          .concat(
-                                              Uri.parse(
-                                                      files
-                                                          .get((int) _number)
-                                                          .get("path")
-                                                          .toString())
-                                                  .getLastPathSegment()
-                                                  .concat(".zip"))))
-                              .addFolder(
-                                  new java.io.File(
-                                      files.get((int) _number).get("path").toString()));
-
-                        } catch (net.lingala.zip4j.exception.ZipException e) {
-                          showMessage(e.toString());
-                        }
-                        reLoadFile();
-                      } else {
-                        try {
-
-                          new net.lingala.zip4j.ZipFile(
-                                  new java.io.File(
-                                      Folder.concat(
-                                          "/"
-                                              .concat(
-                                                  Uri.parse(
-                                                          files
-                                                              .get((int) _number)
-                                                              .get("path")
-                                                              .toString())
-                                                      .getLastPathSegment()
-                                                      .concat(".zip")))))
-                              .addFile(
-                                  new java.io.File(
-                                      files.get((int) _number).get("path").toString()));
-
-                        } catch (net.lingala.zip4j.exception.ZipException e) {
-                          showMessage(e.toString());
-                        }
-                        reLoadFile();
-                      }
-                    }
-                  });
-              return "";
-            }
-
-            @Override
-            protected void onPostExecute(String _result) {
-              copydir.dismiss();
-            }
-          }.execute("");
-        });
-    di.setNeutralButton("خیر", null);
-
-    di.show();
-  }
-
-  public void _jarPost() {}
 
   public void _targz(final String _in, final String _ou) {
     var extra =
@@ -2372,7 +2241,7 @@ public class FileDirActivity extends BaseCompat
     dialog.show();
   }
 
-  public void _DrowerHandler() {
+  public void DrowerHandler() {
     navs.bringToFront();
     navs.setClick(
         (item) -> {
@@ -2459,11 +2328,11 @@ public class FileDirActivity extends BaseCompat
             case ((int) 9):
               {
                 if (SketchwareUtil.isConnected(getApplicationContext())) {
-                  AppUpdeat.startRequestNetwork(
+                  CheckNewVersion.startRequestNetwork(
                       RequestNetworkController.GET,
                       "https://raw.githubusercontent.com/appt2/appt2/main/log.json",
                       "v",
-                      _AppUpdeat_request_listener);
+                      UpdateCheck);
                 } else {
                   SketchwareUtil.showMessage(getApplicationContext(), "اینترنت خاموش است");
                 }
@@ -2576,10 +2445,12 @@ public class FileDirActivity extends BaseCompat
     }
   }
 
-  public void _dialogjni() {
+  public void DialogItemSheet() {
 
-    ListSheet sh = new ListSheet();
+    var sh = new ListSheet();
+    var fileHelper = new FileIconHelper(Folder);
     sh.setSheetDialog(this);
+
     sh.addItem("MakeFolder", R.drawable.folder);
     sh.addItem("MakeFile", R.drawable.folders_0_5);
     sh.addItem("MakeProject", R.drawable.textfile);
@@ -2589,17 +2460,21 @@ public class FileDirActivity extends BaseCompat
     sh.addItem("FileTree", R.drawable.filemultiple);
     sh.addItem("Git Clone", R.drawable.git);
     sh.addItem("Android module", R.drawable.mdapk);
+    if (fileHelper.getfileEnvHelper().git().isGitDirectory())
+      sh.addItem("Git Tools", R.drawable.git);
     sh.setOnItemClickLabe(
         (pos333) -> {
           switch (pos333) {
             case 0:
               {
-                _folder();
+                FolderMaker();
+                sh.getDismiss(true);
                 break;
               }
             case 1:
               {
-                _file();
+                FileMaker();
+                sh.getDismiss(true);
                 break;
               }
             case 2:
@@ -2611,16 +2486,19 @@ public class FileDirActivity extends BaseCompat
                         () -> {
                           reLoadFile();
                         });
+                sh.getDismiss(true);
                 break;
               }
             case 3:
               {
                 _ftpinstall();
+                sh.getDismiss(true);
                 break;
               }
             case 4:
               {
-                filterFile();
+                FilterFile();
+                sh.getDismiss(true);
                 break;
               }
             case 5:
@@ -2657,6 +2535,7 @@ public class FileDirActivity extends BaseCompat
 
                 di1.setView(dialogview);
                 di1.show();
+                sh.getDismiss(true);
                 break;
               }
             case 6:
@@ -2693,11 +2572,13 @@ public class FileDirActivity extends BaseCompat
 
                 di.setView(dialogview1);
                 di.show();
+                sh.getDismiss(true);
                 break;
               }
             case 7:
               {
                 _dialoggits();
+                sh.getDismiss(true);
                 break;
               }
             case 8:
@@ -2709,21 +2590,17 @@ public class FileDirActivity extends BaseCompat
                         () -> {
                           reLoadFile();
                         });
+                sh.getDismiss(true);
+                break;
+              }
+            case 9:
+              {
+                GitTaskUtils task = new GitTaskUtils(FileDirActivity.this, Folder);
+                sh.getDismiss(true);
+                break;
               }
           }
         });
-  }
-
-  public void _materialYouss() {
-    if (materialYou.getString("materialYou", "").equals("true")) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-          && DynamicColors.isDynamicColorAvailable()) {
-        DynamicColors.applyToActivityIfAvailable(this);
-      }
-
-    } else {
-
-    }
   }
 
   public void _newItemSheet(int _position, final View _view) {
@@ -2760,7 +2637,7 @@ public class FileDirActivity extends BaseCompat
         new View.OnClickListener() {
           public void onClick(View v) {
 
-            _addproject(_position);
+            MakeZipFileFromThread(_position);
             bottomSheetDialog.dismiss();
           }
         });
@@ -2783,7 +2660,7 @@ public class FileDirActivity extends BaseCompat
         new View.OnClickListener() {
           public void onClick(View v) {
 
-            _zipfileandFolder(_position);
+            MakeZipFileFromThreads(_position);
             bottomSheetDialog.dismiss();
           }
         });

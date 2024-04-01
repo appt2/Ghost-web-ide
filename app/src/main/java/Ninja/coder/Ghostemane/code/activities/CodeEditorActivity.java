@@ -114,7 +114,7 @@ public class CodeEditorActivity extends AppCompatActivity {
   protected EditorAutoCompleteWindow window;
   protected ExrtaFab _fab; // /By ninja coder big man main
   private final Timer _timer = new Timer();
-  private SymbolInputView mSymbolInputView;
+  
   private WallpaperParallaxEffect effect;
   private Toolbar _toolbar;
   private AppBarLayout _app_bar;
@@ -162,30 +162,23 @@ public class CodeEditorActivity extends AppCompatActivity {
   private LinearLayout newLayoutSymbolBar;
   private LinearLayout CustomToolbar;
   private ProgressBar progressbar1;
-  private TextView view;
+  
   private RecyclerView recyclerview1;
   private RecyclerView dir;
   private LinearLayout divar;
-  private LinearLayout stopIntarsenl;
-  private LinearLayout fileinfo;
-  private LinearLayout backgroundPressBack;
   private LinearLayout linear1;
   private LinearLayout linear2;
   private BadgeView badgeview3;
   private TextView tvtitle;
   private TextView typeVl;
-  private TextView themenotfound;
-  private ImageView helper;
   private ImageView image;
   private ImageView redo;
   private ImageView undo;
-  private ImageView st;
   private ImageView menupopnew;
   private IdeEditor editor;
   private LinearLayout FrameLayout02;
   private LinearLayout linear3;
   private ProgressBar proanjctor;
-  private LinearLayout linear4;
   private LinearLayout barSymoble;
   private LinearLayout linear5;
   private ImageView imageview1;
@@ -194,7 +187,6 @@ public class CodeEditorActivity extends AppCompatActivity {
   private ImageView left;
   private ImageView up;
   private ImageView rh;
-  private TextView tv;
   private LinearLayout divardown;
   private RecyclerView syspiar;
 
@@ -319,30 +311,26 @@ public class CodeEditorActivity extends AppCompatActivity {
     newLayoutSymbolBar = findViewById(R.id.newLayoutSymbolBar);
     CustomToolbar = findViewById(R.id.CustomToolbar);
     progressbar1 = findViewById(R.id.progressbar1);
-    view = findViewById(R.id.view);
+    
     recyclerview1 = findViewById(R.id.recyclerview1);
     dir = findViewById(R.id.dir);
     divar = findViewById(R.id.divar);
-    stopIntarsenl = findViewById(R.id.stopIntarsenl);
-    fileinfo = findViewById(R.id.fileinfo);
-    backgroundPressBack = findViewById(R.id.backgroundPressBack);
+    
     linear1 = findViewById(R.id.linear1);
     linear2 = findViewById(R.id.linear2);
     badgeview3 = findViewById(R.id.badgeview3);
     tvtitle = findViewById(R.id.tvtitle);
     typeVl = findViewById(R.id.typeVl);
-    themenotfound = findViewById(R.id.themenotfound);
-    helper = findViewById(R.id.helper);
     image = findViewById(R.id.image);
     redo = findViewById(R.id.redo);
     undo = findViewById(R.id.undo);
-    st = findViewById(R.id.st);
+    
     menupopnew = findViewById(R.id.menupopnew);
     editor = findViewById(R.id.editor);
     FrameLayout02 = findViewById(R.id.FrameLayout02);
     linear3 = findViewById(R.id.linear3);
     proanjctor = findViewById(R.id.proanjctor);
-    linear4 = findViewById(R.id.linear4);
+    
     barSymoble = findViewById(R.id.barSymoble);
     linear5 = findViewById(R.id.linear5);
     imageview1 = findViewById(R.id.imageview1);
@@ -351,7 +339,7 @@ public class CodeEditorActivity extends AppCompatActivity {
     left = findViewById(R.id.left);
     up = findViewById(R.id.up);
     rh = findViewById(R.id.rh);
-    tv = findViewById(R.id.tv);
+    
     divardown = findViewById(R.id.divardown);
     syspiar = findViewById(R.id.syspiar);
     word = getSharedPreferences("word", Activity.MODE_PRIVATE);
@@ -410,14 +398,6 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         });
 
-    backgroundPressBack.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            onBackPressed();
-          }
-        });
-
     image.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -450,95 +430,12 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         });
 
-    st.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            mmenucog =
-                new PowerMenu.Builder(CodeEditorActivity.this)
-                    .addItem(new PowerMenuItem("فونت منجر", false, R.drawable.fonthelper))
-                    .addItem(
-                        new PowerMenuItem(
-                            "پس زمینه", false, R.drawable.keyboardlisnertalluserpost_3))
-                    .addItem(new PowerMenuItem("test"))
-                    .build();
-            mmenucog.setIconPadding(8);
-            mmenucog.setIconSize(25);
-            mmenucog.setAutoDismiss(true);
-            mmenucog.setAnimation(MenuAnimation.ELASTIC_CENTER);
-            mmenucog.setMenuRadius(30f);
-            mmenucog.setSelectedEffect(true);
-            mmenucog.showAsDropDown(st);
-            mmenucog.setShowBackground(false);
-
-            mmenucog.setDividerHeight(2);
-            if (ru.contains("rup")) {
-              mmenucog.setIconColor(0xFFFDA893);
-              mmenucog.setMenuColor(0xFF2B2121);
-              mmenucog.setDivider(new ColorDrawable(0xFFFDA893));
-              mmenucog.setTextColor(0xFFEEEEEE);
-            } else {
-              if (imap.containsKey("ImageColor")) {
-                mmenucog.setIconColor(Color.parseColor(imap.get("ImageColor").toString()));
-              } else {
-                mmenucog.setDivider(new ColorDrawable(0xFFFDA893));
-              }
-              if (imap.containsKey("LINE_DIVIDER")) {
-                mmenucog.setDivider(
-                    new ColorDrawable(Color.parseColor(imap.get("LINE_DIVIDER").toString())));
-              } else {
-                mmenucog.setIconColor(0xFFFDA893);
-              }
-              if (imap.containsKey("MenuBackground")) {
-                mmenucog.setMenuColor(Color.parseColor(imap.get("MenuBackground").toString()));
-              } else {
-                mmenucog.setMenuColor(0xFF2B2121);
-              }
-              if (imap.containsKey("TEXT_NORMAL")) {
-                mmenucog.setTextColor(Color.parseColor(imap.get("TEXT_NORMAL").toString()));
-              } else {
-                mmenucog.setTextColor(0xFFEEEEEE);
-              }
-            }
-            mmenucog.setOnMenuItemClickListener(
-                new OnMenuItemClickListener<PowerMenuItem>() {
-                  @Override
-                  public void onItemClick(int position, PowerMenuItem item) {
-                    switch (position) {
-                      case 0:
-                        {
-                          fontHelper.setClass(getApplicationContext(), FontChakerActivity.class);
-                          fontHelper.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                          startActivity(fontHelper);
-                          break;
-                        }
-                      case 1:
-                        {
-                          Intent myintent =
-                              new Intent(
-                                  Intent.ACTION_PICK,
-                                  android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                          startActivityForResult(myintent, REQ_CD_SETPASZAMINE);
-
-                          break;
-                        }
-                      case 2:
-                        {
-                          editor.getCommentHelper().MakeCommentJava();
-                          break;
-                        }
-                    }
-                  }
-                });
-          }
-        });
+    
 
     menupopnew.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
+        (___)-> {
+          
             _managerpanel(menupopnew);
-          }
         });
 
     imageview1.setOnClickListener(
@@ -582,33 +479,7 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         });
 
-    tv.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            _sysba("    ");
-            if (tab100.contains("mpcnullgogo")) {
-              if (tab100.getString("mpcnullgogo", "").equals("4")) {
-                _sysba("    ");
-              } else {
-                if (tab100.getString("mpcnullgogo", "").equals("6")) {
-                  _sysba("      ");
-                } else {
-                  if (tab100.getString("mpcnullgogo", "").equals("8")) {
-                    _sysba("        ");
-                  } else {
-                    if (tab100.getString("mpcnullgogo", "").equals("16")) {
-                      _sysba("                  ");
-                    } else {
-                      _sysba("    ");
-                    }
-                  }
-                }
-              }
-            }
-          }
-        });
-
+    
     _fab.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -636,7 +507,7 @@ public class CodeEditorActivity extends AppCompatActivity {
 
   private void initializeLogic() {
     proanjctor.setVisibility(View.GONE);
-    barSymoble.setVisibility(View.GONE);
+    barSymoble.setVisibility(View.VISIBLE);
     _vi();
     POSTMANPATH = shp.getString("pos_path", "");
     _fab.shrink();
@@ -868,30 +739,7 @@ public class CodeEditorActivity extends AppCompatActivity {
     }
     FileUtil.writeFile(
         "/storage/emulated/0/GhostWebIDE/ninjacoder/openFile.json", shp.getString("path", ""));
-    stopIntarsenl.setBackground(
-        new GradientDrawable() {
-          public GradientDrawable getIns(int a, int b) {
-            this.setCornerRadius(a);
-            this.setColor(b);
-            return this;
-          }
-        }.getIns((int) 50, 0xFFF44336));
-    fileinfo.setBackground(
-        new GradientDrawable() {
-          public GradientDrawable getIns(int a, int b) {
-            this.setCornerRadius(a);
-            this.setColor(b);
-            return this;
-          }
-        }.getIns((int) 50, 0xFFFFEB3B));
-    backgroundPressBack.setBackground(
-        new GradientDrawable() {
-          public GradientDrawable getIns(int a, int b) {
-            this.setCornerRadius(a);
-            this.setColor(b);
-            return this;
-          }
-        }.getIns((int) 50, 0xFFE91E63));
+    
 
     progressbar1.setVisibility(View.GONE);
 
@@ -935,50 +783,7 @@ public class CodeEditorActivity extends AppCompatActivity {
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     _coderuner();
-    tv.setOnTouchListener(
-        new View.OnTouchListener() {
-          @Override
-          public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
-              case MotionEvent.ACTION_DOWN:
-                {
-                  ObjectAnimator scaleX = new ObjectAnimator();
-                  scaleX.setTarget(tv);
-                  scaleX.setPropertyName("scaleX");
-                  scaleX.setFloatValues(0.9f);
-                  scaleX.setDuration(5);
-                  scaleX.start();
-
-                  ObjectAnimator scaleY = new ObjectAnimator();
-                  scaleY.setTarget(tv);
-                  scaleY.setPropertyName("scaleY");
-                  scaleY.setFloatValues(0.9f);
-                  scaleY.setDuration(5);
-                  scaleY.start();
-                  break;
-                }
-              case MotionEvent.ACTION_UP:
-                {
-                  ObjectAnimator scaleX = new ObjectAnimator();
-                  scaleX.setTarget(tv);
-                  scaleX.setPropertyName("scaleX");
-                  scaleX.setFloatValues((float) 1);
-                  scaleX.setDuration(5);
-                  scaleX.start();
-
-                  ObjectAnimator scaleY = new ObjectAnimator();
-                  scaleY.setTarget(tv);
-                  scaleY.setPropertyName("scaleY");
-                  scaleY.setFloatValues((float) 1);
-                  scaleY.setDuration(5);
-                  scaleY.start();
-
-                  break;
-                }
-            }
-            return false;
-          }
-        });
+    
     editor.setLineNumberAlign(Paint.Align.CENTER);
 
     SetThemeForJson themeForJson2 = new SetThemeForJson();
@@ -987,10 +792,6 @@ public class CodeEditorActivity extends AppCompatActivity {
         tvtitle, "SyombolBarTextColor", Color.parseColor("#FFFFA0FB"), this, imap);
     themeForJson2.addTextColor(
         typeVl, "SyombolBarTextColor", Color.parseColor("#FFFFA0FB"), this, imap);
-    themeForJson2.addTextColor(
-        tv, "SyombolBarTextColor", Color.parseColor("#FFFFA0FB"), this, imap);
-    themeForJson2.addTextColor(
-        view, "SyombolBarTextColor", Color.parseColor("#FFFFA0FB"), this, imap);
     themeForJson2.AddthemetoSattos(this, imap);
     themeForJson2.addBackground(this, imap, "ToolbarColor", CustomToolbar, 0xFF281B26);
     themeForJson2.addBackground(this, imap, "BackgroundColorLinear", Mainlinear, 0xFF281B26);
@@ -1000,34 +801,26 @@ public class CodeEditorActivity extends AppCompatActivity {
     themeForJson2.addImageColor(undo, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
     themeForJson2.addImageColor(redo, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
     themeForJson2.addImageColor(image, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
-    themeForJson2.addImageColor(st, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
+    
     themeForJson2.addImageColor(
         menupopnew, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
-    themeForJson2.addImageColor(helper, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
     themeForJson2.mfabcolor(this, _fab, imap);
     themeForJson2.mfab2(this, _fab, imap);
     AnimUtils.ClickAnimation(menupopnew);
-    AnimUtils.ClickAnimation(st);
+    
     AnimUtils.ClickAnimation(undo);
     AnimUtils.ClickAnimation(redo);
-    AnimUtils.ClickAnimation(helper);
-
     if (ru.contains("rup")) {
       MapObjectData.setMatetialThemeCodeEditor(editor);
       CustomToolbar.setBackgroundColor(0xFF201B16);
       Mainlinear.setBackgroundColor(0xFF201B16);
       redo.setColorFilter(0xFFFFDCBD, PorterDuff.Mode.MULTIPLY);
       undo.setColorFilter(0xFFFFDCBD, PorterDuff.Mode.MULTIPLY);
-      st.setColorFilter(0xFFEEEEEE, PorterDuff.Mode.MULTIPLY);
       menupopnew.setColorFilter(0xFFEEEEEE, PorterDuff.Mode.MULTIPLY);
       image.setColorFilter(0xFFFFB689, PorterDuff.Mode.MULTIPLY);
       tvtitle.setTextColor(0xFFFDA893);
       typeVl.setTextColor(0xFFFDA893);
-      themenotfound.setTextColor(0xFFFDA893);
-      tv.setTextColor(0xFFFDA893);
-      helper.setColorFilter(0xFFFFDCBD, PorterDuff.Mode.MULTIPLY);
       _fab.setBackgroundTintList(ColorStateList.valueOf(0xFF2B2122));
-
       _fab.setStrokeColor(ColorStateList.valueOf(0xFFFDB69A));
       _fab.setStrokeWidth(1);
       _fab.setIconTint(ColorStateList.valueOf(0xFFFDB69A));
@@ -1071,17 +864,11 @@ public class CodeEditorActivity extends AppCompatActivity {
             Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
         typeVl.setTypeface(
             Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
-        themenotfound.setTypeface(
-            Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
-        tv.setTypeface(
-            Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
+        
       } else {
         _editorsetfontfromfile(setfont.getString("mfont", ""));
         tvtitle.setTypeface(Typeface.createFromFile(new File(setfont.getString("mfont", ""))));
         typeVl.setTypeface(Typeface.createFromFile(new File(setfont.getString("mfont", ""))));
-        themenotfound.setTypeface(
-            Typeface.createFromFile(new File(setfont.getString("mfont", ""))));
-        tv.setTypeface(Typeface.createFromFile(new File(setfont.getString("mfont", ""))));
       }
     } else {
       editor.setTypefaceText(Typeface.createFromAsset(getAssets(), "ghostfont.ttf"));
@@ -1090,9 +877,6 @@ public class CodeEditorActivity extends AppCompatActivity {
           Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
       typeVl.setTypeface(
           Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
-      themenotfound.setTypeface(
-          Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
-      tv.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
     }
     editor.setAutoCompletionEnabled(!auto.contains("mauto"));
     _fab.setIconResource(R.drawable.play);
@@ -1290,6 +1074,7 @@ public class CodeEditorActivity extends AppCompatActivity {
             .addItem(new PowerMenuItem("ذخیره همه", false, R.drawable.setsavefileall))
             .addItem(new PowerMenuItem("Code nave", false, R.drawable.setsavefileall))
             .addItem(new PowerMenuItem("Test"))
+            .addItem(new PowerMenuItem("پس زمینه", false, R.drawable.keyboardlisnertalluserpost_3))
             .build();
     pvr.setSelectedMenuColor(0xFFFDA893);
     pvr.setIconPadding(8);
@@ -1433,6 +1218,15 @@ public class CodeEditorActivity extends AppCompatActivity {
                   test.setlistFile(file.getParentFile().toString());
                   Toast.makeText(CodeEditorActivity.this, file.getParentFile().toString(), 2)
                       .show();
+                  break;
+                }
+              case 7:
+                {
+                  Intent myintent =
+                      new Intent(
+                          Intent.ACTION_PICK,
+                          android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                  startActivityForResult(myintent, REQ_CD_SETPASZAMINE);
                   break;
                 }
             }
