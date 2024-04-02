@@ -12,14 +12,13 @@ import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
+import androidx.preference.PreferenceManager;
 import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.regex.Matcher;

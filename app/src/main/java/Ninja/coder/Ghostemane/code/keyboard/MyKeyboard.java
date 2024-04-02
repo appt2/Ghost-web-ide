@@ -7,8 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.inputmethodservice.Keyboard;
-import android.preference.PreferenceManager;
-
+import androidx.preference.PreferenceManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

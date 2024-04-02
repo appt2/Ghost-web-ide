@@ -38,7 +38,7 @@ public class SeekBarPreferenceString extends SeekBarPreference {
         savePrevVal();
     }
 
-    @Override
+    
     protected void onDialogClosed(boolean positiveResult) {
         if (!positiveResult) {
             restoreVal();

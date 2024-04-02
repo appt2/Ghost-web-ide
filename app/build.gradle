@@ -108,4 +108,5 @@ dependencies {
     implementation project(path: ":Plugin")
   	implementation project(path: ":pl-codecomment") 	
     implementation "androidx.core:core:1.6.0"  
+    implementation 'androidx.preference:preference:1.2.1'
 }
