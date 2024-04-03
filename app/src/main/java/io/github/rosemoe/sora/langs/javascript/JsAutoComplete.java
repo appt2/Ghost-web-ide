@@ -7,32 +7,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
+import lsp4custom.com.ninjacoder.customhtmllsp.CodeSnippet;
 
 public class JsAutoComplete implements AutoCompleteProvider {
 
-    @Override
-    public List<CompletionItem> getAutoCompleteItems(
-            String prefix, TextAnalyzeResult analyzeResult, int line, int column) {
-        List<CompletionItem> list = new ArrayList<>();
-        for (String itemLang : JavaScriptLanguage.keywords) {
-            if (itemLang.startsWith(prefix)) {
-                list.add(Normal(itemLang, "JavaScript Keywords"));
-            }
-        }
+  @Override
+  public List<CompletionItem> getAutoCompleteItems(
+      String prefix, TextAnalyzeResult analyzeResult, int line, int column) {
+    List<CompletionItem> list = new ArrayList<>();
+    for (String itemLang : JavaScriptLanguage.keywords) {
+      if (itemLang.startsWith(prefix)) {
+        list.add(Normal(itemLang, "JavaScript Keywords"));
+      }
+    }
+    if (!list.isEmpty()) {
 
-        return list;
+      String jsonString =
+          "{\n  \"import\": {\n    \"prefix\": \"imp\",\n    \"body\": \"import ${2:moduleName} from '${1:module}';$0\",\n    \"description\": \"Imports entire module statement in ES6 syntax\"\n  },\n  \"importNoModuleName\": {\n    \"prefix\": \"imn\",\n    \"body\": \"import '${1:module}';$0\",\n    \"description\": \"Imports entire module in ES6 syntax without module name\"\n  },\n  \"importDestructing\": {\n    \"prefix\": \"imd\",\n    \"body\": \"import { $2 } from '${1:module}';$0\",\n    \"description\": \"Imports only a portion of the module in ES6 syntax\"\n  },\n  \"importEverything\": {\n    \"prefix\": \"ime\",\n    \"body\": \"import * as ${2:alias} from '${1:module}';$0\",\n    \"description\": \"Imports everything as alias from the module in ES6 syntax\"\n  },\n  \"importAs\": {\n    \"prefix\": \"ima\",\n    \"body\": \"import { ${2:originalName} as ${3:alias} } from '${1:module}';$0\",\n    \"description\": \"Imports a specific portion of the module by assigning a local alias in ES6 syntax\"\n  },\n  \"require\": {\n    \"prefix\": \"rqr\",\n    \"body\": \"require('${1:package}');\",\n    \"description\": \"Require a package\"\n  },\n  \"requireToConst\": {\n    \"prefix\": \"req\",\n    \"body\": \"const ${1:packageName} = require('${1:package}');$0\",\n    \"description\": \"Require a package to const\"\n  },\n  \"moduleExports\": {\n    \"prefix\": \"mde\",\n    \"body\": \"module.exports = {\n\t$0\n};\n\",\n    \"description\": \"Module exports from Common JS, node syntax at ES6\"\n  },\n  \"exportNamedVariable\": {\n    \"prefix\": \"env\",\n    \"body\": \"export const ${1:exportVariable} = ${2:localVariable};\n\",\n    \"description\": \"Export named variable in ES6 syntax\"\n  },\n  \"exportNamedFunction\": {\n    \"prefix\": \"enf\",\n    \"body\": \"export const ${1:functionName} = (${2:params}) => {\n\t$0\n};\n\",\n    \"description\": \"Export named function in ES6 syntax\"\n  },\n  \"exportDefaultFunction\": {\n    \"prefix\": \"edf\",\n    \"body\": \"export default function ${1:${TM_FILENAME_BASE}}(${2:params}) {\n\t$0\n};\n\",\n    \"description\": \"Export default function in ES6 syntax\"\n  },\n  \"exportClass\": {\n    \"prefix\": \"ecl\",\n    \"body\": \"export default class ${1:className} {\n\t$0\n};\n\",\n    \"description\": \"Export default class in ES6 syntax\"\n  },\n  \"exportClassExtends\": {\n    \"prefix\": \"ece\",\n    \"body\": \"export default class ${1:className} extends ${2:baseclassName} {\n\t$0\n};\n\",\n    \"description\": \"Export default class which extends a base one in ES6 syntax\"\n  },\n\n  \"constructor\": {\n    \"prefix\": \"con\",\n    \"body\": \"constructor(${1:params}) {\n\t${0}\n}\",\n    \"description\": \"Add default constructor in a class in ES6 syntax\"\n  },\n  \"method\": {\n    \"prefix\": \"met\",\n    \"body\": \"${1:methodName}(${2:params}) {\n\t${0}\n}\",\n    \"description\": \"Creates a method inside a class in ES6 syntax\"\n  },\n  \"propertyGet\": {\n    \"prefix\": \"pge\",\n    \"body\": \"get ${1:propertyName}() {\n\treturn this.${0};\n}\",\n    \"description\": \"Creates a getter property inside a class in ES6 syntax\"\n  },\n  \"propertyset\": {\n    \"prefix\": \"pse\",\n    \"body\": \"set ${1:propertyName}(${2:value}) {\n\t${0};\n}\",\n    \"description\": \"Creates a setter property inside a class in ES6 syntax\"\n  },\n\n  \"forEach\": {\n    \"prefix\": \"fre\",\n    \"body\": \"${1:array}.forEach(${2:currentItem} => {\n\t${0}\n});\",\n    \"description\": \"Creates a forEach statement in ES6 syntax\"\n  },\n  \"forOf\": {\n    \"prefix\": \"fof\",\n    \"body\": \"for (const ${1:item} of ${2:object}) {\n\t${0}\n}\",\n    \"description\": \"Iterating over property names of iterable objects\"\n  },\n  \"forIn\": {\n    \"prefix\": \"fin\",\n    \"body\": \"for (const ${1:item} in ${2:object}) {\n\t${0}\n}\",\n    \"description\": \"Iterating over property values of iterable objects\"\n  },\n  \"anonymousFunction\": {\n    \"prefix\": \"anfn\",\n    \"body\": \"(${1:params}) => {\n\t${2}\n}\",\n    \"description\": \"Creates an anonymous function in ES6 syntax\"\n  },\n  \"namedFunction\": {\n    \"prefix\": \"nfn\",\n    \"body\": \"const ${1:name} = (${2:params}) => {\n\t${3}\n}\",\n    \"description\": \"Creates a named function in ES6 syntax\"\n  },\n  \"destructingObject\": {\n    \"prefix\": \"dob\",\n    \"body\": \"const {${2:propertyName}} = ${1:objectToDestruct};\",\n    \"description\": \"Creates and assigns a local variable using object destructing\"\n  },\n  \"destructingArray\": {\n    \"prefix\": \"dar\",\n    \"body\": \"const [${2:propertyName}] = ${1:arrayToDestruct};\",\n    \"description\": \"Creates and assigns a local variable using array destructing\"\n  },\n  \"setInterval\": {\n    \"prefix\": \"sti\",\n    \"body\": \"setInterval(() => {\n\t${2}\n}, ${0:intervalInms});\",\n    \"description\": \"Executes the given function at specified intervals in ES6 syntax\"\n  },\n  \"setTimeOut\": {\n    \"prefix\": \"sto\",\n    \"body\": \"setTimeout(() => {\n\t${2}\n}, ${1:delayInms});\",\n    \"description\": \"Executes the given function after the specified delay in ES6 syntax\"\n  },\n  \"promise\": {\n    \"prefix\": \"prom\",\n    \"body\": \"return new Promise((resolve, reject) => {\n\t${1}\n});\",\n    \"description\": \"Creates and returns a new Promise in the standard ES6 syntax\"\n  },\n  \"thenCatch\": {\n    \"prefix\": \"thenc\",\n    \"body\": \".then((${1:result}) => {\n\t${2}\n}).catch((${3:err}) => {\n\t${4}\n});\",\n    \"description\": \"Add the .then and .catch methods to handle promises\"\n  },\n\n  \"consoleAssert\": {\n    \"prefix\": \"cas\",\n    \"body\": \"console.assert(${1:expression}, ${2:object});\",\n    \"description\": \"If the specified expression is false, the message is written to the console along with a stack trace\"\n  },\n  \"consoleClear\": {\n    \"prefix\": \"ccl\",\n    \"body\": \"console.clear();\",\n    \"description\": \"Clears the console\"\n  },\n  \"consoleCount\": {\n    \"prefix\": \"cco\",\n    \"body\": \"console.count(${1:label});\",\n    \"description\": \"Writes the the number of times that count() has been invoked at the same line and with the same label\"\n  },\n    \"consoleDebug\": {\n    \"prefix\": \"cdb\",\n    \"body\": \"console.debug(${1:object});\",\n    \"description\": \"Displays a message in the console. Also display a blue right arrow icon along with the logged message in Safari\"\n  },\n  \"consoleDir\": {\n    \"prefix\": \"cdi\",\n    \"body\": \"console.dir(${1:object});\",\n    \"description\": \"Prints a JavaScript representation of the specified object\"\n  },\n  \"consoleError\": {\n    \"prefix\": \"cer\",\n    \"body\": \"console.error(${1:object});\",\n    \"description\": \"Displays a message in the console and also includes a stack trace from where the method was called\"\n  },\n  \"consoleGroup\": {\n    \"prefix\": \"cgr\",\n    \"body\": \"console.group('${1:label}');\",\n    \"description\": \"Groups and indents all following output by an additional level, until console.groupEnd() is called.\"\n  },\n  \"consoleGroupEnd\": {\n    \"prefix\": \"cge\",\n    \"body\": \"console.groupEnd();\",\n    \"description\": \"Closes out the corresponding console.group().\"\n  },\n  \"consoleLog\": {\n    \"prefix\": \"clg\",\n    \"body\": \"console.log(${1:object});\",\n    \"description\": \"Displays a message in the console\"\n  },\n  \"consoleLogObject\": {\n    \"prefix\": \"clo\",\n    \"body\": \"console.log('${1:object} :>> ', ${1:object});\",\n    \"description\": \"Displays an object in the console with its name\"\n  },\n  \"consoleTrace\": {\n    \"prefix\": \"ctr\",\n    \"body\": \"console.trace(${1:object});\",\n    \"description\": \"Prints a stack trace from the point where the method was called\"\n  },\n  \"consoleWarn\": {\n    \"prefix\": \"cwa\",\n    \"body\": \"console.warn(${1:object});\",\n    \"description\": \"Displays a message in the console but also displays a yellow warning icon along with the logged message\"\n  },\n  \"consoleInfo\": {\n    \"prefix\": \"cin\",\n    \"body\": \"console.info(${1:object});\",\n    \"description\": \"Displays a message in the console but also displays a blue information icon along with the logged message\"\n  },\n  \"consoleTable\": {\n    \"prefix\": \"clt\",\n    \"body\": \"console.table(${1:object});\",\n    \"description\": \"Displays tabular data as a table.\"\n  },\n  \"consoleTime\": {\n    \"prefix\": \"cti\",\n    \"body\": \"console.time(${1:object});\",\n    \"description\": \"Sets starting point for execution time measurement\"\n  },\n  \"consoleTimeEnd\": {\n    \"prefix\": \"cte\",\n    \"body\": \"console.timeEnd(${1:object});\",\n    \"description\": \"Sets end point for execution time measurement\"\n  }\n}\n";
+
+      final CodeSnippet code = new CodeSnippet(jsonString);
+      
+      code.run(list, prefix);
     }
 
-    private CompletionItem Sp(String em, String desc, String open) {
-        final CompletionItem item = new CompletionItem(em + " ", desc);
-        item.commit = open;
-        item.cursorOffset(item.commit.length() - 2);
-        return item;
-    }
+    return list;
+  }
 
-    private CompletionItem Normal(String mcss, String desc) {
-        final var item = new CompletionItem(mcss + "  ", desc);
-        item.cursorOffset(item.commit.length() - 1);
-        return item;
-    }
+  private CompletionItem Sp(String em, String desc, String open) {
+    final CompletionItem item = new CompletionItem(em + " ", desc);
+    item.commit = open;
+    item.cursorOffset(item.commit.length() - 2);
+    return item;
+  }
+
+  private CompletionItem Normal(String mcss, String desc) {
+    final var item = new CompletionItem(mcss + "  ", desc);
+    item.cursorOffset(item.commit.length() - 1);
+    return item;
+  }
 }

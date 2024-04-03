@@ -19,12 +19,14 @@ import Ninja.coder.Ghostemane.code.layoutmanager.NavigationViewCompnet;
 import Ninja.coder.Ghostemane.code.marco.*;
 import Ninja.coder.Ghostemane.code.model.IconShop;
 import Ninja.coder.Ghostemane.code.model.ListSheet;
+import Ninja.coder.Ghostemane.code.model.ZipFileShow;
 import Ninja.coder.Ghostemane.code.project.ProjectManager;
 import Ninja.coder.Ghostemane.code.recyclerview.RecyclerViewHelper;
 import Ninja.coder.Ghostemane.code.services.FileEventUser;
 import Ninja.coder.Ghostemane.code.services.MediaListenerService;
 import Ninja.coder.Ghostemane.code.terminal.TerminalActivity;
 import Ninja.coder.Ghostemane.code.utils.*;
+import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.utils.VectorHelper;
 import Ninja.coder.Ghostemane.code.widget.GhostWebMaterialDialog;
 import Ninja.coder.Ghostemane.code.widget.PraramnetLayoutNinja;
@@ -1205,11 +1207,8 @@ public class FileDirActivity extends BaseCompat
       di.setNeutralButton(
           "مشاهده",
           (p, d) -> {
-            intgetTheme.setClass(getApplicationContext(), ZipShowActivity.class);
-            intgetTheme.putExtra("zipview", _map.get((int) _pos).get(_path).toString());
-            startActivity(intgetTheme);
-            // ZipFileShow.showAsDialog(FileDirActivity.this,_map.get((int)
-            // _pos).get(_path).toString());
+            ZipFileShow.showAsDialog(
+                FileDirActivity.this, _map.get((int) _pos).get(_path).toString());
           });
       di.setPositiveButton(
           "استخراج",
@@ -1362,36 +1361,9 @@ public class FileDirActivity extends BaseCompat
       di.setPositiveButton(
           "نصب",
           (p1, d2) -> {
-            new AsyncTask<String, String, String>() {
-              @Override
-              protected void onPreExecute() {}
-
-              @Override
-              protected String doInBackground(String... params) {
-                String _param = params[0];
-                runOnUiThread(
-                    new Runnable() {
-                      @Override
-                      public void run() {
-                        UnZipDataFromDir(_maps.get((int) _number).get(_pathz).toString(), Folder);
-                      }
-                    });
-                return "";
-              }
-
-              @Override
-              protected void onPostExecute(String _result) {
-                reLoadFile();
-              }
-            }.execute("");
+            UnZipDataFromDir(_maps.get((int) _number).get(_pathz).toString(), Folder);
           });
-      di.setNegativeButton(
-          "مشاهده",
-          (p3, d3) -> {
-            void10.setClass(getApplicationContext(), ZipShowActivity.class);
-            void10.putExtra("zipview", _maps.get((int) _number).get(_pathz).toString());
-            startActivity(void10);
-          });
+
       di.setNeutralButton("بستن", (p, d) -> {});
 
       androidx.appcompat.app.AlertDialog dialog = di.show();
@@ -1529,6 +1501,8 @@ public class FileDirActivity extends BaseCompat
     dialog.setOnShowListener(
         (var) -> {
           EditText editor = dialog.findViewById(R.id.editor);
+           editor.setTextSize(16);
+           editor.setTextColor(MaterialColors.getColor(editor,ColorAndroid12.colorOnSurface,0));
 
           Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
           editor.setText(
@@ -1539,7 +1513,7 @@ public class FileDirActivity extends BaseCompat
             positive.setEnabled(true);
           }
           editor.addTextChangedListener(
-              new android.text.TextWatcher() {
+              new TextWatcher() {
                 @Override
                 public void onTextChanged(
                     CharSequence _param1, int _param2, int _param3, int _param4) {

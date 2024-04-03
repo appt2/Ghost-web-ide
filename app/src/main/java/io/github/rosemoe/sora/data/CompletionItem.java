@@ -77,11 +77,6 @@ public class CompletionItem {
   private String body;
   private String description;
 
-  public CompletionItem(String prefix, String body, String description) {
-    this.prefix = prefix;
-    this.body = body;
-    this.description = description;
-  }
 
   public String getPrefix() {
     return prefix;

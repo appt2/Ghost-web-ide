@@ -90,13 +90,6 @@
             
         />
         <activity
-            android:name=".activities.XmlViewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            
-        />
-        <activity
             android:name=".activities.SettingAppActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
@@ -163,13 +156,6 @@
         />
         <activity
             android:name=".activities.PdfViewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            
-        />
-        <activity
-            android:name=".activities.ZipShowActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
             android:supportsPictureInPicture="true"
