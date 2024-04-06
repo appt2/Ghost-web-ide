@@ -97,6 +97,16 @@ public class ImgShowActivity extends BaseCompat {
     setSupportActionBar(mainToolbar);
     blur_layout = findViewById(R.id.blur_layout);
     Toast.makeText(getApplicationContext(), "this item : " + viewpager1.getCurrentItem(), 1).show();
+    // using #runOnUiThread for bluer Background
+    runOnUiThread(
+        () -> {
+          var size = viewpager1.getCurrentItem();
+          if (size < viewerListMap.size()) {
+            var mypath = viewerListMap.get(size).get("path").toString();
+            if (size == 0)
+              BlurImage.Start(getWindow().getDecorView(), getApplicationContext(), mypath, 20f);
+          }
+        });
 
     viewpager1.addOnPageChangeListener(
         new ViewPager.OnPageChangeListener() {
@@ -124,12 +134,10 @@ public class ImgShowActivity extends BaseCompat {
           @Override
           public void onPageScrollStateChanged(int _scrollState) {}
         });
-
-    // _fab.setOnClickListener(v -> ToolHelper(v));
   }
 
   private void initializeLogic() {
-    _refreshViewer(getIntent().getStringExtra("imagePath"));
+    RefreshView(getIntent().getStringExtra("imagePath"));
     imageViewPosition = 0;
     for (int _repeat33 = 0; _repeat33 < (int) (viewerListMap.size()); _repeat33++) {
       if (viewerListMap.get((int) imageViewPosition).containsKey("path")) {
@@ -145,7 +153,7 @@ public class ImgShowActivity extends BaseCompat {
     setTitle(getIntent().getStringExtra("imageName"));
   }
 
-  public boolean _imageFileType(final String _path) {
+  public boolean imageFileType(final String _path) {
     return (_path.endsWith(".jpg")
         || (_path.endsWith(".jpeg")
             || (_path.endsWith(".svg")
@@ -157,7 +165,7 @@ public class ImgShowActivity extends BaseCompat {
                                     || (_path.endsWith(".webp") || _path.endsWith(".bmp"))))))))));
   }
 
-  public void _refreshViewer(final String _path) {
+  public void RefreshView(final String _path) {
 
     viewerListMap.clear();
     IMAGE_VIEWER_PATH = _path;
@@ -166,7 +174,7 @@ public class ImgShowActivity extends BaseCompat {
     Arrays.sort(files, new FileComparator());
     imageFilesPosition = 0;
     for (int _repeat15 = 0; _repeat15 < (int) (files.length); _repeat15++) {
-      if (_imageFileType(files[(int) imageFilesPosition].getAbsolutePath())) {
+      if (imageFileType(files[(int) imageFilesPosition].getAbsolutePath())) {
         {
           HashMap<String, Object> _item = new HashMap<>();
           _item.put("path", files[(int) imageFilesPosition].getAbsolutePath());
@@ -229,7 +237,12 @@ public class ImgShowActivity extends BaseCompat {
                         dialog.dismiss();
                       } else if (pos == 1) {
                         FileShareManager share = new FileShareManager(this);
-                        share.shareFile(new File(viewerListMap.get(viewpager1.getCurrentItem()).get("path").toString()));
+                        share.shareFile(
+                            new File(
+                                viewerListMap
+                                    .get(viewpager1.getCurrentItem())
+                                    .get("path")
+                                    .toString()));
                         dialog.dismiss();
                       }
                     });

@@ -732,11 +732,10 @@ public class FileDirActivity extends BaseCompat
                     if (gridLayoutManager != null) {
                       recyclerview2.setLayoutManager(gridLayoutManager);
                     }
-
-                    _distreeview();
                   });
             })
         .start();
+    _distreeview();
   }
 
   public void FolderMaker() {
@@ -751,10 +750,8 @@ public class FileDirActivity extends BaseCompat
             .create();
     dialog.setOnShowListener(
         (var) -> {
-          com.google.android.material.textfield.TextInputLayout top = dialog.findViewById(R.id.top);
-
+          TextInputLayout top = dialog.findViewById(R.id.top);
           EditText editor = dialog.findViewById(R.id.editor);
-
           Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
           if (editor.getText().toString().isEmpty()) {
             positive.setEnabled(false);
@@ -786,14 +783,12 @@ public class FileDirActivity extends BaseCompat
                           public void onSuccess(String content) {
                             // محتوای فایل با موفقیت خوانده شد
                             Toast.makeText(getApplicationContext(), content, 2).show();
-                            reLoadFile();
+                            
                             if (recyclerview2 != null) {
+                              reLoadFile();
                               recyclerview2.getAdapter().notifyItemChanged(files.size());
-                              // fileListItem.addItem(files.size());
-
                             }
                           }
-
                           @Override
                           public void onError(String e) {
                             // خطایی در هنگام خواندن فایل رخ داده است
