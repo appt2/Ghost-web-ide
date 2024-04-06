@@ -160,7 +160,7 @@ public class SettingAppActivity extends BaseCompat {
   private MaterialSwitch msaveandexit;
   private LinearLayout linear76;
   private LinearLayout linear78;
-  private MaterialSwitch dirfilesswitch, treecolors;
+  private MaterialSwitch dirfilesswitch, treecolors,grmode;
   private LinearLayout linear80;
   private LinearLayout linear82;
   private MaterialSwitch themeinstall;
@@ -208,7 +208,7 @@ public class SettingAppActivity extends BaseCompat {
       setac,
       materialYou,
       thememanagersoft,
-      sf;
+      sf,gridMode;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -252,6 +252,7 @@ public class SettingAppActivity extends BaseCompat {
     linear1 = findViewById(R.id.linear1);
     linear2 = findViewById(R.id.linear2);
     linear3 = findViewById(R.id.linear3);
+    grmode = findViewById(R.id.grmode);
     pubilc = findViewById(R.id.pubilc);
     linear22 = findViewById(R.id.linear22);
     linear14 = findViewById(R.id.linear14);
@@ -386,6 +387,7 @@ public class SettingAppActivity extends BaseCompat {
     materialYou = getSharedPreferences("materialYou", Activity.MODE_PRIVATE);
     thememanagersoft = getSharedPreferences("thememanagersoft", Activity.MODE_PRIVATE);
     sf = getSharedPreferences("sf", Activity.MODE_PRIVATE);
+    gridMode = getSharedPreferences("gride",Activity.MODE_PRIVATE);
     terminalColors = findViewById(R.id.terminalColors);
     themes.setOnClickListener(
         (v) -> {
@@ -504,6 +506,18 @@ public class SettingAppActivity extends BaseCompat {
               getvb.edit().putString("HsiGamer", "true").apply();
             } else {
               getvb.edit().remove("HsiGamer").apply();
+            }
+          }
+        });
+    grmode.setOnCheckedChangeListener(
+        new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
+            final boolean _isChecked = _param2;
+            if (_isChecked) {
+              gridMode.edit().putString("gride", "true").apply();
+            } else {
+              gridMode.edit().remove("gride").apply();
             }
           }
         });
@@ -1100,6 +1114,7 @@ public class SettingAppActivity extends BaseCompat {
         mp.add(_item);
       }
     }
+    grmode.setChecked(gridMode.contains("gride"));
     recyclerview2.setAdapter(new Recyclerview2Adapter(mp));
     recyclerview2.setLayoutManager(new LinearLayoutManager(this));
   }

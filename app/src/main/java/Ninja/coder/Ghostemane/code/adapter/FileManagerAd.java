@@ -14,10 +14,6 @@ import Ninja.coder.Ghostemane.code.utils.FileUtil;
 import Ninja.coder.Ghostemane.code.utils.MFileClass;
 import Ninja.coder.Ghostemane.code.widget.component.fastscrollcompat.PopupTextProvider;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.RippleDrawable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
@@ -44,15 +41,19 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
   public static boolean Folder = false;
   protected Context context;
   protected onClick click;
+  protected ViewType viewType = ViewType.ROW;
   protected List<HashMap<String, Object>> filteredFiles;
   protected HashMap<String, Object> name = new HashMap<>();
   private List<HashMap<String, Object>> files = new ArrayList<>();
+  protected GridLayoutManager g;
 
   public FileManagerAd(List<HashMap<String, Object>> files, Context context, onClick click) {
     this.context = context;
     this.files = files;
     this.filteredFiles = files;
     this.click = click;
+
+    
     registerAdapterDataObserver(
         new RecyclerView.AdapterDataObserver() {
 
@@ -74,9 +75,13 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
   }
 
   @Override
-  public VH onCreateViewHolder(ViewGroup parnt, int pos) {
+  public VH onCreateViewHolder(ViewGroup parnt, int viewt) {
     View view =
-        LayoutInflater.from(parnt.getContext()).inflate(R.layout.folder_remster, parnt, false);
+        LayoutInflater.from(parnt.getContext())
+            .inflate(
+                viewt == ViewType.ROW.getValue() ? R.layout.folder_remster : R.layout.folder_layout_grid ,
+                parnt,
+                false);
     return new VH(view);
   }
 
@@ -94,12 +99,14 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
     if (FileUtil.isDirectory(filteredFiles.get(pos).get("path").toString())) {
       Folder = true;
       Files = false;
-      viewHolder.icon.setPadding(9, 9, 9, 9);
       fileIconHelper.bindIcon(viewHolder.icon);
-      ColorAndroid12.shapeViews(viewHolder.icon);
       FileCounter mfileC = new FileCounter(viewHolder.tvTools);
       mfileC.execute(myfile.toString());
-
+      if(viewType == ViewType.ROW) {
+        viewHolder.icon.setPadding(8,8,8,8);
+      	ColorAndroid12.shp(viewHolder.icon);
+          
+      }
       viewHolder.tvTools.setText("");
     } else if (FileUtil.isExistFile(filteredFiles.get(pos).get("path").toString())) {
       viewHolder.icon.setPadding(0, 0, 0, 0);
@@ -253,4 +260,13 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
           });
     }
   }
+
+  @Override
+  public int getItemViewType(int pos) {
+    return viewType.getValue();
+  }
+  public void setViewType(ViewType viewType) {
+		this.viewType = viewType;
+		notifyDataSetChanged();
+	}
 }

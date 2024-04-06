@@ -5,6 +5,7 @@ import Ninja.coder.Ghostemane.code.RequestNetwork;
 import Ninja.coder.Ghostemane.code.RequestNetworkController;
 import Ninja.coder.Ghostemane.code.adapter.FileManagerAd;
 import Ninja.coder.Ghostemane.code.adapter.ToolbarListFileAdapter;
+import Ninja.coder.Ghostemane.code.adapter.ViewType;
 import Ninja.coder.Ghostemane.code.compressor.SvgToPng;
 import Ninja.coder.Ghostemane.code.compressor.TarGzExtractor;
 import Ninja.coder.Ghostemane.code.compressor.ZxExtractor;
@@ -73,16 +74,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.color.DynamicColors;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -112,7 +114,6 @@ public class FileDirActivity extends BaseCompat
   protected androidx.appcompat.app.AlertDialog maindialogPrfex;
   protected NavigationViewCompnet navs;
   protected SharedPreferences mSharedPreferences;
-  protected androidx.recyclerview.widget.LinearLayoutManager linearLayoutManager;
   protected FastScrollerBuilder fast;
   protected FileEventUser user;
   private Timer _timer = new Timer();
@@ -132,7 +133,7 @@ public class FileDirActivity extends BaseCompat
   private String tab = "";
   private double n = 0;
   private double positionTabs = 0;
-
+  protected SharedPreferences gridMode;
   private boolean Chack = false;
 
   private boolean isCopyAndMoved = false;
@@ -165,9 +166,7 @@ public class FileDirActivity extends BaseCompat
 
   private PraramnetLayoutNinja paramentLayout_fileDir;
   private LinearLayout CensractorListView1;
-
   private SwipeRefreshLayout swiperefreshlayout1;
-
   private RecyclerView recyclerview1;
   private EmptyRecyclerView recyclerview2;
   private Intent myketint = new Intent();
@@ -182,25 +181,20 @@ public class FileDirActivity extends BaseCompat
   private SharedPreferences np;
   private ProgressDialog mprodialog;
   private SharedPreferences dismoveFile;
-
   private ProgressDialog prodel;
   private ProgressDialog proveg;
   private Intent getabout = new Intent();
   private Intent void10 = new Intent();
   private SharedPreferences sd;
   private SharedPreferences delfile;
-
   private ProgressDialog copydir;
   private ProgressDialog copypath;
   private MediaPlayer m;
   private TimerTask vvv12;
   private Intent getJavaLayoutManager = new Intent();
-
   private SharedPreferences zipCuntishen;
-
   private Intent govirwFilm = new Intent();
   private TimerTask ask;
-
   private SharedPreferences war;
   private RequestNetwork CheckNewVersion;
   private RequestNetwork.RequestListener UpdateCheck;
@@ -222,7 +216,9 @@ public class FileDirActivity extends BaseCompat
   private ArrayList<HashMap<String, Object>> a = new ArrayList<>();
   private HashMap<String, Object> mapz32 = new HashMap<>();
   private HichemSoftFileUtil utils;
+  private GridLayoutManager gridLayoutManager;
   private SharedPreferences sharedPreferences;
+  private CircularProgressIndicator filedir_bar;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -258,12 +254,15 @@ public class FileDirActivity extends BaseCompat
     navs = findViewById(R.id.navs);
     startService(new Intent(getApplicationContext(), MediaListenerService.class));
     // from protected NavigationViewCompnet navs;
-    linearLayoutManager = new androidx.recyclerview.widget.LinearLayoutManager(this);
+
     mSharedPreferences = getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
     _app_bar = findViewById(R.id._app_bar);
     _coordinator = findViewById(R.id._coordinator);
     _toolbar = findViewById(R.id._toolbar);
     setSupportActionBar(_toolbar);
+    gridLayoutManager = new GridLayoutManager(this, 1);
+    gridMode = getSharedPreferences("gride", Activity.MODE_PRIVATE);
+
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
     _drawer = findViewById(R.id._drawer);
@@ -294,11 +293,18 @@ public class FileDirActivity extends BaseCompat
     base = getSharedPreferences("base", Activity.MODE_PRIVATE);
     save_path = getSharedPreferences("save_path", Activity.MODE_PRIVATE);
     materialYou = getSharedPreferences("materialYou", Activity.MODE_PRIVATE);
+    filedir_bar = findViewById(R.id.filedir_bar);
     book = getSharedPreferences("hsipsot4444", Activity.MODE_PRIVATE);
     WindowsMath(_drawer, _coordinator);
     var vie = LayoutInflater.from(this).inflate(R.layout.recyclerview_emptyview, null, false);
     recyclerview2.setEmptyView(vie);
     BackPressed();
+    if (gridMode.contains("gride")) {
+      setViewType(ViewType.GRID);
+    } else {
+      setViewType(ViewType.ROW);
+    }
+
     var helper =
         new RecyclerViewHelper(
             recyclerview2,
@@ -413,6 +419,22 @@ public class FileDirActivity extends BaseCompat
     }
   }
 
+  public void setViewType(ViewType viewType) {
+    if (fileListItem != null) {
+      fileListItem.setViewType(viewType);
+      if (viewType == ViewType.GRID) {
+        gridLayoutManager.setSpanCount(2);
+        recyclerview2.setAdapter(fileListItem);
+      } else {
+        recyclerview2.setAdapter(fileListItem);
+        gridLayoutManager.setSpanCount(1);
+        fast = new FastScrollerBuilder(recyclerview2);
+        fast.useMd2Style();
+        fast.build();
+      }
+    }
+  }
+
   private void initStartApp() {
 
     getWindow()
@@ -438,9 +460,7 @@ public class FileDirActivity extends BaseCompat
       showMessage(e.toString());
     }
     // new FastScrollerBuilder(recyclerview2).useMd2Style().build();
-    fast = new FastScrollerBuilder(recyclerview2);
-    fast.useMd2Style();
-    fast.build();
+    
     progressDilaog =
         new ProgressDialog(FileDirActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
     unzip = new ProgressDialog(FileDirActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
@@ -587,14 +607,6 @@ public class FileDirActivity extends BaseCompat
                           getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
                     }
                   } else {
-                    saveScrollPosition();
-                    try {
-                      linearLayoutManager.scrollToPosition(
-                          linearLayoutManager.findFirstVisibleItemPosition());
-                    } catch (RuntimeException runtimeException) {
-                      Toast.makeText(getApplicationContext(), runtimeException.getMessage(), 2)
-                          .show();
-                    }
 
                     Folder = Folder.substring((int) (0), (int) (Folder.lastIndexOf("/")));
                     reLoadFile();
@@ -629,14 +641,6 @@ public class FileDirActivity extends BaseCompat
                     }
                   } else {
                     Folder = Folder.substring((int) (0), (int) (Folder.lastIndexOf("/")));
-                    saveScrollPosition();
-                    try {
-                      linearLayoutManager.scrollToPosition(
-                          linearLayoutManager.findFirstVisibleItemPosition());
-                    } catch (RuntimeException runtimeException) {
-                      Toast.makeText(getApplicationContext(), runtimeException.getMessage(), 2)
-                          .show();
-                    }
 
                     reLoadFile();
                   }
@@ -649,96 +653,90 @@ public class FileDirActivity extends BaseCompat
   public void onResume() {
     super.onResume();
     RefreshTabs();
-    restoreScrollPosition();
-  }
-
-  private void saveScrollPosition() {
-    var firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
-    SharedPreferences.Editor editor = mSharedPreferences.edit();
-    editor.putInt(ITEM_POSITION_KEY, firstVisibleItemPosition);
-    editor.apply();
-  }
-
-  private void restoreScrollPosition() {
-    int savedItemPosition = mSharedPreferences.getInt(ITEM_POSITION_KEY, 0);
-    linearLayoutManager.scrollToPosition(savedItemPosition + 3);
-  }
-
-  @Override
-  public void onPause() {
-    super.onPause();
-    saveScrollPosition();
   }
 
   public void reLoadFile() {
-    save_path.edit().putString("path", Folder).apply();
-    list.clear();
-    files.clear();
-    folderList.clear();
-    fileList.clear();
-    FileUtil.listDir(Folder, list);
-    Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
-    GetTab = Folder;
-    index = 0;
-    POSNINJACODERMAIN = Folder;
-    ProjectManager mproject = new ProjectManager();
-    mproject.setProjectDir(GetTab);
-    final class FileComparator implements Comparator<String> {
-      public int compare(String f1, String f2) {
-        if (f1 == f2) return 0;
-        if (FileUtil.isDirectory(f1) && FileUtil.isFile(f2)) return -1;
-        if (FileUtil.isFile(f1) && FileUtil.isDirectory(f2)) return 1;
-        return f1.compareToIgnoreCase(f2);
-      }
-    }
-    Collections.sort(list, new FileComparator());
+    recyclerview2.setVisibility(View.GONE);
+    filedir_bar.setVisibility(View.VISIBLE);
+    new Thread(
+            () -> {
+              save_path.edit().putString("path", Folder).apply();
+              list.clear();
+              files.clear();
+              folderList.clear();
+              fileList.clear();
+              FileUtil.listDir(Folder, list);
+              Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
+              GetTab = Folder;
+              index = 0;
+              POSNINJACODERMAIN = Folder;
+              ProjectManager mproject = new ProjectManager();
+              mproject.setProjectDir(GetTab);
+              final class FileComparator implements Comparator<String> {
+                public int compare(String f1, String f2) {
+                  if (f1 == f2) return 0;
+                  if (FileUtil.isDirectory(f1) && FileUtil.isFile(f2)) return -1;
+                  if (FileUtil.isFile(f1) && FileUtil.isDirectory(f2)) return 1;
+                  return f1.compareToIgnoreCase(f2);
+                }
+              }
+              Collections.sort(list, new FileComparator());
 
-    for (int _repeat13 = 0; _repeat13 < (int) (list.size()); _repeat13++) {
-      if (FileUtil.isDirectory(list.get((int) (index)))) {
-        folderList.add(list.get((int) (index)));
-      } else {
-        fileList.add(list.get((int) (index)));
-      }
-      index++;
-    }
-    index = 0;
-    for (int _repeat37 = 0; _repeat37 < (int) (folderList.size()); _repeat37++) {
-      {
-        HashMap<String, Object> _item = new HashMap<>();
-        _item.put("path", folderList.get((int) (index)));
-        files.add(_item);
-      }
+              for (int _repeat13 = 0; _repeat13 < (int) (list.size()); _repeat13++) {
+                if (FileUtil.isDirectory(list.get((int) (index)))) {
+                  folderList.add(list.get((int) (index)));
+                } else {
+                  fileList.add(list.get((int) (index)));
+                }
+                index++;
+              }
+              index = 0;
+              for (int _repeat37 = 0; _repeat37 < (int) (folderList.size()); _repeat37++) {
+                {
+                  HashMap<String, Object> _item = new HashMap<>();
+                  _item.put("path", folderList.get((int) (index)));
+                  files.add(_item);
+                }
 
-      index++;
-    }
-    index = 0;
-    for (int _repeat54 = 0; _repeat54 < (int) (fileList.size()); _repeat54++) {
-      {
-        HashMap<String, Object> _item = new HashMap<>();
-        _item.put("path", fileList.get((int) (index)));
-        files.add(_item);
-      }
+                index++;
+              }
+              index = 0;
+              for (int _repeat54 = 0; _repeat54 < (int) (fileList.size()); _repeat54++) {
+                {
+                  HashMap<String, Object> _item = new HashMap<>();
+                  _item.put("path", fileList.get((int) (index)));
+                  files.add(_item);
+                }
 
-      index++;
-    }
-    index = 0;
-    for (int _repeat97 = 0; _repeat97 < (int) (files.size()); _repeat97++) {
-      files.get((int) index).put("sel", "false");
-      index++;
-    }
-    try {
+                index++;
+              }
+              index = 0;
+              for (int _repeat97 = 0; _repeat97 < (int) (files.size()); _repeat97++) {
+                files.get((int) index).put("sel", "false");
+                index++;
+              }
+              try {
 
-    } catch (Exception e) {
-      SketchwareUtil.showMessage(getApplicationContext(), "Error to " + e.toString());
-    }
+              } catch (Exception e) {
+                runOnUiThread(
+                    () ->
+                        SketchwareUtil.showMessage(
+                            getApplicationContext(), "Error to " + e.toString()));
+              }
+              runOnUiThread(
+                  () -> {
+                    recyclerview2.setVisibility(View.VISIBLE);
+                    filedir_bar.setVisibility(View.GONE);
+                    recyclerview2.setAdapter(fileListItem);
+                    ListSheet.bind(recyclerview2, Folder);
+                    if (gridLayoutManager != null) {
+                      recyclerview2.setLayoutManager(gridLayoutManager);
+                    }
 
-    recyclerview2.setAdapter(fileListItem);
-    ListSheet.bind(recyclerview2, Folder);
-    if (linearLayoutManager != null) {
-      recyclerview2.setLayoutManager(linearLayoutManager);
-    }
-
-    _distreeview();
+                    _distreeview();
+                  });
+            })
+        .start();
   }
 
   public void FolderMaker() {
@@ -1195,30 +1193,32 @@ public class FileDirActivity extends BaseCompat
     }.execute("");
   }
 
-  public void _zipviewandexsert(
-      final double _pos, final String _path, final ArrayList<HashMap<String, Object>> _map) {
-    if (_map.get((int) _pos).get(_path).toString().endsWith(".zip")) {
-      var di =
-          new com.google.android.material.dialog.MaterialAlertDialogBuilder(FileDirActivity.this);
+  public void InstallTakesZip(int pos, String path) {
+    InstallTakes(pos, path, "UnZip", "UnZip File?");
+  }
 
-      di.setTitle("مشاهده گر فایل فشرده");
-      di.setMessage(
-          "برای مشاهده یا استخراج یکی از گزینه های زیرا انتخاب کنید دقت کنید که در محل فعلی فایل ها استخراج میشن");
-      di.setNeutralButton(
-          "مشاهده",
-          (p, d) -> {
-            ZipFileShow.showAsDialog(
-                FileDirActivity.this, _map.get((int) _pos).get(_path).toString());
-          });
-      di.setPositiveButton(
-          "استخراج",
-          (p1, d2) -> {
-            UnZipDataFromDir(_map.get((int) _pos).get(_path).toString(), GetTab);
-          });
-      androidx.appcompat.app.AlertDialog dialog = di.show();
+  public void InstallTakesProject(int pos, String path) {
+    InstallTakes(pos, path, "Install", "Install Project?");
+  }
 
-      dialog.show();
-    }
+  void InstallTakes(int _pos, String _path, String tit, String msg) {
+    var di = new MaterialAlertDialogBuilder(FileDirActivity.this);
+
+    di.setTitle(tit);
+    di.setMessage(msg);
+    di.setNeutralButton(
+        "مشاهده",
+        (p, d) -> {
+          ZipFileShow.showAsDialog(FileDirActivity.this, _path);
+        });
+    di.setPositiveButton(
+        "استخراج",
+        (p1, d2) -> {
+          UnZipDataFromDir(_path, Folder);
+        });
+    AlertDialog dialog = di.show();
+
+    dialog.show();
   }
 
   public void _lojiceinstallK() {
@@ -1342,33 +1342,6 @@ public class FileDirActivity extends BaseCompat
         reLoadFile();
         SketchwareUtil.showMessage(getApplicationContext(), "انجام شد");
       }
-    }
-  }
-
-  public void _installproject(
-      final ArrayList<HashMap<String, Object>> _maps, final String _pathz, final double _number) {
-    if (_maps.get((int) _number).get(_pathz).toString().endsWith(".project")) {
-      var di =
-          new com.google.android.material.dialog.MaterialAlertDialogBuilder(FileDirActivity.this);
-
-      di.setTitle("نصب پروژه ؟");
-      di.setMessage(
-          "آیا میخواهید "
-              .concat(
-                  Uri.parse(_maps.get((int) _number).get(_pathz).toString())
-                      .getLastPathSegment()
-                      .concat(" نصب کنید؟")));
-      di.setPositiveButton(
-          "نصب",
-          (p1, d2) -> {
-            UnZipDataFromDir(_maps.get((int) _number).get(_pathz).toString(), Folder);
-          });
-
-      di.setNeutralButton("بستن", (p, d) -> {});
-
-      androidx.appcompat.app.AlertDialog dialog = di.show();
-
-      dialog.show();
     }
   }
 
@@ -1501,8 +1474,8 @@ public class FileDirActivity extends BaseCompat
     dialog.setOnShowListener(
         (var) -> {
           EditText editor = dialog.findViewById(R.id.editor);
-           editor.setTextSize(16);
-           editor.setTextColor(MaterialColors.getColor(editor,ColorAndroid12.colorOnSurface,0));
+          editor.setTextSize(16);
+          editor.setTextColor(MaterialColors.getColor(editor, ColorAndroid12.colorOnSurface, 0));
 
           Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
           editor.setText(
@@ -1587,6 +1560,72 @@ public class FileDirActivity extends BaseCompat
           }.execute("");
         });
     AlertDialog dialog = di.show();
+
+    dialog.show();
+  }
+
+  void loadsvg(int newpos) {
+    androidx.appcompat.app.AlertDialog dialog =
+        new GhostWebMaterialDialog(FileDirActivity.this)
+            .setTitle("Svg ")
+            .setMessage("توجه داشته باشید با زدن روی Options میتوانید عمل کرد های زیرا تست کنید")
+            .setPositiveButton("Options", null)
+            .setNegativeButton(android.R.string.cancel, null)
+            .create();
+    dialog.setOnShowListener(
+        (var) -> {
+          Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+          positive.setOnClickListener(
+              (vftrororocjj) -> {
+                mmenuVector =
+                    new PowerMenu.Builder(FileDirActivity.this)
+                        .addItem(new PowerMenuItem("Code Editor"))
+                        .addItem(new PowerMenuItem("Cast to Vector"))
+                        .addItem(new PowerMenuItem("Cast to Png"))
+                        .setIsMaterial(true)
+                        .build();
+                mmenuVector.showAsDropDown(positive);
+                mmenuVector.setAutoDismiss(true);
+                mmenuVector.setShowBackground(false);
+                mmenuVector.setMenuColor(MaterialColors.getColor(this, ColorAndroid12.Back, 0));
+                mmenuVector.setSelectedMenuColor(0xFFFDA893);
+                mmenuVector.setSelectedEffect(true);
+                mmenuVector.setDividerHeight((int) 2);
+                mmenuVector.setTextColor(
+                    MaterialColors.getColor(this, ColorAndroid12.colorOnSurface, 0));
+
+                mmenuVector.setCircularEffect(CircularEffect.INNER);
+                mmenuVector.setOnMenuItemClickListener(
+                    (position, item) -> {
+                      switch (position) {
+                        case 0:
+                          {
+                            dialog.dismiss();
+                            SendDataFromCodeEditor(newpos, "path", files, newlistmap);
+                            break;
+                          }
+                        case 1:
+                          {
+                            VectorImageShow(staticstring, GetTab.concat("/"));
+                            dialog.dismiss();
+                            break;
+                          }
+                        case 2:
+                          {
+                            _msvgtopng(
+                                files.get((int) newpos).get("path").toString(),
+                                files
+                                    .get((int) newpos)
+                                    .get("path")
+                                    .toString()
+                                    .replace(".svg", ".png"));
+                            dialog.dismiss();
+                            break;
+                          }
+                      }
+                    });
+              });
+        });
 
     dialog.show();
   }
@@ -1678,69 +1717,7 @@ public class FileDirActivity extends BaseCompat
       SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".svg")) {
-      androidx.appcompat.app.AlertDialog dialog =
-          new GhostWebMaterialDialog(FileDirActivity.this)
-              .setTitle("Svg ")
-              .setMessage("توجه داشته باشید با زدن روی Options میتوانید عمل کرد های زیرا تست کنید")
-              .setPositiveButton("Options", null)
-              .setNegativeButton(android.R.string.cancel, null)
-              .create();
-      dialog.setOnShowListener(
-          (var) -> {
-            Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-            positive.setOnClickListener(
-                (vftrororocjj) -> {
-                  mmenuVector =
-                      new PowerMenu.Builder(FileDirActivity.this)
-                          .addItem(new PowerMenuItem("Code Editor"))
-                          .addItem(new PowerMenuItem("Cast to Vector"))
-                          .addItem(new PowerMenuItem("Cast to Png"))
-                          .setIsMaterial(true)
-                          .build();
-                  mmenuVector.showAsDropDown(positive);
-                  mmenuVector.setAutoDismiss(true);
-                  mmenuVector.setShowBackground(false);
-                  mmenuVector.setMenuColor(MaterialColors.getColor(this, ColorAndroid12.Back, 0));
-                  mmenuVector.setSelectedMenuColor(0xFFFDA893);
-                  mmenuVector.setSelectedEffect(true);
-                  mmenuVector.setDividerHeight((int) 2);
-                  mmenuVector.setTextColor(
-                      MaterialColors.getColor(this, ColorAndroid12.colorOnSurface, 0));
-
-                  mmenuVector.setCircularEffect(CircularEffect.INNER);
-                  mmenuVector.setOnMenuItemClickListener(
-                      (position, item) -> {
-                        switch (position) {
-                          case 0:
-                            {
-                              dialog.dismiss();
-                              SendDataFromCodeEditor(newpos, "path", files, newlistmap);
-                              break;
-                            }
-                          case 1:
-                            {
-                              VectorImageShow(staticstring, GetTab.concat("/"));
-                              dialog.dismiss();
-                              break;
-                            }
-                          case 2:
-                            {
-                              _msvgtopng(
-                                  files.get((int) newpos).get("path").toString(),
-                                  files
-                                      .get((int) newpos)
-                                      .get("path")
-                                      .toString()
-                                      .replace(".svg", ".png"));
-                              dialog.dismiss();
-                              break;
-                            }
-                        }
-                      });
-                });
-          });
-
-      dialog.show();
+      loadsvg(newpos);
     }
     if (staticstring.endsWith(".jar")) {
       var di = new MaterialAlertDialogBuilder(FileDirActivity.this);
@@ -1806,11 +1783,15 @@ public class FileDirActivity extends BaseCompat
       var myswb = new SwbData(this);
       myswb.init(staticstring);
     }
+    if (staticstring.endsWith(".zip")) {
+      InstallTakesZip(newpos, staticstring);
+    }
+    if (staticstring.endsWith(".project")) {
+      InstallTakesProject(newpos, staticstring);
+    }
 
-    _zipviewandexsert(newpos, "path", files);
     _fontpost(files, "path", newpos);
     _themeinstall(files, newpos, "path");
-    _installproject(files, "path", newpos);
     _insertData(newpos);
   }
 
@@ -1926,8 +1907,20 @@ public class FileDirActivity extends BaseCompat
         });
   }
 
-  public void UnZipDataFromDir(final String _input, final String _output) {
-    HsiZip task = new HsiZip(this);
+  public void UnZipDataFromDir(String _input, String _output) {
+    var task =
+        new HsiZip(
+            this,
+            new HsiZip.OnCallBack() {
+
+              @Override
+              public void onResult() {
+                reLoadFile();
+              }
+
+              @Override
+              public void onError() {}
+            });
     task.execute(_input, _output);
   }
 
@@ -2664,8 +2657,7 @@ public class FileDirActivity extends BaseCompat
 
   public void _dialog() {
     int position =
-        ((androidx.recyclerview.widget.LinearLayoutManager) recyclerview2.getLayoutManager())
-            .findFirstVisibleItemPosition();
+        ((GridLayoutManager) recyclerview2.getLayoutManager()).findFirstVisibleItemPosition();
     var di = new GhostWebMaterialDialog(FileDirActivity.this);
     di.setTitle("File Maket ");
     di.setIcon(R.drawable.file);
@@ -2682,8 +2674,8 @@ public class FileDirActivity extends BaseCompat
 
   public void _dialoggits() {
     // FileDirActivity.this
-    androidx.appcompat.app.AlertDialog di =
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(FileDirActivity.this)
+    AlertDialog di =
+        new MaterialAlertDialogBuilder(FileDirActivity.this)
             .setPositiveButton("clone", (w, r) -> {})
             .setView(R.layout.layout_gitclone)
             .setCancelable(false)
@@ -2695,11 +2687,12 @@ public class FileDirActivity extends BaseCompat
     di.setOnShowListener(
         cc -> {
           EditText et = di.findViewById(R.id.et);
-          com.google.android.material.textfield.TextInputLayout input = di.findViewById(R.id.input);
+          TextInputLayout input = di.findViewById(R.id.input);
           ProgressBar bar = di.findViewById(R.id.bar);
           TextView tv = di.findViewById(R.id.tv);
           LinearLayout helper = di.findViewById(R.id.helper);
           helper.setVisibility(View.GONE);
+          input.setBoxCornerRadii(20,20,20,20);
           Button button = di.getButton(DialogInterface.BUTTON_POSITIVE);
           button.setOnClickListener(
               c1010108829 -> {

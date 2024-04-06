@@ -34,11 +34,11 @@ public class SetHomeWallpActivity extends BaseCompat {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        getSupportActionBar().hide();
         GlideCompat.GlideNormal(imgcontext, getIntent().getStringExtra("img"));
         fab.setText("Select to Walpaper?");
         var shap = new ShapeAppearanceModel.Builder();
-        shap.setAllCorners(CornerFamily.CUT, 20f);
+        shap.setAllCorners(CornerFamily.CUT, 30f);
         fab.setShapeAppearanceModel(shap.build());
         toolbar.setBackgroundTintList(
                 ColorStateList.valueOf(MaterialColors.getColor(toolbar, ColorAndroid12.Back)));

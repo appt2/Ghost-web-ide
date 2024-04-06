@@ -11,73 +11,73 @@
     <string name="dkplayer_wifi_tip">not found wifi</string>
     <string name="word_separators">.,;:!?\10()[]*&amp;@{}/&lt;&gt;_+=|</string>
     <item
-            name="paste"
-            type="string"
-    >Paste
-    </item>
+        name="paste"
+        type="string"
+        
+    >Paste</item>
     <item
-            name="copy"
-            type="string"
-    >Copy
-    </item>
+        name="copy"
+        type="string"
+        
+    >Copy</item>
     <item
-            name="selectAll"
-            type="string"
-            formatted="true"
-    >Select All
-    </item>
+        name="selectAll"
+        type="string"
+        formatted="true"
+        
+    >Select All</item>
     <item
-            name="saveToProject"
-            type="string"
-            translatable="false"
-    >Project
-    </item>
+        name="saveToProject"
+        type="string"
+        translatable="false"
+        
+    >Project</item>
     <item
-            name="cut"
-            type="string"
-    >Cut
-    </item>
+        name="cut"
+        type="string"
+        
+    >Cut</item>
     <item
-            name="last"
-            type="string"
-    >Last
-    </item>
+        name="last"
+        type="string"
+        
+    >Last</item>
     <item
-            name="next"
-            type="string"
-    >Next
-    </item>
+        name="next"
+        type="string"
+        
+    >Next</item>
     <item
-            name="replace"
-            type="string"
-    >Replace
-    </item>
+        name="replace"
+        type="string"
+        
+    >Replace</item>
     <item
-            name="replaceAll"
-            type="string"
-    >Replace All
-    </item>
+        name="replaceAll"
+        type="string"
+        
+    >Replace All</item>
     <item
-            name="replacement"
-            type="string"
-    >Replacement
-    </item>
+        name="replacement"
+        type="string"
+        
+    >Replacement</item>
     <item
-            name="cancel"
-            type="string"
-    >Cancel
-    </item>
+        name="cancel"
+        type="string"
+        
+    >Cancel</item>
     <item
-            name="text_to_search"
-            type="string"
-    >Text to search
-    </item>
+        name="text_to_search"
+        type="string"
+        
+    >Text to search</item>
     <item
-            name="more"
-            type="string"
-            translatable="false"
-    >More
-    </item>
+        name="more"
+        type="string"
+        translatable="false"
+        
+    >More</item>
     <string name="sting">App setting</string>
     <string name="java">java codes</string>
     <string name="googleplay">Add star to my app to myket</string>
@@ -151,5 +151,6 @@
     <string name="view">View</string>
     <string name="design">Design</string>
     <string name="blueprint">Blueprint</string>
+    <string name="gridmode">GridView</string>
 
 </resources>
