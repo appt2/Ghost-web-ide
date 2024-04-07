@@ -4,6 +4,8 @@ import Ninja.coder.Ghostemane.code.ApplicationLoader;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -267,6 +269,21 @@ public class GlideCompat {
     }
   }
 
+  public static void LoadApksFile(String file, ImageView img) {
+    try {
+      Glide.with(img.getContext())
+          .load(getIconFromZip(file, img.getContext()))
+          .error(R.drawable.ic_material_android)
+          .transform(new RoundedCornersTransformation(RenderSize()))
+          .placeholder(CircelPrograssBar())
+          .diskCacheStrategy(DiskCacheStrategy.ALL)
+          .priority(Priority.HIGH)
+          .into(img);
+    } catch (Exception err) {
+      img.setImageResource(R.drawable.ic_material_android);
+    }
+  }
+
   public static void LoadSvg(String path, ImageView c) {
     Glide.with(c.getContext())
         .load(loadSvg(path))
@@ -385,5 +402,30 @@ public class GlideCompat {
     }
 
     return null;
+  }
+
+  protected static Drawable getIconFromZip(String zipFilePath, Context context) {
+    Drawable icon = null;
+    try {
+      ZipFile zipFile = new ZipFile(zipFilePath);
+      ZipEntry entry = zipFile.getEntry("base.apk");
+      if (entry != null) {
+        InputStream inputStream = zipFile.getInputStream(entry);
+        android.content.pm.PackageManager packageManager = context.getPackageManager();
+        android.content.pm.PackageInfo packageInfo =
+            packageManager.getPackageArchiveInfo(zipFilePath, PackageManager.GET_ACTIVITIES);
+        if (packageInfo != null) {
+          ApplicationInfo appInfo = packageInfo.applicationInfo;
+          appInfo.sourceDir = zipFilePath;
+          appInfo.publicSourceDir = zipFilePath;
+          icon = appInfo.loadIcon(packageManager);
+        }
+        inputStream.close();
+      }
+      zipFile.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return icon;
   }
 }

@@ -1,7 +1,10 @@
 package Ninja.coder.Ghostemane.code.PluginManager;
 
+import android.os.Build;
+import androidx.annotation.NonNull;
 import java.io.File;
 
+@ismodule
 public class Plugin {
   protected String name;
   protected boolean Enabel;
@@ -9,11 +12,33 @@ public class Plugin {
   protected File file;
   protected PluginFactory f;
 
+  public Plugin(String name, boolean Enabel, PluginFactory f) {
+    this.name = name;
+    this.Enabel = Enabel;
+    this.f = f;
+  }
+
+  public Plugin(String name, String id, File file, PluginFactory f) {
+    this.name = name;
+    this.id = id;
+    this.file = file;
+    this.f = f;
+  }
+
+  public Plugin(String name, boolean Enabel, String id, File file, PluginFactory f) {
+    this.name = name;
+    this.Enabel = Enabel;
+    this.id = id;
+    this.file = file;
+    this.f = f;
+  }
+
   public Plugin(String name, boolean Enabel) {
     this.name = name;
     this.Enabel = Enabel;
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   public void setCallBack(PluginFactory f) {
     this.f = f;
   }
@@ -24,6 +49,7 @@ public class Plugin {
 
   public void setName(String name) {
     this.name = name;
+    f.getName(name, Enabel);
   }
 
   public boolean getEnabel() {

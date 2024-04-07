@@ -68,6 +68,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.allenliu.badgeview.BadgeView;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
@@ -114,10 +115,7 @@ public class CodeEditorActivity extends AppCompatActivity {
   protected EditorAutoCompleteWindow window;
   protected ExrtaFab _fab; // /By ninja coder big man main
   private final Timer _timer = new Timer();
-  
   private WallpaperParallaxEffect effect;
-  private Toolbar _toolbar;
-  private AppBarLayout _app_bar;
   private CoordinatorLayout _coordinator;
   private String currentWord = "";
   private HashMap<String, Object> imap = new HashMap<>();
@@ -154,8 +152,6 @@ public class CodeEditorActivity extends AppCompatActivity {
   private final ArrayList<String> folderList = new ArrayList<>();
   private final ArrayList<String> fileList = new ArrayList<>();
   private final ArrayList<HashMap<String, Object>> files = new ArrayList<>();
-
-  private LinearLayout BlureView;
   private PraramnetLayoutNinja Mainlinear;
   private LinearLayout multytab;
   private FrameLayout FrameLayout01;
@@ -288,22 +284,9 @@ public class CodeEditorActivity extends AppCompatActivity {
   }
 
   private void initialize(Bundle _savedInstanceState) {
-    _app_bar = findViewById(R.id._app_bar);
+    
     _coordinator = findViewById(R.id._coordinator);
-    _toolbar = findViewById(R.id._toolbar);
-    setSupportActionBar(_toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    _toolbar.setNavigationOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _v) {
-            onBackPressed();
-          }
-        });
     _fab = findViewById(R.id._fab);
-
-    BlureView = findViewById(R.id.BlureView);
     _coordinator = findViewById(R.id._coordinator);
     Mainlinear = findViewById(R.id.Mainlinear);
     multytab = findViewById(R.id.multytab);
@@ -718,20 +701,20 @@ public class CodeEditorActivity extends AppCompatActivity {
     }
     if (FileUtil.isExistFile(pss.getString("getWallpaparSazen1000", ""))) {
       BlurImage.Start(
-          _coordinator,
+          getWindow().getDecorView(),
           CodeEditorActivity.this,
           pss.getString("getWallpaparSazen1000", ""),
           thememanagersoft.contains("br") ? thememanagersoft.getFloat("br", 2) : 3);
     } else {
       if (imap.containsKey("BackgroundColorLinear")) {
-        _coordinator.setBackgroundColor(
+        getWindow().getDecorView().setBackgroundColor(
             Color.parseColor(imap.get("BackgroundColorLinear").toString()));
       } else {
-        _coordinator.setBackgroundColor(0xFF2B2120);
+        getWindow().getDecorView().setBackgroundColor(0xFF2B2120);
       }
     }
-    _symbloinit();
-    _poz();
+    Symbloinit();
+    ReloadFileInPos();
     if (shp.contains("pos_path")) {
       if (!shp.getString("pos_path", "").equals("")) {
         _codeEditor(shp.getString("pos_path", ""));
@@ -841,8 +824,6 @@ public class CodeEditorActivity extends AppCompatActivity {
     tvtitle.setText("GWI");
     _Animwork(_fab);
     _Anim01(editor);
-
-    _toolbar.setVisibility(View.GONE);
     editor
         .getColorScheme()
         .setColor(EditorColorScheme.MATCHED_TEXT_BACKGROUND, Color.parseColor("#75800F31"));
@@ -964,7 +945,7 @@ public class CodeEditorActivity extends AppCompatActivity {
                           || _filePath.get(0).endsWith(".mp4"))))) {
             pss.edit().putString("getWallpaparSazen1000", _filePath.get(0)).apply();
             BlurImage.Start(
-                _coordinator,
+                getWindow().getDecorView(),
                 CodeEditorActivity.this,
                 pss.getString("getWallpaparSazen1000", ""),
                 thememanagersoft.contains("br") ? thememanagersoft.getFloat("br", 2) : 3);
@@ -1371,7 +1352,7 @@ public class CodeEditorActivity extends AppCompatActivity {
     }
   }
 
-  public void _poz() {
+  public void ReloadFileInPos() {
     if (shp.contains("path")) {
       if (!shp.getString("path", "").equals("")) {
         tabs_listmap =
@@ -1411,7 +1392,7 @@ public class CodeEditorActivity extends AppCompatActivity {
     liveViewerDialogFragmentActivityN.show(getSupportFragmentManager(), "1");
   }
 
-  public void _symbloinit() {
+  public void Symbloinit() {
     if (!FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/Symbols/symbol.json")) {
       try {
         java.io.InputStream inputstream5 = getAssets().open("symbol.json");

@@ -62,416 +62,420 @@ import java.util.List;
  * @author Rosemoe
  */
 public class EditorTextActionWindow extends EditorPopupWindow
-        implements EventReceiver<SelectionChangeEvent> {
-    private static final long DELAY = 200;
-    private final CodeEditor mEditor;
-    private final View mRootView;
-    private final EditorTouchEventHandler mHandler;
-    protected List<TextActionModel> model = new ArrayList<>();
-    protected TextActionAd adptor;
-    private long mLastScroll;
-    private int mLastPosition;
-    private ListView rv;
-    private helper helpers;
-    private boolean isShow = true;
+    implements EventReceiver<SelectionChangeEvent> {
+  private static final long DELAY = 200;
+  private final CodeEditor mEditor;
+  private final View mRootView;
+  private final EditorTouchEventHandler mHandler;
+  protected List<TextActionModel> model = new ArrayList<>();
+  protected TextActionAd adptor;
+  private long mLastScroll;
+  private int mLastPosition;
+  private ListView rv;
+  private helper helpers;
+  private boolean isShow = true;
 
-    /**
-     * Create a panel for the given editor
-     *
-     * @param editor Target editor
-     */
-    public EditorTextActionWindow(CodeEditor editor) {
-        super(editor, FEATURE_SHOW_OUTSIDE_VIEW_ALLOWED);
-        mEditor = editor;
-        mHandler = editor.getEventHandler();
-        // Since popup window does provide decor view, we have to pass null to this method
-        @SuppressLint("InflateParams")
-        View root =
-                LayoutInflater.from(editor.getContext()).inflate(R.layout.text_compose_popup_window, null);
-        rv = root.findViewById(R.id.rvEditor);
-        model.add(new TextActionModel("Format Code", R.drawable.codeformat));
-        model.add(new TextActionModel("SetAll", R.drawable.dkplayer_ic_action_fullscreen));
-        model.add(new TextActionModel("copy", R.mipmap.mpcopy));
-        model.add(new TextActionModel("cut", R.mipmap.mpcut));
-        model.add(new TextActionModel("past", R.mipmap.mppaste));
-        model.add(new TextActionModel("search", R.drawable.textsearch));
-        model.add(new TextActionModel("delete", R.drawable.delete));
-        model.add(new TextActionModel("tools", R.drawable.textfile));
+  /**
+   * Create a panel for the given editor
+   *
+   * @param editor Target editor
+   */
+  public EditorTextActionWindow(CodeEditor editor) {
+    super(editor, FEATURE_SHOW_OUTSIDE_VIEW_ALLOWED);
+    mEditor = editor;
+    mHandler = editor.getEventHandler();
+    // Since popup window does provide decor view, we have to pass null to this method
+    @SuppressLint("InflateParams")
+    View root =
+        LayoutInflater.from(editor.getContext()).inflate(R.layout.text_compose_popup_window, null);
+    rv = root.findViewById(R.id.rvEditor);
+    model.add(new TextActionModel("Format Code", R.drawable.codeformat));
+    model.add(new TextActionModel("SetAll", R.drawable.dkplayer_ic_action_fullscreen));
+    model.add(new TextActionModel("copy", R.mipmap.mpcopy));
+    model.add(new TextActionModel("cut", R.mipmap.mpcut));
+    model.add(new TextActionModel("past", R.mipmap.mppaste));
+    model.add(new TextActionModel("search", R.drawable.textsearch));
+    model.add(new TextActionModel("delete", R.drawable.delete));
+    model.add(new TextActionModel("tools", R.drawable.textfile));
 
-        adptor =
-                new TextActionAd(
-                        model,
-                        new TextActionAd.OnItemClick() {
+    adptor =
+        new TextActionAd(
+            model,
+            new TextActionAd.OnItemClick() {
 
-                            @Override
-                            public void onItemClickChange(int posNow, View myview, ImageView img) {
-                                switch (posNow) {
-                                    case 0: {
-                                        editor.formatCodeAsync();
-                                        dismiss();
-                                        break;
-                                    }
-                                    case 1: {
-                                        editor.selectAll();
-                                        show();
-                                        break;
-                                    }
-                                    case 2: {
-                                        editor.copyText();
-                                        img.setEnabled(editor.hasClip() && editor.isEditable());
-                                        dismiss();
-                                        break;
-                                    }
-                                    case 3:
-                                        editor.cutText();
-                                        dismiss();
-                                        break;
-                                    case 4:
-                                        editor.pasteText();
-                                        dismiss();
-                                        break;
-                                    case 5:
-                                        EditorSearcherT.show((IdeEditor) editor, editor, editor.getSelectedText());
-                                        dismiss();
-                                        break;
-                                    case 6:
-                                        RomvedText();
-                                        dismiss();
-                                        break;
-                                }
-                            }
-                        });
-        rv.setAdapter(adptor);
-        rv.setClickable(true);
-
-        //    comments.setOnClickListener(
-        //        v -> {
-        //          if (editor.getEditorLanguage() instanceof NinjaLang) {
-        //            ToolItem item = new ToolItem();
-        //            item.BindViewsNinja(v.getContext(), v, editor);
-        //          } else if (editor.getEditorLanguage() instanceof HTMLLanguage) {
-        //            HtmlTool tool = new HtmlTool();
-        //            tool.Tool(v.getContext(), v, editor);
-        //          } else if (editor.getEditorLanguage() instanceof JavaLanguage) {
-        //            JavaTools toolss = new JavaTools();
-        //            var l = "java";
-        //            toolss.runs(v.getContext(), v, editor, l);
-        //          } else if (editor.getEditorLanguage() instanceof PythonLang) {
-        //            PythonTools toolpy = new PythonTools();
-        //            toolpy.Tool(v.getContext(), v, editor);
-        //          } else if (editor.getEditorLanguage() instanceof JavaScriptLanguage) {
-        //            JavaTools toolss = new JavaTools();
-        //            var l = "js";
-        //            toolss.runs(v.getContext(), v, editor, l);
-        //          } else if (editor.getEditorLanguage() instanceof CSS3Language) {
-        //            OtherLangs toolss = new OtherLangs();
-        //            toolss.run(v.getContext(), editor, v);
-        //          } else if (editor.getEditorLanguage() instanceof DartLang) {
-        //            OtherLangs toolss = new OtherLangs();
-        //            toolss.run(v.getContext(), editor, v);
-        //          } else if(editor.getEditorLanguage() instanceof KotlinLanguage) {
-        //              KotlinTools tools = new KotlinTools();
-        //             tools.run(v.getContext(),editor,v);
-        //          }else if(editor.getEditorLanguage() instanceof SMLang){
-        //            SmaliHelper.run(editor,v.getContext());
-        //          }
-        //        });
-        //
-        helpers = new helper(editor);
-
-        MaterialShapeDrawable materialShapeDrawable =
-                new MaterialShapeDrawable(
-                        ShapeAppearanceModel.builder().setAllCorners(CornerFamily.CUT, 20f).build());
-        EditorColorScheme editorColorScheme = editor.getColorScheme();
-        materialShapeDrawable.setFillColor(
-                ColorStateList.valueOf(editorColorScheme.getColor(EditorColorScheme.AUTO_COMP_PANEL_BG)));
-        materialShapeDrawable.setStroke(
-                2f,
-                ColorStateList.valueOf(
-                        editorColorScheme.getColor(EditorColorScheme.AUTO_COMP_PANEL_CORNER)));
-        // cardview1.setBackground(materialShapeDrawable);
-        setContentView(root);
-        getPopup().setAnimationStyle(R.style.hso);
-        setSize(0, (int) (mEditor.getDpUnit() * 190));
-        mRootView = root;
-        getPopup().setBackgroundDrawable(post());
-        editor.subscribeEvent(SelectionChangeEvent.class, this);
-        editor.subscribeEvent(
-                ScrollEvent.class,
-                ((event, unsubscribe) -> {
-                    var last = mLastScroll;
-                    mLastScroll = System.currentTimeMillis();
-                    if (mLastScroll - last < DELAY) {
-                        postDisplay();
+              @Override
+              public void onItemClickChange(int posNow, View myview, ImageView img) {
+                switch (posNow) {
+                  case 0:
+                    {
+                      editor.formatCodeAsync();
+                      dismiss();
+                      break;
                     }
-                }));
-        editor.subscribeEvent(
-                HandleStateChangeEvent.class,
-                ((event, unsubscribe) -> {
-                    if (event.isHeld()) {
-                        postDisplay();
+                  case 1:
+                    {
+                      editor.selectAll();
+                      show();
+                      break;
                     }
-                }));
+                  case 2:
+                    {
+                      editor.copyText();
+                      img.setEnabled(editor.hasClip() && editor.isEditable());
+                      dismiss();
+                      break;
+                    }
+                  case 3:
+                    editor.cutText();
+                    dismiss();
+                    break;
+                  case 4:
+                    editor.pasteText();
+                    dismiss();
+                    break;
+                  case 5:
+                    EditorSearcherT.show((IdeEditor) editor, editor, editor.getSelectedText());
+                    dismiss();
+                    break;
+                  case 6:
+                    RomvedText();
+                    dismiss();
+                    break;
+                  case 7:
+                    editor.getCommentHelper().MakeCommentJava();
+                    break;
+                }
+              }
+            });
+    rv.setAdapter(adptor);
+    rv.setClickable(true);
+
+    //    comments.setOnClickListener(
+    //        v -> {
+    //          if (editor.getEditorLanguage() instanceof NinjaLang) {
+    //            ToolItem item = new ToolItem();
+    //            item.BindViewsNinja(v.getContext(), v, editor);
+    //          } else if (editor.getEditorLanguage() instanceof HTMLLanguage) {
+    //            HtmlTool tool = new HtmlTool();
+    //            tool.Tool(v.getContext(), v, editor);
+    //          } else if (editor.getEditorLanguage() instanceof JavaLanguage) {
+    //            JavaTools toolss = new JavaTools();
+    //            var l = "java";
+    //            toolss.runs(v.getContext(), v, editor, l);
+    //          } else if (editor.getEditorLanguage() instanceof PythonLang) {
+    //            PythonTools toolpy = new PythonTools();
+    //            toolpy.Tool(v.getContext(), v, editor);
+    //          } else if (editor.getEditorLanguage() instanceof JavaScriptLanguage) {
+    //            JavaTools toolss = new JavaTools();
+    //            var l = "js";
+    //            toolss.runs(v.getContext(), v, editor, l);
+    //          } else if (editor.getEditorLanguage() instanceof CSS3Language) {
+    //            OtherLangs toolss = new OtherLangs();
+    //            toolss.run(v.getContext(), editor, v);
+    //          } else if (editor.getEditorLanguage() instanceof DartLang) {
+    //            OtherLangs toolss = new OtherLangs();
+    //            toolss.run(v.getContext(), editor, v);
+    //          } else if(editor.getEditorLanguage() instanceof KotlinLanguage) {
+    //              KotlinTools tools = new KotlinTools();
+    //             tools.run(v.getContext(),editor,v);
+    //          }else if(editor.getEditorLanguage() instanceof SMLang){
+    //            SmaliHelper.run(editor,v.getContext());
+    //          }
+    //        });
+    //
+    helpers = new helper(editor);
+
+    MaterialShapeDrawable materialShapeDrawable =
+        new MaterialShapeDrawable(
+            ShapeAppearanceModel.builder().setAllCorners(CornerFamily.CUT, 20f).build());
+    EditorColorScheme editorColorScheme = editor.getColorScheme();
+    materialShapeDrawable.setFillColor(
+        ColorStateList.valueOf(editorColorScheme.getColor(EditorColorScheme.AUTO_COMP_PANEL_BG)));
+    materialShapeDrawable.setStroke(
+        2f,
+        ColorStateList.valueOf(
+            editorColorScheme.getColor(EditorColorScheme.AUTO_COMP_PANEL_CORNER)));
+    // cardview1.setBackground(materialShapeDrawable);
+    setContentView(root);
+    getPopup().setAnimationStyle(R.style.hso);
+    setSize(0, (int) (mEditor.getDpUnit() * 190));
+    mRootView = root;
+    getPopup().setBackgroundDrawable(post());
+    editor.subscribeEvent(SelectionChangeEvent.class, this);
+    editor.subscribeEvent(
+        ScrollEvent.class,
+        ((event, unsubscribe) -> {
+          var last = mLastScroll;
+          mLastScroll = System.currentTimeMillis();
+          if (mLastScroll - last < DELAY) {
+            postDisplay();
+          }
+        }));
+    editor.subscribeEvent(
+        HandleStateChangeEvent.class,
+        ((event, unsubscribe) -> {
+          if (event.isHeld()) {
+            postDisplay();
+          }
+        }));
+  }
+
+  private void postDisplay() {
+    if (!isShowing()) {
+      return;
     }
+    dismiss();
+    if (!mEditor.getCursor().isSelected()) {
+      return;
+    }
+    mEditor.postDelayed(
+        new Runnable() {
+          @Override
+          public void run() {
+            if (!mHandler.hasAnyHeldHandle()
+                && System.currentTimeMillis() - mLastScroll > DELAY
+                && mEditor.getScroller().isFinished()) {
+              displayWindow();
+            } else {
+              mEditor.postDelayed(this, DELAY);
+            }
+          }
+        },
+        DELAY);
+  }
 
-    private void postDisplay() {
-        if (!isShowing()) {
-            return;
-        }
+  @Override
+  public void onReceive(SelectionChangeEvent event, Unsubscribe unsubscribe) {
+    if (mHandler.hasAnyHeldHandle()) {
+      return;
+    }
+    if (event.isSelected()) {
+      if (!isShowing()) {
+        mEditor.post(this::displayWindow);
+      }
+      mLastPosition = -1;
+    } else {
+      if (event.getLeft().index == mLastPosition && !isShowing()) {
+        mEditor.post(this::displayWindow);
+      } else {
         dismiss();
-        if (!mEditor.getCursor().isSelected()) {
-            return;
-        }
-        mEditor.postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!mHandler.hasAnyHeldHandle()
-                                && System.currentTimeMillis() - mLastScroll > DELAY
-                                && mEditor.getScroller().isFinished()) {
-                            displayWindow();
-                        } else {
-                            mEditor.postDelayed(this, DELAY);
-                        }
-                    }
-                },
-                DELAY);
+      }
+      mLastPosition = event.getLeft().index;
     }
+  }
 
-    @Override
-    public void onReceive(SelectionChangeEvent event, Unsubscribe unsubscribe) {
-        if (mHandler.hasAnyHeldHandle()) {
-            return;
-        }
-        if (event.isSelected()) {
-            if (!isShowing()) {
-                mEditor.post(this::displayWindow);
-            }
-            mLastPosition = -1;
-        } else {
-            if (event.getLeft().index == mLastPosition && !isShowing()) {
-                mEditor.post(this::displayWindow);
-            } else {
-                dismiss();
-            }
-            mLastPosition = event.getLeft().index;
-        }
+  private int selectTop(RectF rect) {
+    int rowHeight = mEditor.getRowHeight();
+    if (rect.top - rowHeight * 3 / 2F > getHeight()) {
+      return (int) (rect.top - rowHeight * 3 / 2 - getHeight());
+    } else {
+      return (int) (rect.bottom + rowHeight / 2);
     }
+  }
 
-    private int selectTop(RectF rect) {
-        int rowHeight = mEditor.getRowHeight();
-        if (rect.top - rowHeight * 3 / 2F > getHeight()) {
-            return (int) (rect.top - rowHeight * 3 / 2 - getHeight());
-        } else {
-            return (int) (rect.bottom + rowHeight / 2);
-        }
+  public void displayWindow() {
+    int top;
+    var cursor = mEditor.getCursor();
+    if (cursor.isSelected()) {
+      var leftRect = mEditor.getLeftHandleDescriptor().position;
+      var rightRect = mEditor.getRightHandleDescriptor().position;
+      int top1 = selectTop(leftRect);
+      int top2 = selectTop(rightRect);
+      top = Math.min(top1, top2);
+    } else {
+      top = selectTop(mEditor.getInsertHandleDescriptor().position);
     }
+    top = Math.max(0, Math.min(top, mEditor.getHeight() - getHeight() - 5));
+    float handleLeftX =
+        mEditor.getOffset(mEditor.getCursor().getLeftLine(), mEditor.getCursor().getLeftColumn());
+    float handleRightX =
+        mEditor.getOffset(mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+    int panelX = (int) ((handleLeftX + handleRightX) / 2f);
+    setLocationAbsolutely(panelX, top);
+    show();
+  }
 
-    public void displayWindow() {
-        int top;
-        var cursor = mEditor.getCursor();
-        if (cursor.isSelected()) {
-            var leftRect = mEditor.getLeftHandleDescriptor().position;
-            var rightRect = mEditor.getRightHandleDescriptor().position;
-            int top1 = selectTop(leftRect);
-            int top2 = selectTop(rightRect);
-            top = Math.min(top1, top2);
-        } else {
-            top = selectTop(mEditor.getInsertHandleDescriptor().position);
-        }
-        top = Math.max(0, Math.min(top, mEditor.getHeight() - getHeight() - 5));
-        float handleLeftX =
-                mEditor.getOffset(mEditor.getCursor().getLeftLine(), mEditor.getCursor().getLeftColumn());
-        float handleRightX =
-                mEditor.getOffset(mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-        int panelX = (int) ((handleLeftX + handleRightX) / 2f);
-        setLocationAbsolutely(panelX, top);
-        show();
+  /** Update the state of paste button */
+  private void updateBtnState() {
+    //    mPasteBtn.setEnabled(mEditor.hasClip() && mEditor.isEditable());
+    //    mCopyBtn.setVisibility(mEditor.getCursor().isSelected() ? View.VISIBLE : View.GONE);
+    //    mCutBtn.setVisibility(
+    //        mEditor.getCursor().isSelected() && mEditor.isEditable() ? View.VISIBLE : View.GONE);
+    mRootView.measure(
+        View.MeasureSpec.makeMeasureSpec(1000000, View.MeasureSpec.AT_MOST),
+        View.MeasureSpec.makeMeasureSpec(100000, View.MeasureSpec.AT_MOST));
+    setSize(Math.min(mRootView.getMeasuredWidth(), (int) (mEditor.getDpUnit() * 230)), getHeight());
+  }
+
+  @Override
+  public void show() {
+    updateBtnState();
+    super.show();
+  }
+
+  //  @Override
+  //  public void onClick(View p1) {
+  //    int id = p1.getId();
+  //    if (id == R.id.panel_btn_select_all) {
+  //      mEditor.selectAll();
+  //      KeyBoardUtil();
+  //      AnimUtils.Shake(mEditor);
+  //      return;
+  //    } else if (id == R.id.panel_btn_cut) {
+  //      mEditor.copyText();
+  //      if (mEditor.getCursor().isSelected()) {
+  //        mEditor.getCursor().onDeleteKeyPressed();
+  //        Toast.makeText(mEditor.getContext(), "Text Cut", Toast.LENGTH_LONG).show();
+  //      }
+  //      AnimUtils.Shake(mEditor);
+  //    } else if (id == R.id.panel_btn_paste) {
+  //      mEditor.pasteText();
+  //      AnimUtils.Shake(mEditor);
+  //      mEditor.setSelection(
+  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+  //      Toast.makeText(mEditor.getContext(), "Text Pasted", Toast.LENGTH_LONG).show();
+  //    } else if (id == R.id.panel_btn_copy) {
+  //      mEditor.copyText();
+  //      mEditor.setSelection(
+  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+  //      Toast.makeText(mEditor.getContext(), "Text Copyed", Toast.LENGTH_LONG).show();
+  //      AnimUtils.Shake(mEditor);
+  //    } else if (id == R.id.panel_btn_del) {
+  //      RomvedText();
+  //      Toast.makeText(mEditor.getContext(), "Text Removed", Toast.LENGTH_LONG).show();
+  //      mEditor.setSelection(
+  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+  //    } else if (id == R.id.trans) {
+  //      if (mEditor.getCursor().isSelected()) {
+  //        mEditor.copyText();
+  //        runOnPost();
+  //        mEditor.setSelection(
+  //            mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
+  //        AnimUtils.Shake(mEditor);
+  //      }
+  //    } else if (id == R.id.codeStyle) {
+  //      mEditor.formatCodeAsync();
+  //    } else if (id == R.id.up) {
+  //      try {
+  //        setUpperCase();
+  //      } catch (Exception err) {
+  //        Log.i("error", err.getMessage());
+  //      }
+  //    } else if (id == R.id.low) {
+  //      try {
+  //        setLowerCase();
+  //      } catch (Exception err) {
+  //        Log.i("error", err.getMessage());
+  //      }
+  //    }
+  //    dismiss();
+  //  }
+
+  private void KeyBoardUtil() {
+    try {
+      if (isShow()) {
+        mEditor.showSoftInput();
+      } else {
+        mEditor.hideSoftInput();
+      }
+    } catch (Exception e) {
+      throw new RuntimeException("Keyboard show Error see Log" + " " + e.toString());
     }
+  }
 
-    /**
-     * Update the state of paste button
-     */
-    private void updateBtnState() {
-        //    mPasteBtn.setEnabled(mEditor.hasClip() && mEditor.isEditable());
-        //    mCopyBtn.setVisibility(mEditor.getCursor().isSelected() ? View.VISIBLE : View.GONE);
-        //    mCutBtn.setVisibility(
-        //        mEditor.getCursor().isSelected() && mEditor.isEditable() ? View.VISIBLE : View.GONE);
-        mRootView.measure(
-                View.MeasureSpec.makeMeasureSpec(1000000, View.MeasureSpec.AT_MOST),
-                View.MeasureSpec.makeMeasureSpec(100000, View.MeasureSpec.AT_MOST));
-        setSize(Math.min(mRootView.getMeasuredWidth(), (int) (mEditor.getDpUnit() * 230)), getHeight());
+  private boolean isShow() {
+    InputMethodManager imm =
+        (InputMethodManager) mEditor.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    return imm.isAcceptingText();
+  }
+
+  private EditorTextActionWindow KeyBoardShow() {
+    InputMethodManager show =
+        (InputMethodManager) mEditor.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    show.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    return this;
+  }
+
+  private EditorTextActionWindow KeyBoardHiden() {
+    InputMethodManager hiden =
+        (InputMethodManager) mEditor.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    hiden.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    return this;
+  }
+
+  protected void RomvedText() {
+    if (mEditor.getCursor().isSelected()) mEditor.getCursor().onDeleteKeyPressed();
+  }
+
+  private MaterialShapeDrawable post() {
+    MaterialShapeDrawable shap =
+        new MaterialShapeDrawable(
+            ShapeAppearanceModel.builder().setAllCorners(CornerFamily.CUT, 20f).build());
+    shap.setFillColor(
+        ColorStateList.valueOf(
+            MaterialColors.getColor(mEditor.getContext(), ColorAndroid12.Back, 0)));
+    shap.setStroke(
+        2f,
+        ColorStateList.valueOf(
+            MaterialColors.getColor(mEditor.getContext(), ColorAndroid12.TvColor, 0)));
+    return shap;
+  }
+
+  void runOnPost() {
+    Handler handler = new Handler();
+    handler.postDelayed(
+        () -> {
+          Transilt.Start(mEditor);
+        },
+        2000);
+  }
+
+  @NonNull
+  protected EditorColorScheme getColorScheme() {
+    return getEditor().getColorScheme();
+  }
+
+  protected int getThemeColor(int type) {
+    return getColorScheme().getColor(type);
+  }
+
+  public void getShow(boolean isShow) {
+    isShow = isShow;
+  }
+
+  public void setLowerCase() {
+    if (mEditor.getCursor().isSelected()) {
+      try {
+        mEditor.getCursor().onCommitText(getSelectedText().toLowerCase());
+      } catch (Exception err) {
+        Toast.makeText(mEditor.getContext(), err.getMessage(), 2).show();
+      }
+    } else {
+      Toast.makeText(mEditor.getContext(), "Text not selected", Toast.LENGTH_SHORT).show();
     }
+  }
 
-    @Override
-    public void show() {
-        updateBtnState();
-        super.show();
+  public void setUpperCase() {
+    if (mEditor.getCursor().isSelected()) {
+      try {
+        mEditor.getCursor().onCommitText(getSelectedText().toUpperCase());
+      } catch (Exception err) {
+        Toast.makeText(mEditor.getContext(), err.getMessage(), 2).show();
+      }
+    } else {
+      Toast.makeText(mEditor.getContext(), "Text not selected", Toast.LENGTH_SHORT).show();
     }
+  }
 
-    //  @Override
-    //  public void onClick(View p1) {
-    //    int id = p1.getId();
-    //    if (id == R.id.panel_btn_select_all) {
-    //      mEditor.selectAll();
-    //      KeyBoardUtil();
-    //      AnimUtils.Shake(mEditor);
-    //      return;
-    //    } else if (id == R.id.panel_btn_cut) {
-    //      mEditor.copyText();
-    //      if (mEditor.getCursor().isSelected()) {
-    //        mEditor.getCursor().onDeleteKeyPressed();
-    //        Toast.makeText(mEditor.getContext(), "Text Cut", Toast.LENGTH_LONG).show();
-    //      }
-    //      AnimUtils.Shake(mEditor);
-    //    } else if (id == R.id.panel_btn_paste) {
-    //      mEditor.pasteText();
-    //      AnimUtils.Shake(mEditor);
-    //      mEditor.setSelection(
-    //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-    //      Toast.makeText(mEditor.getContext(), "Text Pasted", Toast.LENGTH_LONG).show();
-    //    } else if (id == R.id.panel_btn_copy) {
-    //      mEditor.copyText();
-    //      mEditor.setSelection(
-    //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-    //      Toast.makeText(mEditor.getContext(), "Text Copyed", Toast.LENGTH_LONG).show();
-    //      AnimUtils.Shake(mEditor);
-    //    } else if (id == R.id.panel_btn_del) {
-    //      RomvedText();
-    //      Toast.makeText(mEditor.getContext(), "Text Removed", Toast.LENGTH_LONG).show();
-    //      mEditor.setSelection(
-    //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-    //    } else if (id == R.id.trans) {
-    //      if (mEditor.getCursor().isSelected()) {
-    //        mEditor.copyText();
-    //        runOnPost();
-    //        mEditor.setSelection(
-    //            mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-    //        AnimUtils.Shake(mEditor);
-    //      }
-    //    } else if (id == R.id.codeStyle) {
-    //      mEditor.formatCodeAsync();
-    //    } else if (id == R.id.up) {
-    //      try {
-    //        setUpperCase();
-    //      } catch (Exception err) {
-    //        Log.i("error", err.getMessage());
-    //      }
-    //    } else if (id == R.id.low) {
-    //      try {
-    //        setLowerCase();
-    //      } catch (Exception err) {
-    //        Log.i("error", err.getMessage());
-    //      }
-    //    }
-    //    dismiss();
-    //  }
-
-    private void KeyBoardUtil() {
-        try {
-            if (isShow()) {
-                mEditor.showSoftInput();
-            } else {
-                mEditor.hideSoftInput();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Keyboard show Error see Log" + " " + e.toString());
-        }
-    }
-
-    private boolean isShow() {
-        InputMethodManager imm =
-                (InputMethodManager) mEditor.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        return imm.isAcceptingText();
-    }
-
-    private EditorTextActionWindow KeyBoardShow() {
-        InputMethodManager show =
-                (InputMethodManager) mEditor.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        show.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        return this;
-    }
-
-    private EditorTextActionWindow KeyBoardHiden() {
-        InputMethodManager hiden =
-                (InputMethodManager) mEditor.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        hiden.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-        return this;
-    }
-
-    protected void RomvedText() {
-        if (mEditor.getCursor().isSelected()) mEditor.getCursor().onDeleteKeyPressed();
-    }
-
-    private MaterialShapeDrawable post() {
-        MaterialShapeDrawable shap =
-                new MaterialShapeDrawable(
-                        ShapeAppearanceModel.builder().setAllCorners(CornerFamily.CUT, 20f).build());
-        shap.setFillColor(
-                ColorStateList.valueOf(
-                        MaterialColors.getColor(mEditor.getContext(), ColorAndroid12.Back, 0)));
-        shap.setStroke(
-                2f,
-                ColorStateList.valueOf(
-                        MaterialColors.getColor(mEditor.getContext(), ColorAndroid12.TvColor, 0)));
-        return shap;
-    }
-
-    void runOnPost() {
-        Handler handler = new Handler();
-        handler.postDelayed(
-                () -> {
-                    Transilt.Start(mEditor);
-                },
-                2000);
-    }
-
-    @NonNull
-    protected EditorColorScheme getColorScheme() {
-        return getEditor().getColorScheme();
-    }
-
-    protected int getThemeColor(int type) {
-        return getColorScheme().getColor(type);
-    }
-
-    public void getShow(boolean isShow) {
-        isShow = isShow;
-    }
-
-    public void setLowerCase() {
-        if (mEditor.getCursor().isSelected()) {
-            try {
-                mEditor.getCursor().onCommitText(getSelectedText().toLowerCase());
-            } catch (Exception err) {
-                Toast.makeText(mEditor.getContext(), err.getMessage(), 2).show();
-            }
-        } else {
-            Toast.makeText(mEditor.getContext(), "Text not selected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void setUpperCase() {
-        if (mEditor.getCursor().isSelected()) {
-            try {
-                mEditor.getCursor().onCommitText(getSelectedText().toUpperCase());
-            } catch (Exception err) {
-                Toast.makeText(mEditor.getContext(), err.getMessage(), 2).show();
-            }
-        } else {
-            Toast.makeText(mEditor.getContext(), "Text not selected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public String getSelectedText() {
-        Cursor cursor = mEditor.getCursor();
-        return mEditor
-                .getText()
-                .subContent(
-                        cursor.getLeftLine(),
-                        cursor.getLeftColumn(),
-                        cursor.getRightLine(),
-                        cursor.getRightColumn())
-                .toString();
-    }
+  public String getSelectedText() {
+    Cursor cursor = mEditor.getCursor();
+    return mEditor
+        .getText()
+        .subContent(
+            cursor.getLeftLine(),
+            cursor.getLeftColumn(),
+            cursor.getRightLine(),
+            cursor.getRightColumn())
+        .toString();
+  }
 }

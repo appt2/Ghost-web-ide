@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 // fileListItem
 public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
@@ -133,26 +134,28 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
         GlideCompat.LoadApkFile(myfile.toString(), viewHolder.icon);
       } else if (myfile.toString().endsWith(".swb")) {
         GlideCompat.LoadSwbIcon(myfile.toString(), viewHolder.icon);
+      }else if(myfile.toString().endsWith(".apks")){
+        GlideCompat.LoadApksFile(myfile.toString(),viewHolder.icon);
       }
     }
 
     viewHolder.itemView.setClickable(true);
   }
-
-  @NonNull
-  private HashMap<String, Object> getitem(int position) {
+  @NonNull 
+  public HashMap<String,Object> getItem(int position){
     return filteredFiles.get(position);
   }
 
   @Override
   public long getItemId(int position) {
-    return getitem(position).hashCode();
+    HashMap<String,Object> mmap = getItem(position);
+    return Objects.hash(mmap);
   }
 
   @Override
   @NonNull
   public CharSequence getPopupText(int position) {
-    HashMap<String, Object> map = getitem(position);
+    HashMap<String, Object> map = getItem(position);
     return map.get("path").toString().substring(0, 1).toUpperCase();
   }
 

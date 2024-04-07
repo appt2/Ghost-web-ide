@@ -30,26 +30,11 @@ public class EditorSearcherT {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true);
+    popup.showAtLocation(views, Gravity.CENTER, 0, 0);
+
     popupView.setPadding(3, 3, 3, 3);
 
-    KeyboardUtils.registerSoftInputChangedListener(
-        (Activity) views.getContext(),
-        new KeyboardUtils.OnSoftInputChangedListener() {
-
-          @Override
-          public void onSoftInputChanged(int height) {
-            popup.showAtLocation(
-                views,
-                KeyboardUtils.isSoftInputVisible((Activity) views.getContext())
-                    ? Gravity.CENTER
-                    : Gravity.BOTTOM,
-                0,
-                0);
-          }
-        });
-
     popup.setContentView(popupView);
-    
 
     EditText etSearch = popupView.findViewById(R.id.search_text);
     MaterialButton close = popupView.findViewById(R.id.close);
@@ -62,6 +47,7 @@ public class EditorSearcherT {
     next.setOnClickListener(view -> editor.getSearcher().gotoNext());
     last.setOnClickListener(view -> editor.getSearcher().gotoLast());
     etSearch.setText(txt);
+    
 
     replaceThis.setOnClickListener(
         view -> {

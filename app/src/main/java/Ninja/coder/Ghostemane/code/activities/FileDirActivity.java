@@ -460,7 +460,7 @@ public class FileDirActivity extends BaseCompat
       showMessage(e.toString());
     }
     // new FastScrollerBuilder(recyclerview2).useMd2Style().build();
-    
+
     progressDilaog =
         new ProgressDialog(FileDirActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
     unzip = new ProgressDialog(FileDirActivity.this, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
@@ -527,7 +527,8 @@ public class FileDirActivity extends BaseCompat
     navs.getMenu().add(0, 13, 0, "PL manager").setIcon(R.drawable.link);
     navs.getMenu().add(0, 14, 0, "Book mark (Beta)").setIcon(R.drawable.ic_bookmark_white);
     navs.getMenu().add(0, 15, 0, "Apk manager").setIcon(R.drawable.default_image);
-    navs.getMenu().add(0, 16, 0, "exit").setIcon(R.drawable.exit);
+    navs.getMenu().add(0, 16, 0, "GitHub code ").setIcon(R.drawable.github);
+    navs.getMenu().add(0, 17, 0, "exit").setIcon(R.drawable.exit);
     DrowerHandler();
   }
 
@@ -783,12 +784,13 @@ public class FileDirActivity extends BaseCompat
                           public void onSuccess(String content) {
                             // محتوای فایل با موفقیت خوانده شد
                             Toast.makeText(getApplicationContext(), content, 2).show();
-                            
+
                             if (recyclerview2 != null) {
                               reLoadFile();
                               recyclerview2.getAdapter().notifyItemChanged(files.size());
                             }
                           }
+
                           @Override
                           public void onError(String e) {
                             // خطایی در هنگام خواندن فایل رخ داده است
@@ -2338,6 +2340,11 @@ public class FileDirActivity extends BaseCompat
               }
             case 16:
               {
+                getGitHub();
+                break;
+              }
+            case 17:
+              {
                 finishAffinity();
                 break;
               }
@@ -2687,7 +2694,7 @@ public class FileDirActivity extends BaseCompat
           TextView tv = di.findViewById(R.id.tv);
           LinearLayout helper = di.findViewById(R.id.helper);
           helper.setVisibility(View.GONE);
-          input.setBoxCornerRadii(20,20,20,20);
+          input.setBoxCornerRadii(20, 20, 20, 20);
           Button button = di.getButton(DialogInterface.BUTTON_POSITIVE);
           button.setOnClickListener(
               c1010108829 -> {

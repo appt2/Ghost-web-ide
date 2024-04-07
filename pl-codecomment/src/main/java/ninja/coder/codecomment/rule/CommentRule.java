@@ -1,10 +1,15 @@
 package ninja.coder.codecomment.rule;
 
 import Ninja.coder.Ghostemane.code.PluginManager.Plugin;
+import Ninja.coder.Ghostemane.code.PluginManager.isField;
+import Ninja.coder.Ghostemane.code.PluginManager.PluginFactory;
+import Ninja.coder.Ghostemane.code.PluginManager.ismodule;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import androidx.annotation.RequiresApi;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.File;
@@ -15,18 +20,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CommentRule {
+@ismodule
+public class CommentRule implements PluginFactory {
 
   protected Plugin pl;
   private static String home = "/storage/emulated/0/ghostweb/comment/comment.json";
   private Gson gson;
+  private static final String nameM = "comment";
   // from copy asster data
   protected Context context;
   private List<HashMap<String, String>> map = new ArrayList<>();
 
   public CommentRule(Context context) {
     this.context = context;
-    pl = new Plugin("comment", true);
+    pl = new Plugin(nameM, true, this);
     var myfile = new File(home);
     pl.setFile(myfile);
     copyJson("comment.json", "/storage/emulated/0/ghostweb/comment/comment.json");
@@ -42,7 +49,7 @@ public class CommentRule {
     }
   }
 
-  private String getValueFromMap(String key) {
+  private synchronized String getValueFromMap(String key) {
     String hsiValue = null;
     for (HashMap<String, String> entry : map) {
       hsiValue = entry.get(key);
@@ -53,35 +60,42 @@ public class CommentRule {
     return hsiValue;
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   public String getPythonEnd() {
     return getValueFromMap("pythoncommentstart");
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   public String getPythonStart() {
     return getValueFromMap("pythoncommentend");
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   public String getJavaNormal() {
     return getValueFromMap("javannormal");
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   public String getHtmlEnd() {
     return getValueFromMap("webhtmlend");
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   public String getHtmlStart() {
     return getValueFromMap("webhtmlstart");
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   public String getJavaEnd() {
     return getValueFromMap("javaend");
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   public String getJavaStart() {
     return getValueFromMap("javastart");
   }
 
-  public String readFile(String path) {
+  public synchronized String readFile(String path) {
 
     StringBuilder sb = new StringBuilder();
     FileReader fr = null;
@@ -109,7 +123,8 @@ public class CommentRule {
     return sb.toString();
   }
 
-  void copyJson(String assetFilename, String assetSavePath) {
+  @isField(api = Build.VERSION_CODES.KITKAT)
+  synchronized void copyJson(String assetFilename, String assetSavePath) {
 
     new Thread(
             () -> {
@@ -135,8 +150,17 @@ public class CommentRule {
         .start();
   }
 
+  @isField(api = Build.VERSION_CODES.KITKAT)
   void run(Runnable run) {
     var handler = new Handler(Looper.getMainLooper());
     handler.post(run);
+  }
+
+  @isField(api = Build.VERSION_CODES.KITKAT)
+  @RequiresApi(26)
+  @Override
+  public void getName(String name, boolean show) {
+    name = nameM;
+    show = true;
   }
 }
