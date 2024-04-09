@@ -95,6 +95,7 @@ import io.github.rosemoe.sora.widget.EditorColorScheme;
 import io.github.rosemoe.sora.widget.SymbolInputView;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
@@ -158,7 +159,7 @@ public class CodeEditorActivity extends AppCompatActivity {
   private LinearLayout newLayoutSymbolBar;
   private LinearLayout CustomToolbar;
   private ProgressBar progressbar1;
-  
+
   private RecyclerView recyclerview1;
   private RecyclerView dir;
   private LinearLayout divar;
@@ -284,7 +285,7 @@ public class CodeEditorActivity extends AppCompatActivity {
   }
 
   private void initialize(Bundle _savedInstanceState) {
-    
+
     _coordinator = findViewById(R.id._coordinator);
     _fab = findViewById(R.id._fab);
     _coordinator = findViewById(R.id._coordinator);
@@ -294,11 +295,11 @@ public class CodeEditorActivity extends AppCompatActivity {
     newLayoutSymbolBar = findViewById(R.id.newLayoutSymbolBar);
     CustomToolbar = findViewById(R.id.CustomToolbar);
     progressbar1 = findViewById(R.id.progressbar1);
-    
+
     recyclerview1 = findViewById(R.id.recyclerview1);
     dir = findViewById(R.id.dir);
     divar = findViewById(R.id.divar);
-    
+
     linear1 = findViewById(R.id.linear1);
     linear2 = findViewById(R.id.linear2);
     badgeview3 = findViewById(R.id.badgeview3);
@@ -307,13 +308,13 @@ public class CodeEditorActivity extends AppCompatActivity {
     image = findViewById(R.id.image);
     redo = findViewById(R.id.redo);
     undo = findViewById(R.id.undo);
-    
+
     menupopnew = findViewById(R.id.menupopnew);
     editor = findViewById(R.id.editor);
     FrameLayout02 = findViewById(R.id.FrameLayout02);
     linear3 = findViewById(R.id.linear3);
     proanjctor = findViewById(R.id.proanjctor);
-    
+
     barSymoble = findViewById(R.id.barSymoble);
     linear5 = findViewById(R.id.linear5);
     imageview1 = findViewById(R.id.imageview1);
@@ -322,7 +323,7 @@ public class CodeEditorActivity extends AppCompatActivity {
     left = findViewById(R.id.left);
     up = findViewById(R.id.up);
     rh = findViewById(R.id.rh);
-    
+
     divardown = findViewById(R.id.divardown);
     syspiar = findViewById(R.id.syspiar);
     word = getSharedPreferences("word", Activity.MODE_PRIVATE);
@@ -413,12 +414,9 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         });
 
-    
-
     menupopnew.setOnClickListener(
-        (___)-> {
-          
-            _managerpanel(menupopnew);
+        (___) -> {
+          _managerpanel(menupopnew);
         });
 
     imageview1.setOnClickListener(
@@ -462,7 +460,6 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         });
 
-    
     _fab.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -707,8 +704,9 @@ public class CodeEditorActivity extends AppCompatActivity {
           thememanagersoft.contains("br") ? thememanagersoft.getFloat("br", 2) : 3);
     } else {
       if (imap.containsKey("BackgroundColorLinear")) {
-        getWindow().getDecorView().setBackgroundColor(
-            Color.parseColor(imap.get("BackgroundColorLinear").toString()));
+        getWindow()
+            .getDecorView()
+            .setBackgroundColor(Color.parseColor(imap.get("BackgroundColorLinear").toString()));
       } else {
         getWindow().getDecorView().setBackgroundColor(0xFF2B2120);
       }
@@ -722,7 +720,6 @@ public class CodeEditorActivity extends AppCompatActivity {
     }
     FileUtil.writeFile(
         "/storage/emulated/0/GhostWebIDE/ninjacoder/openFile.json", shp.getString("path", ""));
-    
 
     progressbar1.setVisibility(View.GONE);
 
@@ -766,7 +763,7 @@ public class CodeEditorActivity extends AppCompatActivity {
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     _coderuner();
-    
+
     editor.setLineNumberAlign(Paint.Align.CENTER);
 
     SetThemeForJson themeForJson2 = new SetThemeForJson();
@@ -784,13 +781,13 @@ public class CodeEditorActivity extends AppCompatActivity {
     themeForJson2.addImageColor(undo, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
     themeForJson2.addImageColor(redo, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
     themeForJson2.addImageColor(image, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
-    
+
     themeForJson2.addImageColor(
         menupopnew, this, "ImageColor", imap, Color.parseColor("#ff94e7ff"));
     themeForJson2.mfabcolor(this, _fab, imap);
     themeForJson2.mfab2(this, _fab, imap);
     AnimUtils.ClickAnimation(menupopnew);
-    
+
     AnimUtils.ClickAnimation(undo);
     AnimUtils.ClickAnimation(redo);
     if (ru.contains("rup")) {
@@ -811,7 +808,6 @@ public class CodeEditorActivity extends AppCompatActivity {
         Window ninjacoder = this.getWindow();
         ninjacoder.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         ninjacoder.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
         ninjacoder.setStatusBarColor(Color.parseColor("#FF2B2122"));
         ninjacoder.setNavigationBarColor(Color.parseColor("#FF2B2122"));
       }
@@ -845,7 +841,7 @@ public class CodeEditorActivity extends AppCompatActivity {
             Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
         typeVl.setTypeface(
             Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
-        
+
       } else {
         _editorsetfontfromfile(setfont.getString("mfont", ""));
         tvtitle.setTypeface(Typeface.createFromFile(new File(setfont.getString("mfont", ""))));
@@ -1393,45 +1389,34 @@ public class CodeEditorActivity extends AppCompatActivity {
   }
 
   public void Symbloinit() {
-    if (!FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/Symbols/symbol.json")) {
-      try {
-        java.io.InputStream inputstream5 = getAssets().open("symbol.json");
-        staticSymbiolPiare =
-            new Gson()
-                .fromJson(
-                    SketchwareUtil.copyFromInputStream(inputstream5),
-                    new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType());
-      } catch (Exception e) {
-        SketchwareUtil.showMessage(getApplicationContext(), e.toString());
-      }
-    } else {
-      try {
-        staticSymbiolPiare =
-            new Gson()
-                .fromJson(
-                    FileUtil.readFile("/storage/emulated/0/GhostWebIDE/Symbols/symbol.json"),
-                    new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType());
-      } catch (Exception e) {
-        SketchwareUtil.showMessage(getApplicationContext(), e.toString());
-      }
+    try {
+      InputStream inputstream5 = getAssets().open("symbol.json");
+      staticSymbiolPiare =
+          new Gson()
+              .fromJson(
+                  SketchwareUtil.copyFromInputStream(inputstream5),
+                  new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType());
+      SyspiarAdapter syspiarAdapter =
+          new SyspiarAdapter(
+              staticSymbiolPiare,
+              new SyspiarAdapter.OnTabView() {
+                @Override
+                public void TAB(String tab) {
+                  _sysba(tab);
+                }
+
+                @Override
+                public void POST(String post) {
+                  _sysba(post);
+                }
+              });
+
+      syspiar.setAdapter(syspiarAdapter);
+      syspiar.setLayoutManager(
+          new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+    } catch (Exception e) {
+      SketchwareUtil.showMessage(getApplicationContext(), e.toString());
     }
-    SyspiarAdapter syspiarAdapter =
-        new SyspiarAdapter(
-            staticSymbiolPiare,
-            new SyspiarAdapter.OnTabView() {
-              @Override
-              public void TAB(String tab) {
-                _sysba(tab);
-              }
-
-              @Override
-              public void POST(String post) {
-                _sysba(post);
-              }
-            });
-
-    syspiar.setAdapter(syspiarAdapter);
-    syspiar.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
   }
 
   public void _closeall() {

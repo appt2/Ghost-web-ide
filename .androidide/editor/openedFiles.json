@@ -1,7 +1,7 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/io/github/rosemoe/sora/widget/commentRule/CommentHelper.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/activities/CodeEditorActivity.java",
       "selection": {
         "end": {
           "column": 0,
@@ -16,20 +16,35 @@
       }
     },
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/io/github/rosemoe/sora/widget/EditorTextActionWindow.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/assets/symbol.json",
       "selection": {
         "end": {
-          "column": 25,
-          "index": 5403,
-          "line": 140
+          "column": 1,
+          "index": 1,
+          "line": 0
         },
         "start": {
-          "column": 25,
-          "index": 5403,
-          "line": 140
+          "column": 1,
+          "index": 1,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/SyspiarAdapter.java",
+      "selection": {
+        "end": {
+          "column": 33,
+          "index": 2145,
+          "line": 56
+        },
+        "start": {
+          "column": 33,
+          "index": 2145,
+          "line": 56
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/io/github/rosemoe/sora/widget/EditorTextActionWindow.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/activities/CodeEditorActivity.java"
 }
