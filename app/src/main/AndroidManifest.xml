@@ -472,5 +472,10 @@
             android:process=":PHPWebServerService"
             
         />
+        <receiver android:name="Ninja.coder.Ghostemane.code.PluginManager.FilePostBroadcastReceiver">
+            <intent-filter>
+                <action android:name="Ninja.coder.code.Ghostemane.SEND_FILE_PATH" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

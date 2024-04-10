@@ -11,6 +11,7 @@ public class Plugin {
   protected String id;
   protected File file;
   protected PluginFactory f;
+  public Plugin(){}
 
   public Plugin(String name, boolean Enabel, PluginFactory f) {
     this.name = name;

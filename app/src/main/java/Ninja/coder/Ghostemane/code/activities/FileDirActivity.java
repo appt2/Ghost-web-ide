@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code.activities;
 
+import Ninja.coder.Ghostemane.code.PluginManager.IntentHelper;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.RequestNetwork;
 import Ninja.coder.Ghostemane.code.RequestNetworkController;
@@ -40,6 +41,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -49,6 +51,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import Ninja.coder.Ghostemane.code.PluginManager.FilePostBroadcastReceiver;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -417,6 +420,7 @@ public class FileDirActivity extends BaseCompat
       Folder = FileUtil.getExternalStorageDir();
       reLoadFile();
     }
+    IntentHelper.getFilePath = Folder;
   }
 
   public void setViewType(ViewType viewType) {
@@ -433,6 +437,13 @@ public class FileDirActivity extends BaseCompat
         fast.build();
       }
     }
+  }
+
+  public void sendFilePathToReceiver(String filePath) {
+    FilePostBroadcastReceiver files = new FilePostBroadcastReceiver();
+    IntentFilter intentFilter = new IntentFilter();
+    intentFilter.addAction("Ninja.coder.code.Ghostemane.SEND_FILE_PATH");
+    registerReceiver(files, intentFilter);
   }
 
   private void initStartApp() {
@@ -549,6 +560,7 @@ public class FileDirActivity extends BaseCompat
     layout.setEndIconScaleType(ImageView.ScaleType.CENTER_INSIDE);
     layout.setEndIconDrawable(R.drawable.deletear);
     layout.setEndIconOnClickListener(v -> et.getText().clear());
+    sendFilePathToReceiver(Folder);
 
     et.addTextChangedListener(
         new TextWatcher() {
