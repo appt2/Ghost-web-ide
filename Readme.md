@@ -94,6 +94,8 @@ I must say that you do not have the right to register the program under your own
 - The code snippet in GhostWeb is a little different than the json sample that is required
 
 #### Fa json 
+
+
 ```json 
 
 {
@@ -108,6 +110,8 @@ I must say that you do not have the right to register the program under your own
     "body": "console.log('تست دوم');"
   }
 }
+
+
 ```
 
 
@@ -115,7 +119,8 @@ I must say that you do not have the right to register the program under your own
 
 ```json 
 
-{
+ 
+ {
    "snippet1": {
      "description": "This is a piece of test code",
      "prefix": "test",
