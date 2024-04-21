@@ -97,16 +97,16 @@ I must say that you do not have the right to register the program under your own
 ```json 
 
 {
-  "snippet1": {
-    "description": "این یک قطعه کد تستی است",
-    "prefix": "test",
-    "body": "console.log('این یک تست است');"
-  },
-  "snippet2": {
-    "description": "قطعه کد دیگری برای تست",
-    "prefix": "test2",
-    "body": "console.log('تست دوم');"
-  }
+  "snippet1": {
+    "description": "این یک قطعه کد تستی است",
+    "prefix": "test",
+    "body": "console.log('این یک تست است');"
+  },
+  "snippet2": {
+    "description": "قطعه کد دیگری برای تست",
+    "prefix": "test2",
+    "body": "console.log('تست دوم');"
+  }
 }
 ```
 
@@ -116,17 +116,17 @@ I must say that you do not have the right to register the program under your own
 ```json 
 
 {
-  "snippet1": {
-    "description": "Test code ",
-    "prefix": "test",
-    "body": "console.log('test codes ');"
-  },
-  "snippet2": {
-    "description": "Test code 2 ",
-    "prefix": "test2",
-    "body": "console.log('Hello word');"
-  }
-}
+   "snippet1": {
+     "description": "This is a piece of test code",
+     "prefix": "test",
+     "body": "console.log('This is a test');"
+   },
+   "snippet2": {
+     "description": "Another piece of code to test",
+     "prefix": "test2",
+     "body": "console.log('second test');"
+   }
+ }
 
 ```
 
