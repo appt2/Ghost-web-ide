@@ -42,6 +42,10 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+    
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -50,6 +54,7 @@ dependencies {
     implementation project(path: ":eclipse-standalone")
     implementation project(path: ":android-tools")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2")
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-properties:2.14.2'
     implementation("com.squareup:javapoet:1.13.0")
     implementation("com.android.tools:r8:8.3.37")
 

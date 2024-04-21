@@ -242,38 +242,6 @@
                                  android:orientation="horizontal"
                                  android:id="@+id/linear6">
 
-                                <ImageView
-                                     android:layout_height="30dp"
-                                     android:layout_width="30dp"
-                                     android:src="@drawable/icon_helper_code_0_1"
-                                     android:scaleType="fitCenter"
-                                     android:layout_weight="1"
-                                     android:id="@+id/down" />
-
-                                <ImageView
-                                     android:layout_height="30dp"
-                                     android:layout_width="30dp"
-                                     android:src="@drawable/icon_helper_code_0_3"
-                                     android:scaleType="fitCenter"
-                                     android:layout_weight="1"
-                                     android:id="@+id/left" />
-
-                                <ImageView
-                                     android:layout_height="30dp"
-                                     android:layout_width="30dp"
-                                     android:src="@drawable/icon_helper_code_0_2"
-                                     android:scaleType="fitCenter"
-                                     android:layout_weight="1"
-                                     android:id="@+id/up" />
-
-                                <ImageView
-                                     android:layout_height="30dp"
-                                     android:layout_width="30dp"
-                                     android:src="@drawable/icon_helper_code_0_4"
-                                     android:scaleType="fitCenter"
-                                     android:layout_weight="1"
-                                     android:id="@+id/rh" />
-
                             </LinearLayout>
 
                         </LinearLayout>
@@ -293,6 +261,12 @@
                                  android:id="@+id/divardown">
 
                             </LinearLayout>
+
+                            <Ninja.coder.Ghostemane.code.marco.GhostWebEditorSearch
+                                 android:layout_height="match_parent"
+                                 android:layout_width="wrap_content"
+                                 android:padding="8dp"
+                                 android:id="@+id/editor_ser" />
 
                             <androidx.recyclerview.widget.RecyclerView
                                  android:layout_height="wrap_content"

@@ -4,12 +4,14 @@ import Ninja.coder.Ghostemane.code.G4Compiler;
 import Ninja.coder.Ghostemane.code.IdeEditor;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.RequestNetwork;
-import Ninja.coder.Ghostemane.code.adapter.DirAdapter;
+import Ninja.coder.Ghostemane.code.activities.CodeEditorActivity;
 import Ninja.coder.Ghostemane.code.adapter.SyspiarAdapter;
+import Ninja.coder.Ghostemane.code.adapter.ToolbarListFileAdapter;
 import Ninja.coder.Ghostemane.code.config.CommonFactoryData;
 import Ninja.coder.Ghostemane.code.layoutmanager.LogCatBottomSheet;
 import Ninja.coder.Ghostemane.code.marco.ColorView;
 import Ninja.coder.Ghostemane.code.marco.EditorSearcherT;
+import Ninja.coder.Ghostemane.code.marco.GhostWebEditorSearch;
 import Ninja.coder.Ghostemane.code.marco.NinjaMacroFileUtil;
 import Ninja.coder.Ghostemane.code.marco.WallpaperParallaxEffect;
 import Ninja.coder.Ghostemane.code.project.JavaCompilerBeta;
@@ -25,7 +27,6 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AppComponentFactory;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -34,7 +35,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.Uri;
@@ -49,6 +49,7 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
@@ -58,7 +59,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
@@ -68,12 +68,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.allenliu.badgeview.BadgeView;
-import com.blankj.utilcode.util.KeyboardUtils;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -92,17 +90,16 @@ import io.github.rosemoe.sora.text.TextStyle;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.EditorAutoCompleteWindow;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
-import io.github.rosemoe.sora.widget.SymbolInputView;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import ninja.coder.codecomment.rule.CommentRule;
 
 public class CodeEditorActivity extends AppCompatActivity {
 
@@ -180,10 +177,7 @@ public class CodeEditorActivity extends AppCompatActivity {
   private LinearLayout linear5;
   private ImageView imageview1;
   private LinearLayout linear6;
-  private ImageView down;
-  private ImageView left;
-  private ImageView up;
-  private ImageView rh;
+  
   private LinearLayout divardown;
   private RecyclerView syspiar;
 
@@ -235,6 +229,7 @@ public class CodeEditorActivity extends AppCompatActivity {
   private SharedPreferences sf;
   private LiveViewerDialogFragmentActivity liveViewerDialogFragmentActivityN;
   private FragmentManager LiveviewebDialogFragmentActivityFM;
+  private GhostWebEditorSearch ghost_searchs;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -308,23 +303,20 @@ public class CodeEditorActivity extends AppCompatActivity {
     image = findViewById(R.id.image);
     redo = findViewById(R.id.redo);
     undo = findViewById(R.id.undo);
-
+    
+    
     menupopnew = findViewById(R.id.menupopnew);
     editor = findViewById(R.id.editor);
     FrameLayout02 = findViewById(R.id.FrameLayout02);
     linear3 = findViewById(R.id.linear3);
     proanjctor = findViewById(R.id.proanjctor);
-
     barSymoble = findViewById(R.id.barSymoble);
     linear5 = findViewById(R.id.linear5);
     imageview1 = findViewById(R.id.imageview1);
     linear6 = findViewById(R.id.linear6);
-    down = findViewById(R.id.down);
-    left = findViewById(R.id.left);
-    up = findViewById(R.id.up);
-    rh = findViewById(R.id.rh);
-
     divardown = findViewById(R.id.divardown);
+    ghost_searchs = findViewById(R.id.editor_ser);
+    ghost_searchs.hide();
     syspiar = findViewById(R.id.syspiar);
     word = getSharedPreferences("word", Activity.MODE_PRIVATE);
     line = getSharedPreferences("line", Activity.MODE_PRIVATE);
@@ -381,6 +373,8 @@ public class CodeEditorActivity extends AppCompatActivity {
             }
           }
         });
+    ghost_searchs.bindEditor(editor);
+    
 
     image.setOnClickListener(
         new View.OnClickListener() {
@@ -428,38 +422,7 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         });
 
-    down.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            editor.moveSelectionDown();
-          }
-        });
-
-    left.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            editor.moveSelectionLeft();
-          }
-        });
-
-    up.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            editor.moveSelectionUp();
-          }
-        });
-
-    rh.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View _view) {
-            editor.moveSelectionRight();
-          }
-        });
-
+    
     _fab.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -1095,7 +1058,8 @@ public class CodeEditorActivity extends AppCompatActivity {
             switch (position) {
               case 0:
                 {
-                  EditorSearcherT.show(editor, FrameLayout01);
+                  
+                  ghost_searchs.showAndHide();
                   break;
                 }
 
@@ -1523,23 +1487,50 @@ public class CodeEditorActivity extends AppCompatActivity {
         });
   }
 
-  public void _distreeview() {
-    treeviewmap.clear();
-    String _path_ = shp.getString("pos_path", "");
-
-    _path_ = _path_.replaceFirst("/", "");
-    String[] _path_list_ = _path_.split("/");
-    for (int _i_ = 0; _i_ < _path_list_.length; _i_++) {
-      {
-        HashMap<String, Object> _item = new HashMap<>();
-        _item.put("mo", _path_list_[_i_]);
-        treeviewmap.add(_item);
+  public List<String> spiltIntoBreadcrumbItems(String filePath) {
+    String separator = "/";
+    String[] items = filePath.split(separator);
+    List<String> filteredItems = new ArrayList<>();
+    for (String item : items) {
+      if (!item.trim().isEmpty()) {
+        filteredItems.add(item);
       }
     }
+    if (filteredItems.size() >= 3
+        && filteredItems.get(0).equals("storage")
+        && filteredItems.get(1).equals("emulated")
+        && filteredItems.get(2).equals("0")) {
+      List<String> combinedItems = new ArrayList<>();
+      combinedItems.add("Src");
+      combinedItems.addAll(filteredItems.subList(3, filteredItems.size()));
+      return combinedItems;
+    }
+    return filteredItems;
+  }
 
-    dir.setAdapter(new DirAdapter(treeviewmap));
+  public void _distreeview() {
+    List<String> pospath = spiltIntoBreadcrumbItems(shp.getString("pos_path", ""));
+
+    var adps =
+        new ToolbarListFileAdapter(
+            pospath,
+            this,
+            new ToolbarListFileAdapter.CallBack() {
+
+              @Override
+              public void GoToDir(View view) {
+                // LongClick
+              }
+
+              @Override
+              public void GoToTreeFile(View view) {
+                // onClick
+              }
+            });
+
+    dir.setAdapter(adps);
     dir.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-    dir.smoothScrollToPosition(treeviewmap.size());
+    dir.smoothScrollToPosition(pospath.size());
   }
 
   public void _winterFileinpath(final String _path, final String _dir) {

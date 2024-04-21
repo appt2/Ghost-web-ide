@@ -1,6 +1,7 @@
 package Ninja.coder.Ghostemane.code.utils;
 
 import Ninja.coder.Ghostemane.code.marco.ColorCompat;
+import Ninja.coder.Ghostemane.code.utils.FileUtil;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -13,12 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeMap;
 
 public class SetThemeForJson {
   protected HashMap<String, Object> map = new HashMap<>();
@@ -197,5 +203,60 @@ public class SetThemeForJson {
   public SetThemeForJson buildandpost() {
 
     return this;
+  }
+
+  public static void winterToPath() {
+    Map<String, String> map = new HashMap<>();
+    map.put("ToolbarTextColor", "#ffffffff");
+    map.put("BLOCK_LINE_CURRENT", "#ff2e99ff");
+    map.put("LINE_DIVIDER", "#1d000000");
+    map.put("SyombolBarTextColor", "#ffffe8e8");
+    map.put("HTML_TAG", "#ffff8be5");
+    map.put("FabColorStroker", "#ffe8e8ff");
+    map.put("LINE_NUMBER", "#ffffffff");
+    map.put("KEYWORD", "#ffff7f74");
+    map.put("AUTO_COMP_PANEL_CORNER", "#ffff8a5d");
+    map.put("SELECTION_HANDLE", "#ff49736e");
+    map.put("TabImageColorFilter", "#ffffffff");
+    map.put("AUTO_COMP_PANEL_BG", "#ff323232");
+    map.put("COMMENT", "#626262");
+    map.put("ToolbarColor", "#2e000000");
+    map.put("IDENTIFIER_NAME", "#fff08d6d");
+    map.put("DisplayTextColorTab", "#ffffe58b");
+    map.put("NON_PRINTABLE_CHAR", "#ff6b90ff");
+    map.put("SELECTION_INSERT", "#ff2a6373");
+    map.put("Ninja", "#ffddaeff");
+    map.put("TEXTCOLORHDER", "#ff522012");
+    map.put("TabTextColor", "#ffc9eaff");
+    map.put("BLOCK_LINE", "#ff5effaa");
+    map.put("MenuBackground", "#ff000000");
+    map.put("LITERAL", "#ffbcf5ff");
+    map.put("FabBackgroundColorColor", "#ff000000");
+    map.put("ATTRIBUTE_VALUE", "#ff8bf4ff");
+    map.put("TabBack", "#ff1e5e71");
+    map.put("TEXTCOLORFORGRAND", "#424242");
+    map.put("ImageColor", "#ffe8e8ff");
+    map.put("TEXT_NORMAL", "#ffffffff");
+    map.put("ATTRIBUTE_NAME", "#ffa1e3ff");
+    map.put("print", "#ffecffa1");
+    map.put("OPERATOR", "#ff43ffd5");
+    map.put("CURRENT_LINE", "#20171717");
+    map.put("WHOLE_BACKGROUND", "#02FFFFFF");
+    map.put("BackgroundColorLinear", "#2b000000");
+    map.put("FabImageColor", "#ffffffff");
+    map.put("LINE_NUMBER_BACKGROUND", "#00FFFFFF");
+    map.put("TEXTCOLORIGOR", "#ffb34192");
+    map.put("TEXTCOLORINIER", "#ffb36262");
+    String path =
+        FileUtil.getExternalStorageDir()
+            + File.separator
+            + "GhostWebIDE"
+            + File.separator
+            + "theme"
+            + File.separator
+            + "GhostThemeapp.ghost";
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    TreeMap<String, String> sortedMap = new TreeMap<>(map);
+    FileUtil.writeFile(path, gson.toJson(sortedMap));
   }
 }

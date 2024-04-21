@@ -1,5 +1,6 @@
 package io.github.rosemoe.sora.langs.properties;
 
+import Ninja.coder.Ghostemane.code.config.JacksonFormatter;
 import io.github.rosemoe.sora.interfaces.AutoCompleteProvider;
 import io.github.rosemoe.sora.interfaces.CodeAnalyzer;
 import io.github.rosemoe.sora.interfaces.EditorLanguage;
@@ -10,6 +11,12 @@ public class Propertieslangs implements EditorLanguage {
 
   @Override
   public CharSequence format(CharSequence text) {
+    try {
+      JacksonFormatter format = new JacksonFormatter();
+      return format.formatProp(text.toString());
+    } catch (Exception err) {
+
+    }
     return text;
   }
 

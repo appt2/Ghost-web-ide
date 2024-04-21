@@ -25,6 +25,7 @@ import com.caverock.androidsvg.SVG;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import org.w3c.dom.Document;
@@ -58,6 +59,9 @@ public class VectorHelper {
     TextInputEditText width = (TextInputEditText) inflate.findViewById(R.id.width);
     TextInputEditText color = (TextInputEditText) inflate.findViewById(R.id.color);
     TextInputEditText path = (TextInputEditText) inflate.findViewById(R.id.path);
+    MaterialSwitch sw = inflate.findViewById(R.id.sw_color);
+    sw.setChecked(false);
+    sw.setText("Color Filter");
     ImageView icon = (ImageView) inflate.findViewById(R.id.icon);
     LinearLayout container = (LinearLayout) inflate.findViewById(R.id.container);
     LinearLayout round = (LinearLayout) inflate.findViewById(R.id.round);
@@ -110,13 +114,21 @@ public class VectorHelper {
           }
         });
     builder.setView(inflate);
+    width.setText(getWidthSvg(iconPath));
+    height.setText(getHeightSvg(iconPath));
     if (iconPath.contains(".svg")) {
       name.setText(new File(iconPath).getName().replace(".svg", ""));
     } else if (iconPath.contains(".xml")) {
       name.setText(new File(iconPath).getName().replace(".xml", ""));
     }
     GlideCompat.LoadSvg(iconPath, icon);
-    ColorAndroid12.setColorFilter(icon, Color.parseColor(color.getText().toString()));
+    sw.setOnCheckedChangeListener(
+        (btn, is) -> {
+          if (is) {
+            ColorAndroid12.setColorFilter(icon, Color.parseColor(color.getText().toString()));
+          } else icon.setColorFilter(0);
+        });
+
     icon.setImageDrawable(loadSvg(iconPath));
     builder.setPositiveButton(
         "convert",
@@ -128,7 +140,8 @@ public class VectorHelper {
               color.getText().toString().trim(),
               iconPath,
               projectResourceDirectory,
-              context);
+              context,
+              sw);
           DialogDone(context, "Done", "Saved to " + iconPath.replace(".svg", ".xml"));
           db.done();
         });
@@ -145,8 +158,8 @@ public class VectorHelper {
       String color,
       String source,
       String destination,
-      Activity context) {
-
+      Activity context,
+      MaterialSwitch sw) {
     File svgPath = new File(source);
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -154,41 +167,74 @@ public class VectorHelper {
       DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
       Document document = documentBuilder.parse(svgPath);
       NodeList nodeList = document.getElementsByTagName("path");
-      if (nodeList.getLength() > 0) {
-        Element element = (Element) nodeList.item(0);
-        String a =
-            "<!--Convert By Ghostweb ide version "
-                + getVersion()
-                + " -->"
-                + "\n\n<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:width=\""
-                + width
-                + "dp"
-                + "\"\n    android:height=\""
-                + height
-                + "dp"
-                + "\"\n    android:viewportWidth=\""
-                + width
-                + "\"\n    android:viewportHeight=\""
-                + height
-                + "\"\n    android:tint=\""
-                + color
-                + "\">\n  <path\n      android:fillColor=\""
-                + color
-                + "\"\n      android:pathData=\""
-                + element.getAttribute("d")
-                + "\"/>\n</vector>\n";
 
-        byte[] vectorText = a.getBytes(StandardCharsets.UTF_8);
+      StringBuilder vectorContent = new StringBuilder();
+      vectorContent
+          .append("<!--Convert By Ghostweb ide version ")
+          .append(getVersion())
+          .append(" -->")
+          .append("\n\n<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"\n")
+          .append("    android:width=\"")
+          .append(width)
+          .append("dp\"\n")
+          .append("    android:height=\"")
+          .append(height)
+          .append("dp\"\n")
+          .append("    android:viewportWidth=\"")
+          .append(width)
+          .append("\"\n")
+          .append("    android:viewportHeight=\"")
+          .append(height)
+          .append("\"\n");
 
-        Files.write(
-            Paths.get(new File(projectResourceDirectory + name + ".xml").toURI()),
-            vectorText,
-            StandardOpenOption.CREATE,
-            StandardOpenOption.TRUNCATE_EXISTING);
+      if (sw.isChecked()) {
+        vectorContent.append("    android:tint=\"").append(color).append("\"\n");
       }
+
+      vectorContent.append(">\n");
+
+      for (int i = 0; i < nodeList.getLength(); i++) {
+        Element element = (Element) nodeList.item(i);
+        String pathData = element.getAttribute("d");
+        String fillColor = element.getAttribute("fill");
+
+        if (fillColor.isEmpty()) {
+          String style = element.getAttribute("style");
+          if (style.contains("fill:")) {
+            String newFillColor = style.substring(style.indexOf("fill:") + "fill:".length());
+            newFillColor = newFillColor.trim();
+            if (newFillColor.contains(";")) {
+              newFillColor = newFillColor.substring(0, newFillColor.indexOf(";"));
+            }
+            fillColor = newFillColor;
+          }
+        }
+
+        vectorContent
+            .append("  <path\n")
+            .append("      android:pathData=\"")
+            .append(pathData)
+            .append("\"\n");
+
+        if (!fillColor.isEmpty()) {
+          vectorContent.append("      android:fillColor=\"").append(fillColor).append("\"\n");
+        }
+
+        vectorContent.append("  />\n");
+      }
+
+      vectorContent.append("</vector>\n");
+
+      byte[] vectorText = vectorContent.toString().getBytes(StandardCharsets.UTF_8);
+
+      Files.write(
+          Paths.get(new File(projectResourceDirectory + name + ".xml").toURI()),
+          vectorText,
+          StandardOpenOption.CREATE,
+          StandardOpenOption.TRUNCATE_EXISTING);
+
     } catch (Exception e) {
       DialogError(context, "Error", e);
-      // Toast.makeText(context, e.toString(), 3000).show();
     }
   }
 
@@ -255,5 +301,29 @@ public class VectorHelper {
 
   public interface OnDone {
     void done();
+  }
+
+  private static String getWidthSvg(String path) {
+    try {
+      SVG svg = SVG.getFromInputStream(new FileInputStream(new File(path)));
+      if (svg.getDocumentWidth() == -1) {
+        return String.valueOf((long) Math.ceil(svg.getDocumentWidth()));
+      }
+    } catch (Exception err) {
+
+    }
+    return "32";
+  }
+
+  private static String getHeightSvg(String path) {
+    try {
+      SVG svg = SVG.getFromInputStream(new FileInputStream(new File(path)));
+      if (svg.getDocumentHeight() == -1) {
+        return String.valueOf((long) Math.ceil(svg.getDocumentHeight()));
+      }
+    } catch (Exception err) {
+
+    }
+    return "32";
   }
 }

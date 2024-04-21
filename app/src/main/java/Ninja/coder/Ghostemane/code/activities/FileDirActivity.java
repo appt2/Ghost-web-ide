@@ -29,6 +29,7 @@ import Ninja.coder.Ghostemane.code.services.MediaListenerService;
 import Ninja.coder.Ghostemane.code.terminal.TerminalActivity;
 import Ninja.coder.Ghostemane.code.utils.*;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
+import Ninja.coder.Ghostemane.code.utils.DialogUtil;
 import Ninja.coder.Ghostemane.code.utils.VectorHelper;
 import Ninja.coder.Ghostemane.code.widget.GhostWebMaterialDialog;
 import Ninja.coder.Ghostemane.code.widget.PraramnetLayoutNinja;
@@ -544,8 +545,9 @@ public class FileDirActivity extends BaseCompat
   }
 
   public void FilterFile() {
+    
     var view = LayoutInflater.from(this).inflate(R.layout.reminderlist, null, false);
-    var dialog = new MaterialAlertDialogBuilder(this);
+    var dialog = new DialogUtil(this);
     dialog.setTitle("Filter List");
     dialog.setPositiveButton("close", null);
     dialog.setView(view);
@@ -965,6 +967,11 @@ public class FileDirActivity extends BaseCompat
 
   @Override
   public void GoToDir(View view) {
+    
+  }
+
+  @Override
+  public void GoToTreeFile(View view) {
     ColorView.setPath(
         Folder,
         this,
@@ -973,17 +980,6 @@ public class FileDirActivity extends BaseCompat
           reLoadFile();
         },
         view);
-  }
-
-  @Override
-  public void GoToTreeFile(View view) {
-    if (!Folder.equals(Environment.getExternalStorageDirectory().getAbsolutePath())) {
-      Folder = Folder.substring(0, Folder.lastIndexOf("/"));
-      reLoadFile();
-      _distreeview();
-    } else {
-      Log.e("EndPath", "");
-    }
   }
 
   public List<String> spiltIntoBreadcrumbItems(String filePath) {
@@ -1000,7 +996,7 @@ public class FileDirActivity extends BaseCompat
         && filteredItems.get(1).equals("emulated")
         && filteredItems.get(2).equals("0")) {
       List<String> combinedItems = new ArrayList<>();
-      combinedItems.add("Home");
+      combinedItems.add(Build.MANUFACTURER + " " + Build.MODEL);
       combinedItems.addAll(filteredItems.subList(3, filteredItems.size()));
       return combinedItems;
     }
@@ -1211,7 +1207,7 @@ public class FileDirActivity extends BaseCompat
   }
 
   void InstallTakes(int _pos, String _path, String tit, String msg) {
-    var di = new MaterialAlertDialogBuilder(FileDirActivity.this);
+    var di = new DialogUtil(FileDirActivity.this);
 
     di.setTitle(tit);
     di.setMessage(msg);
@@ -1225,9 +1221,7 @@ public class FileDirActivity extends BaseCompat
         (p1, d2) -> {
           UnZipDataFromDir(_path, Folder);
         });
-    AlertDialog dialog = di.show();
-
-    dialog.show();
+    di.build();
   }
 
   public void _lojiceinstallK() {
@@ -1300,7 +1294,7 @@ public class FileDirActivity extends BaseCompat
         || _list.get((int) _pos).get(_str).toString().endsWith(".AA")) {
       if (FileUtil.isFile("/storage/emulated/0/GhostWebIDE/theme/GhostThemeapp.ghost")) {
         var di =
-            new com.google.android.material.dialog.MaterialAlertDialogBuilder(FileDirActivity.this);
+            new DialogUtil(FileDirActivity.this);
 
         di.setTitle("هشدار");
         di.setMessage("این فایل تم در حافظه شما موجود است آیا میخواهید این تم را جایگزین کنید؟");
@@ -1320,24 +1314,8 @@ public class FileDirActivity extends BaseCompat
             });
         di.setPositiveButton("خیر", (p1, d2) -> {});
 
-        androidx.appcompat.app.AlertDialog dialog = di.show();
-        final View view = dialog.getWindow().getDecorView();
-        view.setScaleX(0f);
-        view.setScaleY(0f);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        final ObjectAnimator alertAnim = new ObjectAnimator();
-        final ObjectAnimator alertAnim1 = new ObjectAnimator();
-        alertAnim.setTarget(view);
-        alertAnim.setPropertyName("scaleX");
-        alertAnim.setFloatValues((float) (1));
-        alertAnim.setDuration((int) (250));
-        alertAnim.start();
-        alertAnim1.setTarget(view);
-        alertAnim1.setPropertyName("scaleY");
-        alertAnim1.setFloatValues((float) (1));
-        alertAnim1.setDuration((int) (250));
-        alertAnim1.start();
-        dialog.show();
+        
+        di.show();
 
       } else {
         try {
@@ -1533,7 +1511,7 @@ public class FileDirActivity extends BaseCompat
   }
 
   public void _delFileCustom(int _pos) {
-    var di = new MaterialAlertDialogBuilder(FileDirActivity.this);
+    var di = new DialogUtil(FileDirActivity.this);
 
     di.setTitle("Romved File");
     di.setMessage("romved ".concat(files.get(_pos).get("path").toString().concat(" your mobile?")));
@@ -1568,80 +1546,45 @@ public class FileDirActivity extends BaseCompat
             }
           }.execute("");
         });
-    AlertDialog dialog = di.show();
-
-    dialog.show();
+    
+    di.build();
   }
 
+  
   void loadsvg(int newpos) {
-    androidx.appcompat.app.AlertDialog dialog =
-        new GhostWebMaterialDialog(FileDirActivity.this)
-            .setTitle("Svg ")
-            .setMessage("توجه داشته باشید با زدن روی Options میتوانید عمل کرد های زیرا تست کنید")
-            .setPositiveButton("Options", null)
-            .setNegativeButton(android.R.string.cancel, null)
-            .create();
-    dialog.setOnShowListener(
-        (var) -> {
-          Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-          positive.setOnClickListener(
-              (vftrororocjj) -> {
-                mmenuVector =
-                    new PowerMenu.Builder(FileDirActivity.this)
-                        .addItem(new PowerMenuItem("Code Editor"))
-                        .addItem(new PowerMenuItem("Cast to Vector"))
-                        .addItem(new PowerMenuItem("Cast to Png"))
-                        .setIsMaterial(true)
-                        .build();
-                mmenuVector.showAsDropDown(positive);
-                mmenuVector.setAutoDismiss(true);
-                mmenuVector.setShowBackground(false);
-                mmenuVector.setMenuColor(MaterialColors.getColor(this, ColorAndroid12.Back, 0));
-                mmenuVector.setSelectedMenuColor(0xFFFDA893);
-                mmenuVector.setSelectedEffect(true);
-                mmenuVector.setDividerHeight((int) 2);
-                mmenuVector.setTextColor(
-                    MaterialColors.getColor(this, ColorAndroid12.colorOnSurface, 0));
-
-                mmenuVector.setCircularEffect(CircularEffect.INNER);
-                mmenuVector.setOnMenuItemClickListener(
-                    (position, item) -> {
-                      switch (position) {
-                        case 0:
-                          {
-                            dialog.dismiss();
-                            SendDataFromCodeEditor(newpos, "path", files, newlistmap);
-                            break;
-                          }
-                        case 1:
-                          {
-                            VectorImageShow(staticstring, GetTab.concat("/"));
-                            dialog.dismiss();
-                            break;
-                          }
-                        case 2:
-                          {
-                            _msvgtopng(
-                                files.get((int) newpos).get("path").toString(),
-                                files
-                                    .get((int) newpos)
-                                    .get("path")
-                                    .toString()
-                                    .replace(".svg", ".png"));
-                            dialog.dismiss();
-                            break;
-                          }
-                      }
-                    });
-              });
+    var sh = new ListSheet();
+    sh.setSheetDialog(this);
+    sh.addItem("Show in Editor", 0);
+    sh.addItem("Cast to Vector", 0);
+    sh.addItem("Cast To png", 0);
+    sh.setOnItemClickLabe(
+        (pos333) -> {
+          switch (pos333) {
+            case 0:
+              {
+                SendDataFromCodeEditor(newpos, "path", files, newlistmap);
+                break;
+              }
+            case 1:
+              {
+                VectorImageShow(staticstring, GetTab.concat("/"));
+                break;
+              }
+            case 2:
+              {
+                _msvgtopng(
+                    files.get((int) newpos).get("path").toString(),
+                    files.get((int) newpos).get("path").toString().replace(".svg", ".png"));
+                break;
+              }
+            
+          }
         });
-
-    dialog.show();
   }
 
   public void _dataOnClickItemList(int _pos) {
     newpos = _pos;
-    if (staticstring.endsWith(".txt")) {
+    if (staticstring.endsWith(".txt") || staticstring.endsWith(".log")) {
       SendDataFromCodeEditor(newpos, "path", files, newlistmap);
     }
     if (staticstring.endsWith(".go")) {
@@ -1729,7 +1672,7 @@ public class FileDirActivity extends BaseCompat
       loadsvg(newpos);
     }
     if (staticstring.endsWith(".jar")) {
-      var di = new MaterialAlertDialogBuilder(FileDirActivity.this);
+      var di = new DialogUtil(FileDirActivity.this);
 
       di.setTitle("لطفا یکی از گزینه های زیر را انتخاب کنید");
       di.setMessage(
@@ -1754,9 +1697,9 @@ public class FileDirActivity extends BaseCompat
                   reLoadFile();
                 });
           });
-      androidx.appcompat.app.AlertDialog dialog = di.show();
+      
 
-      dialog.show();
+      di.build();
     }
     if (staticstring.endsWith(".mp3")) {
       musicShow.setClass(getApplicationContext(), MusicPlayerActivity.class);
@@ -1813,7 +1756,7 @@ public class FileDirActivity extends BaseCompat
   }
 
   void MakeZipFileFromThread(int _number, String title, String massges, String format) {
-    MaterialAlertDialogBuilder di = new MaterialAlertDialogBuilder(this);
+    var di = new DialogUtil(this);
 
     di.setTitle(title);
     di.setMessage(massges);
@@ -1871,22 +1814,22 @@ public class FileDirActivity extends BaseCompat
 
     di.setNeutralButton("خیر", null);
 
-    AlertDialog dialog = di.show();
-    dialog.show();
+    
+    di.build();
   }
 
   public void _projectinit() {
-    maindialogPrfex =
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(FileDirActivity.this)
-            .setView(R.layout.projectinitre)
-            .setTitle("Make project")
-            .setCancelable(true)
-            .setPositiveButton("make", null)
-            .setNegativeButton(android.R.string.cancel, null)
-            .create();
+    var maindialogPrfex =
+        new DialogUtil(FileDirActivity.this);
+            maindialogPrfex.setView(R.layout.projectinitre);
+            maindialogPrfex.setTitle("Make project");
+            maindialogPrfex.setCancelable(true);
+            maindialogPrfex.setPositiveButton("make", null);
+            maindialogPrfex.setNegativeButton(android.R.string.cancel, null);
+            
     maindialogPrfex.setOnShowListener(
         (var) -> {
-          androidx.recyclerview.widget.RecyclerView post = maindialogPrfex.findViewById(R.id.post);
+          RecyclerView post = maindialogPrfex.getAlertDialog().findViewById(R.id.post);
           Button positive = maindialogPrfex.getButton(DialogInterface.BUTTON_POSITIVE);
           projectdata.clear();
           for (int _repeat20 = 0; _repeat20 < (int) (4); _repeat20++) {
@@ -1903,7 +1846,7 @@ public class FileDirActivity extends BaseCompat
                 maindialogPrfex.dismiss();
               });
         });
-    maindialogPrfex.show();
+    maindialogPrfex.build();
   }
 
   public void VectorImageShow(final String _input, final String _output) {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.menu.MenuAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.ClipboardUtils;
@@ -25,6 +26,9 @@ import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
 import com.google.android.material.textfield.TextInputLayout;
+import com.skydoves.powermenu.CustomPowerMenu;
+import com.skydoves.powermenu.MenuAnimation;
+import com.skydoves.powermenu.MenuBaseAdapter;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 import io.github.rosemoe.sora.langs.java.JavaLanguage;
@@ -35,6 +39,7 @@ import io.github.rosemoe.sora.widget.CodeEditor;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -60,7 +65,9 @@ public class ColorView {
     menu.setAutoDismiss(true);
     menu.setTextColor(MaterialColors.getColor(context, ColorAndroid12.colorOnSurface, 0));
     menu.setTextSize(15);
+    menu.setAnimation(MenuAnimation.ELASTIC_CENTER);
     menu.setMenuRadius(20);
+    menu.setShowBackground(false);
     menu.setMenuColor(MaterialColors.getColor(context, ColorAndroid12.Back, 0));
     menu.showAsDropDown(mainview);
     menu.setOnMenuItemClickListener(
@@ -353,6 +360,50 @@ public class ColorView {
           .setTitle("Language is not supported")
           .setPositiveButton(android.R.string.cancel, null)
           .show();
+    }
+  }
+
+  public void bindPowerMenuListFile(Context context, String path, View view) {
+    File file = new File(path);
+    File[] pathlist = file.listFiles();
+    List<File> listFileAd = Arrays.asList(pathlist);
+    var menu = new CustomPowerMenu.Builder(context, new FileManagerList(listFileAd)).build();
+    menu.showAsDropDown(view);
+  }
+
+  public class FileManagerList extends MenuBaseAdapter<List<File>> {
+
+    private final List<File> data;
+
+    public FileManagerList(List<File> data) {
+      super();
+      this.data = new ArrayList<>(data);
+    }
+
+    @Override
+    public View getView(int position, View v, ViewGroup viewGroup) {
+      final Context context = viewGroup.getContext();
+      LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+      View view = v;
+      if (view == null) {
+        view = inflater.inflate(R.layout.power_menu_listfiles, viewGroup, false);
+      }
+
+      final TextView tv_showfiledir = view.findViewById(R.id.tv_showfiledir);
+      File file = data.get(position);
+      tv_showfiledir.setText(file.getName());
+
+      return view;
+    }
+
+    @Override
+    public File getItem(int index) {
+      return data.get(index);
+    }
+
+    @Override
+    public int getCount() {
+      return data.size();
     }
   }
 }

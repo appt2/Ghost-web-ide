@@ -7,6 +7,7 @@ import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.utils.FileUtil;
 import android.app.ProgressDialog;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -94,7 +95,7 @@ public class PluginManagerActivity extends BaseCompat {
                       this.setColor(b);
                       return this;
                     }
-                  }.getIns((int) 99, 0xFFF44336));
+                  }.getIns((int) 99, Color.parseColor("#FFF44336")));
 
               try {
                 AlertDialog dialog =

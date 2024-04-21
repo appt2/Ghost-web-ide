@@ -149,6 +149,21 @@ public class FileEnvironmentHelper {
     public boolean isGradleJDirectory() {
         return isFileHasKeyName(filePath, "gradle", false, false);
     }
+    public boolean isAndroidDirectory(){
+      return isFileHasKeyName(filePath,"Android",false,true);
+    }
+    public boolean isSassOrScssDirectory(){
+      return isFileHasKeyName(filePath,"sass",false,true) || isFileHasKeyName(filePath,"scss",false,true);
+    }
+    public boolean isWebDirectory(){
+      return isFileHasKeyName(filePath,"web",false,false) || isFileHasKeyName(filePath,"html",false,false);
+    }
+    public boolean isAntlr4Directory(){
+      return isFileHasKeyName(filePath,"antlr",false,false) || isFileHasKeyName(filePath,"antlr4",false,false);
+    }
+    public boolean isToolsDirectory(){
+      return isFileHasKeyName(filePath,"theme",false,false);
+    }
 
     public boolean isFileHasKeyRegex(String filePath, String regex) {
         File file = new File(filePath);

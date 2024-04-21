@@ -2,6 +2,7 @@ package Ninja.coder.Ghostemane.code.adapter;
 
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.layoutmanager.ColorList;
+import Ninja.coder.Ghostemane.code.marco.ColorView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DirAdapter extends RecyclerView.Adapter<DirAdapter.ViewHolder> {
 
     ArrayList<HashMap<String, Object>> _data;
+    CallBackClick click;
 
-    public DirAdapter(ArrayList<HashMap<String, Object>> _arr) {
+    public DirAdapter(ArrayList<HashMap<String, Object>> _arr,CallBackClick click) {
         _data = _arr;
+       this.click=click;
     }
 
     @Override
@@ -50,19 +54,12 @@ public class DirAdapter extends RecyclerView.Adapter<DirAdapter.ViewHolder> {
             imageview1.setVisibility(View.GONE);
         }
         ColorList.setColorAsRandom(imageview1, textview2);
-        if (_position == 0) {
-            textview2.setVisibility(View.GONE);
-            imageview1.setVisibility(View.GONE);
-        }
-        if (_position == 1) {
-            textview2.setVisibility(View.GONE);
-            imageview1.setVisibility(View.VISIBLE);
-        }
-        if (_position == 2) {
-            textview2.setText("Src");
-        }
-        if (_position == 3) {
-        }
+        
+       String file = _data.get(_position).get("mo").toString();
+       
+        textview2.setOnClickListener(v ->{
+          click.onClick(_position,v);
+        });
     }
 
     @Override
@@ -75,4 +72,8 @@ public class DirAdapter extends RecyclerView.Adapter<DirAdapter.ViewHolder> {
             super(v);
         }
     }
+  
+  public interface CallBackClick{
+    public void onClick(int pos,View v);
+  }
 }

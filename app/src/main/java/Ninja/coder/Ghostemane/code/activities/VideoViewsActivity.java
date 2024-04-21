@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,8 +57,6 @@ public class VideoViewsActivity extends BaseCompat {
   private String proportion = "";
   private LinearLayout viewvideo;
   private MaterialToolbar toolbar;
-  
-  
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -68,22 +67,35 @@ public class VideoViewsActivity extends BaseCompat {
   }
 
   private void initialize(Bundle _savedInstanceState) {
-    
+
     viewvideo = findViewById(R.id.viewvideo);
     toolbar = findViewById(R.id.toolbar);
-    
-    
   }
 
   private void initializeLogic() {
-   setSupportActionBar(toolbar);
-    path = getIntent().getStringExtra("getPath");
-    title = getIntent().getStringExtra("getTitle");
-    toolbar.setSubtitle(getIntent().getStringExtra("getTitle"));
+    setSupportActionBar(toolbar);
+    if (getIntent().hasExtra("getPath")) {
+      path = getIntent().getStringExtra("getPath");
+    } else {
+      Uri uri = getIntent().getData();
+      if (uri != null) {
+        path = uri.toString();
+      }
+    }
+    if (getIntent().hasExtra("getTitle")) {
+      title = getIntent().getStringExtra("getTitle");
+      toolbar.setSubtitle(getIntent().getStringExtra("getTitle"));
+    } else {
+      Uri uri = getIntent().getData();
+      title = uri.toString();
+      toolbar.setSubtitle(title);
+    }
     
-    mVideoView = new xyz.doikki.videoplayer.player.VideoView(this);
+
+    mVideoView = new VideoView(this);
     LinearLayout.LayoutParams lpviewvideo =
-        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     viewvideo.setLayoutParams(lpviewvideo);
     viewvideo.addView(mVideoView);
     mWidthPixels = getResources().getDisplayMetrics().widthPixels;
@@ -98,7 +110,7 @@ public class VideoViewsActivity extends BaseCompat {
     mController.addControlComponent(new PrepareView(this));
     mController.addControlComponent(new GestureView(this));
     VodControlView vodControlView = new VodControlView(this);
-    
+
     vodControlView.setCallBack(
         new VodControlView.OnClick() {
           @Override
@@ -298,19 +310,24 @@ public class VideoViewsActivity extends BaseCompat {
       final TextView txt5 = findViewById(R.id.textview5);
 
       if (speed.equals("0.75")) {
-        txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt1.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
       if (speed.equals("1.0")) {
-        txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt2.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
       if (speed.equals("1.25")) {
-        txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt3.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
       if (speed.equals("1.5")) {
-        txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt4.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
       if (speed.equals("2.0")) {
-        txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt5.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
 
       findViewById(R.id.cardview1)
@@ -320,11 +337,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setSpeed(0.75f);
                   speed = "0.75";
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
 
@@ -335,11 +362,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setSpeed(1.0f);
                   speed = "1.0";
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
 
@@ -350,11 +387,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setSpeed(1.25f);
                   speed = "1.25";
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
 
@@ -365,11 +412,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setSpeed(1.5f);
                   speed = "1.5";
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
 
@@ -380,11 +437,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setSpeed(2.0f);
                   speed = "2.0";
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
     }
@@ -411,19 +478,24 @@ public class VideoViewsActivity extends BaseCompat {
       final TextView txt5 = findViewById(R.id.textview5);
 
       if (proportion.equals("default")) {
-        txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt1.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
       if (proportion.equals("16:9")) {
-        txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt2.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
       if (proportion.equals("Original size")) {
-        txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt3.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
       if (proportion.equals("filling")) {
-        txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt4.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
       if (proportion.equals("center crop")) {
-        txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+        txt5.setTextColor(
+            MaterialColors.getColor(getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
       }
 
       findViewById(R.id.cardview1)
@@ -433,11 +505,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT);
                   proportion = "default";
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
 
@@ -448,11 +530,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setScreenScaleType(VideoView.SCREEN_SCALE_16_9);
                   proportion = "16:9";
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
 
@@ -463,11 +555,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setScreenScaleType(VideoView.SCREEN_SCALE_ORIGINAL);
                   proportion = "Original size";
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
 
@@ -478,11 +580,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setScreenScaleType(VideoView.SCREEN_SCALE_MATCH_PARENT);
                   proportion = "filling";
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
 
@@ -493,11 +605,21 @@ public class VideoViewsActivity extends BaseCompat {
                 public void onClick(View v) {
                   mVideoView.setScreenScaleType(VideoView.SCREEN_SCALE_CENTER_CROP);
                   proportion = "center crop";
-                  txt5.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt2.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt3.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt4.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
-                  txt1.setTextColor(MaterialColors.getColor(getApplicationContext(),ColorAndroid12.colorOnSurface,0));
+                  txt5.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt2.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt3.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt4.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
+                  txt1.setTextColor(
+                      MaterialColors.getColor(
+                          getApplicationContext(), ColorAndroid12.colorOnSurface, 0));
                 }
               });
     }

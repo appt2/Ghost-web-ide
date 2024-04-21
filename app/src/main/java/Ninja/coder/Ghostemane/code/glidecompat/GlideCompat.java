@@ -333,6 +333,19 @@ public class GlideCompat {
     return (packageInfo.applicationInfo.loadIcon(packageManager));
   }
 
+  public static void LoadIconVsCode(String file, ImageView img) {
+    var mypath = "extension/icon.png";
+
+    Glide.with(img.getContext())
+        .asBitmap()
+        .load(getIconSwbFile(file, mypath))
+        .transform(new RoundedCornersTransformation(RenderSize()))
+        .error(R.drawable.file)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .priority(Priority.NORMAL)
+        .into(img);
+  }
+
   protected static Bitmap getIconSwbFile(String zipFilePath, String iconName) {
     Bitmap icon = null;
     ZipFile zipFile = null;
