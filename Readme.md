@@ -89,15 +89,46 @@ You can apply for Ghost Web development cooperation but under the following cond
 I must say that you do not have the right to register the program under your own name. It is an open source program and is released under the Ghost Web brand
 
 
-### Cooperation terms 
+### Code snippet 
 
-Welcome to Ghost Web. What changes are accepted? 
-Ghost Web is an Android project with Java. The following changes are not accepted and your account may even be blocked in this support
+- The code snippet in GhostWeb is a little different than the json sample that is required
 
-1 - Using Kotlin 
+#### Fa json 
+```json 
 
-2 - Using libraries developed with Kotlin 
+{
+  "snippet1": {
+    "description": "این یک قطعه کد تستی است",
+    "prefix": "test",
+    "body": "console.log('این یک تست است');"
+  },
+  "snippet2": {
+    "description": "قطعه کد دیگری برای تست",
+    "prefix": "test2",
+    "body": "console.log('تست دوم');"
+  }
+}
+```
 
 
-3 - Strange features that are not related to the program
+##### En Json 
 
+```json 
+
+{
+  "snippet1": {
+    "description": "Test code ",
+    "prefix": "test",
+    "body": "console.log('test codes ');"
+  },
+  "snippet2": {
+    "description": "Test code 2 ",
+    "prefix": "test2",
+    "body": "console.log('Hello word');"
+  }
+}
+
+```
+
+#### Note 
+You can put any name you like, but English and with small letters like Jason's example. In the future, all supported languages ​​of Ghost Web support this feature.

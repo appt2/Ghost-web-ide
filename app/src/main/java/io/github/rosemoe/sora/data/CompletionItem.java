@@ -58,13 +58,8 @@ public class CompletionItem {
   /** Icon for displaying in adapter */
   public Drawable icon;
 
-  /** Text to commit when selected */
   public String commit;
-
-  /** Text to display as title in adapter */
   public String label;
-
-  /** Text to display as description in adapter */
   public String desc;
 
   /** Cursor offset in {@link CompletionItem#commit} */
@@ -73,9 +68,12 @@ public class CompletionItem {
   /** From Read File */
   public File file;
 
-  private String prefix;
-  private String body;
-  private String description;
+  @SerializedName("prefix")
+  public String prefix;
+  @SerializedName("body")
+  public String body;
+  @SerializedName("description")
+  public String description;
 
 
   public String getPrefix() {
