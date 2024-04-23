@@ -7,7 +7,7 @@ android {
     namespace 'ninja.coder.codecomment.rule'
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 28
     }
     buildTypes {
         release {

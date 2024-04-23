@@ -8,6 +8,7 @@ import Ninja.coder.Ghostemane.code.activities.CodeEditorActivity;
 import Ninja.coder.Ghostemane.code.adapter.SyspiarAdapter;
 import Ninja.coder.Ghostemane.code.adapter.ToolbarListFileAdapter;
 import Ninja.coder.Ghostemane.code.config.CommonFactoryData;
+import Ninja.coder.Ghostemane.code.databinding.Antcomp8lerBinding;
 import Ninja.coder.Ghostemane.code.layoutmanager.LogCatBottomSheet;
 import Ninja.coder.Ghostemane.code.marco.ColorView;
 import Ninja.coder.Ghostemane.code.marco.EditorSearcherT;
@@ -1638,11 +1639,14 @@ public class CodeEditorActivity extends AppCompatActivity {
                           startActivity(getmd);
                         } else if (shp.getString("pos_path", "").contains(".scss")
                             || shp.getString("pos_path", "").contains(".sass")) {
-                          SassForAndroid.run(
-                              CodeEditorActivity.this,
-                              shp.getString("pos_path", ""),
-                              shp.getString("pos_path", ""));
-
+//                          getmd.setClass(getApplicationContext(), TerminalActivity.class);
+//                          getmd.putExtra("sass", shp.getString("pos_path", ""));
+//                          startActivity(getmd);
+                                            SassForAndroid.run(
+                                                        CodeEditorActivity.this,
+                                                        shp.getString("pos_path", ""),
+                                                        shp.getString("pos_path", ""));
+                          
                         } else if (shp.getString("pos_path", "").contains(".java")) {
 
                           JavaCompilerBeta.run(
@@ -1783,27 +1787,19 @@ public class CodeEditorActivity extends AppCompatActivity {
   }
 
   public void _g4compiler() {
-    final com.google.android.material.bottomsheet.BottomSheetDialog bottomSheetDialog =
-        new com.google.android.material.bottomsheet.BottomSheetDialog(CodeEditorActivity.this);
+    final var bottomSheetDialog = new BottomSheetDialog(this);
 
-    View bottomSheetView;
-    bottomSheetView = getLayoutInflater().inflate(R.layout.antcomp8ler, null);
-    bottomSheetDialog.setContentView(bottomSheetView);
-
-    EditText edpath = bottomSheetView.findViewById(R.id.edpath);
-    EditText etpa = bottomSheetView.findViewById(R.id.etpa);
-    Button btnrun = bottomSheetView.findViewById(R.id.btnrun);
-    TextView tvlog = bottomSheetView.findViewById(R.id.tvlog);
-    btnrun.setOnClickListener(
-        new View.OnClickListener() {
-          public void onClick(View v) {
-
-            G4Compiler.compile(
-                shp.getString("pos_path", ""),
-                edpath.getText().toString(),
-                etpa.getText().toString());
-            bottomSheetDialog.dismiss();
-          }
+    Antcomp8lerBinding bind = Antcomp8lerBinding.inflate(getLayoutInflater());
+    bottomSheetDialog.setContentView(bind.getRoot());
+    File file = new File(shp.getString("pos_path",""));
+    bind.edpath.setText(file.getParent());
+    bind.btnrun.setOnClickListener(
+        (noy) -> {
+          G4Compiler.compile(
+              shp.getString("pos_path", ""),
+              bind.edpath.getText().toString(),
+              bind.etpa.getText().toString());
+          bottomSheetDialog.dismiss();
         });
     bottomSheetDialog.show();
   }

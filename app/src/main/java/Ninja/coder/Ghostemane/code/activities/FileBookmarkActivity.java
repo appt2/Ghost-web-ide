@@ -94,9 +94,12 @@ public class FileBookmarkActivity extends BaseCompat {
                 startActivity(i);
               }
             } else {
-              var file = new File(map.get(_position).get("path").toString());
+              var file = new File(map.get(_position).get("list").toString());
               Intent i = new Intent();
-              i.putExtra("bookmarkDir", file.getParentFile().toString());
+               /**
+                * using getParent from preview Path not files
+                */
+              i.putExtra("bookmarkDir", file.getParent());
               i.setClass(getApplicationContext(), FileDirActivity.class);
               if (i != null) {
                 startActivity(i);
@@ -134,6 +137,7 @@ public class FileBookmarkActivity extends BaseCompat {
   protected void onResume() {
     super.onResume();
     // TODO: Implement this method
+    ((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
   }
 
   public class Listview1Adapter extends BaseAdapter {
@@ -177,6 +181,8 @@ public class FileBookmarkActivity extends BaseCompat {
       ColorAndroid12.setTextColor(textview1);
       File file = new File(map.get((int) _position).get("list").toString());
       FileIconHelper helper = new FileIconHelper(file.toString());
+      helper.setDynamicFolderEnabled(true);
+      helper.setEnvironmentEnabled(true);
       imageview1.setImageResource(helper.getFileIcon());
       textview1.setText(file.getName());
       if (file.isDirectory()) {
@@ -203,6 +209,8 @@ public class FileBookmarkActivity extends BaseCompat {
           GlideCompat.LoadApkFile(file.toString(), imageview1);
         } else if (file.toString().endsWith(".swb")) {
           GlideCompat.LoadSwbIcon(file.toString(), imageview1);
+        }else if(file.toString().endsWith(".vsix")){
+          GlideCompat.LoadIconVsCode(file.toString(),imageview1);
         }
       }
       return _view;

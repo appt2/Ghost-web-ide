@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
  *
  * @author Ninja coder
  */
+@Deprecated
 public class HTMLAnalyzer implements CodeAnalyzer, CallBackErrorManager {
 
   private static final Object OBJECT = new Object();

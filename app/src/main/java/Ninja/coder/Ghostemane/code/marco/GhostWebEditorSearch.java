@@ -2,6 +2,8 @@ package Ninja.coder.Ghostemane.code.marco;
 
 import Ninja.coder.Ghostemane.code.IdeEditor;
 import Ninja.coder.Ghostemane.code.databinding.LayoutSearcherBinding;
+import Ninja.coder.Ghostemane.code.databinding.MakefolderBinding;
+import Ninja.coder.Ghostemane.code.utils.AnimUtils;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,7 +11,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.EditorSearcher;
 
@@ -17,7 +21,6 @@ public class GhostWebEditorSearch extends LinearLayout {
   private LayoutSearcherBinding binding;
 
   private IdeEditor editor;
-  
 
   public boolean isShowing = false;
 
@@ -66,11 +69,11 @@ public class GhostWebEditorSearch extends LinearLayout {
         (v) -> {
           replace();
         });
-
-    binding.replaceAll.setOnClickListener(
-        (v) -> {
-          replaceAll();
-        });
+    binding.btnClose.setOnClickListener((v) -> hide());
+    AnimUtils.Worker(binding.gotoLast);
+    AnimUtils.Worker(binding.gotoNext);
+    AnimUtils.Worker(binding.replace);
+    AnimUtils.Worker(binding.btnClose);
   }
 
   public void bindEditor(@Nullable IdeEditor editor) {
@@ -88,7 +91,7 @@ public class GhostWebEditorSearch extends LinearLayout {
       return;
     }
     editor.getSearcher().stopSearch();
-    binding.replaceText.setText("");
+
     binding.searchText.setText("");
   }
 
@@ -122,18 +125,27 @@ public class GhostWebEditorSearch extends LinearLayout {
   }
 
   private void replace() {
-    try {
-      editor.getSearcher().replaceThis(binding.replaceText.getText().toString());
-    } catch (IllegalStateException e) {
-      e.printStackTrace();
-    }
+
+    if (!binding.searchText.getText().toString().isEmpty()) {
+      MakefolderBinding bind = MakefolderBinding.inflate(LayoutInflater.from(getContext()));
+      new MaterialAlertDialogBuilder(getContext())
+          .setTitle("Replace")
+          .setView(bind.getRoot())
+          .setPositiveButton(
+              "replace",
+              (c1, c2) -> {
+                editor.getSearcher().replaceThis(bind.editor.getText().toString());
+              })
+          .setNeutralButton(android.R.string.cancel, null)
+          .setNegativeButton(
+              "replaceAll",
+              (f1, f2) -> {
+                editor.getSearcher().replaceAll(bind.editor.getText().toString());
+              })
+          .show();
+      bind.top.setHint("Replcement");
+    } else Toast.makeText(getContext(),"button replace isEmpty ",1).show();
   }
 
-  private void replaceAll() {
-    try {
-      editor.getSearcher().replaceAll(binding.replaceText.getText().toString());
-    } catch (IllegalStateException e) {
-      e.printStackTrace();
-    }
-  }
+  private void replaceAll() {}
 }

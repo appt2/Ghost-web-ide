@@ -7,7 +7,7 @@ android {
     namespace "ninjacoder.ghostide.androidtools.r8.android"
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 28
     }
     buildTypes {
         release {
