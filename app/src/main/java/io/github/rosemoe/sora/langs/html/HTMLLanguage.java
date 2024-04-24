@@ -739,17 +739,17 @@ public class HTMLLanguage implements EditorLanguage {
     @Override
     public int getIndentAdvance(String content) {
         try {
-            HtmlLexer lexer = new HtmlLexer(CharStreams.fromReader(new StringReader(content)));
+            HTMLLexer lexer = new HTMLLexer(CharStreams.fromReader(new StringReader(content)));
             Token token;
             int advance = 0;
             while (((token = lexer.nextToken()) != null && token.getType() != token.EOF)) {
                 switch (token.getType()) {
-                    case HtmlLexer.BlockStart:
-                    case HtmlLexer.Less:
+                    case HTMLLexer.BlockStart:
+                    case HTMLLexer.Less:
                         advance++;
                         break;
-                    case HtmlLexer.BlockEnd:
-                    case HtmlLexer.SLASH_CLOSE:
+                    case HTMLLexer.BlockEnd:
+                    case HTMLLexer.SLASH_CLOSE:
                         advance--;
                         break;
                 }
