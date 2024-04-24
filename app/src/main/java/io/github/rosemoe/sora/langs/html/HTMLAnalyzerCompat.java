@@ -30,7 +30,7 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
     try {
 
       CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));
-      HtmlLexer lexer = new HtmlLexer(stream);
+      var lexer = new HTMLLexer(stream);
 
       var classNamePrevious = false;
       Token token, preToken = null, prePreToken = null;
@@ -44,7 +44,7 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
       while (delegate.shouldAnalyze()) {
         token = lexer.nextToken();
         if (token == null) break;
-        if (token.getType() == HtmlLexer.EOF) {
+        if (token.getType() == HTMLLexer.EOF) {
           lastLine = token.getLine() - 1;
           break;
         }
@@ -53,13 +53,13 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
         lastLine = line;
 
         switch (token.getType()) {
-          case HtmlLexer.Space:
+          case HTMLLexer.Space:
             if (first) {
               result.addNormalIfNull();
             }
             break;
-          case HtmlLexer.BlockStart:
-          case HtmlLexer.BlockEnd:
+          case HTMLLexer.BlockStart:
+          case HTMLLexer.BlockEnd:
             {
               result.addIfNeeded(
                   line,
@@ -68,29 +68,29 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
               break;
             }
             // from @ using
-          case HtmlLexer.Import:
-          case HtmlLexer.Include:
-          case HtmlLexer.Use:
-          case HtmlLexer.Require:
-          case HtmlLexer.Charset:
-          case HtmlLexer.Mixin:
-          case HtmlLexer.Function:
-          case HtmlLexer.FontFace:
-          case HtmlLexer.Forward:
-          case HtmlLexer.Content:
-          case HtmlLexer.Keyframes:
-          case HtmlLexer.Return:
-          case HtmlLexer.Media:
-          case HtmlLexer.Extend:
-          case HtmlLexer.Warn:
-          case HtmlLexer.Error:
-          case HtmlLexer.If:
-          case HtmlLexer.AtIf:
-          case HtmlLexer.AtFor:
-          case HtmlLexer.AtElse:
-          case HtmlLexer.JsKeyWord:
-          case HtmlLexer.AtWhile:
-          case HtmlLexer.AtEach:
+          case HTMLLexer.Import:
+          case HTMLLexer.Include:
+          case HTMLLexer.Use:
+          case HTMLLexer.Require:
+          case HTMLLexer.Charset:
+          case HTMLLexer.Mixin:
+          case HTMLLexer.Function:
+          case HTMLLexer.FontFace:
+          case HTMLLexer.Forward:
+          case HTMLLexer.Content:
+          case HTMLLexer.Keyframes:
+          case HTMLLexer.Return:
+          case HTMLLexer.Media:
+          case HTMLLexer.Extend:
+          case HTMLLexer.Warn:
+          case HTMLLexer.Error:
+          case HTMLLexer.If:
+          case HTMLLexer.AtIf:
+          case HTMLLexer.AtFor:
+          case HTMLLexer.AtElse:
+          case HTMLLexer.JsKeyWord:
+          case HTMLLexer.AtWhile:
+          case HTMLLexer.AtEach:
             result.addIfNeeded(
                 line,
                 column,
@@ -99,83 +99,83 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
 
             // from px dp ....
           
-          case HtmlLexer.FontRelative:
-          case HtmlLexer.ViewportRelative:
-          case HtmlLexer.Angle:
-          case HtmlLexer.Resolution:
-          case HtmlLexer.JsKeyWord1:
-          case HtmlLexer.Freq:
-          case HtmlLexer.Time:
-          case HtmlLexer.Percentage:
+          case HTMLLexer.FontRelative:
+          case HTMLLexer.ViewportRelative:
+          case HTMLLexer.Angle:
+          case HTMLLexer.Resolution:
+          case HTMLLexer.JsKeyWord1:
+          case HTMLLexer.Freq:
+          case HTMLLexer.Time:
+          case HTMLLexer.Percentage:
             result.addIfNeeded(line, column, EditorColorScheme.BLOCK_LINE);
             break;
-          case HtmlLexer.Uri:
-          case HtmlLexer.Format:
+          case HTMLLexer.Uri:
+          case HTMLLexer.Format:
             result.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
             break;
-          case HtmlLexer.From:
-          case HtmlLexer.To:
-          case HtmlLexer.JsKeyWord2:
-          case HtmlLexer.Through:
-          case HtmlLexer.Only:
-          case HtmlLexer.Not:
-          case HtmlLexer.And:
-          case HtmlLexer.Using:
-          case HtmlLexer.As:
-          case HtmlLexer.With:
-          case HtmlLexer.Or:
-          case HtmlLexer.In:
-          case HtmlLexer.Default:
-          case HtmlLexer.Important:
+          case HTMLLexer.From:
+          case HTMLLexer.To:
+          case HTMLLexer.JsKeyWord2:
+          case HTMLLexer.Through:
+          case HTMLLexer.Only:
+          case HTMLLexer.Not:
+          case HTMLLexer.And:
+          case HTMLLexer.Using:
+          case HTMLLexer.As:
+          case HTMLLexer.With:
+          case HTMLLexer.Or:
+          case HTMLLexer.In:
+          case HTMLLexer.Default:
+          case HTMLLexer.Important:
             result.addIfNeeded(line, column, EditorColorScheme.AUTO_COMP_PANEL_CORNER);
             break;
             /// Syombl
-          case HtmlLexer.Lparen:
-          case HtmlLexer.Rparen:
-          case HtmlLexer.Lbrack:
-          case HtmlLexer.Rbrack:
-          case HtmlLexer.JsKeyWord3:
-          case HtmlLexer.Dot:
-          case HtmlLexer.Comma:
-            /// case HtmlLexer.Colon:
-          case HtmlLexer.Semi:
-          case HtmlLexer.Tilde:
-          case HtmlLexer.Under:
-          case HtmlLexer.Dollar:
-          case HtmlLexer.At:
-          case HtmlLexer.Amp:
-          case HtmlLexer.Hash:
-          case HtmlLexer.True:
-          case HtmlLexer.False:
-          case HtmlLexer.Plus:
+          case HTMLLexer.Lparen:
+          case HTMLLexer.Rparen:
+          case HTMLLexer.Lbrack:
+          case HTMLLexer.Rbrack:
+          case HTMLLexer.JsKeyWord3:
+          case HTMLLexer.Dot:
+          case HTMLLexer.Comma:
+            /// case HTMLLexer.Colon:
+          case HTMLLexer.Semi:
+          case HTMLLexer.Tilde:
+          case HTMLLexer.Under:
+          case HTMLLexer.Dollar:
+          case HTMLLexer.At:
+          case HTMLLexer.Amp:
+          case HTMLLexer.Hash:
+          case HTMLLexer.True:
+          case HTMLLexer.False:
+          case HTMLLexer.Plus:
 
-          case HtmlLexer.Minus:
-          case HtmlLexer.Times:
-          case HtmlLexer.Eq:
-          case HtmlLexer.NotEq:
-          case HtmlLexer.Less:
-          case HtmlLexer.Includes:
-          case HtmlLexer.DashMatch:
-          case HtmlLexer.Pipe:
-          case HtmlLexer.Cdo:
-          case HtmlLexer.Cdc:
-          case HtmlLexer.Greater:
-          case HtmlLexer.PseudoNot:
-          case HtmlLexer.Calc:
-          case HtmlLexer.Rotate:
-          case HtmlLexer.Var:
-          case HtmlLexer.Rgba:
-          case HtmlLexer.Repeat:
-          case HtmlLexer.PrefixMatch:
-          case HtmlLexer.SuffixMatch:
-          case HtmlLexer.SubstringMatch:
+          case HTMLLexer.Minus:
+          case HTMLLexer.Times:
+          case HTMLLexer.Eq:
+          case HTMLLexer.NotEq:
+          case HTMLLexer.Less:
+          case HTMLLexer.Includes:
+          case HTMLLexer.DashMatch:
+          case HTMLLexer.Pipe:
+          case HTMLLexer.Cdo:
+          case HTMLLexer.Cdc:
+          case HTMLLexer.Greater:
+          case HTMLLexer.PseudoNot:
+          case HTMLLexer.Calc:
+          case HTMLLexer.Rotate:
+          case HTMLLexer.Var:
+          case HTMLLexer.Rgba:
+          case HTMLLexer.Repeat:
+          case HTMLLexer.PrefixMatch:
+          case HTMLLexer.SuffixMatch:
+          case HTMLLexer.SubstringMatch:
             result.addIfNeeded(line, column, EditorColorScheme.BLOCK_LINE_CURRENT);
             break;
-          case HtmlLexer.Number:
-          case HtmlLexer.JsKeyWord4:
+          case HTMLLexer.Number:
+          case HTMLLexer.JsKeyWord4:
             result.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
             break;
-          case HtmlLexer.CSSCOLOR:
+          case HTMLLexer.CSSCOLOR:
             result.addIfNeeded(
                 line,
                 column,
@@ -186,33 +186,33 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
                     false,
                     false));
             break;
-          case HtmlLexer.String_:
-          case HtmlLexer.Variable:
-          case HtmlLexer.PHPSTARTENDS:
-          case HtmlLexer.JsKeyWord5:
-          case HtmlLexer.VendorPrefix:
-          case HtmlLexer.CSSKEYWORD:
+          case HTMLLexer.String_:
+          case HTMLLexer.Variable:
+          case HTMLLexer.PHPSTARTENDS:
+          case HTMLLexer.JsKeyWord5:
+          case HTMLLexer.VendorPrefix:
+          case HTMLLexer.CSSKEYWORD:
             result.addIfNeeded(line, column, EditorColorScheme.ATTRIBUTE_VALUE);
             break;
             // Comment
-          case HtmlLexer.MultiLineComment:
-          case HtmlLexer.COMMENTCSS:
-          case HtmlLexer.LineComment:
+          case HTMLLexer.MultiLineComment:
+          case HTMLLexer.COMMENTCSS:
+          case HTMLLexer.LineComment:
             result.addIfNeeded(line, column, EditorColorScheme.COMMENT);
             break;
 
-          case HtmlLexer.HtmlTags:
-          case HtmlLexer.HtmlAttr:
-          case HtmlLexer.HtmlTagOne:
-          case HtmlLexer.JsKeyWord6:
+          case HTMLLexer.HtmlTags:
+          case HTMLLexer.HtmlAttr:
+          case HTMLLexer.HtmlTagOne:
+          case HTMLLexer.JsKeyWord6:
             {
               result.addIfNeeded(line, column, EditorColorScheme.KEYWORD);
               break;
             }
-          case HtmlLexer.Div:
+          case HTMLLexer.Div:
             {
               result.addIfNeeded(line, column, EditorColorScheme.BLOCK_LINE_CURRENT);
-              if (preToken != null && preToken.getType() == HtmlLexer.Less) {
+              if (preToken != null && preToken.getType() == HTMLLexer.Less) {
                 if (!stack.isEmpty()) {
                   BlockLine block = stack.pop();
                   block.endLine = preToken.getLine() - 1;
@@ -226,10 +226,10 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
               break;
             }
           
-          case HtmlLexer.SLASH_CLOSE:
-          case HtmlLexer.Dot2:
-          case HtmlLexer.NameRule:
-          case HtmlLexer.Colen:
+          case HTMLLexer.SLASH_CLOSE:
+          case HTMLLexer.Dot2:
+          case HTMLLexer.NameRule:
+          case HTMLLexer.Colen:
             {
               result.addIfNeeded(line, column, EditorColorScheme.BLOCK_LINE_CURRENT);
               // set block line end position

@@ -1,4 +1,4 @@
-// Generated from /storage/emulated/0/cdm/HtmlLexer.g4 by ANTLR 4.13.1
+// Generated from /storage/emulated/0/cdm/HTMLLexer.g4 by ANTLR 4.13.1
 package io.github.rosemoe.sora.langs.html;
 
 import org.antlr.v4.runtime.Lexer;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
-@SuppressWarnings({
+@SuppressWarnings({ 
   "all",
   "warnings",
   "unchecked",
@@ -19,7 +19,7 @@ import org.antlr.v4.runtime.misc.*;
   "CheckReturnValue",
   "this-escape"
 })
-public class HtmlLexer extends Lexer {
+public class HTMLLexer extends Lexer {
   static {
     RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION);
   }
@@ -533,14 +533,14 @@ public class HtmlLexer extends Lexer {
     return VOCABULARY;
   }
 
-  public HtmlLexer(CharStream input) {
+  public HTMLLexer(CharStream input) {
     super(input);
     _interp = new LexerATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
   }
 
   @Override
   public String getGrammarFileName() {
-    return "HtmlLexer.g4";
+    return "HTMLLexer.g4";
   }
 
   @Override
