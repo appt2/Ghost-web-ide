@@ -98,7 +98,7 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
             break;
 
             // from px dp ....
-          case HtmlLexer.AbsLength:
+          
           case HtmlLexer.FontRelative:
           case HtmlLexer.ViewportRelative:
           case HtmlLexer.Angle:
@@ -181,7 +181,7 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
                 column,
                 TextStyle.makeStyle(
                     EditorColorScheme.BLOCK_LINE_CURRENT,
-                    EditorColorScheme.red,
+                    0,
                     false,
                     false,
                     false));
@@ -195,7 +195,6 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
             result.addIfNeeded(line, column, EditorColorScheme.ATTRIBUTE_VALUE);
             break;
             // Comment
-          case HtmlLexer.Comment:
           case HtmlLexer.MultiLineComment:
           case HtmlLexer.COMMENTCSS:
           case HtmlLexer.LineComment:
@@ -228,6 +227,9 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
             }
           
           case HtmlLexer.SLASH_CLOSE:
+          case HtmlLexer.Dot2:
+          case HtmlLexer.NameRule:
+          case HtmlLexer.Colen:
             {
               result.addIfNeeded(line, column, EditorColorScheme.BLOCK_LINE_CURRENT);
               // set block line end position

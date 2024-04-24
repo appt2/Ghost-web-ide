@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.FileObserver;
 import android.os.IBinder;
+import android.widget.Toast;
 
 public class MediaListenerService extends Service {
 
@@ -23,6 +24,14 @@ public class MediaListenerService extends Service {
     super.onCreate();
     startWatching();
   }
+  
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    // TODO: Implement this method
+    Toast.makeText(this,"EndWork",2).show();
+  }
+  
 
   private void startWatching() {
     var pathToWatch = "/storage/emulated/0/GhostWebIDE/theme/";

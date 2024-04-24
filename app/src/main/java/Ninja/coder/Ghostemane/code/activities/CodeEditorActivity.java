@@ -15,6 +15,7 @@ import Ninja.coder.Ghostemane.code.marco.EditorSearcherT;
 import Ninja.coder.Ghostemane.code.marco.GhostWebEditorSearch;
 import Ninja.coder.Ghostemane.code.marco.NinjaMacroFileUtil;
 import Ninja.coder.Ghostemane.code.marco.WallpaperParallaxEffect;
+import Ninja.coder.Ghostemane.code.navigator.EditorHelperColor;
 import Ninja.coder.Ghostemane.code.project.JavaCompilerBeta;
 import Ninja.coder.Ghostemane.code.project.ProjectManager;
 import Ninja.coder.Ghostemane.code.tasks.app.SassForAndroid;
@@ -118,9 +119,7 @@ public class CodeEditorActivity extends AppCompatActivity {
   private CoordinatorLayout _coordinator;
   private String currentWord = "";
   private HashMap<String, Object> imap = new HashMap<>();
-
   private double n = 0;
-
   private boolean home = false;
   private final String code = "";
   private double click2var = 0;
@@ -178,7 +177,7 @@ public class CodeEditorActivity extends AppCompatActivity {
   private LinearLayout linear5;
   private ImageView imageview1;
   private LinearLayout linear6;
-  
+
   private LinearLayout divardown;
   private RecyclerView syspiar;
 
@@ -304,8 +303,7 @@ public class CodeEditorActivity extends AppCompatActivity {
     image = findViewById(R.id.image);
     redo = findViewById(R.id.redo);
     undo = findViewById(R.id.undo);
-    
-    
+
     menupopnew = findViewById(R.id.menupopnew);
     editor = findViewById(R.id.editor);
     FrameLayout02 = findViewById(R.id.FrameLayout02);
@@ -375,7 +373,23 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         });
     ghost_searchs.bindEditor(editor);
-    
+    ghost_searchs.setCallBack(
+        new GhostWebEditorSearch.onViewChange() {
+
+          @Override
+          public void onViewShow() {
+            if (_fab.isShown()) {
+              _fab.hide();
+            }
+          }
+
+          @Override
+          public void onViewHide() {
+            if (!_fab.isShown()) {
+              _fab.show();
+            }
+          }
+        });
 
     image.setOnClickListener(
         new View.OnClickListener() {
@@ -423,7 +437,6 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         });
 
-    
     _fab.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -475,6 +488,8 @@ public class CodeEditorActivity extends AppCompatActivity {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       editor.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
     }
+
+    var editorHelperColor = new EditorHelperColor(editor, badgeview3);
     var size =
         TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -521,7 +536,7 @@ public class CodeEditorActivity extends AppCompatActivity {
     }
 
     editor.setLigatureEnabled(true);
-    editor.setHighlightCurrentBlock(false);
+    editor.setHighlightCurrentBlock(true);
     editor.setHighlightCurrentLine(false);
     editor.setAutoCompletionOnComposing(false);
     editor.setLineInfoTextSize(20f);
@@ -529,125 +544,6 @@ public class CodeEditorActivity extends AppCompatActivity {
 
     var projectz = new ProjectManager();
     projectz.setProjectName(getIntent().getStringExtra("root"));
-
-    editor.subscribeEvent(
-        ContentChangeEvent.class,
-        (event, subscribe) -> {
-          /// Code for saving file
-          int line = event.getEditor().getCursor().getLeftLine();
-          int column = event.getEditor().getCursor().getLeftColumn();
-
-          if (event.getEditor().getText().toString().startsWith("\"#")) {
-            try {
-              int color =
-                  Color.parseColor(
-                      event
-                          .getEditor()
-                          .getText()
-                          .toString()
-                          .substring(1, event.getEditor().getText().length() - 1));
-              event
-                  .getEditor()
-                  .getTextAnalyzeResult()
-                  .addIfNeeded(line, column, EditorColorScheme.LITERAL);
-
-              Span span = Span.obtain(column + 1, EditorColorScheme.LITERAL);
-              span.setUnderlineColor(color);
-              event.getEditor().getTextAnalyzeResult().add(line, span);
-              Log.e("Error not Color set", span.toString());
-
-              Span middle =
-                  Span.obtain(
-                      column + event.getEditor().getText().length() - 1, EditorColorScheme.LITERAL);
-              middle.setUnderlineColor(Color.TRANSPARENT);
-              event.getEditor().getTextAnalyzeResult().add(line, middle);
-
-              Span end =
-                  Span.obtain(
-                      column + event.getEditor().getText().length(),
-                      TextStyle.makeStyle(EditorColorScheme.TEXT_NORMAL));
-              end.setUnderlineColor(Color.TRANSPARENT);
-              event.getEditor().getTextAnalyzeResult().add(line, end);
-              // Log.e("Color Error", result.toString());
-
-            } catch (Exception ignore) {
-              ignore.printStackTrace();
-            }
-          }
-          final Handler handler = new Handler();
-          proanjctor.setVisibility(View.VISIBLE);
-          handler.postDelayed(
-              () -> {
-                proanjctor.setVisibility(View.GONE);
-              },
-              3000L);
-
-          if (editor.getEditorLanguage() instanceof HTMLLanguage)
-            if (editor.getText().toString().contains("<"))
-              TooltipCompat.setTooltipText(editor, "FixBug");
-          try {
-            String textSpan = editor.getText().toString();
-            final int selection = editor.getCursor().getLeft();
-            final Pattern pattern = Pattern.compile("(#?)(\\w+)");
-            final Matcher matcher = pattern.matcher(textSpan);
-            int start = 0;
-            int end = 0;
-
-            String currentWordddddddd = "";
-            try {
-              while (matcher.find()) {
-                start = matcher.start();
-                end = matcher.end();
-                if (start <= selection && selection <= end) {
-                  currentWordddddddd = textSpan.substring(start, end);
-                  currentWord = currentWordddddddd;
-                }
-              }
-            } catch (Exception rr) {
-              rr.printStackTrace();
-            }
-
-            if (!currentWord.isEmpty()) {
-              if (currentWord.contains("#")) {
-                try {
-
-                  badgeview3.setBadgeBackground(Color.parseColor(currentWord));
-                  badgeview3.setBadgeCount("#");
-                  badgeview3.setTextSize(12);
-                  badgeview3.setTextColor(0xFFFFFFFF);
-                } catch (IllegalArgumentException iae) {
-
-                }
-              } else {
-                if (currentWord.toLowerCase().contains("0xff")) {
-                  try {
-
-                    currentWord = currentWord.replace("0xff", "#");
-                    currentWord = currentWord.replace("0xFF", "#");
-                    badgeview3.setBadgeCount("0xff");
-                    badgeview3.setVisibility(View.VISIBLE);
-                    badgeview3.setBadgeBackground(Color.parseColor(currentWord));
-                    badgeview3.setTextSize(12);
-                    if (ColorUtils.calculateLuminance(Color.parseColor(currentWord)) < 0.5) {
-                      badgeview3.setTextColor(0xFFFFFFFF);
-                    } else {
-                      if (ColorUtils.calculateLuminance(Color.parseColor(currentWord)) >= 0.5) {
-                        badgeview3.setTextColor(0xFF000000);
-                      }
-                    }
-                  } catch (IllegalArgumentException iae) {
-
-                  }
-                } else {
-                  badgeview3.setVisibility(View.GONE);
-                  badgeview3.setBadgeBackground(Color.TRANSPARENT);
-                }
-              }
-            }
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
     if (sve.contains("getAutoSave")) {
       if (sve.getString("getAutoSave", "").equals("true")) {
         editor.subscribeEvent(
@@ -1059,7 +955,6 @@ public class CodeEditorActivity extends AppCompatActivity {
             switch (position) {
               case 0:
                 {
-                  
                   ghost_searchs.showAndHide();
                   break;
                 }
@@ -1639,14 +1534,16 @@ public class CodeEditorActivity extends AppCompatActivity {
                           startActivity(getmd);
                         } else if (shp.getString("pos_path", "").contains(".scss")
                             || shp.getString("pos_path", "").contains(".sass")) {
-//                          getmd.setClass(getApplicationContext(), TerminalActivity.class);
-//                          getmd.putExtra("sass", shp.getString("pos_path", ""));
-//                          startActivity(getmd);
-                                            SassForAndroid.run(
-                                                        CodeEditorActivity.this,
-                                                        shp.getString("pos_path", ""),
-                                                        shp.getString("pos_path", ""));
-                          
+                          //                          getmd.setClass(getApplicationContext(),
+                          // TerminalActivity.class);
+                          //                          getmd.putExtra("sass",
+                          // shp.getString("pos_path", ""));
+                          //                          startActivity(getmd);
+                          SassForAndroid.run(
+                              CodeEditorActivity.this,
+                              shp.getString("pos_path", ""),
+                              shp.getString("pos_path", ""));
+
                         } else if (shp.getString("pos_path", "").contains(".java")) {
 
                           JavaCompilerBeta.run(
@@ -1791,7 +1688,7 @@ public class CodeEditorActivity extends AppCompatActivity {
 
     Antcomp8lerBinding bind = Antcomp8lerBinding.inflate(getLayoutInflater());
     bottomSheetDialog.setContentView(bind.getRoot());
-    File file = new File(shp.getString("pos_path",""));
+    File file = new File(shp.getString("pos_path", ""));
     bind.edpath.setText(file.getParent());
     bind.btnrun.setOnClickListener(
         (noy) -> {

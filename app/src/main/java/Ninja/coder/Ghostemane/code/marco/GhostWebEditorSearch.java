@@ -14,13 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import io.github.rosemoe.sora.widget.CodeEditor;
-import io.github.rosemoe.sora.widget.EditorSearcher;
 
 public class GhostWebEditorSearch extends LinearLayout {
   private LayoutSearcherBinding binding;
 
   private IdeEditor editor;
+  protected onViewChange viewChange;
 
   public boolean isShowing = false;
 
@@ -38,6 +37,7 @@ public class GhostWebEditorSearch extends LinearLayout {
     removeAllViews();
     addView(
         binding.getRoot(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
     binding.searchText.addTextChangedListener(
         new TextWatcher() {
           @Override
@@ -83,9 +83,11 @@ public class GhostWebEditorSearch extends LinearLayout {
   public void showAndHide() {
     if (isShowing) {
       hide();
+      viewChange.onViewHide();
     } else {
       setVisibility(View.VISIBLE);
       isShowing = true;
+      viewChange.onViewShow();
     }
     if (editor == null) {
       return;
@@ -134,6 +136,7 @@ public class GhostWebEditorSearch extends LinearLayout {
           .setPositiveButton(
               "replace",
               (c1, c2) -> {
+                gotoNext();
                 editor.getSearcher().replaceThis(bind.editor.getText().toString());
               })
           .setNeutralButton(android.R.string.cancel, null)
@@ -144,8 +147,15 @@ public class GhostWebEditorSearch extends LinearLayout {
               })
           .show();
       bind.top.setHint("Replcement");
-    } else Toast.makeText(getContext(),"button replace isEmpty ",1).show();
+    } else Toast.makeText(getContext(), "button replace isEmpty ", 1).show();
   }
 
-  private void replaceAll() {}
+  
+  public void setCallBack(onViewChange viewChange){
+    this.viewChange = viewChange;
+  }
+  public interface onViewChange{
+    public void onViewShow();
+    public void onViewHide();
+  }
 }

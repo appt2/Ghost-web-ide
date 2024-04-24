@@ -843,7 +843,6 @@ public class HTMLLanguage implements EditorLanguage {
       int n11 = 0;
       Label_0094:
       {
-        Label_0094
         Label_0082:
         {
           // n = 1 if it's a one line comment

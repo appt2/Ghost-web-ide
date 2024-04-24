@@ -139,21 +139,16 @@ public class FileDirActivity extends BaseCompat
   private double positionTabs = 0;
   protected SharedPreferences gridMode;
   private boolean Chack = false;
-
   private boolean isCopyAndMoved = false;
-
   private double conter = 0;
   private boolean isAllSet = false;
   private boolean staticStorage = false;
-
   private String version = "";
   private double post = 0;
   private String arm = "";
   private int newpos = 0;
-
   private String MColors = "";
   private int lastPos = 0;
-
   private List<String> list = new ArrayList<>();
   private List<String> folderList = new ArrayList<>();
   private List<String> fileList = new ArrayList<>();
@@ -167,7 +162,6 @@ public class FileDirActivity extends BaseCompat
   private ArrayList<String> str2 = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> projectdata = new ArrayList<>();
   private ArrayList<Double> cache = new ArrayList<>();
-
   private PraramnetLayoutNinja paramentLayout_fileDir;
   private LinearLayout CensractorListView1;
   private SwipeRefreshLayout swiperefreshlayout1;
@@ -552,7 +546,7 @@ public class FileDirActivity extends BaseCompat
     dialog.setPositiveButton("close", null);
     dialog.setView(view);
     if (dialog != null) {
-      dialog.show();
+      dialog.build();
     }
 
     TextInputEditText et = view.findViewById(R.id.ed_filter);
@@ -669,6 +663,14 @@ public class FileDirActivity extends BaseCompat
     super.onResume();
     RefreshTabs();
   }
+  
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    // TODO: Implement this method
+    stopService(new Intent(this,MediaListenerService.class));
+  }
+  
 
   public void reLoadFile() {
     recyclerview2.setVisibility(View.GONE);
