@@ -411,13 +411,6 @@
             
         />
         <activity
-            android:name=".activities.ImgShowActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-            android:hardwareAccelerated="true"
-            android:supportsPictureInPicture="true"
-            
-        />
-        <activity
             android:name=".activities.IconModActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:hardwareAccelerated="true"
@@ -709,11 +702,7 @@
             android:supportsPictureInPicture="true"
             
         />
-        <service
-            android:name="Ninja.coder.Ghostemane.code.PHPProcess"
-            android:process=":PHPWebServerService"
-            
-        />
+
         <receiver android:name="Ninja.coder.Ghostemane.code.PluginManager.FilePostBroadcastReceiver">
             <intent-filter>
                 <action android:name="Ninja.coder.code.Ghostemane.SEND_FILE_PATH" />

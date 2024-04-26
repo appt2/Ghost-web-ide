@@ -3,6 +3,7 @@ package Ninja.coder.Ghostemane.code.navigator;
 import Ninja.coder.Ghostemane.code.IdeEditor;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.graphics.Color;
+import android.widget.TextView;
 import com.allenliu.badgeview.BadgeView;
 import io.github.rosemoe.sora.event.ContentChangeEvent;
 import java.util.regex.Pattern;
@@ -62,10 +63,12 @@ public class EditorHelperColor {
                     view.setBadgeBackground(Color.parseColor(currentWord));
                     if (calculateLuminance(Color.parseColor(currentWord)) < 0.5) {
                       view.setTextColor(Color.WHITE);
+                      view.setBadgeCount("C");
 
                     } else {
                       if (calculateLuminance(Color.parseColor(currentWord)) >= 0.5) {
                         view.setTextColor(Color.BLACK);
+                        view.setBadgeCount("D");
                       }
                     }
                   } catch (IllegalArgumentException iae) {
@@ -80,5 +83,19 @@ public class EditorHelperColor {
             e.printStackTrace();
           }
         });
+  }
+
+  public static void getChar(TextView v, IdeEditor mEditor) {
+    var cursor = mEditor.getCursor();
+    
+    var text =
+        new StringBuilder()
+            .append(1 + cursor.getLeftLine())
+            .append(":")
+            .append(cursor.getLeftColumn());
+    if (cursor.isSelected()) {
+      text.append(" (").append(cursor.getRight() - cursor.getLeft()).append(" chars)");
+    }
+    v.setText(text);
   }
 }

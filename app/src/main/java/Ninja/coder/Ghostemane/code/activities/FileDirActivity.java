@@ -1338,28 +1338,6 @@ public class FileDirActivity extends BaseCompat
     Toast.makeText(getApplicationContext(), a, 2).show();
   }
 
-  public void _insertData(final double _pos) {
-    if (files.get((int) _pos).get("path").toString().endsWith(".tif")
-        || (files.get((int) _pos).get("path").toString().endsWith(".tiff")
-            || (files.get((int) _pos).get("path").toString().endsWith(".png")
-                || (files.get((int) _pos).get("path").toString().endsWith(".jpg")
-                    || (files.get((int) _pos).get("path").toString().endsWith(".jpeg")
-                        || (files.get((int) _pos).get("path").toString().endsWith(".webp")
-                            || (files.get((int) _pos).get("path").toString().endsWith(".bmp")
-                                || files
-                                    .get((int) _pos)
-                                    .get("path")
-                                    .toString()
-                                    .endsWith(".gif")))))))) {
-      void10.setClass(getApplicationContext(), ImgShowActivity.class);
-      void10.putExtra("imagePath", Folder);
-      void10.putExtra(
-          "imageName",
-          Uri.parse(files.get((int) _pos).get("path").toString()).getLastPathSegment());
-      startActivity(void10);
-    }
-  }
-
   public void _dicomplier() {
     androidx.appcompat.app.AlertDialog dialog =
         new GhostWebMaterialDialog(FileDirActivity.this)
@@ -1746,7 +1724,7 @@ public class FileDirActivity extends BaseCompat
 
     _fontpost(files, "path", newpos);
     _themeinstall(files, newpos, "path");
-    _insertData(newpos);
+   
   }
 
   public void MakeZipFileFromThread(int pos) {

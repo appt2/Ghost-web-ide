@@ -30,6 +30,7 @@ import Ninja.coder.Ghostemane.code.R;
  *
  * @author Pedro Vicente Gomez Sanchez.
  */
+@Deprecated
 public class LynxActivity extends Activity {
 
     private static final String LYNX_CONFIG_EXTRA = "extra_lynx_config";

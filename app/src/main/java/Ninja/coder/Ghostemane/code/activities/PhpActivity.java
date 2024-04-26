@@ -1,9 +1,8 @@
 package Ninja.coder.Ghostemane.code.activities;
 
 import Ninja.coder.Ghostemane.code.PHPProcess;
+import Ninja.coder.Ghostemane.code.PHPServerHelper;
 import Ninja.coder.Ghostemane.code.R;
-import Ninja.coder.Ghostemane.code.ServerHost;
-import Ninja.coder.Ghostemane.code.config.PHPServerHelper;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -54,13 +53,6 @@ public class PhpActivity extends BaseCompat {
     web = findViewById(R.id.web);
     web.getSettings().setJavaScriptEnabled(true);
     web.getSettings().setSupportZoom(true);
-    // startService(new Intent(this, PHPProcess.class));
-
-    // no listener code
-
-    // no listener code
-
-    // webviewOnProgressChanged
     web.setWebChromeClient(
         new WebChromeClient() {
           @Override
@@ -86,22 +78,27 @@ public class PhpActivity extends BaseCompat {
   }
 
   private void initializeLogic() {
-    File file = new File(getIntent().getStringExtra("phpcode"));
-    if (getIntent().hasExtra("phpcode")) {
-      String path = file.toString();
-    }
-    
-    web.loadUrl(PHPServerHelper.Companion.runOffline(getApplicationContext(),file));
-    
-    Intent intent = new Intent(this, PHPProcess.class);
-    intent.putExtra("port", 8080);
-    intent.putExtra("projectPath", file.getAbsolutePath());
-    startService(intent);
 
-    web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-    web.getSettings().setJavaScriptEnabled(true);
-    web.getSettings().setUseWideViewPort(true);
-    ColorAndroid12.setToolbarinit(_toolbar);
+    try {
+      File file = new File(getIntent().getStringExtra("phpcode"));
+      if (getIntent().hasExtra("phpcode")) {
+        String path = file.toString();
+      }
+
+      web.loadUrl(PHPServerHelper.runOffline(getApplicationContext(), file));
+
+      Intent intent = new Intent(this, PHPProcess.class);
+      intent.putExtra("port", 8080);
+      intent.putExtra("projectPath", file.getAbsolutePath());
+      startService(intent);
+
+      web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+      web.getSettings().setJavaScriptEnabled(true);
+      web.getSettings().setUseWideViewPort(true);
+      ColorAndroid12.setToolbarinit(_toolbar);
+    } catch (Exception err) {
+      err.printStackTrace();
+    }
   }
 
   public void showMessage(String _s) {

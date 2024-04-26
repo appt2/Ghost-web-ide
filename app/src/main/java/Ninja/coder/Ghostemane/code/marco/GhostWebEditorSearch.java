@@ -69,7 +69,7 @@ public class GhostWebEditorSearch extends LinearLayout {
         (v) -> {
           replace();
         });
-    binding.btnClose.setOnClickListener((v) -> hide());
+    binding.btnClose.setOnClickListener((v) -> showAndHide());
     AnimUtils.Worker(binding.gotoLast);
     AnimUtils.Worker(binding.gotoNext);
     AnimUtils.Worker(binding.replace);
@@ -147,7 +147,7 @@ public class GhostWebEditorSearch extends LinearLayout {
               })
           .show();
       bind.top.setHint("Replcement");
-    } else Toast.makeText(getContext(), "button replace isEmpty ", 1).show();
+    } else Toast.makeText(getContext(), "Searcher text replace isEmpty ", 1).show();
   }
 
   

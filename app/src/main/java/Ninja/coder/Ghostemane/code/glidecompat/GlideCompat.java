@@ -2,6 +2,7 @@ package Ninja.coder.Ghostemane.code.glidecompat;
 
 import Ninja.coder.Ghostemane.code.ApplicationLoader;
 import Ninja.coder.Ghostemane.code.R;
+import Ninja.coder.Ghostemane.code.glidecompat.BlurTransformation;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -22,6 +23,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caverock.androidsvg.SVG;
 import com.google.android.material.color.MaterialColors;
@@ -370,6 +372,16 @@ public class GlideCompat {
       }
     }
     return icon;
+  }
+  public static void LoadBlurImage(String path,ImageView v){
+    Glide.with(v.getContext())
+        .load(path)
+        .error(R.drawable.errorxml)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .priority(Priority.NORMAL)
+        .transform(new MultiTransformation<>(new BlurTransformation(24)))
+        
+        .into(v);
   }
 
   public static void setDecodeImageForZipFile(String pathFile, String nameIcon, ImageView img) {

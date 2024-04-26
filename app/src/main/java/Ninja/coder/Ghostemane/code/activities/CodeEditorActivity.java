@@ -378,14 +378,14 @@ public class CodeEditorActivity extends AppCompatActivity {
 
           @Override
           public void onViewShow() {
-            if (_fab.isShown()) {
+            if (_fab.isShow()) {
               _fab.hide();
             }
           }
 
           @Override
           public void onViewHide() {
-            if (!_fab.isShown()) {
+            if (_fab.isHide()) {
               _fab.show();
             }
           }

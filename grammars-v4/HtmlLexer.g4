@@ -35,7 +35,7 @@
 
 // $antlr-format alignColons trailing, singleLineOverrulesHangingColon true, alignLexerCommands true, alignLabels true, alignTrailers true
 
-lexer grammar HtmlLexer;
+lexer grammar HTMLLexer;
 
 fragment Hex
    : [0-9a-fA-F]
@@ -100,21 +100,20 @@ fragment Name
 fragment Url
    : ([!#$%&*-~] | Nonascii | Escape)*
    ;
-
-Comment
-   : (LineComment | MultiLineComment) -> skip
-   ;
-
+   // comment from html && xml 
+   
 MultiLineComment
    : '<!--' .*? '-->' -> channel (HIDDEN)
    ;
-
+   // long comment css js java 
+   
 COMMENTCSS
    : '/*' .*? '*/' -> channel (HIDDEN)
    ;
-
+   // comment from js css and ... 
+   
 LineComment
-   : '//' ~[\r\n]* -> channel(HIDDEN)
+   : '//' ~ [\r\n\u2028\u2029]* -> channel (HIDDEN)
    ;
 
 Space
@@ -133,13 +132,20 @@ Format
    : 'format(' Whitespace String_ Whitespace ')'
    ;
 
-AbsLength
-   : 'px'
-   | 'cm'
-   | 'mm'
-   | 'pt'
-   | 'pc'
-   | 'q'
+fragment RuleChar
+   :  ~[.]
+   ;
+
+Dot2
+   : '.' RuleChar
+   ;
+
+NameRule
+   : Nmstart '(' Whitespace Nmstart Whitespace ')'
+   ;
+
+Colen
+   : ':'
    ;
 
 FontRelative
@@ -208,7 +214,8 @@ JsKeyWord3
    | 'goto'
    | 'protected'
    ;
-
+   // from test
+   
 JsKeyWord4
    : 'var'
    | 'default'
@@ -793,6 +800,8 @@ CSSKEYWORD
    | 'word-wrap'
    | 'writing-mode'
    | 'z-index'
+   | '@import url(' //from css url 
+   
    ;
 
 CSSCOLOR
@@ -1302,3 +1311,4 @@ String_
 Ident
    : Nmstart Nmchar*
    ;
+

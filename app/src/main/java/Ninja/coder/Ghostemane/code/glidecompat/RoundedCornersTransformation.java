@@ -12,6 +12,7 @@ public class RoundedCornersTransformation extends BitmapTransformation {
     private static final String ID = "com.example.RoundedCornersTransformation";
     private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
     private int cornerRadius;
+  
 
     public RoundedCornersTransformation(int cornerRadius) {
         this.cornerRadius = cornerRadius;
