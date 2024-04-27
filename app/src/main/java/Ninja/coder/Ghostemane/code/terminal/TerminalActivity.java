@@ -193,7 +193,10 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
                 CommandCompat.INSTANCE.getInterpreterCommand(
                     getApplicationContext(), getIntent().getStringExtra("path"));
             terminals.mTermSession.write(pys + '\r');
-          } else
+          } else if(getIntent().hasExtra("phpcode")) {
+          	String php = CommandCompat.INSTANCE.getRunPhpCommand(getApplicationContext(),new File(getIntent().getStringExtra("phpcode")));
+            terminals.mTermSession.write(php + '\r');
+          }else
             terminals.mTermSession.write(
                 CommandCompat.INSTANCE.getBasicCommand(TerminalActivity.this) + '\r');
         });

@@ -7,6 +7,8 @@ import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -25,6 +27,7 @@ public class PhpActivity extends BaseCompat {
   private Toolbar _toolbar;
   private AppBarLayout _app_bar;
   private CoordinatorLayout _coordinator;
+  private PHPServerHelper phpserverHelper;
 
   private WebView web;
 
@@ -34,6 +37,15 @@ public class PhpActivity extends BaseCompat {
     setContentView(R.layout.php);
     initialize(_savedInstanceState);
     initializeLogic();
+    var myfile = new File(getIntent().getStringExtra("phpcode"));
+    phpserverHelper = new PHPServerHelper(this, myfile.getParentFile());
+    phpserverHelper.startServer(
+        new Handler(Looper.getMainLooper()),
+        new Runnable() {
+
+          @Override
+          public void run() {}
+        });
   }
 
   private void initialize(Bundle _savedInstanceState) {
@@ -87,10 +99,10 @@ public class PhpActivity extends BaseCompat {
 
       web.loadUrl(PHPServerHelper.runOffline(getApplicationContext(), file));
 
-      Intent intent = new Intent(this, PHPProcess.class);
-      intent.putExtra("port", 8080);
-      intent.putExtra("projectPath", file.getAbsolutePath());
-      startService(intent);
+      //      Intent intent = new Intent(this, PHPProcess.class);
+      //      intent.putExtra("port", 8080);
+      //      intent.putExtra("projectPath", file.getAbsolutePath());
+      //      startService(intent);
 
       web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
       web.getSettings().setJavaScriptEnabled(true);

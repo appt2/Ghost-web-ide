@@ -1,9 +1,9 @@
 package Ninja.coder.Ghostemane.code.model;
 
 public class CodeNavigationInfo {
-  int lineIndex;
-  String methodDesc;
-  boolean isMethod;
+  protected int lineIndex;
+  protected String methodDesc;
+  protected boolean isMethod;
 
   public CodeNavigationInfo(int lineIndex, String methodDesc, boolean isMethod) {
     this.lineIndex = lineIndex;

@@ -14,7 +14,7 @@ import Ninja.coder.Ghostemane.code.databin.FileMaker;
 import Ninja.coder.Ghostemane.code.filehelper.CreatorModule;
 import Ninja.coder.Ghostemane.code.filehelper.FactoryModelProject;
 import Ninja.coder.Ghostemane.code.folder.FileIconHelper;
-import Ninja.coder.Ghostemane.code.git.GitTaskUtils;
+import Ninja.coder.Ghostemane.code.git.GitListSheet;
 import Ninja.coder.Ghostemane.code.interfaces.FileCallBack;
 import Ninja.coder.Ghostemane.code.layoutmanager.EmptyRecyclerView;
 import Ninja.coder.Ghostemane.code.layoutmanager.NavigationViewCompnet;
@@ -56,11 +56,9 @@ import Ninja.coder.Ghostemane.code.PluginManager.FilePostBroadcastReceiver;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +76,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -94,9 +91,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hzy.lib7z.Z7Extractor;
-import com.skydoves.powermenu.CircularEffect;
 import com.skydoves.powermenu.PowerMenu;
-import com.skydoves.powermenu.PowerMenuItem;
 import com.zip4j.progress.ProgressMonitor;
 import ninjacoder.ghostide.androidtools.r8.android.R8Tools;
 import storage.sdcard.SdCardUtil;
@@ -2499,7 +2494,7 @@ public class FileDirActivity extends BaseCompat
               }
             case 9:
               {
-                GitTaskUtils task = new GitTaskUtils(FileDirActivity.this, Folder);
+                GitListSheet task = new GitListSheet(new File(Folder),FileDirActivity.this);
                 sh.getDismiss(true);
                 break;
               }

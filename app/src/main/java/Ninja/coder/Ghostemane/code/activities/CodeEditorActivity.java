@@ -1529,7 +1529,7 @@ public class CodeEditorActivity extends AppCompatActivity {
 
                       } else {
                         if (shp.getString("pos_path", "").contains(".php")) {
-                          getmd.setClass(getApplicationContext(), PhpActivity.class);
+                          getmd.setClass(getApplicationContext(), TerminalActivity.class);
                           getmd.putExtra("phpcode", shp.getString("pos_path", ""));
                           startActivity(getmd);
                         } else if (shp.getString("pos_path", "").contains(".scss")

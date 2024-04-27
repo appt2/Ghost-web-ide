@@ -194,6 +194,7 @@ public class PHPServerHelper {
                   + new File(context.getFilesDir(), "php.ini").getPath()
                   + "\""
             });
+    
     return command != null ? command : "";
   }
 }
