@@ -25,4 +25,5 @@ include(":app")
 include 'eclipse-standalone'
 include(":android-tools")
 include(":Plugin")
-include(":pl-codecomment")		
+include(":pl-codecomment")	
+include(":jgit")

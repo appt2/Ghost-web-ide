@@ -19,37 +19,11 @@ public class GitLog {
 
   public GitLog(Context context) {
     this.context = context;
-    try {
-      File file = new File("/storage/emulated/0/AndroidIDEProjects/GhostWeb IDE2/.git/");
-      repository = new GitUtils(file);
-      repository.init(file);
-    } catch (Exception err) {
-
-    }
+    
   }
 
   public void test() {
-    TextView view = new TextView(context);
-    ViewGroup.LayoutParams param =
-        new ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    view.setLayoutParams(param);
-    view.setPadding(8, 8, 8, 8);
-    new MaterialAlertDialogBuilder(context)
-        .setTitle("GitHelper")
-        .setMessage("View Item Change help")
-        .setView(view)
-        .setPositiveButton("ok", null)
-        .show();
-    StringBuilder b = new StringBuilder();
-    try {
-      b.append("Status ").append(repository.getStatusAsString()).append("\n");
-      // b.append("BranchName ").append(repository.getCurrentBranchName()).append('\n');
-      //  b.append("Diff").append(repository.getDiff()).append("\n");
-      DiffyViewer(view, b.toString());
-    } catch (Exception err) {
-      view.setText(err.getLocalizedMessage());
-    }
+    
   }
 
   protected void DiffyViewer(TextView tv, String output) {

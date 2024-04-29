@@ -4,11 +4,14 @@ import Ninja.coder.Ghostemane.code.databinding.MakefolderBinding;
 import Ninja.coder.Ghostemane.code.model.ListSheet;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.Toast;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.ninjacoder.jgit.GitWrapper;
 import java.io.File;
 import java.io.IOException;
-import org.eclipse.jgit.api.errors.GitAPIException;
 
 public class GitListSheet {
   protected ListSheet listItem;
@@ -32,7 +35,7 @@ public class GitListSheet {
   void setVaribaleGit() {
     listItem = new ListSheet();
     listItem.setSheetDialog(ctx);
-    listItem.addItem("Git init", 0, utils.isGitinit(fileDir) || utils.isRep(fileDir));
+    listItem.addItem("Git init", 0, utils.isGitinit() || utils.isRep());
     listItem.addItem("Git CreateBranch");
     listItem.addItem("Git MergeBranch");
     listItem.addItem("Git CommitChanges");
@@ -49,25 +52,19 @@ public class GitListSheet {
             switch (pos) {
               case 0:
                 {
-                  try {
-                    utils.init(fileDir);
-                  } catch (Exception err) {
-                    err.printStackTrace();
-                  }
+                  listItem.getDismiss(true);
+                  GitWrapper.init(ctx, fileDir);
                   break;
                 }
               case 1:
                 {
+                  listItem.getDismiss(true);
                   MaterialDialogHelper(
                       new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-                          try {
-                            utils.createBranch(bin.editor.getText().toString());
-                          } catch (Exception err) {
-
-                          }
+                          GitWrapper.createBranch(ctx, fileDir, bin.editor.getText().toString(),true);
                         }
                       });
 
@@ -75,6 +72,7 @@ public class GitListSheet {
                 }
               case 2:
                 {
+                  listItem.getDismiss(true);
                   MaterialDialogHelper(
                       (c, d) -> {
                         try {
@@ -88,60 +86,59 @@ public class GitListSheet {
                 }
               case 3:
                 {
-                  MaterialDialogHelper(
-                      (c, d) -> {
-                        try {
-                          utils.commitChanges(bin.editor.getText().toString());
-                        } catch (Exception err) {
-
-                        }
+                  listItem.getDismiss(true);
+                  ThreadUtils.runOnUiThread(
+                      () -> {
+                        MaterialDialogHelper(
+                            (c, d) -> {
+                              GitWrapper.commit(ctx, fileDir, bin.editor.getText().toString());
+                            });
                       });
+
                   break;
                 }
 
               case 4:
                 {
+                  listItem.getDismiss(true);
                   MaterialDialogHelper(
                       (c, d) -> {
-                        try {
-                          utils.pull(bin.editor.getText().toString());
-                        } catch (Exception err) {
-
-                        }
+                        //   GitWrapper.pull(ctx,fileDir,null,null,null);
                       });
 
                   break;
                 }
               case 5:
                 {
+                  listItem.getDismiss(true);
                   MaterialDialogHelper(
                       (c, d) -> {
                         try {
-                          utils.push(bin.editor.getText().toString());
+                          //
+                          // GitWrapper.push(ctx,fileDir,null,null,null,null);
                         } catch (Exception err) {
 
                         }
                       });
-
                   break;
                 }
               case 6:
                 {
-                  try {
-                    utils.addAllFiles();
-                  } catch (Exception err) {
-
-                  }
+                  GitWrapper.add(fileDir);
+                  listItem.getDismiss(true);
                   break;
                 }
               case 7:
                 {
-                  try {
-                    MaterialDialogHelper(null);
-                    bin.editor.setText(utils.getUncommittedChangesAsString());
-                  } catch (Exception err) {
+                  listItem.getDismiss(true);
+                  ThreadUtils.runOnUiThread(
+                      () -> {
+                        try {
+                          MaterialDialogHelper(null, utils.getStatusAsString());
+                        } catch (Exception err) {
 
-                  }
+                        }
+                      });
 
                   break;
                 }
@@ -151,11 +148,15 @@ public class GitListSheet {
   }
 
   void MaterialDialogHelper(DialogInterface.OnClickListener di) {
-    //    makefolder
+    MaterialDialogHelper(di, null);
+  }
+
+  void MaterialDialogHelper(DialogInterface.OnClickListener di, String msg) {
     bin = MakefolderBinding.inflate(LayoutInflater.from(ctx));
     dialog = new MaterialAlertDialogBuilder(ctx);
     dialog.setView(bin.getRoot());
     dialog.setTitle("Helper");
+    bin.editor.setText(msg);
     dialog.setNegativeButton(android.R.string.ok, di);
     if (dialog != null) {
       dialog.show();

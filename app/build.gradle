@@ -112,6 +112,7 @@ dependencies {
     implementation("com.github.TimScriptov:App-UI-Designer:1.0.9")
     implementation project(path: ":Plugin")
   	implementation project(path: ":pl-codecomment") 	
+	implementation project(path: ":jgit") 	
     implementation "androidx.core:core:1.6.0"  
     implementation 'androidx.preference:preference:1.2.1'
 }

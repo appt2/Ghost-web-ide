@@ -32,6 +32,7 @@ import java.util.List;
 
 public class GitUtils {
   private Git git;
+  private File file;
 
   /**
    * Constructor
@@ -39,13 +40,14 @@ public class GitUtils {
    * @param repoPath The path to the Git repository
    * @throws IOException
    */
-  public GitUtils(File repoPath) throws IOException {
-    Repository repo = new FileRepositoryBuilder().setGitDir(repoPath).build();
+  public GitUtils(File file) throws IOException {
+    this.file = file;
+    Repository repo = new FileRepositoryBuilder().setGitDir(file).build();
     git = new Git(repo);
   }
 
-  public void init(File repo) throws GitAPIException {
-    Git.init().setDirectory(repo).call();
+  public void init() throws GitAPIException {
+    Git.init().setDirectory(file).call();
   }
 
   /**
@@ -87,6 +89,16 @@ public class GitUtils {
    */
   public void commitChanges(String message) throws GitAPIException {
     git.commit().setMessage(message).call();
+  }
+
+  public boolean iscommitChanges(String massges) {
+    try {
+      git.commit().setMessage(massges).call();
+      return true;
+    } catch (GitAPIException err) {
+      err.printStackTrace();
+      return false;
+    }
   }
 
   /**
@@ -361,7 +373,7 @@ public class GitUtils {
     return outputStream.toString();
   }
 
-  public boolean isGitinit(File file) {
+  public boolean isGitinit() {
     try {
       FileRepositoryBuilder fr = new FileRepositoryBuilder();
       Repository rp = fr.setWorkTree(file).build();
@@ -371,11 +383,11 @@ public class GitUtils {
     }
   }
 
-  public boolean isRep(File gitDir) {
-    if (gitDir.exists()) {
+  public boolean isRep() {
+    if (file.exists()) {
       FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
       try (Repository repo =
-          repositoryBuilder.setGitDir(gitDir).readEnvironment().findGitDir().build()) {
+          repositoryBuilder.setGitDir(file).readEnvironment().findGitDir().build()) {
         return repo.getObjectDatabase().exists();
       } catch (Exception e) {
         System.err.println("Error checking repository existence: " + e.getMessage());
@@ -384,8 +396,8 @@ public class GitUtils {
     return false;
   }
 
-  
-  public void pushToOrigin(String branchName, String username, String password) throws GitAPIException{
+  public void pushToOrigin(String branchName, String username, String password)
+      throws GitAPIException {
     PushCommand pushCmd = git.push();
     pushCmd
         .setRemote("origin")
@@ -395,7 +407,6 @@ public class GitUtils {
     pushCmd.call();
   }
 
-  
   public void pushAllToOrigin(String username, String password) throws GitAPIException {
     PushCommand pushCmd = git.push();
     pushCmd
@@ -405,21 +416,27 @@ public class GitUtils {
     pushCmd.call();
   }
 
-  
-  public void renameBranch(String newBranchName) throws GitAPIException{
+  public void renameBranch(String newBranchName) throws GitAPIException {
     git.branchRename().setNewName(newBranchName).call();
   }
 
-  
-  public void renameBranchToMain() throws GitAPIException{
+  public void renameBranchToMain() throws GitAPIException {
     git.branchRename().setNewName("main").call();
   }
 
-  
-  public void addAllFiles() throws GitAPIException{
+  public void addAllFiles() throws GitAPIException {
     AddCommand addCmd = git.add();
     addCmd.setUpdate(true);
     addCmd.addFilepattern(".");
     addCmd.call();
+  }
+
+  public boolean checkAndAddAllFiles() throws GitAPIException {
+    Status status = git.status().call();
+    if (!status.hasUncommittedChanges()) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
