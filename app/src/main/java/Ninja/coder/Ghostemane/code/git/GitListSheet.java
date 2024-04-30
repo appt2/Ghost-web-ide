@@ -64,7 +64,8 @@ public class GitListSheet {
 
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-                          GitWrapper.createBranch(ctx, fileDir, bin.editor.getText().toString(),true);
+                          GitWrapper.createBranch(
+                              ctx, fileDir, bin.editor.getText().toString(), true);
                         }
                       });
 
@@ -101,30 +102,20 @@ public class GitListSheet {
               case 4:
                 {
                   listItem.getDismiss(true);
-                  MaterialDialogHelper(
-                      (c, d) -> {
-                        //   GitWrapper.pull(ctx,fileDir,null,null,null);
-                      });
+
+                  GitWrapper.pull(ctx, fileDir);
 
                   break;
                 }
               case 5:
                 {
                   listItem.getDismiss(true);
-                  MaterialDialogHelper(
-                      (c, d) -> {
-                        try {
-                          //
-                          // GitWrapper.push(ctx,fileDir,null,null,null,null);
-                        } catch (Exception err) {
-
-                        }
-                      });
+                  GitWrapper.push(ctx,fileDir);
                   break;
                 }
               case 6:
                 {
-                  GitWrapper.add(fileDir);
+                  GitWrapper.add(fileDir,ctx);
                   listItem.getDismiss(true);
                   break;
                 }
@@ -134,7 +125,8 @@ public class GitListSheet {
                   ThreadUtils.runOnUiThread(
                       () -> {
                         try {
-                          MaterialDialogHelper(null, utils.getStatusAsString());
+                        
+                          MaterialDialogHelper(null, GitWrapper.getCurrentBranch(fileDir));
                         } catch (Exception err) {
 
                         }

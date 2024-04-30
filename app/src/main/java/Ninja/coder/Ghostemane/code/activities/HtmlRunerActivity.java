@@ -88,6 +88,7 @@ public class HtmlRunerActivity extends BaseCompat {
     progressbar1 = findViewById(R.id.progressbar1);
     web = findViewById(R.id.web);
     qo = getSharedPreferences("qo", Activity.MODE_PRIVATE);
+    databind();
 
     web.setWebChromeClient(
         new WebChromeClient() {
@@ -443,7 +444,8 @@ public class HtmlRunerActivity extends BaseCompat {
             + erudaPath
             + "';"
             + "document.body.appendChild(script);"
-            + "script.onload = function () { eruda.add({name: 'My Theme', init: function () { var bgColor = '#333'; var textColor = '#fff'; document.querySelector('.eruda-container').style.backgroundColor = bgColor; var consoleEls = document.querySelectorAll('.eruda-console-item, .eruda-header'); for (var i = 0; i < consoleEls.length; i++) { consoleEls[i].style.color = textColor; } }}); eruda.init(); }"
+            + "eruda.init();"
+            + "script.onload = function () { eruda.add({name: 'My Theme', init: function () { var bgColor = '#333'; var textColor = '#fff'; document.querySelector('.eruda-container').style.backgroundColor = bgColor; var consoleEls = document.querySelectorAll('.eruda-console-item, .eruda-header'); for (var i = 0; i < consoleEls.length; i++) { consoleEls[i].style.color = textColor; } }}); }"
             + "})();";
     web.post(() -> web.loadUrl("javascript:" + js));
   }
@@ -537,6 +539,19 @@ public class HtmlRunerActivity extends BaseCompat {
 
     } catch (Exception err) {
 
+    }
+  }
+
+  void databind() {
+    if (Build.VERSION.SDK_INT >= 19) {
+      web.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+      web.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+    }
+    if (Build.VERSION.SDK_INT >= 17) {
+      web.getSettings().setMediaPlaybackRequiresUserGesture(false);
+    }
+    if (Build.VERSION.SDK_INT >= 21) {
+      web.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
     }
   }
 }

@@ -132,14 +132,11 @@ Format
    : 'format(' Whitespace String_ Whitespace ')'
    ;
 
-fragment RuleChar
-   :  ~[.]
-   ;
-
 Dot2
-   : '.' RuleChar
+   : '.' -> pushMode (RuleChar)
    ;
 
+mode RuleChar;
 NameRule
    : Nmstart '(' Whitespace Nmstart Whitespace ')'
    ;

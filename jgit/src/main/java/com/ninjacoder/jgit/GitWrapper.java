@@ -1,13 +1,20 @@
 package com.ninjacoder.jgit;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.SpannableString;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import android.widget.Toast;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import com.ninjacoder.jgit.databinding.LayoutGitpullBinding;
+import com.ninjacoder.jgit.databinding.LayoutPushBinding;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -53,15 +60,30 @@ public class GitWrapper {
    *
    * @param repo repo to stage files
    */
-  public static void add(File repo) {
-    try {
-      Git git = getGit(repo);
-      if (git != null) {
-        git.add().addFilepattern(".").call();
-      }
-    } catch (GitAPIException e) {
-      Log.e(TAG, e.toString());
-    }
+  public static void add(File repo, Context c) {
+    new Thread(
+            () -> {
+              try {
+                Git git = getGit(repo);
+                if (git != null) {
+                  git.add().addFilepattern(".").call();
+                }
+              } catch (GitAPIException e) {
+                runOnUi(
+                    () -> {
+                      Toast.makeText(c, e.getLocalizedMessage(), 2).show();
+                    });
+              }
+              runOnUi(
+                  () -> {
+                    Toast.makeText(c, "All file addt!", 2).show();
+                  });
+            })
+        .start();
+  }
+
+  static void runOnUi(Runnable f){
+    new Handler(Looper.getMainLooper()).post(f);
   }
 
   /**
@@ -303,49 +325,88 @@ public class GitWrapper {
    * @param adapter to refresh
    * @param remoteUrl to clone from
    */
-  public static void push(
-      Context context,
-      File repo,
-      String remoteUrl,
-      boolean[] options,
-      String username,
-      String password) {
-    new PushTask(
-            context,
-            repo,
-            new String[] {
-              "Pushing changes",
-              "Successfully pushed commits to remote.",
-              "There was a problem while pushing commits."
-            },
-            options)
-        .execute(remoteUrl, username, password);
+  public static void push(Context context, File repo) {
+    LayoutPushBinding bin = LayoutPushBinding.inflate(LayoutInflater.from(context));
+    bin.remotesSpinner.setAdapter(
+        new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, getRemotes(repo)));
+    new MaterialAlertDialogBuilder(context)
+        .setTitle("Push")
+        .setMessage("")
+        .setView(bin.getRoot())
+        .setNegativeButton(
+            "Push",
+            (c, f) -> {
+              new PushTask(
+                      context,
+                      repo,
+                      new String[] {
+                        "Pushing changes",
+                        "Successfully pushed commits to remote.",
+                        "There was a problem while pushing commits."
+                      },
+                      new boolean[] {
+                        bin.dryRun.isChecked(),
+                        bin.force.isChecked(),
+                        bin.thin.isChecked(),
+                        bin.tags.isChecked()
+                      })
+                  .execute(
+                      (String) bin.remotesSpinner.getSelectedItem(),
+                      bin.pushUsername.getText().toString(),
+                      bin.pushPassword.getText().toString());
+            })
+        .show();
   }
 
-  public static void pull(
-      Context context, File repo, String remote, String username, String password) {
-    new PullTask(
-            context,
-            repo,
-            new String[] {
-              "Pulling changes",
-              "Successfully pulled commits from remote.",
-              "There was a problem while pulling commits."
+  public static void pull(Context context, File repo) {
+    LayoutGitpullBinding bin = LayoutGitpullBinding.inflate(LayoutInflater.from(context));
+    var rm = bin.remote.getEditText().getText().toString();
+    var user = bin.userName.getEditText().getText().toString();
+    var pass = bin.token.getEditText().getText().toString();
+    new MaterialAlertDialogBuilder(context)
+        .setTitle("Git Pull")
+        .setMessage("")
+        .setView(bin.getRoot())
+        .setPositiveButton(
+            "pull",
+            (c, cc) -> {
+              new PullTask(
+                      context,
+                      repo,
+                      new String[] {
+                        "Pulling changes",
+                        "Successfully pulled commits from remote.",
+                        "There was a problem while pulling commits."
+                      })
+                  .execute(rm, user, pass);
             })
-        .execute(remote, username, password);
+        .show();
   }
 
-  public static void fetch(
-      Context context, File repo, String remote, String username, String password) {
-    new FetchTask(
-            context,
-            repo,
-            new String[] {
-              "Fetching remote " + remote,
-              "Successfully fetched from " + remote + ".",
-              "There was a problem while fetching from " + remote + "."
+  public static void fetch(Context context, File repo) {
+    LayoutGitpullBinding bin = LayoutGitpullBinding.inflate(LayoutInflater.from(context));
+    var rm = bin.remote.getEditText().getText().toString();
+    var user = bin.userName.getEditText().getText().toString();
+    var pass = bin.token.getEditText().getText().toString();
+
+    new MaterialAlertDialogBuilder(context)
+        .setTitle("Git Pull")
+        .setMessage("")
+        .setPositiveButton(
+            "fetch",
+            (c, cc) -> {
+              new FetchTask(
+                      context,
+                      repo,
+                      new String[] {
+                        "Fetching remote " + rm,
+                        "Successfully fetched from " + rm + ".",
+                        "There was a problem while fetching from " + rm + "."
+                      })
+                  .execute(rm, user, pass);
             })
-        .execute(remote, username, password);
+        .setView(bin.getRoot())
+        .show();
   }
 
   static Git getGit(File repo) {
