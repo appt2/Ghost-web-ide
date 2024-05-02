@@ -1,20 +1,20 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/jgit/src/main/java/com/ninjacoder/jgit/GitWrapper.java",
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/FileManagerAd.java",
       "selection": {
         "end": {
-          "column": 115,
-          "index": 2095,
-          "line": 64
+          "column": 0,
+          "index": 0,
+          "line": 0
         },
         "start": {
-          "column": 115,
-          "index": 2095,
-          "line": 64
+          "column": 0,
+          "index": 0,
+          "line": 0
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/jgit/src/main/java/com/ninjacoder/jgit/GitWrapper.java"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/app/src/main/java/Ninja/coder/Ghostemane/code/adapter/FileManagerAd.java"
 }

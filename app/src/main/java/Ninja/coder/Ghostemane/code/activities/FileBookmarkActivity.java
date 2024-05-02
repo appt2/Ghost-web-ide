@@ -1,6 +1,7 @@
 package Ninja.coder.Ghostemane.code.activities;
 
 import Ninja.coder.Ghostemane.code.R;
+import Ninja.coder.Ghostemane.code.databinding.FilebookmarkBinding;
 import Ninja.coder.Ghostemane.code.folder.FileIconHelper;
 import Ninja.coder.Ghostemane.code.glidecompat.GlideCompat;
 import Ninja.coder.Ghostemane.code.marco.binder.BinderRecyclerview1;
@@ -28,35 +29,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileBookmarkActivity extends BaseCompat {
-
-  private Toolbar _toolbar;
-  private AppBarLayout _app_bar;
-  private CoordinatorLayout _coordinator;
   private String subtitle = "";
   private String Folder = "";
   private double position = 0;
   private String UPFolder = "";
   private ArrayList<HashMap<String, Object>> map = new ArrayList<>();
-  private ListView listview1;
-  private LinearLayout layout_bookmark_emptyview;
-
   private SharedPreferences book, shp;
+  protected FilebookmarkBinding bin;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
     super.onCreate(_savedInstanceState);
-    setContentView(R.layout.filebookmark);
+    bin = FilebookmarkBinding.inflate(getLayoutInflater());
+    setContentView(bin.getRoot());
     initialize(_savedInstanceState);
   }
 
   private void initialize(Bundle _savedInstanceState) {
-    _app_bar = findViewById(R.id._app_bar);
-    _coordinator = findViewById(R.id._coordinator);
-    _toolbar = findViewById(R.id._toolbar);
-    setSupportActionBar(_toolbar);
+    
+    setSupportActionBar(bin.Toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    _toolbar.setNavigationOnClickListener(
+    bin.Toolbar.setNavigationOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View _v) {
@@ -64,23 +58,23 @@ public class FileBookmarkActivity extends BaseCompat {
           }
         });
 
-    listview1 = findViewById(R.id.listview_bookmark);
-    layout_bookmark_emptyview = findViewById(R.id.layout_bookmark_emptyview);
+    
+    
     book = getSharedPreferences("hsipsot4444", Activity.MODE_PRIVATE);
     shp = getSharedPreferences("path", Activity.MODE_PRIVATE);
 
     initializeLogic();
-    listview1.setVisibility(View.VISIBLE);
-    listview1.setEmptyView(layout_bookmark_emptyview);
+    bin.listviewBookmark.setVisibility(View.VISIBLE);
+    bin.listviewBookmark.setEmptyView(bin.layoutBookmarkEmptyview);
     map =
         new Gson()
             .fromJson(
                 book.getString("hsipsot4444", ""),
                 new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType());
-    listview1.setAdapter(new Listview1Adapter(map));
-    ((BaseAdapter) listview1.getAdapter()).notifyDataSetChanged();
+    bin.listviewBookmark.setAdapter(new FileBookMarkAdapter(map));
+    ((BaseAdapter) bin.listviewBookmark.getAdapter()).notifyDataSetChanged();
 
-    listview1.setOnItemClickListener(
+    bin.listviewBookmark.setOnItemClickListener(
         new AdapterView.OnItemClickListener() {
           @Override
           public void onItemClick(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
@@ -107,8 +101,8 @@ public class FileBookmarkActivity extends BaseCompat {
             }
           }
         });
-    listview1.setDividerHeight(0);
-    listview1.setOnItemLongClickListener(
+    bin.listviewBookmark.setDividerHeight(0);
+    bin.listviewBookmark.setOnItemLongClickListener(
         new AdapterView.OnItemLongClickListener() {
           @Override
           public boolean onItemLongClick(
@@ -116,7 +110,7 @@ public class FileBookmarkActivity extends BaseCompat {
             final int _position = _param3;
             map.remove(_position);
             book.edit().putString("hsipsot4444", new Gson().toJson(map)).apply();
-            ((BaseAdapter) listview1.getAdapter()).notifyDataSetChanged();
+            ((BaseAdapter) bin.listviewBookmark.getAdapter()).notifyDataSetChanged();
 
             return true;
           }
@@ -124,27 +118,27 @@ public class FileBookmarkActivity extends BaseCompat {
   }
 
   private void initializeLogic() {
-    ColorAndroid12.setToolbarinit(_toolbar);
+    ColorAndroid12.setToolbarinit(bin.Toolbar);
     //  ColorAndroid12.setTextColor(textview1);
   }
 
   public void _RefreshData() {
-    listview1.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-    listview1.setItemsCanFocus(false);
+    bin.listviewBookmark.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    bin.listviewBookmark.setItemsCanFocus(false);
   }
 
   @Override
   protected void onResume() {
     super.onResume();
     // TODO: Implement this method
-    ((BaseAdapter)listview1.getAdapter()).notifyDataSetChanged();
+    ((BaseAdapter)bin.listviewBookmark.getAdapter()).notifyDataSetChanged();
   }
 
-  public class Listview1Adapter extends BaseAdapter {
+  public class FileBookMarkAdapter extends BaseAdapter {
 
     ArrayList<HashMap<String, Object>> _data;
 
-    public Listview1Adapter(ArrayList<HashMap<String, Object>> _arr) {
+    public FileBookMarkAdapter(ArrayList<HashMap<String, Object>> _arr) {
       _data = _arr;
     }
 

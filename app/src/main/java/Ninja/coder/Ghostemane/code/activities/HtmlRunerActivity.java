@@ -2,12 +2,11 @@ package Ninja.coder.Ghostemane.code.activities;
 
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.ServerHost;
-import Ninja.coder.Ghostemane.code.layoutmanager.WebViewCompatGhostWeb;
+import Ninja.coder.Ghostemane.code.databinding.HtmlrunerBinding;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.utils.FileUtil;
 import Ninja.coder.Ghostemane.code.utils.SetThemeForJson;
 import Ninja.coder.Ghostemane.code.widget.GhostWebMaterialDialog;
-import Ninja.coder.Ghostemane.code.widget.PraramnetLayoutNinja;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -24,20 +23,14 @@ import android.view.*;
 import android.webkit.*;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.webkit.WebSettingsCompat;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.github.rosemoe.sora.langs.loglang.LogLang;
 import io.github.rosemoe.sora.widget.CodeEditor;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,56 +39,46 @@ import java.util.HashMap;
 public class HtmlRunerActivity extends BaseCompat {
   protected ArrayList<HashMap<String, Object>> listLogJs = new ArrayList<>();
   protected ServerHost host;
-  private MaterialToolbar _toolbar;
-  private AppBarLayout _app_bar;
-  private CoordinatorLayout _coordinator;
-  private ExtendedFloatingActionButton _fab;
   private boolean boolean10 = false;
   private String param = "";
   private String Doc = "";
   private String Doc2 = "";
-  private PraramnetLayoutNinja linear1;
-  private LinearProgressIndicator progressbar1;
-  private WebViewCompatGhostWeb web;
   private SharedPreferences qo;
   private Intent send = new Intent();
   private boolean isInspectEnabled = false;
   private boolean isShowingDialog = false;
+  protected HtmlrunerBinding bin;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
     super.onCreate(_savedInstanceState);
-    setContentView(R.layout.htmlruner);
+    bin = HtmlrunerBinding.inflate(getLayoutInflater());
+    setContentView(bin.getRoot());
     findAndMatchIdInview();
     installToRun();
+    
   }
 
   private void findAndMatchIdInview() {
-    _app_bar = findViewById(R.id._app_bar);
-    _coordinator = findViewById(R.id._coordinator);
-    _toolbar = findViewById(R.id._toolbar);
-    setSupportActionBar(_toolbar);
+    
+    setSupportActionBar(bin.Toolbar);
 
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-    _toolbar.setNavigationOnClickListener(
+    bin.Toolbar.setNavigationOnClickListener(
         (v) -> {
           finish();
         });
-    _fab = findViewById(R.id._fab);
-
-    linear1 = findViewById(R.id.linear1);
-    progressbar1 = findViewById(R.id.progressbar1);
-    web = findViewById(R.id.web);
     qo = getSharedPreferences("qo", Activity.MODE_PRIVATE);
     databind();
-
-    web.setWebChromeClient(
+    reloadConsoleJs();
+  
+    bin.web.setWebChromeClient(
         new WebChromeClient() {
           @Override
           public void onProgressChanged(WebView view, int progresss) {
-            progressbar1.setVisibility(progresss == 100 ? View.GONE : View.VISIBLE);
-            progressbar1.setProgressCompat(progresss, true);
+            bin.progressbar1.setVisibility(progresss == 100 ? View.GONE : View.VISIBLE);
+            bin.progressbar1.setProgressCompat(progresss, true);
           }
 
           @Override
@@ -128,7 +111,7 @@ public class HtmlRunerActivity extends BaseCompat {
             super.onCloseWindow(arg0);
           }
         });
-    web.setWebViewClient(
+    bin.web.setWebViewClient(
         new WebViewClient() {
           @Override
           public void onPageStarted(WebView _param1, String _param2, Bitmap _param3) {
@@ -141,15 +124,15 @@ public class HtmlRunerActivity extends BaseCompat {
           public void onPageFinished(WebView _param1, String _param2) {
             final String _url = _param2;
             reloadConsoleJs();
-            setTitle(web.getTitle() == "about:blank" ? "Error" : web.getTitle());
+            setTitle(bin.web.getTitle() == "about:blank" ? "Error" : bin.web.getTitle());
 
             getSupportActionBar()
-                .setSubtitle(web.getUrl() == "about:blank" ? "Preview" : web.getUrl());
+                .setSubtitle(bin.web.getUrl() == "about:blank" ? "Preview" : bin.web.getUrl());
             if (isInspectEnabled) {
-              startInspectMode(web);
+              startInspectMode(bin.web);
             }
-            progressbar1.setVisibility(View.GONE);
-            web.addJavascriptInterface(
+            bin.progressbar1.setVisibility(View.GONE);
+            bin.web.addJavascriptInterface(
                 new Object() {
 
                   @JavascriptInterface
@@ -160,7 +143,7 @@ public class HtmlRunerActivity extends BaseCompat {
                           @Override
                           public void run() {
                             if (enabled) {
-                              startInspectMode(web);
+                              startInspectMode(bin.web);
                             }
                           }
                         });
@@ -216,10 +199,10 @@ public class HtmlRunerActivity extends BaseCompat {
           }
         });
 
-    _toolbar.setOverflowIcon(getDrawable(R.drawable.border_color));
-    _fab.setIconResource(R.drawable.cog);
+    bin.Toolbar.setOverflowIcon(getDrawable(R.drawable.border_color));
+    bin.Fab.setIconResource(R.drawable.cog);
 
-    _fab.setOnClickListener(
+    bin.Fab.setOnClickListener(
         vv -> {
           var di = new MaterialAlertDialogBuilder(HtmlRunerActivity.this);
 
@@ -266,13 +249,13 @@ public class HtmlRunerActivity extends BaseCompat {
   }
 
   private void installToRun() {
-    ColorAndroid12.setFab(_fab);
-    //   web.setCustomDialog();
-    _toolbar.setNavigationIcon(R.drawable.arrow_back);
+    ColorAndroid12.setFab(bin.Fab);
+    //   bin.web.setCustomDialog();
+    bin.Toolbar.setNavigationIcon(R.drawable.arrow_back);
     initWebView();
-    ColorAndroid12.setToolbarinit(_toolbar);
+    ColorAndroid12.setToolbarinit(bin.Toolbar);
     if (getIntent().hasExtra("run")) {
-      web.loadUrl("file:///".concat(getIntent().getStringExtra("run")));
+      bin.web.loadUrl("file:///".concat(getIntent().getStringExtra("run")));
     }
   }
 
@@ -294,40 +277,40 @@ public class HtmlRunerActivity extends BaseCompat {
     int id = item.getItemId();
 
     if (id == R.id.back) {
-      if (web.canGoBack()) {
-        web.goBack();
+      if (bin.web.canGoBack()) {
+        bin.web.goBack();
       } else {
         Toasts("Can't go back...");
       }
     } else if (id == R.id.forward) {
-      if (web.canGoForward()) {
-        web.goForward();
+      if (bin.web.canGoForward()) {
+        bin.web.goForward();
       } else {
         Toasts("Can't go Forward");
       }
     } else if (id == R.id.zooming) {
-      web.getSettings().setSupportZoom(!item.isChecked());
-      web.getSettings().setBuiltInZoomControls(!item.isChecked());
+      bin.web.getSettings().setSupportZoom(!item.isChecked());
+      bin.web.getSettings().setBuiltInZoomControls(!item.isChecked());
       item.setChecked(!item.isChecked());
     } else if (id == R.id.desktop_mode) {
       setDesktopMode(!item.isChecked());
       item.setChecked(!item.isChecked());
     } else if (id == R.id.refresh) {
-      web.reload();
+      bin.web.reload();
     } else if (id == R.id.reloader) {
       reloadConsoleJs();
     } else if (id == R.id.drakmod) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        web.getSettings().setAlgorithmicDarkeningAllowed(!item.isChecked());
+        bin.web.getSettings().setAlgorithmicDarkeningAllowed(!item.isChecked());
       }
       item.setChecked(!item.isChecked());
       WebSettingsCompat.setForceDark(
-          web.getSettings(),
+          bin.web.getSettings(),
           item.isChecked() ? WebSettingsCompat.FORCE_DARK_ON : WebSettingsCompat.FORCE_DARK_OFF);
     } else if (id == R.id.exits) {
       finish();
     } else if (id == R.id.injector) {
-      web.reload();
+      bin.web.reload();
       if (!item.isChecked()) {
         isInspectEnabled = true;
       } else {
@@ -349,11 +332,11 @@ public class HtmlRunerActivity extends BaseCompat {
   }
 
   public void setDesktopMode(boolean _isChecked) {
-    web.loadUrl(
+    bin.web.loadUrl(
         "javascript:!function(e){var t,n,o;window.innerWidth>=window.innerHeight||(t=1024/innerWidth,(n=document.querySelector(\"meta[name=viewport]\"))||((n=document.createElement(\"meta\")).name=\"viewport\",document.head.appenChild(n)),e?(o=window.innerHeight*t,sessionStorage.setItem(\"__old_viewport_content\",n.content),n.content=\"width=1024, height=\"+o):(o=sessionStorage.__old_viewport_content)&&(n.content=o))}("
             + _isChecked
             + ");");
-    var webSettings = web.getSettings();
+    var webSettings = bin.web.getSettings();
     webSettings.setUseWideViewPort(_isChecked);
     webSettings.setLoadWithOverviewMode(_isChecked);
     webSettings.setSupportZoom(_isChecked);
@@ -403,7 +386,7 @@ public class HtmlRunerActivity extends BaseCompat {
               });
           positive.setOnClickListener(
               (vftrororocjj) -> {
-                web.findAll(editor.getText().toString());
+                bin.web.findAll(editor.getText().toString());
                 if (editor.getText().toString().isEmpty()) {
                   positive.setEnabled(false);
                 } else {
@@ -447,18 +430,18 @@ public class HtmlRunerActivity extends BaseCompat {
             + "eruda.init();"
             + "script.onload = function () { eruda.add({name: 'My Theme', init: function () { var bgColor = '#333'; var textColor = '#fff'; document.querySelector('.eruda-container').style.backgroundColor = bgColor; var consoleEls = document.querySelectorAll('.eruda-console-item, .eruda-header'); for (var i = 0; i < consoleEls.length; i++) { consoleEls[i].style.color = textColor; } }}); }"
             + "})();";
-    web.post(() -> web.loadUrl("javascript:" + js));
+    bin.web.post(() -> bin.web.loadUrl("javascript:" + js));
   }
 
   public void initWebView() {
-    web.getSettings().setAllowContentAccess(true);
-    web.getSettings().setAllowFileAccess(true);
-    web.getSettings().setJavaScriptEnabled(true);
-    web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-    web.getSettings().setSupportZoom(true);
-    //    web.getSettings().setBuiltInZoomControls(true);
+    bin.web.getSettings().setAllowContentAccess(true);
+    bin.web.getSettings().setAllowFileAccess(true);
+    bin.web.getSettings().setJavaScriptEnabled(true);
+    bin.web.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+    bin.web.getSettings().setSupportZoom(true);
+    //    bin.web.getSettings().setBuiltInZoomControls(true);
 
-    WebSettingsCompat.setAlgorithmicDarkeningAllowed(web.getSettings(), true);
+    WebSettingsCompat.setAlgorithmicDarkeningAllowed(bin.web.getSettings(), true);
   }
 
   public void startInspectMode(WebView _webview) {
@@ -490,9 +473,9 @@ public class HtmlRunerActivity extends BaseCompat {
     themeForJson2.setThemeCodeEditor(editor, imap, false, this);
     sheet.setContentView(view);
     sheet.show();
-    web.reload();
+    bin.web.reload();
     try {
-      web.setWebChromeClient(
+      bin.web.setWebChromeClient(
           new WebChromeClient() {
             @Override
             public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
@@ -544,14 +527,14 @@ public class HtmlRunerActivity extends BaseCompat {
 
   void databind() {
     if (Build.VERSION.SDK_INT >= 19) {
-      web.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-      web.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+      bin.web.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+      bin.web.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
     }
     if (Build.VERSION.SDK_INT >= 17) {
-      web.getSettings().setMediaPlaybackRequiresUserGesture(false);
+      bin.web.getSettings().setMediaPlaybackRequiresUserGesture(false);
     }
     if (Build.VERSION.SDK_INT >= 21) {
-      web.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+      bin.web.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
     }
   }
 }
