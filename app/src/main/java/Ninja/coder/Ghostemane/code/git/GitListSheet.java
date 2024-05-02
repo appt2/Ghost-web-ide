@@ -43,6 +43,7 @@ public class GitListSheet {
     listItem.addItem("Git Push");
     listItem.addItem("Git AddAll");
     listItem.addItem("Git Status");
+    listItem.addItem("GitLogs");
 
     listItem.setOnItemClickLabe(
         new ListSheet.OnItemClick() {
@@ -88,14 +89,7 @@ public class GitListSheet {
               case 3:
                 {
                   listItem.getDismiss(true);
-                  ThreadUtils.runOnUiThread(
-                      () -> {
-                        MaterialDialogHelper(
-                            (c, d) -> {
-                              GitWrapper.commit(ctx, fileDir, bin.editor.getText().toString());
-                            });
-                      });
-
+                  GitWrapper.commit(ctx, fileDir);
                   break;
                 }
 
@@ -110,12 +104,12 @@ public class GitListSheet {
               case 5:
                 {
                   listItem.getDismiss(true);
-                  GitWrapper.push(ctx,fileDir);
+                  GitWrapper.push(ctx, fileDir);
                   break;
                 }
               case 6:
                 {
-                  GitWrapper.add(fileDir,ctx);
+                  GitWrapper.add(fileDir, ctx);
                   listItem.getDismiss(true);
                   break;
                 }
@@ -125,13 +119,19 @@ public class GitListSheet {
                   ThreadUtils.runOnUiThread(
                       () -> {
                         try {
-                        
+
                           MaterialDialogHelper(null, GitWrapper.getCurrentBranch(fileDir));
                         } catch (Exception err) {
 
                         }
                       });
 
+                  break;
+                }
+              case 8:
+                {
+                  listItem.getDismiss(true);
+                  GitWrapper.gotoLog(ctx, fileDir);
                   break;
                 }
             }

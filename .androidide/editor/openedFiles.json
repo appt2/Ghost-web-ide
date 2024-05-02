@@ -1,0 +1,20 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/jgit/src/main/java/com/ninjacoder/jgit/GitWrapper.java",
+      "selection": {
+        "end": {
+          "column": 115,
+          "index": 2095,
+          "line": 64
+        },
+        "start": {
+          "column": 115,
+          "index": 2095,
+          "line": 64
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/Ghost-web-ide/jgit/src/main/java/com/ninjacoder/jgit/GitWrapper.java"
+}

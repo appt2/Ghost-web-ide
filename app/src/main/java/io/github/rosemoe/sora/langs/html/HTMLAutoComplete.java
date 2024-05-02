@@ -72,13 +72,7 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
         }
 
         // Test
-        if ("lr".startsWith(prefix) && prefix.length() > 0) {
-            try {
-                items.add(CodeSampel("loram", "Loram", getLoramRandom(Integer.parseInt(prefix))));
-            } catch (NumberFormatException exception) {
-                items.add(CodeSampel("loram", "Loram", getLoramRandom(10)));
-            }
-        }
+     
         return items;
     }
 

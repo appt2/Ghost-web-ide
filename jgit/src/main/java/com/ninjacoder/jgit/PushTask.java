@@ -20,10 +20,14 @@ public class PushTask extends GitTask {
 
   private static final String TAG = PushTask.class.getSimpleName();
   private boolean[] gitOptions;
+  private String userName;
+  private String passwordUser;
 
-  PushTask(Context context, File repo, String[] values, boolean[] options) {
+  PushTask(Context context, File repo, String[] values, boolean[] options,String userName,String passwordUser) {
     super(context, repo, values);
-    gitOptions = options;
+   this. gitOptions = options;
+    this.userName = userName;
+    this.passwordUser = passwordUser;
     id = 6;
   }
 
@@ -72,7 +76,7 @@ public class PushTask extends GitTask {
                     }
                   })
               .setPushTags()
-              .setCredentialsProvider(new UsernamePasswordCredentialsProvider(params[1], params[2]))
+              .setCredentialsProvider(new UsernamePasswordCredentialsProvider(userName,passwordUser))
               .call();
         } else {
           git.push()
@@ -113,7 +117,8 @@ public class PushTask extends GitTask {
                     }
                   })
               .setThin(gitOptions[2])
-              .setCredentialsProvider(new UsernamePasswordCredentialsProvider(params[1], params[2]))
+             //done using param from user
+              .setCredentialsProvider(new UsernamePasswordCredentialsProvider(userName,passwordUser))
               .call();
         }
       } catch (GitAPIException e) {

@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import android.widget.Toast;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.ninjacoder.jgit.databinding.LayoutGitpullBinding;
@@ -24,7 +26,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.StringUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -61,29 +62,29 @@ public class GitWrapper {
    * @param repo repo to stage files
    */
   public static void add(File repo, Context c) {
-    new Thread(
-            () -> {
-              try {
-                Git git = getGit(repo);
-                if (git != null) {
-                  git.add().addFilepattern(".").call();
-                }
-              } catch (GitAPIException e) {
-                runOnUi(
-                    () -> {
-                      Toast.makeText(c, e.getLocalizedMessage(), 2).show();
-                    });
-              }
-              runOnUi(
-                  () -> {
-                    Toast.makeText(c, "All file addt!", 2).show();
-                  });
-            })
-        .start();
+    new GitAddTask(c, repo, new String[] {"Creating new files", "files add out successfully.", "Unable to add files."}).execute(".");
   }
 
-  static void runOnUi(Runnable f){
+  static void runOnUi(Runnable f) {
     new Handler(Looper.getMainLooper()).post(f);
+  }
+
+  public static void gotoLog(Context c, File file) {
+    RecyclerView rv = new RecyclerView(c);
+    List<RevCommit> commits = getCommits(file);
+    RecyclerView.Adapter adapter = new GitLogsAdapter(c, commits);
+    var param =
+        new RecyclerView.LayoutParams(
+            RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+    RecyclerView.LayoutManager manager = new LinearLayoutManager(c, RecyclerView.VERTICAL, false);
+    rv.setLayoutParams(param);
+    var sheet = new BottomSheetDialog(c);
+    sheet.setContentView(rv);
+    rv.setAdapter(adapter);
+    rv.setLayoutManager(manager);
+    if (sheet != null) {
+      sheet.show();
+    }
   }
 
   /**
@@ -93,16 +94,6 @@ public class GitWrapper {
    * @param repo repo to commit to
    * @param message git commit message
    */
-  public static void commit(Context context, File repo, String message) {
-    new CommitTask(
-            context,
-            repo,
-            new String[] {
-              "Committing changes", "Committed successfully.", "Unable to commit files."
-            })
-        .execute(message);
-  }
-
   private static String changeTextToNone(String text) {
     if (StringUtils.isEmptyOrNull(text)) {
       return "None\n";
@@ -331,7 +322,6 @@ public class GitWrapper {
         new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, getRemotes(repo)));
     new MaterialAlertDialogBuilder(context)
         .setTitle("Push")
-        .setMessage("")
         .setView(bin.getRoot())
         .setNegativeButton(
             "Push",
@@ -349,11 +339,10 @@ public class GitWrapper {
                         bin.force.isChecked(),
                         bin.thin.isChecked(),
                         bin.tags.isChecked()
-                      })
-                  .execute(
-                      (String) bin.remotesSpinner.getSelectedItem(),
+                      },
                       bin.pushUsername.getText().toString(),
-                      bin.pushPassword.getText().toString());
+                      bin.pushPassword.getText().toString())
+                  .execute((String) bin.remotesSpinner.getSelectedItem());
             })
         .show();
   }
@@ -380,6 +369,35 @@ public class GitWrapper {
                       })
                   .execute(rm, user, pass);
             })
+        .show();
+  }
+
+  public static void commit(Context context, File repo) {
+    LayoutGitpullBinding bin = LayoutGitpullBinding.inflate(LayoutInflater.from(context));
+    var rm = bin.remote.getEditText().getText().toString();
+    bin.remote.setHint("Commit ...");
+    bin.userName.setVisibility(View.GONE);
+    bin.token.setVisibility(View.GONE);
+
+    new MaterialAlertDialogBuilder(context)
+        .setTitle("Git Commit")
+        .setPositiveButton(
+            "commit",
+            (c, cc) -> {
+              List<RevCommit> cmd = getCommits(repo);
+
+              new CommitTask(
+                      context,
+                      repo,
+                      new String[] {
+                        "Committing changes", "Committed successfully.", "Unable to commit files."
+                      })
+                  .execute(
+                      bin.remote.getEditText().getText().toString(),
+                      cmd.get(0).getAuthorIdent().getName(),
+                      cmd.get(0).getAuthorIdent().getEmailAddress());
+            })
+        .setView(bin.getRoot())
         .show();
   }
 
@@ -472,7 +490,7 @@ public class GitWrapper {
     }
   }
 
-  public static boolean canCommit(View view, File repo) {
+  public static boolean canCommit(File repo) {
     try {
       Git git = getGit(repo);
       if (git != null) {
@@ -481,7 +499,6 @@ public class GitWrapper {
       }
     } catch (GitAPIException e) {
       Log.e(TAG, e.toString());
-      Snackbar.make(view, e.toString(), Snackbar.LENGTH_LONG).show();
     }
 
     return false;

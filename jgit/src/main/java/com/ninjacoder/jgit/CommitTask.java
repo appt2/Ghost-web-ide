@@ -2,14 +2,13 @@ package com.ninjacoder.jgit;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.File;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 public class CommitTask extends GitTask {
 
@@ -25,7 +24,8 @@ public class CommitTask extends GitTask {
     try {
       Git git = GitWrapper.getGit(repo);
       if (git != null) {
-        git.commit().setMessage(strings[0]).call();
+
+        git.commit().setMessage(strings[0]).setCommitter(strings[1],strings[2]).call();
       }
     } catch (GitAPIException e) {
       Log.e(TAG, e.toString());

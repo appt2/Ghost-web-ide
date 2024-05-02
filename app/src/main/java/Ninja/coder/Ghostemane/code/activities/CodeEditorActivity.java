@@ -2,16 +2,15 @@ package Ninja.coder.Ghostemane.code.activities;
 
 import Ninja.coder.Ghostemane.code.G4Compiler;
 import Ninja.coder.Ghostemane.code.IdeEditor;
+import Ninja.coder.Ghostemane.code.PluginManager.flashbar.FlashBarUtils;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.RequestNetwork;
-import Ninja.coder.Ghostemane.code.activities.CodeEditorActivity;
 import Ninja.coder.Ghostemane.code.adapter.SyspiarAdapter;
 import Ninja.coder.Ghostemane.code.adapter.ToolbarListFileAdapter;
 import Ninja.coder.Ghostemane.code.config.CommonFactoryData;
 import Ninja.coder.Ghostemane.code.databinding.Antcomp8lerBinding;
 import Ninja.coder.Ghostemane.code.layoutmanager.LogCatBottomSheet;
 import Ninja.coder.Ghostemane.code.marco.ColorView;
-import Ninja.coder.Ghostemane.code.marco.EditorSearcherT;
 import Ninja.coder.Ghostemane.code.marco.GhostWebEditorSearch;
 import Ninja.coder.Ghostemane.code.marco.NinjaMacroFileUtil;
 import Ninja.coder.Ghostemane.code.marco.WallpaperParallaxEffect;
@@ -48,7 +47,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.View;
@@ -61,11 +59,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.TooltipCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,12 +79,10 @@ import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
-import io.github.rosemoe.sora.data.Span;
 import io.github.rosemoe.sora.event.ContentChangeEvent;
 import io.github.rosemoe.sora.langs.html.HTMLLanguage;
 import io.github.rosemoe.sora.text.Content;
 import io.github.rosemoe.sora.text.Cursor;
-import io.github.rosemoe.sora.text.TextStyle;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.EditorAutoCompleteWindow;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
@@ -441,7 +435,7 @@ public class CodeEditorActivity extends AppCompatActivity {
         new View.OnClickListener() {
           @Override
           public void onClick(View _view) {
-            _fabCl();
+            FabFileRuner();
           }
         });
 
@@ -980,11 +974,7 @@ public class CodeEditorActivity extends AppCompatActivity {
                             @Override
                             public void onClick(
                                 DialogInterface dialog, int selectedColor, Integer[] allColors) {
-
                               String rgs = Integer.toHexString(selectedColor);
-
-                              //	SketchwareUtil.CustomToast(getApplicationContext(), "رنگ کپی شد" +
-                              // rgs, 0xFFFFFFFF, 15, 0xFF1F1B1C, 15, SketchwareUtil.CENTER);
                               try {
 
                                 _sysba("#".concat(rgs.replace("#ff", "#")));
@@ -1024,7 +1014,8 @@ public class CodeEditorActivity extends AppCompatActivity {
                         if (!shp.getString("pos_path", "").equals("")) {
                           FileUtil.writeFile(
                               shp.getString("pos_path", ""), editor.getText().toString());
-                          SketchwareUtil.showMessage(getApplicationContext(), "File saved");
+                          var bar = new FlashBarUtils(CodeEditorActivity.this);
+                          bar.setCustomMassges("File saved by " + shp.getString("pos_path", ""));
                         } else {
                           SketchwareUtil.showMessage(
                               getApplicationContext(), "Error not File saved!");
@@ -1039,6 +1030,8 @@ public class CodeEditorActivity extends AppCompatActivity {
               case 4:
                 {
                   _AllSaveFile(_coordinator);
+                  var bar = new FlashBarUtils(CodeEditorActivity.this);
+                  bar.setCustomMassges("All File saved by " + shp.getString("pos_path", ""));
                   break;
                 }
               case 5:
@@ -1458,12 +1451,14 @@ public class CodeEditorActivity extends AppCompatActivity {
     }
   }
 
-  public void _fabCl() {
+  public void FabFileRuner() {
     try {
       try {
         if (shp.contains("pos_path")) {
           if (!shp.getString("pos_path", "").equals("")) {
             FileUtil.writeFile(shp.getString("pos_path", ""), editor.getText().toString());
+            var bar = new FlashBarUtils(this);
+            bar.setCustomMassges("File saved by " + shp.getString("pos_path", ""));
           } else {
 
           }
