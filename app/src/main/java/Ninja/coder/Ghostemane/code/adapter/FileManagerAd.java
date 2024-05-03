@@ -54,7 +54,6 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
     this.filteredFiles = files;
     this.click = click;
 
-    
     registerAdapterDataObserver(
         new RecyclerView.AdapterDataObserver() {
 
@@ -80,7 +79,9 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
     View view =
         LayoutInflater.from(parnt.getContext())
             .inflate(
-                viewt == ViewType.ROW.getValue() ? R.layout.folder_remster : R.layout.folder_layout_grid ,
+                viewt == ViewType.ROW.getValue()
+                    ? R.layout.folder_remster
+                    : R.layout.folder_layout_grid,
                 parnt,
                 false);
     return new VH(view);
@@ -103,10 +104,9 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
       fileIconHelper.bindIcon(viewHolder.icon);
       FileCounter mfileC = new FileCounter(viewHolder.tvTools);
       mfileC.execute(myfile.toString());
-      if(viewType == ViewType.ROW) {
-        viewHolder.icon.setPadding(8,8,8,8);
-      	ColorAndroid12.shp(viewHolder.icon);
-          
+      if (viewType == ViewType.ROW) {
+        viewHolder.icon.setPadding(8, 8, 8, 8);
+        ColorAndroid12.shp(viewHolder.icon);
       }
       viewHolder.tvTools.setText("");
     } else if (FileUtil.isExistFile(filteredFiles.get(pos).get("path").toString())) {
@@ -134,21 +134,22 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
         GlideCompat.LoadApkFile(myfile.toString(), viewHolder.icon);
       } else if (myfile.toString().endsWith(".swb")) {
         GlideCompat.LoadSwbIcon(myfile.toString(), viewHolder.icon);
-      }else if(myfile.toString().endsWith(".vsix")){
-        GlideCompat.LoadIconVsCode(myfile.toString(),viewHolder.icon);
+      } else if (myfile.toString().endsWith(".vsix")) {
+        GlideCompat.LoadIconVsCode(myfile.toString(), viewHolder.icon);
       }
     }
 
     viewHolder.itemView.setClickable(true);
   }
-  @NonNull 
-  public HashMap<String,Object> getItem(int position){
+
+  @NonNull
+  public HashMap<String, Object> getItem(int position) {
     return filteredFiles.get(position);
   }
 
   @Override
   public long getItemId(int position) {
-    HashMap<String,Object> mmap = getItem(position);
+    HashMap<String, Object> mmap = getItem(position);
     return Objects.hash(mmap);
   }
 
@@ -268,8 +269,9 @@ public class FileManagerAd extends RecyclerView.Adapter<FileManagerAd.VH>
   public int getItemViewType(int pos) {
     return viewType.getValue();
   }
+
   public void setViewType(ViewType viewType) {
-		this.viewType = viewType;
-		notifyDataSetChanged();
-	}
+    this.viewType = viewType;
+    notifyDataSetChanged();
+  }
 }

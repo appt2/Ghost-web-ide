@@ -25,6 +25,6 @@ public class GitAddTask extends GitTask {
       return false;
     }
 
-    return false;
+    return true;
   }
 }

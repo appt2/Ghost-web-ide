@@ -3,6 +3,7 @@ package com.ninjacoder.jgit;
 import android.content.Context;
 import android.util.Log;
 
+import android.widget.Toast;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
@@ -25,7 +26,7 @@ public class CommitTask extends GitTask {
       Git git = GitWrapper.getGit(repo);
       if (git != null) {
 
-        git.commit().setMessage(strings[0]).setCommitter(strings[1],strings[2]).call();
+        git.commit().setMessage(strings[0]).setCommitter(strings[1], strings[2]).call();
       }
     } catch (GitAPIException e) {
       Log.e(TAG, e.toString());
@@ -33,5 +34,12 @@ public class CommitTask extends GitTask {
     }
 
     return true;
+  }
+
+  @Override
+  protected void onPreExecute() {
+    super.onPreExecute();
+    Toast.makeText(context, "Done", 2).show();
+    // TODO: Implement this method
   }
 }

@@ -11,8 +11,8 @@ android {
         applicationId "Ninja.coder.Ghostemane.code"
         minSdk 24
         targetSdk 30
-        versionCode 25
-        versionName "1.6.1"
+        versionCode 26
+        versionName "1.6.2"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -112,7 +112,7 @@ dependencies {
     implementation("com.github.TimScriptov:App-UI-Designer:1.0.9")
     implementation project(path: ":Plugin")
   	implementation project(path: ":pl-codecomment") 	
-	implementation project(path: ":jgit") 	
+	  implementation project(path: ":jgit") 	
     implementation "androidx.core:core:1.6.0"  
     implementation 'androidx.preference:preference:1.2.1'
 }

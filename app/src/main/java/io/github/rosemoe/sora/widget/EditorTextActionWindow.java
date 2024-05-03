@@ -26,7 +26,9 @@ package io.github.rosemoe.sora.widget;
 import Ninja.coder.Ghostemane.code.IdeEditor;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.adapter.TextActionAd;
+import Ninja.coder.Ghostemane.code.databinding.TextComposePopupWindowBinding;
 import Ninja.coder.Ghostemane.code.marco.EditorSearcherT;
+import Ninja.coder.Ghostemane.code.marco.SmaliHelper;
 import Ninja.coder.Ghostemane.code.model.TextActionModel;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import android.annotation.SuppressLint;
@@ -45,11 +47,20 @@ import io.github.rosemoe.sora.event.HandleStateChangeEvent;
 import io.github.rosemoe.sora.event.ScrollEvent;
 import io.github.rosemoe.sora.event.SelectionChangeEvent;
 import io.github.rosemoe.sora.event.Unsubscribe;
+import io.github.rosemoe.sora.langs.css3.CSS3Language;
+import io.github.rosemoe.sora.langs.dart.DartLang;
+import io.github.rosemoe.sora.langs.html.HTMLLanguage;
+import io.github.rosemoe.sora.langs.java.JavaLanguage;
+import io.github.rosemoe.sora.langs.javascript.JavaScriptLanguage;
+import io.github.rosemoe.sora.langs.kotlin.KotlinLanguage;
+import io.github.rosemoe.sora.langs.ninjalang.NinjaLang;
+import io.github.rosemoe.sora.langs.python.PythonLang;
+import io.github.rosemoe.sora.langs.smali.SMLang;
 import io.github.rosemoe.sora.text.Cursor;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
-
+import io.github.rosemoe.sora.widget.TextSummry.*;
 import java.util.ArrayList;
 
 import io.github.rosemoe.sora.widget.AndroidClassHelper.helper;
@@ -65,14 +76,13 @@ public class EditorTextActionWindow extends EditorPopupWindow
     implements EventReceiver<SelectionChangeEvent> {
   private static final long DELAY = 200;
   private final CodeEditor mEditor;
-  private final View mRootView;
   private final EditorTouchEventHandler mHandler;
   protected List<TextActionModel> model = new ArrayList<>();
   protected TextActionAd adptor;
   private long mLastScroll;
   private int mLastPosition;
-  private ListView rv;
   private helper helpers;
+  private TextComposePopupWindowBinding bin;
   private boolean isShow = true;
 
   /**
@@ -85,10 +95,6 @@ public class EditorTextActionWindow extends EditorPopupWindow
     mEditor = editor;
     mHandler = editor.getEventHandler();
     // Since popup window does provide decor view, we have to pass null to this method
-    @SuppressLint("InflateParams")
-    View root =
-        LayoutInflater.from(editor.getContext()).inflate(R.layout.text_compose_popup_window, null);
-    rv = root.findViewById(R.id.rvEditor);
     model.add(new TextActionModel("Format Code", R.drawable.codeformat));
     model.add(new TextActionModel("SetAll", R.drawable.dkplayer_ic_action_fullscreen));
     model.add(new TextActionModel("copy", R.mipmap.mpcopy));
@@ -97,7 +103,7 @@ public class EditorTextActionWindow extends EditorPopupWindow
     model.add(new TextActionModel("search", R.drawable.textsearch));
     model.add(new TextActionModel("delete", R.drawable.delete));
     model.add(new TextActionModel("tools", R.drawable.textfile));
-
+    bin = TextComposePopupWindowBinding.inflate(LayoutInflater.from(editor.getContext()));
     adptor =
         new TextActionAd(
             model,
@@ -105,6 +111,7 @@ public class EditorTextActionWindow extends EditorPopupWindow
 
               @Override
               public void onItemClickChange(int posNow, View myview, ImageView img) {
+                View v = myview;
                 switch (posNow) {
                   case 0:
                     {
@@ -142,47 +149,44 @@ public class EditorTextActionWindow extends EditorPopupWindow
                     dismiss();
                     break;
                   case 7:
-                    editor.getCommentHelper().MakeCommentJava();
-                    break;
+                    {
+                      if (editor.getEditorLanguage() instanceof NinjaLang) {
+                        ToolItem item = new ToolItem();
+                        item.BindViewsNinja(v.getContext(), v, editor);
+                      } else if (editor.getEditorLanguage() instanceof HTMLLanguage) {
+                        HtmlTool tool = new HtmlTool();
+                        tool.Tool(v.getContext(), v, editor);
+                      } else if (editor.getEditorLanguage() instanceof JavaLanguage) {
+                        JavaTools toolss = new JavaTools();
+                        var l = "java";
+                        toolss.runs(v.getContext(), v, editor, l);
+                      } else if (editor.getEditorLanguage() instanceof PythonLang) {
+                        PythonTools toolpy = new PythonTools();
+                        toolpy.Tool(v.getContext(), v, editor);
+                      } else if (editor.getEditorLanguage() instanceof JavaScriptLanguage) {
+                        JavaTools toolss = new JavaTools();
+                        var l = "js";
+                        toolss.runs(v.getContext(), v, editor, l);
+                      } else if (editor.getEditorLanguage() instanceof CSS3Language) {
+                        OtherLangs toolss = new OtherLangs();
+                        toolss.run(v.getContext(), editor, v);
+                      } else if (editor.getEditorLanguage() instanceof DartLang) {
+                        OtherLangs toolss = new OtherLangs();
+                        toolss.run(v.getContext(), editor, v);
+                      } else if (editor.getEditorLanguage() instanceof KotlinLanguage) {
+                        KotlinTools tools = new KotlinTools();
+                        tools.run(v.getContext(), editor, v);
+                      } else if (editor.getEditorLanguage() instanceof SMLang) {
+                        SmaliHelper.run(editor, v.getContext());
+                       
+                      }
+                      break;
+                    }
                 }
               }
             });
-    rv.setAdapter(adptor);
-    rv.setClickable(true);
-
-    //    comments.setOnClickListener(
-    //        v -> {
-    //          if (editor.getEditorLanguage() instanceof NinjaLang) {
-    //            ToolItem item = new ToolItem();
-    //            item.BindViewsNinja(v.getContext(), v, editor);
-    //          } else if (editor.getEditorLanguage() instanceof HTMLLanguage) {
-    //            HtmlTool tool = new HtmlTool();
-    //            tool.Tool(v.getContext(), v, editor);
-    //          } else if (editor.getEditorLanguage() instanceof JavaLanguage) {
-    //            JavaTools toolss = new JavaTools();
-    //            var l = "java";
-    //            toolss.runs(v.getContext(), v, editor, l);
-    //          } else if (editor.getEditorLanguage() instanceof PythonLang) {
-    //            PythonTools toolpy = new PythonTools();
-    //            toolpy.Tool(v.getContext(), v, editor);
-    //          } else if (editor.getEditorLanguage() instanceof JavaScriptLanguage) {
-    //            JavaTools toolss = new JavaTools();
-    //            var l = "js";
-    //            toolss.runs(v.getContext(), v, editor, l);
-    //          } else if (editor.getEditorLanguage() instanceof CSS3Language) {
-    //            OtherLangs toolss = new OtherLangs();
-    //            toolss.run(v.getContext(), editor, v);
-    //          } else if (editor.getEditorLanguage() instanceof DartLang) {
-    //            OtherLangs toolss = new OtherLangs();
-    //            toolss.run(v.getContext(), editor, v);
-    //          } else if(editor.getEditorLanguage() instanceof KotlinLanguage) {
-    //              KotlinTools tools = new KotlinTools();
-    //             tools.run(v.getContext(),editor,v);
-    //          }else if(editor.getEditorLanguage() instanceof SMLang){
-    //            SmaliHelper.run(editor,v.getContext());
-    //          }
-    //        });
-    //
+    bin.rvEditor.setAdapter(adptor);
+    bin.rvEditor.setClickable(true);
     helpers = new helper(editor);
 
     MaterialShapeDrawable materialShapeDrawable =
@@ -196,10 +200,10 @@ public class EditorTextActionWindow extends EditorPopupWindow
         ColorStateList.valueOf(
             editorColorScheme.getColor(EditorColorScheme.AUTO_COMP_PANEL_CORNER)));
     // cardview1.setBackground(materialShapeDrawable);
-    setContentView(root);
+    setContentView(bin.getRoot());
     getPopup().setAnimationStyle(R.style.hso);
     setSize(0, (int) (mEditor.getDpUnit() * 190));
-    mRootView = root;
+    
     getPopup().setBackgroundDrawable(post());
     editor.subscribeEvent(SelectionChangeEvent.class, this);
     editor.subscribeEvent(
@@ -297,14 +301,10 @@ public class EditorTextActionWindow extends EditorPopupWindow
 
   /** Update the state of paste button */
   private void updateBtnState() {
-    //    mPasteBtn.setEnabled(mEditor.hasClip() && mEditor.isEditable());
-    //    mCopyBtn.setVisibility(mEditor.getCursor().isSelected() ? View.VISIBLE : View.GONE);
-    //    mCutBtn.setVisibility(
-    //        mEditor.getCursor().isSelected() && mEditor.isEditable() ? View.VISIBLE : View.GONE);
-    mRootView.measure(
+    bin.getRoot().measure(
         View.MeasureSpec.makeMeasureSpec(1000000, View.MeasureSpec.AT_MOST),
         View.MeasureSpec.makeMeasureSpec(100000, View.MeasureSpec.AT_MOST));
-    setSize(Math.min(mRootView.getMeasuredWidth(), (int) (mEditor.getDpUnit() * 230)), getHeight());
+    setSize(Math.min(bin.getRoot().getMeasuredWidth(), (int) (mEditor.getDpUnit() * 180)), getHeight());
   }
 
   @Override
@@ -313,63 +313,6 @@ public class EditorTextActionWindow extends EditorPopupWindow
     super.show();
   }
 
-  //  @Override
-  //  public void onClick(View p1) {
-  //    int id = p1.getId();
-  //    if (id == R.id.panel_btn_select_all) {
-  //      mEditor.selectAll();
-  //      KeyBoardUtil();
-  //      AnimUtils.Shake(mEditor);
-  //      return;
-  //    } else if (id == R.id.panel_btn_cut) {
-  //      mEditor.copyText();
-  //      if (mEditor.getCursor().isSelected()) {
-  //        mEditor.getCursor().onDeleteKeyPressed();
-  //        Toast.makeText(mEditor.getContext(), "Text Cut", Toast.LENGTH_LONG).show();
-  //      }
-  //      AnimUtils.Shake(mEditor);
-  //    } else if (id == R.id.panel_btn_paste) {
-  //      mEditor.pasteText();
-  //      AnimUtils.Shake(mEditor);
-  //      mEditor.setSelection(
-  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-  //      Toast.makeText(mEditor.getContext(), "Text Pasted", Toast.LENGTH_LONG).show();
-  //    } else if (id == R.id.panel_btn_copy) {
-  //      mEditor.copyText();
-  //      mEditor.setSelection(
-  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-  //      Toast.makeText(mEditor.getContext(), "Text Copyed", Toast.LENGTH_LONG).show();
-  //      AnimUtils.Shake(mEditor);
-  //    } else if (id == R.id.panel_btn_del) {
-  //      RomvedText();
-  //      Toast.makeText(mEditor.getContext(), "Text Removed", Toast.LENGTH_LONG).show();
-  //      mEditor.setSelection(
-  //          mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-  //    } else if (id == R.id.trans) {
-  //      if (mEditor.getCursor().isSelected()) {
-  //        mEditor.copyText();
-  //        runOnPost();
-  //        mEditor.setSelection(
-  //            mEditor.getCursor().getRightLine(), mEditor.getCursor().getRightColumn());
-  //        AnimUtils.Shake(mEditor);
-  //      }
-  //    } else if (id == R.id.codeStyle) {
-  //      mEditor.formatCodeAsync();
-  //    } else if (id == R.id.up) {
-  //      try {
-  //        setUpperCase();
-  //      } catch (Exception err) {
-  //        Log.i("error", err.getMessage());
-  //      }
-  //    } else if (id == R.id.low) {
-  //      try {
-  //        setLowerCase();
-  //      } catch (Exception err) {
-  //        Log.i("error", err.getMessage());
-  //      }
-  //    }
-  //    dismiss();
-  //  }
 
   private void KeyBoardUtil() {
     try {

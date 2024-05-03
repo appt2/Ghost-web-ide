@@ -39,6 +39,7 @@ public class GitWrapper {
 
   /** Log TAG */
   private static final String TAG = GitWrapper.class.getSimpleName();
+  public static boolean isPro = true;
 
   /**
    * git init
@@ -62,7 +63,13 @@ public class GitWrapper {
    * @param repo repo to stage files
    */
   public static void add(File repo, Context c) {
-    new GitAddTask(c, repo, new String[] {"Creating new files", "files add out successfully.", "Unable to add files."}).execute(".");
+    new GitAddTask(
+            c,
+            repo,
+            new String[] {
+              "Creating new files", "files add out successfully.", "Unable to add files."
+            })
+        .execute(".");
   }
 
   static void runOnUi(Runnable f) {
@@ -352,9 +359,12 @@ public class GitWrapper {
     var rm = bin.remote.getEditText().getText().toString();
     var user = bin.userName.getEditText().getText().toString();
     var pass = bin.token.getEditText().getText().toString();
+    
+    ArrayList<String> rem = getRemotes(repo);
+    String table = getRemoteUrl(repo,rem.get(0));
+    if(!rem.isEmpty()) bin.remote.getEditText().setText(table);
     new MaterialAlertDialogBuilder(context)
         .setTitle("Git Pull")
-        .setMessage("")
         .setView(bin.getRoot())
         .setPositiveButton(
             "pull",
@@ -466,16 +476,31 @@ public class GitWrapper {
     return remotes;
   }
 
-  public static void addRemote(File repo, String remote, String url) {
-    StoredConfig config = getConfig(repo);
-    if (config != null) {
-      config.setString("remote", remote, "url", url);
-      try {
-        config.save();
-      } catch (IOException e) {
-        Log.e(TAG, e.toString());
-      }
-    }
+  public static void addRemote(Context context, File repo) {
+    LayoutGitpullBinding bin = LayoutGitpullBinding.inflate(LayoutInflater.from(context));
+    var remote = bin.remote.getEditText().getText().toString();
+    var url = bin.userName.getEditText().getText().toString();
+    var pass = bin.token.getEditText().getText().toString();
+    bin.token.setVisibility(View.GONE);
+    bin.remote.setHint("Remote Name");
+    bin.userName.setHint("Url Name");
+    new MaterialAlertDialogBuilder(context)
+        .setTitle("Remote")
+        .setView(bin.getRoot())
+        .setPositiveButton(
+            "ok",
+            (c, x) -> {
+              StoredConfig config = getConfig(repo);
+              if (config != null) {
+                config.setString("remote", remote, "url", url);
+                try {
+                  config.save();
+                } catch (IOException e) {
+                  Log.e(TAG, e.toString());
+                }
+              }
+            })
+        .show();
   }
 
   public static void removeRemote(File repo, String remote) {

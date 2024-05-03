@@ -44,6 +44,8 @@ public class GitListSheet {
     listItem.addItem("Git AddAll");
     listItem.addItem("Git Status");
     listItem.addItem("GitLogs");
+    listItem.addItem("Git add remote");
+    listItem.addItem("Git Fetch ");
 
     listItem.setOnItemClickLabe(
         new ListSheet.OnItemClick() {
@@ -132,6 +134,18 @@ public class GitListSheet {
                 {
                   listItem.getDismiss(true);
                   GitWrapper.gotoLog(ctx, fileDir);
+                  break;
+                }
+              case 9:
+                {
+                  listItem.getDismiss(true);
+                  GitWrapper.addRemote(ctx, fileDir);
+                  break;
+                }
+              case 10:
+                {
+                  listItem.getDismiss(true);
+                  GitWrapper.fetch(ctx, fileDir);
                   break;
                 }
             }
