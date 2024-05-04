@@ -152,5 +152,6 @@
     <string name="design">Design</string>
     <string name="blueprint">Blueprint</string>
     <string name="gridmode">GridView</string>
+    <string name="wallmode">Wallpaper System mode</string>
 
 </resources>

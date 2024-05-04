@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.*;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -40,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
@@ -142,7 +144,7 @@ public class SettingAppActivity extends BaseCompat {
   private LinearLayout linear92;
   private LinearLayout linear43;
   private LinearLayout linear45;
-  private MaterialSwitch autotextComple, terminalColors;
+  private MaterialSwitch autotextComple, terminalColors, wallmodes;
   private LinearLayout linear48;
   private LinearLayout linear49;
   private LinearLayout linear50;
@@ -160,7 +162,7 @@ public class SettingAppActivity extends BaseCompat {
   private MaterialSwitch msaveandexit;
   private LinearLayout linear76;
   private LinearLayout linear78;
-  private MaterialSwitch dirfilesswitch, treecolors,grmode;
+  private MaterialSwitch dirfilesswitch, treecolors, grmode;
   private LinearLayout linear80;
   private LinearLayout linear82;
   private MaterialSwitch themeinstall;
@@ -208,7 +210,8 @@ public class SettingAppActivity extends BaseCompat {
       setac,
       materialYou,
       thememanagersoft,
-      sf,gridMode;
+      sf,
+      gridMode;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -232,6 +235,11 @@ public class SettingAppActivity extends BaseCompat {
     if (requestCode == 1000) {
       StartLuncherApp();
     }
+  }
+  
+  public int colors() {
+    return MaterialColors.getColor(
+        getWindow().getDecorView(), com.google.android.material.R.attr.colorOnSurface, 0);
   }
 
   private void initialize(Bundle _savedInstanceState) {
@@ -361,6 +369,7 @@ public class SettingAppActivity extends BaseCompat {
     textview15 = findViewById(R.id.textview15);
     checkbox9 = findViewById(R.id.checkbox9);
     treecolors = findViewById(R.id.treecolors);
+    wallmodes = findViewById(R.id.wallmodes);
     word = getSharedPreferences("word", Activity.MODE_PRIVATE);
     line = getSharedPreferences("line", Activity.MODE_PRIVATE);
     mfs = getSharedPreferences("mfs", Activity.MODE_PRIVATE);
@@ -387,7 +396,7 @@ public class SettingAppActivity extends BaseCompat {
     materialYou = getSharedPreferences("materialYou", Activity.MODE_PRIVATE);
     thememanagersoft = getSharedPreferences("thememanagersoft", Activity.MODE_PRIVATE);
     sf = getSharedPreferences("sf", Activity.MODE_PRIVATE);
-    gridMode = getSharedPreferences("gride",Activity.MODE_PRIVATE);
+    gridMode = getSharedPreferences("gride", Activity.MODE_PRIVATE);
     terminalColors = findViewById(R.id.terminalColors);
     themes.setOnClickListener(
         (v) -> {
@@ -407,6 +416,7 @@ public class SettingAppActivity extends BaseCompat {
         (c) -> {
           finish();
         });
+    
 
     arrow05.setOnClickListener(
         (v) -> {
@@ -467,11 +477,45 @@ public class SettingAppActivity extends BaseCompat {
           public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
             final boolean _isChecked = _param2;
             if (_isChecked) {
-              word.edit().putString("getword", "true").commit();
+              word.edit().putString("getword", "true").apply();
 
             } else {
-              word.edit().putString("getword", "false").commit();
+              word.edit().putString("getword", "false").apply();
             }
+          }
+        });
+
+    thememanagersoft.registerOnSharedPreferenceChangeListener(
+        new SharedPreferences.OnSharedPreferenceChangeListener() {
+
+          @Override
+          public void onSharedPreferenceChanged(SharedPreferences sh, String key) {
+            if (key.equals("thememanagersoft")) {
+              String datapost = sh.getString("thememanagersoft", "");
+              if (datapost.equals("ok")) {
+                Wall();
+              } else NoWall();
+            }
+          }
+        });
+    thememanagersoft.unregisterOnSharedPreferenceChangeListener(
+        new SharedPreferences.OnSharedPreferenceChangeListener() {
+
+          @Override
+          public void onSharedPreferenceChanged(SharedPreferences sh, String key) {
+            if (key.equals("thememanagersoft")) {
+              String datapost = sh.getString("thememanagersoft", "");
+              if (datapost.equals("no")) {
+              } else Wall();
+            }
+          }
+        });
+    wallmodes.setOnCheckedChangeListener(
+        (btn, is) -> {
+          if (is) {
+            thememanagersoft.edit().putString("thememanagersoft", "ok").apply();
+          } else {
+            thememanagersoft.edit().putString("thememanagersoft", "no").apply();
           }
         });
 
@@ -940,6 +984,9 @@ public class SettingAppActivity extends BaseCompat {
             }
           }
         });
+    
+    
+    
 
     switchmaterialYou.setOnCheckedChangeListener(
         new CompoundButton.OnCheckedChangeListener() {
@@ -949,7 +996,7 @@ public class SettingAppActivity extends BaseCompat {
             if (_isChecked) {
               materialYou.edit().putString("materialYou", "true").apply();
             } else {
-              materialYou.edit().remove("materialYou").commit();
+              materialYou.edit().remove("materialYou").apply();
             }
           }
         });
@@ -1103,10 +1150,17 @@ public class SettingAppActivity extends BaseCompat {
     }
     if (materialYou.contains("materialYou")) {
       switchmaterialYou.setChecked(true);
-    }
+    }else switchmaterialYou.setChecked(false);
+    
     if (thememanagersoft.contains("effect")) {
       switchobtical.setChecked(true);
     }
+    if (thememanagersoft.getString("thememanagersoft","").equals("ok")) {
+      wallmodes.setChecked(true);
+    }else {
+      wallmodes.setChecked(false);
+    }
+
     for (int _repeat167 = 0; _repeat167 < (int) (4); _repeat167++) {
       {
         HashMap<String, Object> _item = new HashMap<>();
@@ -1804,8 +1858,8 @@ public class SettingAppActivity extends BaseCompat {
         textview1.setText("Custom icon");
         imageview1.setImageResource(R.drawable.keyboardlisnertalluserpost_3);
       }
-      if(_position == 3) {
-      	_view.setOnClickListener(__-> terminalTheme());
+      if (_position == 3) {
+        _view.setOnClickListener(__ -> terminalTheme());
         textview1.setText("Terminal Theme");
         imageview1.setImageResource(R.drawable.ic_material_settings);
       }
@@ -1911,8 +1965,7 @@ public class SettingAppActivity extends BaseCompat {
         (var) -> {
           Button positive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
           Button np = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
-          TextInputLayout input =
-              dialog.findViewById(R.id.input);
+          TextInputLayout input = dialog.findViewById(R.id.input);
 
           EditText edit = dialog.findViewById(R.id.edit);
 
@@ -1921,8 +1974,7 @@ public class SettingAppActivity extends BaseCompat {
               new Runnable() {
                 @Override
                 public void run() {
-                  if (getvb.contains("themes")
-                      && !getvb.getString("themes", "").equals("")) {
+                  if (getvb.contains("themes") && !getvb.getString("themes", "").equals("")) {
                     edit.setText(getvb.getString("themes", ""));
                   }
                 }
@@ -1950,7 +2002,7 @@ public class SettingAppActivity extends BaseCompat {
                 @Override
                 public void onTextChanged(
                     CharSequence _param1, int _param2, int _param3, int _param4) {
-                  
+
                   if (edit.getText().toString().isEmpty()
                       && edit.getText().toString().endsWith("")) {
                     positive.setEnabled(false);
@@ -1972,12 +2024,11 @@ public class SettingAppActivity extends BaseCompat {
                 SketchwareUtil.showMessage(getApplicationContext(), "تم پیشفرض اعمال شد");
                 dialog.dismiss();
               });
-          if (getvb.contains("themes")
-              && getvb.getString("themes", "").equals("")) {
+          if (getvb.contains("themes") && getvb.getString("themes", "").equals("")) {
             edit.setText(getvb.getString("themes", ""));
           }
         });
-    
+
     dialog.show();
   }
 }

@@ -4,6 +4,7 @@ import Ninja.coder.Ghostemane.code.marco.WallpaperParallaxEffect;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.utils.ReSizeApp;
 import android.animation.ObjectAnimator;
+import android.app.WallpaperManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,7 +12,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -19,8 +19,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -59,14 +57,21 @@ public class BaseCompat extends AppCompatActivity {
   @Override
   protected void onCreate(@Nullable Bundle saveInStatous) {
     super.onCreate(saveInStatous);
-    ColorAndroid12.setColorBackground(getWindow());
-    ColorAndroid12.setStausBar(getWindow());
     initErrorDialogpackageAPP();
     AppMozer();
-    thememanagersoft = getSharedPreferences("thememanagersoft", BaseCompat.MODE_PRIVATE);
+    thememanagersoft = getSharedPreferences("thememanagersoft", MODE_PRIVATE);
+
     initParseWallpapaer();
-    getWindow()
-        .setNavigationBarDividerColor(MaterialColors.getColor(this, ColorAndroid12.TvColor, 0));
+    if (Build.VERSION.SDK_INT >= 28)
+      getWindow()
+          .setNavigationBarDividerColor(MaterialColors.getColor(this, ColorAndroid12.TvColor, 0));
+    /// using system Wallpapar
+    if (Build.VERSION.SDK_INT >= 21)
+      getWindow().setNavigationBarColor(MaterialColors.getColor(this, ColorAndroid12.Back, 0));
+    if (Build.VERSION.SDK_INT >= 21)
+      getWindow().setStatusBarColor(MaterialColors.getColor(this, ColorAndroid12.Back, 0));
+
+    setBackGroundIsMobile();
   }
 
   private BaseCompat initErrorDialogpackageAPP() {
@@ -77,18 +82,6 @@ public class BaseCompat extends AppCompatActivity {
           "Package name error",
           "You have changed the package name of the program and this made the program unable to run");
     }
-    return this;
-  }
-
-  protected BaseCompat status() {
-    if (SDKINT > SDKVERSION) {
-      Window window = getWindow();
-      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      window.setStatusBarColor(Color.parseColor(color));
-      window.setNavigationBarColor(Color.parseColor(color));
-    }
-    BaseCompat.this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
     return this;
   }
 
@@ -337,23 +330,7 @@ public class BaseCompat extends AppCompatActivity {
           Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageURI);
           startActivity(uninstallIntent);
         });
-    AlertDialog dialog = di.show();
-    final View view = dialog.getWindow().getDecorView();
-    view.setScaleX(0f);
-    view.setScaleY(0f);
-    final var alertAnim = new ObjectAnimator();
-    final var alertAnim1 = new ObjectAnimator();
-    alertAnim.setTarget(view);
-    alertAnim.setPropertyName("scaleX");
-    alertAnim.setFloatValues((float) (1));
-    alertAnim.setDuration((250));
-    alertAnim.start();
-    alertAnim1.setTarget(view);
-    alertAnim1.setPropertyName("scaleY");
-    alertAnim1.setFloatValues((float) (1));
-    alertAnim1.setDuration((250));
-    alertAnim1.start();
-    dialog.show();
+    di.show();
   }
 
   public void initParseWallpapaer() {
@@ -389,5 +366,66 @@ public class BaseCompat extends AppCompatActivity {
     i.setData(Uri.parse(site));
     i.setAction(Intent.ACTION_VIEW);
     startActivity(i);
+  }
+
+  public void Wall() {
+    var draw = WallpaperManager.getInstance(this).getDrawable();
+    getWindow().getDecorView().setBackground(draw);
+    if (Build.VERSION.SDK_INT >= 21) getWindow().setNavigationBarColor(0);
+    if (Build.VERSION.SDK_INT >= 21) getWindow().setStatusBarColor(0);
+  }
+
+  public void NoWall() {
+    try {
+      var d = WallpaperManager.getInstance(this);
+      d.clear(0);
+      getWindow().getDecorView().setBackgroundColor(colors());
+      if (Build.VERSION.SDK_INT >= 21)
+        getWindow().setNavigationBarColor(MaterialColors.getColor(this, ColorAndroid12.Back, 0));
+      if (Build.VERSION.SDK_INT >= 21)
+        getWindow().setStatusBarColor(MaterialColors.getColor(this, ColorAndroid12.Back, 0));
+    } catch (Exception err) {
+
+    }
+  }
+
+  public void setBackGroundIsMobile() {
+
+    if (thememanagersoft.getString("thememanagersoft", "").equals("ok")) {
+      Wall();
+    } else {
+
+    }
+    thememanagersoft.registerOnSharedPreferenceChangeListener(
+        new SharedPreferences.OnSharedPreferenceChangeListener() {
+
+          @Override
+          public void onSharedPreferenceChanged(SharedPreferences sh, String key) {
+            if (key.equals("thememanagersoft")) {
+              String datapost = sh.getString("thememanagersoft", "");
+              if (datapost.equals("ok")) {
+                Wall();
+              }
+            }
+          }
+        });
+
+    thememanagersoft.unregisterOnSharedPreferenceChangeListener(
+        new SharedPreferences.OnSharedPreferenceChangeListener() {
+
+          @Override
+          public void onSharedPreferenceChanged(SharedPreferences sh, String key) {
+            if (key.equals("thememanagersoft")) {
+              String datapost = sh.getString("thememanagersoft", "");
+              if (datapost.equals("no")) {
+                NoWall();
+              }
+            }
+          }
+        });
+  }
+
+  public int colors() {
+    return MaterialColors.getColor(getWindow().getDecorView(), ColorAndroid12.Back, 0);
   }
 }

@@ -55,4 +55,5 @@
     <string name="customtheme">تم دلخواه</string>
     <string name="customwindows">سایز پنجره تکمیل کننده</string>
     <string name="gridmode">نمای کاشی</string>
+    <string name="wallmode">دریافت عکس از پس زمینه سیستم</string>
 </resources>
