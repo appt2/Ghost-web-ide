@@ -11,6 +11,8 @@ import io.github.rosemoe.sora.text.TextAnalyzeResult;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.TextSummry.HTMLConstants;
 import io.github.rosemoe.sora.widget.commentRule.AppConfig;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lsp4custom.com.ninjacoder.customhtmllsp.ListKeyword;
 
 import java.io.File;
@@ -276,7 +278,7 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     String api = "";
     List<String> validTags = new ArrayList<>();
     Collections.sort(validTags, String.CASE_INSENSITIVE_ORDER);
-    String[] tags = tagsInput.split("\\+");
+    String[] tags = tagsInput.split("\\+|\\$");
     for (String tag : tags) {
       String trimmedTag = tag.trim();
       if (isClassVaildTag(trimmedTag)) {
@@ -287,11 +289,20 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     if (!validTags.isEmpty()) {
       StringBuilder openingTags = new StringBuilder();
       StringBuilder closingTags = new StringBuilder();
+      String input = tagsInput;
+      /** winter code html like in h1.$1name1+h1.$2name1+h1.$3name1+h1.$4name+h1.$5name */
+      Pattern pattern = Pattern.compile("\\.\\$\\d+([a-zA-Z]+)");
+      Matcher matcher = pattern.matcher(input);
+      StringBuilder result = new StringBuilder();
+      while (matcher.find()) {
+        result.append(matcher.group(1));
+      }
       for (String tag : validTags) {
         api = tag;
-        openingTags.append("<" + tag.replace(".","") + " class=\"test" + (validTags.indexOf(tag) + 1) + "\">");
-        closingTags.insert(0, "</" + tag + ">");
+        openingTags.append("<" + api.replace(".", "") + " class=\"" + result.toString() + "\">");
+        closingTags.insert(0, "</" + api + ">");
       }
+
       String wrappedTags = openingTags.toString() + closingTags.toString();
       CompletionItem tagCompletion =
           new CompletionItem(api, wrappedTags, "Html Snippet Compat Class");
