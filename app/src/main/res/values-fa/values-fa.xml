@@ -56,4 +56,6 @@
     <string name="customwindows">سایز پنجره تکمیل کننده</string>
     <string name="gridmode">نمای کاشی</string>
     <string name="wallmode">دریافت عکس از پس زمینه سیستم</string>
+    <string name="apkwar">اخطار!!</string>
+    <string name="apkversionError">ببخشید امکان اشتراک گذاری برنامه در اندروید شما نیست شما میتوانید در پوشه دانلود و پوشه apk فایل .apk را با برنامه اشتراک گذاری کنید</string>
 </resources>

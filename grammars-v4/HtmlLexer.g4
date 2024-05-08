@@ -132,17 +132,28 @@ Format
    : 'format(' Whitespace String_ Whitespace ')'
    ;
 
-Dot2
-   : '.' -> pushMode (RuleChar)
-   ;
-
-mode RuleChar;
 NameRule
-   : Nmstart '(' Whitespace Nmstart Whitespace ')'
+   : Hex '(' Whitespace Nmstart Whitespace ')'
    ;
-
+   //from react js
+   
 Colen
    : ':'
+   | '=>'
+   | '==>'
+   ;
+
+MYCLASS
+   : 'class2' [ \t]* [a-zA-Z_]+ [ \t]*
+   ///for case mode js and php
+   | [ \t]+ [a-zA-Z0-9_]+ '.'+ [a-zA-Z0-9_]+ ':'
+   ;
+
+HASHSTYLE
+   : '#' [a-zA-Z_]* '-' [a-zA-Z_]*
+   | '#' [a-zA-Z_]*
+   | '#' [0-9a-fA-F]
+   | '@' [a-zA-Z_]*
    ;
 
 FontRelative
@@ -150,6 +161,7 @@ FontRelative
    | 'ex'
    | 'ch'
    | 'rem'
+   | 'px'
    ;
 
 ViewportRelative
@@ -258,6 +270,28 @@ JsKeyWord6
    | 'eval'
    | 'getElementById'
    | 'getElementByClass '
+   ;
+
+VAR_WS_EQUALS
+   : [ \t]+ [a-zA-Z_0-9]+ [ \t]* '='
+   | [ \t]+ [a-zA-Z_0-9]+ [ \t]* '(' [a-zA-Z_0-9]* ')'
+   | '(' [a-zA-Z_0-9]* ')'
+   //forNameEnd like in Myapp()
+   | [a-zA-Z_0-9]* '()'
+   | [a-zA-Z_0-9]* '(' .*? ')'
+   ;
+
+COLORUPPERCASE
+   : [A-Z_]*
+   ;
+
+REACTBRACET
+   : '{' [a-zA-Z0-9_]* '}'
+   | '{' [ \t]+ [a-zA-Z0-9_]+ [ \t]* '}'
+   | '[' [a-zA-Z0-9_]* ']'
+   | '[' [ \t]+ [a-zA-Z0-9_]+ [ \t]* ']'
+   //test
+   | 'import '+ '{' [ \t]+ [a-zA-Z0-9_]+ [ \t]* '}'+ 'from'+ String_
    ;
 
 HtmlTags
@@ -1144,8 +1178,17 @@ BlockEnd
    : '}'
    ;
 
+fragment LETTER
+   : [a-zA-Z]
+   ;
+
+fragment DIGIT
+   : [0-9]
+   ;
+
 Dot
-   : '.'
+   : '.' (LETTER | DIGIT)*
+   | '.' [a-zA-Z_]* '-' [a-zA-Z_]*
    ;
 
 Comma

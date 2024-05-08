@@ -106,7 +106,6 @@ public class ErrorManagerActivity extends BaseCompat {
         _toolbar.setNavigationIcon(R.drawable.closecompat);
         _toolbar.setTitleTextColor(MaterialColors.getColor(_toolbar, ColorAndroid12.colorOnSurface));
         setTitle("app Crash");
-        ColorAndroid12.setColorBackground(linear1);
         ColorAndroid12.setTextColor(textview2);
         ColorAndroid12.setTextColor(result);
         ColorAndroid12.setFabColor(_fab);

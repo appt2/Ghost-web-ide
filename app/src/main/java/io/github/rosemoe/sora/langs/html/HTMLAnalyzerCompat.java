@@ -2,11 +2,8 @@ package io.github.rosemoe.sora.langs.html;
 
 import android.graphics.Color;
 import android.util.Log;
-
 import io.github.rosemoe.sora.text.TextStyle;
-
 import java.util.Stack;
-
 import io.github.rosemoe.sora.data.BlockLine;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CodePointCharStream;
@@ -31,7 +28,6 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
 
       CodePointCharStream stream = CharStreams.fromReader(new StringReader(content.toString()));
       var lexer = new HTMLLexer(stream);
-
       var classNamePrevious = false;
       Token token, preToken = null, prePreToken = null;
       boolean first = true;
@@ -98,7 +94,7 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
             break;
 
             // from px dp ....
-          
+
           case HTMLLexer.FontRelative:
           case HTMLLexer.ViewportRelative:
           case HTMLLexer.Angle:
@@ -135,7 +131,6 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
           case HTMLLexer.Lbrack:
           case HTMLLexer.Rbrack:
           case HTMLLexer.JsKeyWord3:
-          case HTMLLexer.Dot:
           case HTMLLexer.Comma:
             /// case HTMLLexer.Colon:
           case HTMLLexer.Semi:
@@ -179,12 +174,7 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
             result.addIfNeeded(
                 line,
                 column,
-                TextStyle.makeStyle(
-                    EditorColorScheme.BLOCK_LINE_CURRENT,
-                    0,
-                    false,
-                    false,
-                    false));
+                TextStyle.makeStyle(EditorColorScheme.BLOCK_LINE_CURRENT, 0, false, false, false));
             break;
           case HTMLLexer.String_:
           case HTMLLexer.Variable:
@@ -225,9 +215,8 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
               }
               break;
             }
-          
+
           case HTMLLexer.SLASH_CLOSE:
-          case HTMLLexer.Dot2:
           case HTMLLexer.NameRule:
           case HTMLLexer.Colen:
             {
@@ -244,6 +233,30 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
               }
               break;
             }
+          case HTMLLexer.Dot:
+            // from test to regex let aa = or class myapp() //
+          case HTMLLexer.VAR_WS_EQUALS:
+            {
+              result.addIfNeeded(line, column, EditorColorScheme.Ninja);
+              break;
+            }
+          case HTMLLexer.COLORUPPERCASE:
+            {
+              result.addIfNeeded(line, column, EditorColorScheme.COLOR_WARNING);
+              break;
+            }
+          case HTMLLexer.REACTBRACET:
+            {
+              result.addIfNeeded(line, column, EditorColorScheme.COLOR_TIP);
+              break;
+            }
+          case HTMLLexer.MYCLASS:
+          case HTMLLexer.HASHSTYLE:
+            {
+              result.addIfNeeded(line, column, EditorColorScheme.COLOR_WARNING);
+              break;
+            }
+
           default:
             result.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
             prevIsTagName = false;

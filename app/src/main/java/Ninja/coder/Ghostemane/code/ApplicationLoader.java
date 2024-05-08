@@ -23,7 +23,7 @@ import de.larsgrefer.sass.embedded.android.AndroidSassCompilerFactory;
 import java.util.Calendar;
 
 public class ApplicationLoader extends Application {
-  protected static SharedPreferences materialYou, getvb, setfont, ru, save_path;
+  protected static SharedPreferences materialYou, getvb, setfont, ru, save_path,thememanagersoft;
   private static Context mApplicationContext;
   private static Activity activity;
   private static IdeEditor editor;
@@ -59,6 +59,10 @@ public class ApplicationLoader extends Application {
   public static SharedPreferences getPath() {
     return save_path;
   }
+  
+  public static SharedPreferences getThememanagersoft(){
+    return thememanagersoft;
+  }
 
   public static IdeEditor getEditor() {
     return editor;
@@ -71,6 +75,7 @@ public class ApplicationLoader extends Application {
     setfont = getSharedPreferences("setfont", MODE_PRIVATE);
     save_path = getSharedPreferences("path", MODE_PRIVATE);
     ru = getSharedPreferences("ru", MODE_PRIVATE);
+    thememanagersoft = getSharedPreferences("thememanagersoft",MODE_PRIVATE);
     try (SassCompiler compiler = AndroidSassCompilerFactory.bundled(this)) {
       Toast.makeText(getApplicationContext(), compiler.getVersion().toString(), Toast.LENGTH_SHORT)
           .show();

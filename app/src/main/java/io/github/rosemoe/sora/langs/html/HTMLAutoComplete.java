@@ -274,7 +274,54 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     return false;
   }
 
+  private boolean isIdVaildTag(String tag) {
+    for (String clss : HTMLLanguage.EmtId) {
+      if (clss.equals(tag)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void idTag(String tagsInput) {
+    String api = "";
+    List<String> validTags = new ArrayList<>();
+    Collections.sort(validTags, String.CASE_INSENSITIVE_ORDER);
+    String[] tags = tagsInput.split("\\+|\\$");
+    for (String tag : tags) {
+      String trimmedTag = tag.trim();
+      if (isIdVaildTag(trimmedTag)) {
+        validTags.add(trimmedTag);
+      }
+    }
+
+    if (!validTags.isEmpty()) {
+      StringBuilder openingTags = new StringBuilder();
+      StringBuilder closingTags = new StringBuilder();
+      String input = tagsInput;
+      /** winter code html like in h1#$1name1+h1#$2name1+h1#$3name1+h1#$4name+h1#$5name */
+      Pattern pattern = Pattern.compile("\\#\\$\\d+([a-zA-Z]+)");
+      Matcher matcher = pattern.matcher(input);
+      StringBuilder result = new StringBuilder();
+      while (matcher.find()) {
+        result.append(matcher.group(1));
+      }
+      for (String tag : validTags) {
+        api = tag;
+        openingTags.append("<" + api.replace("#", "") + " id=\"" + result.toString() + "\">");
+        closingTags.insert(0, "</" + api + ">");
+      }
+
+      String wrappedTags = openingTags.toString() + closingTags.toString();
+      CompletionItem tagCompletion = new CompletionItem(api, wrappedTags, "Html Snippet Compat Id");
+      tagCompletion.commit = wrappedTags;
+      tagCompletion.cursorOffset = openingTags.length() - 2;
+      items.add(tagCompletion);
+    }
+  }
+
   public void classTag(String tagsInput) {
+    idTag(tagsInput);
     String api = "";
     List<String> validTags = new ArrayList<>();
     Collections.sort(validTags, String.CASE_INSENSITIVE_ORDER);

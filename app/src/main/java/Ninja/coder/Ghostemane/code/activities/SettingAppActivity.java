@@ -1,6 +1,7 @@
 package Ninja.coder.Ghostemane.code.activities;
 
 import Ninja.coder.Ghostemane.code.R;
+import Ninja.coder.Ghostemane.code.adapter.ListAppIconAd;
 import Ninja.coder.Ghostemane.code.model.LoadTheme;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.utils.SketchwareUtil;
@@ -32,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.*;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -48,6 +50,7 @@ import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -67,7 +70,7 @@ public class SettingAppActivity extends BaseCompat {
   private ArrayList<String> string = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> mp = new ArrayList<>();
   private ArrayList<HashMap<String, Object>> c2 = new ArrayList<>();
-  private ArrayList<HashMap<String, Object>> map = new ArrayList<>();
+  private List<HashMap<String, Object>> map = new ArrayList<>();
   private FastScrollNestedScrollView bar;
   private PraramnetLayoutNinja linear1;
   private LinearLayout linear2;
@@ -1638,14 +1641,14 @@ public class SettingAppActivity extends BaseCompat {
           }
         });
     map.clear();
-    for (int _repeat29 = 0; _repeat29 < (int) (8); _repeat29++) {
+    for (int c = 0; c < (int) (8); c++) {
       {
-        HashMap<String, Object> _item = new HashMap<>();
-        _item.put("key", "");
-        map.add(_item);
+        HashMap<String, Object> item = new HashMap<>();
+        item.put("key", "");
+        map.add(item);
       }
     }
-    list.setAdapter(new listAdapter(map));
+    list.setAdapter(new ListAppIconAd(map));
     ((BaseAdapter) list.getAdapter()).notifyDataSetChanged();
     dialog.show();
   }
@@ -1877,79 +1880,7 @@ public class SettingAppActivity extends BaseCompat {
     }
   }
 
-  public class listAdapter extends BaseAdapter {
-
-    ArrayList<HashMap<String, Object>> _data;
-
-    public listAdapter(ArrayList<HashMap<String, Object>> _arr) {
-      _data = _arr;
-    }
-
-    @Override
-    public int getCount() {
-      return _data.size();
-    }
-
-    @Override
-    public HashMap<String, Object> getItem(int _index) {
-      return _data.get(_index);
-    }
-
-    @Override
-    public long getItemId(int _index) {
-      return _index;
-    }
-
-    @Override
-    public View getView(int _position, View _v, ViewGroup _container) {
-      LayoutInflater _inflater = getLayoutInflater();
-      View _view = _v;
-      if (_view == null) {
-        _view = _inflater.inflate(R.layout.apps, null);
-      }
-
-      final LinearLayout linear1 = _view.findViewById(R.id.linear1);
-      final LinearLayout divar = _view.findViewById(R.id.divar);
-      final ImageView imageview1 = _view.findViewById(R.id.imageview1);
-      final TextView textview1 = _view.findViewById(R.id.textview1);
-
-      if (_position == 0) {
-        textview1.setText("پیشفرض");
-        imageview1.setImageResource(R.mipmap.ghosticon);
-      }
-      if (_position == 1) {
-        textview1.setText("ابی");
-        imageview1.setImageResource(R.drawable.ghosticonblue);
-      }
-      if (_position == 2) {
-        textview1.setText("سیاه");
-        imageview1.setImageResource(R.drawable.ghosticonblack);
-      }
-      if (_position == 3) {
-        textview1.setText("قرمز");
-        imageview1.setImageResource(R.drawable.ghosticonred);
-      }
-      if (_position == 4) {
-        textview1.setText("زرد");
-        imageview1.setImageResource(R.drawable.ghosticonyellow);
-      }
-      if (_position == 5) {
-        textview1.setText("بنفش یشمی");
-        imageview1.setImageResource(R.drawable.ghosticonpapermod);
-      }
-      if (_position == 6) {
-        textview1.setText("سبز لجنی");
-        imageview1.setImageResource(R.drawable.ghosticongreenhell);
-      }
-      if (_position == 7) {
-        textview1.setText("ابی تیره ۲ رنگ");
-        imageview1.setImageResource(R.drawable.ghosticonbluemod);
-      }
-
-      return _view;
-    }
-  }
-
+  
   void terminalTheme() {
     androidx.appcompat.app.AlertDialog dialog =
         new GhostWebMaterialDialog(SettingAppActivity.this)

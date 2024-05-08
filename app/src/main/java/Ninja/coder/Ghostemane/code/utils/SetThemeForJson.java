@@ -74,6 +74,10 @@ public class SetThemeForJson {
     getColor(imap, editor, "LINE_NUMBER_BACKGROUND", EditorColorScheme.LINE_NUMBER_BACKGROUND,"#fff00000");
     getColor(imap, editor, "WHOLE_BACKGROUND", EditorColorScheme.WHOLE_BACKGROUND,"#02FFFFFF");
     getColor(imap, editor, "HTML_TAG", EditorColorScheme.HTML_TAG,"#ffc84100");
+    //new theme color editor bind in SCROLLBAR
+    getColor(imap,editor,"print",EditorColorScheme.SCROLL_BAR_THUMB,"#ff3500");
+    getColor(imap,editor,"ninja",EditorColorScheme.SCROLL_BAR_THUMB_PRESSED,"#ffacd9");
+    getColor(imap,editor,"AUTO_COMP_PANEL_CORNER",EditorColorScheme.SCROLL_BAR_TRACK,"#ffee3201");
     // css colors
     editor.getColorScheme().setColor(EditorColorScheme.red, ColorCompat.RED);
     editor.getColorScheme().setColor(EditorColorScheme.aliceblue, ColorCompat.ALICEBLUE);

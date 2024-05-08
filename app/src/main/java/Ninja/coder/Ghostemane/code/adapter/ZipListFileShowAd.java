@@ -2,7 +2,6 @@ package Ninja.coder.Ghostemane.code.adapter;
 
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.folder.FileIconHelper;
-import Ninja.coder.Ghostemane.code.glidecompat.GlideCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +9,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import net.lingala.zip4j.model.FileHeader;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class ZipListFileShowAd extends RecyclerView.Adapter<ZipListFileShowAd.VH> {
 
-  protected List<FileHeader> listModel;
+  protected List<String> listModel;
 
-  public ZipListFileShowAd(List<FileHeader> listModel) {
+  public ZipListFileShowAd(List<String> listModel) {
     this.listModel = listModel;
   }
 
@@ -37,44 +33,26 @@ public class ZipListFileShowAd extends RecyclerView.Adapter<ZipListFileShowAd.VH
         new RecyclerView.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     view.setLayoutParams(layoutParams);
-    FileHeader fileHeader = listModel.get(pos);
-    String filePath = fileHeader.getFileName();
-    File file = new File(filePath);
+    var fileHeader = listModel.get(pos);
+    
+    File file = new File(fileHeader);
     String displayName = file.getName();
-    FileIconHelper helper = new FileIconHelper(filePath);
+    FileIconHelper helper = new FileIconHelper(fileHeader);
     helper.setDynamicFolderEnabled(true);
     helper.setEnvironmentEnabled(true);
 
-    if (fileHeader.isDirectory()) {
+    if (file.isDirectory()) {
       viewHolder.tvTools.setVisibility(View.GONE);
       viewHolder.icon.setImageResource(R.drawable.folder);
     } else {
       viewHolder.icon.setImageResource(helper.getFileIcon());
-      if (fileHeader.getFileName().endsWith(".png")) {
-         GlideCompat.setDecodeImageForZipFile(file.getParent(),file.getName(),viewHolder.icon);
-      } else {
-        viewHolder.tvTools.setText(
-            "Size: "
-                + fileHeader.getFileCommentLength()
-                + " | Time: "
-                + fileHeader.getLastModifiedTimeEpoch());
-      }
+      
       viewHolder.icon.setImageResource(R.drawable.file);
     }
 
     viewHolder.folderName.setText(displayName);
 
-    view.setOnLongClickListener(
-        v -> {
-          if (fileHeader.isDirectory()) {
-            File parentFile = file.getParentFile();
-            if (parentFile != null) {
-              // do something with the parentFile.getAbsolutePath()
-              notifyDataSetChanged();
-            }
-          }
-          return false;
-        });
+    
   }
 
   @Override
@@ -88,18 +66,7 @@ public class ZipListFileShowAd extends RecyclerView.Adapter<ZipListFileShowAd.VH
     return new VH(view);
   }
 
-  public void sortListByName() {
-    Collections.sort(
-        listModel,
-        new Comparator<FileHeader>() {
-          @Override
-          public int compare(FileHeader file1, FileHeader file2) {
-            return file1.getFileName().compareTo(file2.getFileName());
-          }
-        });
-    notifyDataSetChanged();
-  }
-
+  
   public class VH extends RecyclerView.ViewHolder {
     protected TextView folderName, tvTools;
     protected LinearLayout roots;

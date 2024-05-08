@@ -20,7 +20,7 @@ public final class TerminalColorScheme {
    */
   public static int colorCursor = Color.parseColor("#ff0000");
   public static int COLORINDEXDEFAULTBACKGROUND = Color.parseColor("#ff8000");
-  public static int COLORINDEXDEFAULTFOREGROUND = Color.parseColor("#ff501192");
+  public static int COLORINDEXDEFAULTFOREGROUND = Color.parseColor("#ffffff");
   private static final int[] DEFAULT_COLORSCHEME = {
     // 16 original colors. First 8 are dim.
     0xff000000, // black
