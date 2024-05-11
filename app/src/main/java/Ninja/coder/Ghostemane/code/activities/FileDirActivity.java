@@ -10,6 +10,7 @@ import Ninja.coder.Ghostemane.code.adapter.ViewType;
 import Ninja.coder.Ghostemane.code.compressor.SvgToPng;
 import Ninja.coder.Ghostemane.code.compressor.TarGzExtractor;
 import Ninja.coder.Ghostemane.code.compressor.ZxExtractor;
+import Ninja.coder.Ghostemane.code.config.SaveRecyclerViewScrollbar;
 import Ninja.coder.Ghostemane.code.databin.FileMaker;
 import Ninja.coder.Ghostemane.code.filehelper.CreatorModule;
 import Ninja.coder.Ghostemane.code.filehelper.FactoryModelProject;
@@ -212,6 +213,7 @@ public class FileDirActivity extends BaseCompat
   private GridLayoutManager gridLayoutManager;
   private SharedPreferences sharedPreferences;
   private CircularProgressIndicator filedir_bar;
+  private SaveRecyclerViewScrollbar saveScrollbar;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -232,6 +234,7 @@ public class FileDirActivity extends BaseCompat
     } else {
       initStartApp();
     }
+    
   }
 
   @Override
@@ -297,6 +300,8 @@ public class FileDirActivity extends BaseCompat
     } else {
       setViewType(ViewType.ROW);
     }
+    
+    
 
     var helper =
         new RecyclerViewHelper(
@@ -384,6 +389,7 @@ public class FileDirActivity extends BaseCompat
           @Override
           public void onErrorResponse(String _param1, String _param2) {}
         };
+    saveScrollbar = new SaveRecyclerViewScrollbar(gridLayoutManager,this.getLifecycle(),recyclerview2);
   }
 
   @Override
@@ -532,6 +538,9 @@ public class FileDirActivity extends BaseCompat
     navs.getMenu().add(0, 17, 0, "exit").setIcon(R.drawable.exit);
     DrowerHandler();
   }
+  
+  
+  
 
   public void FilterFile() {
     

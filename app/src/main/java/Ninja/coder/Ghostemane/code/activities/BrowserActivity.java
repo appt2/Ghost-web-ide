@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -122,7 +123,9 @@ public class BrowserActivity extends BaseCompat implements NetworkChangeReceiver
     // TODO: Implement this method
     int id = menu.getItemId();
     if (id == R.id.reload) {
-      view.loadUrl(getIntent().getStringExtra("test"));
+      Uri uri = getIntent().getData();
+      String s = uri.toString();
+      view.loadUrl(getIntent().hasExtra("test") ? getIntent().getStringExtra("test") : s);
       bar.setVisibility(View.VISIBLE);
       return true;
     } else if (id == R.id.back_to_home) {
@@ -146,7 +149,9 @@ public class BrowserActivity extends BaseCompat implements NetworkChangeReceiver
     // TODO: Implement this method
     emptyView.setVisibility(View.GONE);
     view.setVisibility(View.VISIBLE);
-    view.loadUrl(getIntent().getStringExtra("test"));
+    Uri uri = getIntent().getData();
+    String s = uri.toString();
+    view.loadUrl(getIntent().hasExtra("test") ? getIntent().getStringExtra("test") : s);
     bar.setVisibility(View.VISIBLE);
   }
 

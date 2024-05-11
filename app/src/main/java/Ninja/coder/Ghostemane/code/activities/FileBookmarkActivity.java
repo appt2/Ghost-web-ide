@@ -2,6 +2,7 @@ package Ninja.coder.Ghostemane.code.activities;
 
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.databinding.FilebookmarkBinding;
+import Ninja.coder.Ghostemane.code.databinding.LayoutFilebookmarkBinding;
 import Ninja.coder.Ghostemane.code.folder.FileIconHelper;
 import Ninja.coder.Ghostemane.code.glidecompat.GlideCompat;
 import Ninja.coder.Ghostemane.code.marco.binder.BinderRecyclerview1;
@@ -46,7 +47,7 @@ public class FileBookmarkActivity extends BaseCompat {
   }
 
   private void initialize(Bundle _savedInstanceState) {
-    
+
     setSupportActionBar(bin.Toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
@@ -58,21 +59,21 @@ public class FileBookmarkActivity extends BaseCompat {
           }
         });
 
-    
-    
     book = getSharedPreferences("hsipsot4444", Activity.MODE_PRIVATE);
     shp = getSharedPreferences("path", Activity.MODE_PRIVATE);
 
     initializeLogic();
     bin.listviewBookmark.setVisibility(View.VISIBLE);
     bin.listviewBookmark.setEmptyView(bin.layoutBookmarkEmptyview);
-    map =
-        new Gson()
-            .fromJson(
-                book.getString("hsipsot4444", ""),
-                new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType());
-    bin.listviewBookmark.setAdapter(new FileBookMarkAdapter(map));
-    ((BaseAdapter) bin.listviewBookmark.getAdapter()).notifyDataSetChanged();
+    if (book.contains("hsipsot4444")) {
+      map =
+          new Gson()
+              .fromJson(
+                  book.getString("hsipsot4444", ""),
+                  new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType());
+      bin.listviewBookmark.setAdapter(new FileBookMarkAdapter(map));
+      ((BaseAdapter) bin.listviewBookmark.getAdapter()).notifyDataSetChanged();
+    }
 
     bin.listviewBookmark.setOnItemClickListener(
         new AdapterView.OnItemClickListener() {
@@ -90,9 +91,7 @@ public class FileBookmarkActivity extends BaseCompat {
             } else {
               var file = new File(map.get(_position).get("list").toString());
               Intent i = new Intent();
-               /**
-                * using getParent from preview Path not files
-                */
+              /** using getParent from preview Path not files */
               i.putExtra("bookmarkDir", file.getParent());
               i.setClass(getApplicationContext(), FileDirActivity.class);
               if (i != null) {
@@ -131,7 +130,7 @@ public class FileBookmarkActivity extends BaseCompat {
   protected void onResume() {
     super.onResume();
     // TODO: Implement this method
-    ((BaseAdapter)bin.listviewBookmark.getAdapter()).notifyDataSetChanged();
+    if (!map.isEmpty()) ((BaseAdapter) bin.listviewBookmark.getAdapter()).notifyDataSetChanged();
   }
 
   public class FileBookMarkAdapter extends BaseAdapter {
@@ -159,55 +158,46 @@ public class FileBookmarkActivity extends BaseCompat {
 
     @Override
     public View getView(final int _position, View _v, ViewGroup _container) {
-      LayoutInflater _inflater = getLayoutInflater();
-      View _view = _v;
-      if (_view == null) {
-        _view = _inflater.inflate(R.layout.layout_filebookmark, null);
-      }
 
-      final LinearLayout linear1 = _view.findViewById(R.id.linear1);
-      final LinearLayout linear2 = _view.findViewById(R.id.linear2);
-      final ImageView imageview1 = _view.findViewById(R.id.imageview1);
-      final TextView textview1 = _view.findViewById(R.id.textview1);
-
-      ColorAndroid12.shap(imageview1);
-      AnimUtils.Sacla(_view);
-      ColorAndroid12.setTextColor(textview1);
+      LayoutFilebookmarkBinding bin = LayoutFilebookmarkBinding.inflate(getLayoutInflater());
+      ColorAndroid12.shap(bin.imageview1);
+      AnimUtils.Sacla(bin.getRoot());
+      ColorAndroid12.setTextColor(bin.textview1);
       File file = new File(map.get((int) _position).get("list").toString());
       FileIconHelper helper = new FileIconHelper(file.toString());
       helper.setDynamicFolderEnabled(true);
       helper.setEnvironmentEnabled(true);
-      imageview1.setImageResource(helper.getFileIcon());
-      textview1.setText(file.getName());
+      bin.imageview1.setImageResource(helper.getFileIcon());
+      bin.textview1.setText(file.getName());
       if (file.isDirectory()) {
 
       } else {
         if (BinderRecyclerview1.TaskVideo(file.toString())) {
-          GlideCompat.GlideNormal(imageview1, file.toString());
+          GlideCompat.GlideNormal(bin.imageview1, file.toString());
         } else if (BinderRecyclerview1.PhotoView(file.toString())) {
-          GlideCompat.GlideNormal(imageview1, file.toString());
+          GlideCompat.GlideNormal(bin.imageview1, file.toString());
         }
         if (file.toString().endsWith(".xml")) {
-          GlideCompat.LoadVector(file.toString(), imageview1);
+          GlideCompat.LoadVector(file.toString(), bin.imageview1);
         } else if (file.toString().endsWith(".mp3")) {
-          GlideCompat.GlideLoadMp3(imageview1, file.toString());
+          GlideCompat.GlideLoadMp3(bin.imageview1, file.toString());
         } else if (file.toString().endsWith(".svg")) {
-          GlideCompat.LoadSvg(file.toString(), imageview1);
+          GlideCompat.LoadSvg(file.toString(), bin.imageview1);
         } else if (file.toString().endsWith(".pdf")) {
           try {
-            GlideCompat.loadImgPdf(file, imageview1);
+            GlideCompat.loadImgPdf(file, bin.imageview1);
           } catch (IOException err) {
-            imageview1.setImageResource(R.drawable.ic_material_pdf);
+            bin.imageview1.setImageResource(R.drawable.ic_material_pdf);
           }
         } else if (file.toString().endsWith(".apk")) {
-          GlideCompat.LoadApkFile(file.toString(), imageview1);
+          GlideCompat.LoadApkFile(file.toString(), bin.imageview1);
         } else if (file.toString().endsWith(".swb")) {
-          GlideCompat.LoadSwbIcon(file.toString(), imageview1);
-        }else if(file.toString().endsWith(".vsix")){
-          GlideCompat.LoadIconVsCode(file.toString(),imageview1);
+          GlideCompat.LoadSwbIcon(file.toString(), bin.imageview1);
+        } else if (file.toString().endsWith(".vsix")) {
+          GlideCompat.LoadIconVsCode(file.toString(), bin.imageview1);
         }
       }
-      return _view;
+      return bin.getRoot();
     }
   }
 }

@@ -292,7 +292,7 @@ public class GitWrapper {
    * @param repo to checkout to branch
    * @param branch to checkout to
    */
-  public static void checkout(Context context, View view, File repo, String branch) {
+  public static void checkout(Context context, File repo, String branch) {
     new CheckoutTask(
             context,
             repo,
@@ -361,8 +361,10 @@ public class GitWrapper {
     var pass = bin.token.getEditText().getText().toString();
     
     ArrayList<String> rem = getRemotes(repo);
-    String table = getRemoteUrl(repo,rem.get(0));
-    if(!rem.isEmpty()) bin.remote.getEditText().setText(table);
+    if(rem != null) {
+      String table = getRemoteUrl(repo,rem.get(0)); 
+    if(!rem.isEmpty()) bin.remote.getEditText().setText(table == null ? "" : table);
+    }
     new MaterialAlertDialogBuilder(context)
         .setTitle("Git Pull")
         .setView(bin.getRoot())
@@ -394,7 +396,8 @@ public class GitWrapper {
         .setPositiveButton(
             "commit",
             (c, cc) -> {
-              List<RevCommit> cmd = getCommits(repo);
+              List<RevCommit> cmd = getCommits(repo == null ? repo : null);
+        
 
               new CommitTask(
                       context,
@@ -416,9 +419,11 @@ public class GitWrapper {
     var rm = bin.remote.getEditText().getText().toString();
     var user = bin.userName.getEditText().getText().toString();
     var pass = bin.token.getEditText().getText().toString();
-
+    ArrayList<String> rem = getRemotes(repo);
+    String table = getRemoteUrl(repo,rem.get(0)); 
+    if(!rem.isEmpty()) bin.remote.getEditText().setText(table == null ? "" : table);
     new MaterialAlertDialogBuilder(context)
-        .setTitle("Git Pull")
+        .setTitle("Git Fetch")
         .setMessage("")
         .setPositiveButton(
             "fetch",
@@ -529,7 +534,7 @@ public class GitWrapper {
     return false;
   }
 
-  public static boolean canCheckout(View view, File repo) {
+  public static boolean canCheckout( File repo) {
     Git git = getGit(repo);
     return git != null && git.getRepository().getRepositoryState().canCheckout();
   }

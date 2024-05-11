@@ -256,6 +256,14 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
               result.addIfNeeded(line, column, EditorColorScheme.COLOR_WARNING);
               break;
             }
+          case HTMLLexer.GREENBOLD:
+            {
+              result.addIfNeeded(
+                  line,
+                  column,
+                  TextStyle.makeStyle(EditorColorScheme.COLOR_WARNING, 0, true, false, false));
+              break;
+            }
 
           default:
             result.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
