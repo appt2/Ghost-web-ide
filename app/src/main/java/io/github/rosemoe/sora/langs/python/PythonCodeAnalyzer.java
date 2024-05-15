@@ -221,14 +221,22 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
             result.addIfNeeded(
                 line, column, TextStyle.makeStyle(EditorColorScheme.red, 0, true, false, false));
             break;
-          case PythonLexer.STRS:
-          case PythonLexer.RANGES:
-          case PythonLexer.OPENS:
-            result.addIfNeeded(
-                line,
-                column,
-                TextStyle.makeStyle(EditorColorScheme.LITERAL, 0, false, false, false));
-            break;
+          
+          case PythonLexer.TYPEVALUE:
+            {
+              result.addIfNeeded(line, column, EditorColorScheme.COLOR_DEBUG);
+              break;
+            }
+          case PythonLexer.PARAMNETHELPR:
+            {
+              result.addIfNeeded(line, column, EditorColorScheme.COLOR_TIP);
+              break;
+            }
+          case PythonLexer.SELF:
+            {
+              result.addIfNeeded(line, column, EditorColorScheme.COLOR_ERROR);
+              break;
+            }
 
           default:
             try {

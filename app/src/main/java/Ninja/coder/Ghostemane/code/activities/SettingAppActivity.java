@@ -4,7 +4,7 @@ import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.adapter.ListAppIconAd;
 import Ninja.coder.Ghostemane.code.model.LoadTheme;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
-import Ninja.coder.Ghostemane.code.utils.SketchwareUtil;
+import Ninja.coder.Ghostemane.code.utils.DataUtil;
 import Ninja.coder.Ghostemane.code.utils.ViewUtils;
 import Ninja.coder.Ghostemane.code.widget.GhostWebMaterialDialog;
 import Ninja.coder.Ghostemane.code.widget.PraramnetLayoutNinja;
@@ -755,7 +755,7 @@ public class SettingAppActivity extends BaseCompat {
                   np.setOnClickListener(
                       (vftrororocjj) -> {
                         thememanagersoft.edit().remove("themes").commit();
-                        SketchwareUtil.showMessage(getApplicationContext(), "تم پیشفرض اعمال شد");
+                        DataUtil.showMessage(getApplicationContext(), "تم پیشفرض اعمال شد");
                         dialog.dismiss();
                       });
                   if (thememanagersoft.contains("themes")
@@ -1328,7 +1328,7 @@ public class SettingAppActivity extends BaseCompat {
                       SettingAppActivity.this, "Ninja.coder.Ghostemane.code.MainActivity"),
                   android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                   android.content.pm.PackageManager.DONT_KILL_APP);
-              SketchwareUtil.showMessage(getApplicationContext(), "ENABLED ICON - DEFAULT");
+              DataUtil.showMessage(getApplicationContext(), "ENABLED ICON - DEFAULT");
             }
             if (_position == 1) {
               PackageManager manager = getPackageManager();
@@ -1372,7 +1372,7 @@ public class SettingAppActivity extends BaseCompat {
                       SettingAppActivity.this, "Ninja.coder.Ghostemane.code.MainActivityblue"),
                   android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                   android.content.pm.PackageManager.DONT_KILL_APP);
-              SketchwareUtil.showMessage(getApplicationContext(), "ENABLED ICON - BLUE");
+              DataUtil.showMessage(getApplicationContext(), "ENABLED ICON - BLUE");
             }
             if (_position == 2) {
               PackageManager manager = getPackageManager();
@@ -1416,7 +1416,7 @@ public class SettingAppActivity extends BaseCompat {
                       SettingAppActivity.this, "Ninja.coder.Ghostemane.code.MainActivityblack"),
                   android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                   android.content.pm.PackageManager.DONT_KILL_APP);
-              SketchwareUtil.showMessage(getApplicationContext(), "ENABLED ICON - BLACK");
+              DataUtil.showMessage(getApplicationContext(), "ENABLED ICON - BLACK");
             }
             if (_position == 3) {
               PackageManager manager = getPackageManager();
@@ -1460,7 +1460,7 @@ public class SettingAppActivity extends BaseCompat {
                       SettingAppActivity.this, "Ninja.coder.Ghostemane.code.MainActivityred"),
                   android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                   android.content.pm.PackageManager.DONT_KILL_APP);
-              SketchwareUtil.showMessage(getApplicationContext(), "ENABLED ICON - RED");
+              DataUtil.showMessage(getApplicationContext(), "ENABLED ICON - RED");
             }
             if (_position == 4) {
               PackageManager manager = getPackageManager();
@@ -1504,7 +1504,7 @@ public class SettingAppActivity extends BaseCompat {
                       SettingAppActivity.this, "Ninja.coder.Ghostemane.code.MainActivityyellow"),
                   android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                   android.content.pm.PackageManager.DONT_KILL_APP);
-              SketchwareUtil.showMessage(getApplicationContext(), "ENABLED ICON - YELLOW");
+              DataUtil.showMessage(getApplicationContext(), "ENABLED ICON - YELLOW");
             }
             if (_position == 5) {
               PackageManager manager = getPackageManager();
@@ -1548,7 +1548,7 @@ public class SettingAppActivity extends BaseCompat {
                       SettingAppActivity.this, "Ninja.coder.Ghostemane.code.MainActivitypap"),
                   android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                   android.content.pm.PackageManager.DONT_KILL_APP);
-              SketchwareUtil.showMessage(getApplicationContext(), "ENABLED ICON - POP");
+              DataUtil.showMessage(getApplicationContext(), "ENABLED ICON - POP");
             }
             if (_position == 6) {
               PackageManager manager = getPackageManager();
@@ -1592,7 +1592,7 @@ public class SettingAppActivity extends BaseCompat {
                       SettingAppActivity.this, "Ninja.coder.Ghostemane.code.MainActivitygreenhell"),
                   android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                   android.content.pm.PackageManager.DONT_KILL_APP);
-              SketchwareUtil.showMessage(getApplicationContext(), "ENABLED ICON - GREENHELL");
+              DataUtil.showMessage(getApplicationContext(), "ENABLED ICON - GREENHELL");
             }
             if (_position == 7) {
               PackageManager manager = getPackageManager();
@@ -1636,7 +1636,7 @@ public class SettingAppActivity extends BaseCompat {
                       SettingAppActivity.this, "Ninja.coder.Ghostemane.code.MainActivitybluesky"),
                   android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                   android.content.pm.PackageManager.DONT_KILL_APP);
-              SketchwareUtil.showMessage(getApplicationContext(), "ENABLED ICON - GREENHELL");
+              DataUtil.showMessage(getApplicationContext(), "ENABLED ICON - GREENHELL");
             }
           }
         });
@@ -1824,7 +1824,7 @@ public class SettingAppActivity extends BaseCompat {
                           (vftrororocjj) -> {
                             setfont.edit().remove("mfont").commit();
                             dialog.dismiss();
-                            SketchwareUtil.showMessage(
+                            DataUtil.showMessage(
                                 getApplicationContext(), "فونت پیشفرض اعمال شد");
                           });
                       if (setfont.contains("mfont") && setfont.getString("mfont", "").equals("")) {
@@ -1952,7 +1952,7 @@ public class SettingAppActivity extends BaseCompat {
           np.setOnClickListener(
               (vftrororocjj) -> {
                 getvb.edit().remove("themes").apply();
-                SketchwareUtil.showMessage(getApplicationContext(), "تم پیشفرض اعمال شد");
+                DataUtil.showMessage(getApplicationContext(), "تم پیشفرض اعمال شد");
                 dialog.dismiss();
               });
           if (getvb.contains("themes") && getvb.getString("themes", "").equals("")) {

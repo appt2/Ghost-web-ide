@@ -734,6 +734,8 @@ public class HTMLLanguage implements EditorLanguage {
         || ch == '-'
         || ch == '+' 
         || ch == '$'
+        || ch == '#'
+        || ch == '*'
         || MyCharacter.isJavaIdentifierStart(ch);
   }
 
@@ -802,22 +804,25 @@ public class HTMLLanguage implements EditorLanguage {
     Document.OutputSettings outputSettings = new Document.OutputSettings();
     outputSettings.indentAmount(2);
     doc.outputSettings(outputSettings.prettyPrint(true));
+
     Elements styleElements = doc.select("style");
     for (Element styleElement : styleElements) {
       String cssCode = styleElement.html();
       String formattedCssCode = javaFormat(cssCode);
-      styleElements.html("\n\n" + formattedCssCode + "\n\n");
+      styleElement.html(formattedCssCode);
     }
-    Elements jsStyle = doc.select("script");
-    for (Element styleJs : jsStyle) {
-      String jsCodeCase = jsStyle.html();
-      String format = javaFormat(jsCodeCase);
-      jsStyle.html("\n\n" + format + "\n\n");
+
+    Elements jsElements = doc.select("script");
+    for (Element jsElement : jsElements) {
+      String jsCode = jsElement.html();
+      String formattedJsCode = javaFormat(jsCode);
+      jsElement.html(formattedJsCode);
     }
 
     if (doc.toString().contains("<!doctype html>")) {
       return doc.html().replace("<!doctype html>", "<!DOCTYPE html>");
     }
+
     return doc.html();
   }
 

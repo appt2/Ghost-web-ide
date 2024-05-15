@@ -19,12 +19,19 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.*;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.caverock.androidsvg.SVG;
 import com.google.android.material.color.MaterialColors;
 import com.sdsmdg.harjot.vectormaster.VectorMasterDrawable;
@@ -33,6 +40,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -44,6 +52,7 @@ public class GlideCompat {
         .placeholder(CircelPrograssBar())
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .priority(Priority.HIGH)
+        .error(R.drawable.default_image)
         .transform(new RoundedCornersTransformation(RenderSize()))
         .into(imageView);
   }
@@ -52,6 +61,7 @@ public class GlideCompat {
     Glide.with(imageView.getContext())
         .load(path)
         .placeholder(CircelPrograssBar())
+        .error(R.drawable.default_image)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .priority(Priority.HIGH)
         .transform(new RoundedCornersTransformation(RenderSize()))
@@ -67,6 +77,8 @@ public class GlideCompat {
         .transform(new RoundedCornersTransformation(0))
         .into(imageView);
   }
+
+  
 
   public static void GlideLoadMp3(ImageView img, String path) {
     Log.d("AlbumPic", "Path: " + path);
@@ -373,14 +385,14 @@ public class GlideCompat {
     }
     return icon;
   }
-  public static void LoadBlurImage(String path,ImageView v){
+
+  public static void LoadBlurImage(String path, ImageView v) {
     Glide.with(v.getContext())
         .load(path)
         .error(R.drawable.errorxml)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .priority(Priority.NORMAL)
         .transform(new MultiTransformation<>(new BlurTransformation(24)))
-        
         .into(v);
   }
 

@@ -3,7 +3,7 @@ package Ninja.coder.Ghostemane.code.activities;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.utils.FileUtil;
-import Ninja.coder.Ghostemane.code.utils.SketchwareUtil;
+import Ninja.coder.Ghostemane.code.utils.DataUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -156,7 +156,7 @@ public class FontChakerActivity extends BaseCompat {
             textview1.setText("This Text for Test | متن تستی");
           }
         } catch (Exception e) {
-          SketchwareUtil.showMessage(getApplicationContext(), "Error");
+          DataUtil.showMessage(getApplicationContext(), "Error");
         }
       }
       textview1.setTextColor(0xFFFFDCBD);
@@ -174,7 +174,7 @@ public class FontChakerActivity extends BaseCompat {
             @Override
             public void onClick(View _view) {
               setfont.edit().putString("mfont", path).commit();
-              SketchwareUtil.showMessage(getApplicationContext(), "فونت اعمال شد");
+              DataUtil.showMessage(getApplicationContext(), "فونت اعمال شد");
               var di =
                   new com.google.android.material.dialog.MaterialAlertDialogBuilder(
                       FontChakerActivity.this);

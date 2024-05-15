@@ -41,6 +41,27 @@ tokens { INDENT , DEDENT // https://docs.python.org/3.12/reference/lexical_analy
 
 // https://docs.python.org/3.12/reference/lexical_analysis.html#keywords
 
+//Custom type paramant from ghost web ide
+
+fragment DIGI
+   : [a-zA-Z0-9_]*
+   ;
+
+TYPEVALUE
+   : [ \t] DIGI '(' STRING ')'
+   | SELF DIGI
+   ;
+
+PARAMNETHELPR
+   : DOT DIGI
+   | AT DIGI
+   | FOR WS DIGI
+   ;
+
+SELF
+   : 'self'
+   ;
+
 FALSE
    : 'False'
    ;

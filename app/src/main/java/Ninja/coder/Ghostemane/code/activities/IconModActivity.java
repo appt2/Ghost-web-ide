@@ -7,7 +7,7 @@ import Ninja.coder.Ghostemane.code.glidecompat.GlideCompat;
 import Ninja.coder.Ghostemane.code.tasks.AsyncTaskCompat;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
 import Ninja.coder.Ghostemane.code.utils.FileUtil;
-import Ninja.coder.Ghostemane.code.utils.SketchwareUtil;
+import Ninja.coder.Ghostemane.code.utils.DataUtil;
 import Ninja.coder.Ghostemane.code.utils.SvgShow;
 import Ninja.coder.Ghostemane.code.widget.GhostWebMaterialDialog;
 import android.Manifest;
@@ -488,7 +488,7 @@ public class IconModActivity extends BaseCompat {
                                                                                     @Override
                                                                                     protected void onPostExecute(String _result) {
                                                                                         progressbar1.setVisibility(View.GONE);
-                                                                                        SketchwareUtil.showMessage(
+                                                                                        DataUtil.showMessage(
                                                                                                 getApplicationContext(),
                                                                                                 "saved : "
                                                                                                         .concat(

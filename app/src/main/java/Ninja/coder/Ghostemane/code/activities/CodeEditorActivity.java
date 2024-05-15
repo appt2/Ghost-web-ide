@@ -71,6 +71,7 @@ import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mcal.uidesigner.XmlLayoutDesignActivity;
@@ -100,6 +101,7 @@ import java.util.regex.Pattern;
 public class CodeEditorActivity extends AppCompatActivity {
 
   public static String POSTMANPATH = "";
+  
   private static final String EDITOR_LEFT_LINE_KEY = "line";
   private static final String EDITOR_LEFT_COLUMN_KEY = "column";
   private static final String EDITOR_RIGHT_LINE_KEY = "rightLine";
@@ -352,17 +354,17 @@ public class CodeEditorActivity extends AppCompatActivity {
           public void onScrolled(RecyclerView recyclerView, int _offsetX, int _offsetY) {
             super.onScrolled(recyclerView, _offsetX, _offsetY);
             if (_offsetX > (tabs_listmap.size() + 1)) {
-              _clickAnimation(getWindow().getDecorView());
-              _clickAnimation(editor);
-              _clickAnimation(multytab);
-              _clickAnimation(newLayoutSymbolBar);
-              _clickAnimation(_fab);
+              ClickItemChildAnimation(getWindow().getDecorView());
+              ClickItemChildAnimation(editor);
+              ClickItemChildAnimation(multytab);
+              ClickItemChildAnimation(newLayoutSymbolBar);
+              ClickItemChildAnimation(_fab);
             } else {
-              _clickAnimation(editor);
-              _clickAnimation(multytab);
-              _clickAnimation(newLayoutSymbolBar);
-              _clickAnimation(_fab);
-              _clickAnimation(getWindow().getDecorView());
+              ClickItemChildAnimation(editor);
+              ClickItemChildAnimation(multytab);
+              ClickItemChildAnimation(newLayoutSymbolBar);
+              ClickItemChildAnimation(_fab);
+              ClickItemChildAnimation(getWindow().getDecorView());
             }
           }
         });
@@ -683,14 +685,14 @@ public class CodeEditorActivity extends AppCompatActivity {
       try {
         _tabsize(Double.parseDouble(tab100.getString("mpcnullgogo", "")));
       } catch (Exception e) {
-        SketchwareUtil.showMessage(getApplicationContext(), "error");
+        DataUtil.showMessage(getApplicationContext(), "error");
       }
     }
     if (setfont.contains("mfont")) {
       if (!FileUtil.isFile(setfont.getString("mfont", ""))) {
         editor.setTypefaceText(Typeface.createFromAsset(getAssets(), "ghostfont.ttf"));
         editor.setTypefaceLineNumber(Typeface.createFromAsset(getAssets(), "ghostfont.ttf"));
-        SketchwareUtil.showMessage(getApplicationContext(), "Custom Font Not Found");
+        DataUtil.showMessage(getApplicationContext(), "Custom Font Not Found");
         tvtitle.setTypeface(
             Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
         typeVl.setTypeface(
@@ -801,7 +803,7 @@ public class CodeEditorActivity extends AppCompatActivity {
                 thememanagersoft.contains("br") ? thememanagersoft.getFloat("br", 2) : 3);
           } else {
             var dialogpost =
-                new com.google.android.material.dialog.MaterialAlertDialogBuilder(
+                new MaterialAlertDialogBuilder(
                     CodeEditorActivity.this);
             dialogpost.setTitle("Error!");
             dialogpost.setMessage("Please Set in Format(png,jpeg,jpg)");
@@ -989,7 +991,7 @@ public class CodeEditorActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                              SketchwareUtil.showMessage(getApplicationContext(), "لغو شد");
+                              DataUtil.showMessage(getApplicationContext(), "لغو شد");
                             }
                           })
                       .build()
@@ -1006,7 +1008,7 @@ public class CodeEditorActivity extends AppCompatActivity {
               case 3:
                 {
                   if (editor.getText().toString().isEmpty()) {
-                    SketchwareUtil.showMessage(
+                    DataUtil.showMessage(
                         getApplicationContext(), "خطا متن خالی نمیشود ذخیره شود");
                   } else {
                     try {
@@ -1017,12 +1019,12 @@ public class CodeEditorActivity extends AppCompatActivity {
                           var bar = new FlashBarUtils(CodeEditorActivity.this);
                           bar.setCustomMassges("File saved by " + shp.getString("pos_path", ""));
                         } else {
-                          SketchwareUtil.showMessage(
+                          DataUtil.showMessage(
                               getApplicationContext(), "Error not File saved!");
                         }
                       }
                     } catch (Exception e) {
-                      SketchwareUtil.showMessage(getApplicationContext(), "Error not File saved!");
+                      DataUtil.showMessage(getApplicationContext(), "Error not File saved!");
                     }
                   }
                   break;
@@ -1185,13 +1187,13 @@ public class CodeEditorActivity extends AppCompatActivity {
     }
   }
 
-  public void _clickAnimation(final View _view) {
-    ScaleAnimation fade_in =
+  public void ClickItemChildAnimation(View view) {
+    var fade_in =
         new ScaleAnimation(
             0.9f, 1f, 0.9f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.7f);
     fade_in.setDuration(300);
     fade_in.setFillAfter(true);
-    _view.startAnimation(fade_in);
+     view.startAnimation(fade_in);
   }
 
   public void _EditorSummery() {
@@ -1247,7 +1249,7 @@ public class CodeEditorActivity extends AppCompatActivity {
       staticSymbiolPiare =
           new Gson()
               .fromJson(
-                  SketchwareUtil.copyFromInputStream(inputstream5),
+                  DataUtil.copyFromInputStream(inputstream5),
                   new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType());
       SyspiarAdapter syspiarAdapter =
           new SyspiarAdapter(
@@ -1268,7 +1270,7 @@ public class CodeEditorActivity extends AppCompatActivity {
       syspiar.setLayoutManager(
           new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     } catch (Exception e) {
-      SketchwareUtil.showMessage(getApplicationContext(), e.toString());
+      DataUtil.showMessage(getApplicationContext(), e.toString());
     }
   }
 
@@ -1464,7 +1466,7 @@ public class CodeEditorActivity extends AppCompatActivity {
           }
         }
       } catch (Exception e) {
-        SketchwareUtil.showMessage(getApplicationContext(), e.toString());
+        DataUtil.showMessage(getApplicationContext(), e.toString());
       }
       if (shp.getString("pos_path", "").contains(".html")) {
         if (moalaqfragment.contains("mpost")) {
@@ -1661,11 +1663,11 @@ public class CodeEditorActivity extends AppCompatActivity {
                   //	alert.getTitle().setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ghostfont.ttf"), 0);
                   //	alert.getText().setTypeface(Typeface.createFromAsset(getAssets(),"fonts/ghostfont.ttf"), 0);
                 } else {
-                  SketchwareUtil.showMessage(getApplicationContext(), "Error not File saved!");
+                  DataUtil.showMessage(getApplicationContext(), "Error not File saved!");
                 }
               }
             } catch (Exception e) {
-              SketchwareUtil.showMessage(getApplicationContext(), "Error not File saved!");
+              DataUtil.showMessage(getApplicationContext(), "Error not File saved!");
             }
           }
 
@@ -1858,7 +1860,7 @@ public class CodeEditorActivity extends AppCompatActivity {
 
           selector.setVisibility(View.VISIBLE);
           _distreeview();
-          _clickAnimation(editor);
+          ClickItemChildAnimation(editor);
           n = 0;
           if (imap.containsKey("TabTextColor")) {
             textview1.setTextColor(Color.parseColor(imap.get("TabTextColor").toString()));
@@ -1878,7 +1880,7 @@ public class CodeEditorActivity extends AppCompatActivity {
           selector.setVisibility(View.GONE);
           n = 0;
           _distreeview();
-          _clickAnimation(editor);
+          ClickItemChildAnimation(editor);
           if (imap.containsKey("DisplayTextColorTab")) {
             textview1.setTextColor(Color.parseColor(imap.get("DisplayTextColorTab").toString()));
           } else {
@@ -1909,7 +1911,7 @@ public class CodeEditorActivity extends AppCompatActivity {
                       shp.edit()
                           .putString("pos_path", _data.get(_position).get("path").toString())
                           .apply();
-                      _clickAnimation(editor);
+                      ClickItemChildAnimation(editor);
                       _distreeview();
                       notifyDataSetChanged();
                       if (FileUtil.isExistFile(_data.get(_position).get("path").toString())) {
@@ -1957,7 +1959,7 @@ public class CodeEditorActivity extends AppCompatActivity {
                             }
                           }
 
-                          _clickAnimation(editor);
+                          ClickItemChildAnimation(editor);
                           _distreeview();
                           n = 0;
                         }
@@ -2018,7 +2020,7 @@ public class CodeEditorActivity extends AppCompatActivity {
       _Anim(selector);
       if (setfont.contains("mfont")) {
         if (!FileUtil.isFile(setfont.getString("mfont", ""))) {
-          SketchwareUtil.showMessage(getApplicationContext(), "Custom Font Not Found");
+          DataUtil.showMessage(getApplicationContext(), "Custom Font Not Found");
           textview1.setTypeface(
               Typeface.createFromAsset(getAssets(), "fonts/ghostfont.ttf"), Typeface.NORMAL);
         } else {

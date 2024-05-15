@@ -234,7 +234,6 @@ public class FileDirActivity extends BaseCompat
     } else {
       initStartApp();
     }
-    
   }
 
   @Override
@@ -300,8 +299,6 @@ public class FileDirActivity extends BaseCompat
     } else {
       setViewType(ViewType.ROW);
     }
-    
-    
 
     var helper =
         new RecyclerViewHelper(
@@ -389,7 +386,8 @@ public class FileDirActivity extends BaseCompat
           @Override
           public void onErrorResponse(String _param1, String _param2) {}
         };
-    saveScrollbar = new SaveRecyclerViewScrollbar(gridLayoutManager,this.getLifecycle(),recyclerview2);
+    saveScrollbar =
+        new SaveRecyclerViewScrollbar(gridLayoutManager, this.getLifecycle(), recyclerview2);
   }
 
   @Override
@@ -398,9 +396,7 @@ public class FileDirActivity extends BaseCompat
     if (FileUtil.isDirectory(staticstring)) {
       Folder = staticstring;
       reLoadFile();
-    } else {
-      _dataOnClickItemList(pos);
-    }
+    } else _dataOnClickItemList(pos);
   }
 
   void savePath() {
@@ -483,8 +479,8 @@ public class FileDirActivity extends BaseCompat
 
     paramentLayout_fileDir.setLayoutParams(
         new LinearLayout.LayoutParams(
-            SketchwareUtil.getDisplayWidthPixels(getApplicationContext()),
-            SketchwareUtil.getDisplayHeightPixels(getApplicationContext())));
+            DataUtil.getDisplayWidthPixels(getApplicationContext()),
+            DataUtil.getDisplayHeightPixels(getApplicationContext())));
 
     sd_stor = new SdCardUtil(this);
 
@@ -535,15 +531,13 @@ public class FileDirActivity extends BaseCompat
     navs.getMenu().add(0, 14, 0, "Book mark (Beta)").setIcon(R.drawable.ic_bookmark_white);
     navs.getMenu().add(0, 15, 0, "Apk manager").setIcon(R.drawable.default_image);
     navs.getMenu().add(0, 16, 0, "GitHub code ").setIcon(R.drawable.github);
+    navs.getMenu().add(0, 17, 0, "TelegramGroup").setIcon(0);
     navs.getMenu().add(0, 17, 0, "exit").setIcon(R.drawable.exit);
     DrowerHandler();
   }
-  
-  
-  
 
   public void FilterFile() {
-    
+
     var view = LayoutInflater.from(this).inflate(R.layout.reminderlist, null, false);
     var dialog = new DialogUtil(this);
     dialog.setTitle("Filter List");
@@ -616,8 +610,7 @@ public class FileDirActivity extends BaseCompat
                           .show();
 
                     } else {
-                      SketchwareUtil.showMessage(
-                          getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
+                      DataUtil.showMessage(getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
                     }
                   } else {
 
@@ -649,8 +642,7 @@ public class FileDirActivity extends BaseCompat
                           .show();
 
                     } else {
-                      SketchwareUtil.showMessage(
-                          getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
+                      DataUtil.showMessage(getApplicationContext(), "برای خروج ۳ بار کلیک کنید");
                     }
                   } else {
                     Folder = Folder.substring((int) (0), (int) (Folder.lastIndexOf("/")));
@@ -667,14 +659,13 @@ public class FileDirActivity extends BaseCompat
     super.onResume();
     RefreshTabs();
   }
-  
+
   @Override
   protected void onDestroy() {
     super.onDestroy();
     // TODO: Implement this method
-    stopService(new Intent(this,MediaListenerService.class));
+    stopService(new Intent(this, MediaListenerService.class));
   }
-  
 
   public void reLoadFile() {
     recyclerview2.setVisibility(View.GONE);
@@ -741,8 +732,7 @@ public class FileDirActivity extends BaseCompat
               } catch (Exception e) {
                 runOnUiThread(
                     () ->
-                        SketchwareUtil.showMessage(
-                            getApplicationContext(), "Error to " + e.toString()));
+                        DataUtil.showMessage(getApplicationContext(), "Error to " + e.toString()));
               }
               runOnUiThread(
                   () -> {
@@ -791,7 +781,7 @@ public class FileDirActivity extends BaseCompat
 
           positive.setOnClickListener(
               (vftrororocjj) -> {
-                SketchwareUtil.hideKeyboard(getApplicationContext());
+                DataUtil.hideKeyboard(getApplicationContext());
                 if (editor.getText().toString().isEmpty()) {
                   top.setError("return type Error \n");
                 } else {
@@ -972,9 +962,7 @@ public class FileDirActivity extends BaseCompat
   }
 
   @Override
-  public void GoToDir(View view) {
-    
-  }
+  public void GoToDir(View view) {}
 
   @Override
   public void GoToTreeFile(View view) {
@@ -1114,9 +1102,9 @@ public class FileDirActivity extends BaseCompat
           positive.setOnClickListener(
               (vftrororocjj) -> {
                 dialog.dismiss();
-                SketchwareUtil.hideKeyboard(getApplicationContext());
+                DataUtil.hideKeyboard(getApplicationContext());
                 if (editor.getText().toString().isEmpty()) {
-                  SketchwareUtil.showMessage(getApplicationContext(), "نام پروژه را وارد کنید");
+                  DataUtil.showMessage(getApplicationContext(), "نام پروژه را وارد کنید");
                 } else {
                   if (ch.isChecked() || (ch2.isChecked() || (ch3.isChecked() || ch4.isChecked()))) {
                     FileUtil.makeDir(GetTab.concat("/".concat(editor.getText().toString())));
@@ -1299,8 +1287,7 @@ public class FileDirActivity extends BaseCompat
     if (_list.get((int) _pos).get(_str).toString().endsWith(".aa")
         || _list.get((int) _pos).get(_str).toString().endsWith(".AA")) {
       if (FileUtil.isFile("/storage/emulated/0/GhostWebIDE/theme/GhostThemeapp.ghost")) {
-        var di =
-            new DialogUtil(FileDirActivity.this);
+        var di = new DialogUtil(FileDirActivity.this);
 
         di.setTitle("هشدار");
         di.setMessage("این فایل تم در حافظه شما موجود است آیا میخواهید این تم را جایگزین کنید؟");
@@ -1316,11 +1303,10 @@ public class FileDirActivity extends BaseCompat
                 showMessage(e.toString());
               }
               reLoadFile();
-              SketchwareUtil.showMessage(getApplicationContext(), "انجام شد");
+              DataUtil.showMessage(getApplicationContext(), "انجام شد");
             });
         di.setPositiveButton("خیر", (p1, d2) -> {});
 
-        
         di.show();
 
       } else {
@@ -1333,7 +1319,7 @@ public class FileDirActivity extends BaseCompat
           showMessage(e.toString());
         }
         reLoadFile();
-        SketchwareUtil.showMessage(getApplicationContext(), "انجام شد");
+        DataUtil.showMessage(getApplicationContext(), "انجام شد");
       }
     }
   }
@@ -1373,7 +1359,7 @@ public class FileDirActivity extends BaseCompat
           positive.setOnClickListener(
               (vftrororocjj) -> {
                 if (output.getText().toString().isEmpty()) {
-                  SketchwareUtil.showMessage(getApplicationContext(), "خروجی نمیتواند خالی باشد");
+                  DataUtil.showMessage(getApplicationContext(), "خروجی نمیتواند خالی باشد");
                 } else {
                   new AsyncTask<String, String, String>() {
                     @Override
@@ -1405,7 +1391,7 @@ public class FileDirActivity extends BaseCompat
                             new Runnable() {
                               @Override
                               public void run() {
-                                SketchwareUtil.showMessage(getApplicationContext(), e.toString());
+                                DataUtil.showMessage(getApplicationContext(), e.toString());
                               }
                             });
                       }
@@ -1530,11 +1516,10 @@ public class FileDirActivity extends BaseCompat
             }
           }.execute("");
         });
-    
+
     di.build();
   }
 
-  
   void loadsvg(int newpos) {
     var sh = new ListSheet();
     sh.setSheetDialog(this);
@@ -1561,7 +1546,6 @@ public class FileDirActivity extends BaseCompat
                     files.get((int) newpos).get("path").toString().replace(".svg", ".png"));
                 break;
               }
-            
           }
         });
   }
@@ -1681,7 +1665,6 @@ public class FileDirActivity extends BaseCompat
                   reLoadFile();
                 });
           });
-      
 
       di.build();
     }
@@ -1725,10 +1708,13 @@ public class FileDirActivity extends BaseCompat
     if (staticstring.endsWith(".project")) {
       InstallTakesProject(newpos, staticstring);
     }
-
+    if (staticstring.endsWith(".png")) {
+      getabout.setClass(getApplicationContext(), SetHomeWallpActivity.class);
+      getabout.putExtra("img", staticstring);
+      startActivity(getabout);
+    }
     _fontpost(files, "path", newpos);
     _themeinstall(files, newpos, "path");
-   
   }
 
   public void MakeZipFileFromThread(int pos) {
@@ -1798,19 +1784,17 @@ public class FileDirActivity extends BaseCompat
 
     di.setNeutralButton("خیر", null);
 
-    
     di.build();
   }
 
   public void _projectinit() {
-    var maindialogPrfex =
-        new DialogUtil(FileDirActivity.this);
-            maindialogPrfex.setView(R.layout.projectinitre);
-            maindialogPrfex.setTitle("Make project");
-            maindialogPrfex.setCancelable(true);
-            maindialogPrfex.setPositiveButton("make", null);
-            maindialogPrfex.setNegativeButton(android.R.string.cancel, null);
-            
+    var maindialogPrfex = new DialogUtil(FileDirActivity.this);
+    maindialogPrfex.setView(R.layout.projectinitre);
+    maindialogPrfex.setTitle("Make project");
+    maindialogPrfex.setCancelable(true);
+    maindialogPrfex.setPositiveButton("make", null);
+    maindialogPrfex.setNegativeButton(android.R.string.cancel, null);
+
     maindialogPrfex.setOnShowListener(
         (var) -> {
           RecyclerView post = maindialogPrfex.getAlertDialog().findViewById(R.id.post);
@@ -2187,7 +2171,7 @@ public class FileDirActivity extends BaseCompat
                         if (staticStorage) {
                           staticStorage = false;
                           Folder = FileUtil.getExternalStorageDir();
-                          SketchwareUtil.showMessage(
+                          DataUtil.showMessage(
                               getApplicationContext(), FileUtil.getExternalStorageDir());
                           reLoadFile();
                           _drawer.closeDrawer(GravityCompat.START);
@@ -2195,10 +2179,9 @@ public class FileDirActivity extends BaseCompat
                           staticStorage = true;
                           if (sd_stor.hasRealRemovableSdCarde()) {
                             Folder = sd_stor.getExtSdPath();
-                            SketchwareUtil.showMessage(
-                                getApplicationContext(), sd_stor.getExtSdPath());
+                            DataUtil.showMessage(getApplicationContext(), sd_stor.getExtSdPath());
                           } else {
-                            SketchwareUtil.showMessage(
+                            DataUtil.showMessage(
                                 getApplicationContext(), "مموری کارت پیدا نشد متاسفم");
                           }
                           reLoadFile();
@@ -2230,14 +2213,14 @@ public class FileDirActivity extends BaseCompat
               }
             case ((int) 9):
               {
-                if (SketchwareUtil.isConnected(getApplicationContext())) {
+                if (DataUtil.isConnected(getApplicationContext())) {
                   CheckNewVersion.startRequestNetwork(
                       RequestNetworkController.GET,
                       "https://raw.githubusercontent.com/appt2/appt2/main/log.json",
                       "v",
                       UpdateCheck);
                 } else {
-                  SketchwareUtil.showMessage(getApplicationContext(), "اینترنت خاموش است");
+                  DataUtil.showMessage(getApplicationContext(), "اینترنت خاموش است");
                 }
                 break;
               }
@@ -2284,6 +2267,12 @@ public class FileDirActivity extends BaseCompat
               }
             case 17:
               {
+                setLink("https://t.me/ghost_web_ide");
+
+                break;
+              }
+            case 18:
+              {
                 finishAffinity();
                 break;
               }
@@ -2305,11 +2294,10 @@ public class FileDirActivity extends BaseCompat
               new net.lingala.zip4j.ZipFile(
                       "/storage/emulated/0/GhostWebIDE/"
                           .concat(
-                              String.valueOf(
-                                      (long) (SketchwareUtil.getRandom((int) (0), (int) (99999))))
+                              String.valueOf((long) (DataUtil.getRandom((int) (0), (int) (99999))))
                                   .concat("theme.AA")))
                   .addFolder(new java.io.File("/storage/emulated/0/GhostWebIDE/theme/"));
-              SketchwareUtil.showMessage(getApplicationContext(), "انجام شد در پوشه برنامه");
+              DataUtil.showMessage(getApplicationContext(), "انجام شد در پوشه برنامه");
 
             } catch (net.lingala.zip4j.exception.ZipException e) {
               showMessage(e.toString());
@@ -2342,10 +2330,10 @@ public class FileDirActivity extends BaseCompat
         new net.lingala.zip4j.ZipFile(
                 "/storage/emulated/0/GhostWebIDE/"
                     .concat(
-                        String.valueOf((long) (SketchwareUtil.getRandom((int) (0), (int) (9999))))
+                        String.valueOf((long) (DataUtil.getRandom((int) (0), (int) (9999))))
                             .concat("theme.AA")))
             .addFolder(new java.io.File("/storage/emulated/0/GhostWebIDE/theme/"));
-        SketchwareUtil.showMessage(getApplicationContext(), "انجام شد در پوشه برنامه");
+        DataUtil.showMessage(getApplicationContext(), "انجام شد در پوشه برنامه");
 
       } catch (net.lingala.zip4j.exception.ZipException e) {
         showMessage(e.toString());
@@ -2503,7 +2491,7 @@ public class FileDirActivity extends BaseCompat
               }
             case 9:
               {
-                GitListSheet task = new GitListSheet(new File(Folder),FileDirActivity.this);
+                GitListSheet task = new GitListSheet(new File(Folder), FileDirActivity.this);
                 sh.getDismiss(true);
                 break;
               }

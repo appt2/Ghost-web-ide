@@ -150,23 +150,63 @@ public class ApkListAdapter extends RecyclerView.Adapter<ApkListAdapter.ViewHold
 
       items.add("Save Apk");
       items.add("Share Apk");
+      items.add("Info Apk");
       try {
         var icon = info.applicationInfo.loadIcon(v.getContext().getPackageManager());
         new MaterialAlertDialogBuilder(v.getContext())
-            .setTitle("Apk")
+            .setTitle(" " + info.applicationInfo.name)
             .setPositiveButton(android.R.string.cancel, null)
             .setIcon(icon)
             .setAdapter(
-                new ArrayAdapter<>(v.getContext(), android.R.layout.select_dialog_item, items),
+                new ArrayAdapter<>(v.getContext(), android.R.layout.simple_list_item_1, items),
                 (dialog, which) -> {
                   switch (which) {
                     case 0:
                       adapter.mActivity.doExctract(info);
                       break;
                     case 1:
-                      { 
+                      {
                         adapter.mActivity.ExctractAndShare(info);
                         break;
+                      }
+                    case 2:
+                      {
+                        var builder = new StringBuilder();
+                        builder
+                            .append("Version Code: ")
+                            .append(info.versionCode)
+                            .append("\n")
+                            .append("Version Name: ")
+                            .append(info.versionName)
+                            .append("\n")
+                            .append("Compile SDK: ")
+                            .append(info.applicationInfo.compileSdkVersion)
+                            .append("\n")
+                            .append("Compile SDK Name: ")
+                            .append(info.applicationInfo.compileSdkVersionCodename)
+                            .append("\n")
+                            .append("Package Name: ")
+                            .append(info.applicationInfo.packageName)
+                            .append("\n")
+                            .append("Data Dir: ")
+                            .append(info.applicationInfo.dataDir)
+                            .append("\n")
+                            .append("Target SDK: ")
+                            .append(info.applicationInfo.targetSdkVersion)
+                            .append("\n")
+                            .append("Min Sdk: ")
+                            .append(info.applicationInfo.minSdkVersion)
+                            .append("\n")
+                            .append("So File: ")
+                            .append(info.applicationInfo.nativeLibraryDir)
+                            .append("\n");
+
+                        String allInfo = builder.toString();
+                        new MaterialAlertDialogBuilder(v.getContext())
+                            .setTitle("info apk " + info.applicationInfo.name)
+                            .setMessage(allInfo)
+                            .setPositiveButton(android.R.string.ok, null)
+                            .show();
                       }
                     default:
                       break;

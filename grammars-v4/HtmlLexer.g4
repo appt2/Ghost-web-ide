@@ -58,7 +58,6 @@ fragment Escape
 
 fragment Whitespace
    : Space
-   |
    ;
 
 fragment Newline
@@ -151,9 +150,14 @@ MYCLASS
 
 HASHSTYLE
    : '#' [a-zA-Z_]* '-' [a-zA-Z_]*
-   | '#' [a-zA-Z_]*
-   | '#' [0-9a-fA-F]
+   | '#' [a-zA-Z0-9_]*
+   | '#'
    | '@' [a-zA-Z_]*
+   ;
+
+GREENBOLD
+   : ':hover'
+   | ':before'
    ;
 
 FontRelative

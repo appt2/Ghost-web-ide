@@ -2,7 +2,7 @@ package Ninja.coder.Ghostemane.code.activities;
 
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.utils.ColorAndroid12;
-import Ninja.coder.Ghostemane.code.utils.SketchwareUtil;
+import Ninja.coder.Ghostemane.code.utils.DataUtil;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -146,7 +146,7 @@ public class JavaManagerLayoutActivity extends BaseCompat {
     private void initializeLogic() {
         try {
             java.io.InputStream inputstream1 = getAssets().open("codes.json");
-            path = SketchwareUtil.copyFromInputStream(inputstream1);
+            path = DataUtil.copyFromInputStream(inputstream1);
             javacode1 = new Gson().fromJson(path, new TypeToken<ArrayList<HashMap<String, Object>>>() {
             }.getType());
         } catch (Exception e) {
@@ -177,7 +177,7 @@ public class JavaManagerLayoutActivity extends BaseCompat {
             imap = new Gson().fromJson("{\n    \"ToolbarTextColor\": \"#ffffff\",\n    \"BLOCK_LINE_CURRENT\": \"#ffb9eeff\",\n    \"LINE_DIVIDER\": \"#1fffffff\",\n    \"SyombolBarTextColor\": \"#fffdffd1\",\n    \"HTML_TAG\": \"#ffffeebc\",\n    \"FabColorStroker\": \"#FFB49D\",\n    \"LINE_NUMBER\": \"#6b6b6b\",\n    \"KEYWORD\": \"#ffffffb9\",\n    \"SELECTION_HANDLE\": \"#ffffffff\",\n    \"TabImageColorFilter\": \"#ffffffff\",\n    \"COMMENT\": \"#626262\",\n    \"ToolbarColor\": \"#ff1f1a1b\",\n    \"IDENTIFIER_NAME\": \"#fff0be4b\",\n    \"DisplayTextColorTab\": \"#ffffffff\",\n    \"NON_PRINTABLE_CHAR\": \"#ffb9ffcb\",\n    \"SELECTION_INSERT\": \"#ffffffff\",\n    \"Ninja\": \"#ffff5d5d\",\n    \"TabTextColor\": \"#FFB49D\",\n    \"BLOCK_LINE\": \"#ffaea2ff\",\n    \"LITERAL\": \"#ff6bae\",\n    \"FabBackgroundColorColor\": \"#1F1A1B\",\n    \"ATTRIBUTE_VALUE\": \"#ffffdcb9\",\n    \"TabBack\": \"#FFB49D\",\n    \"ImageColor\": \"#ffffffff\",\n    \"TEXT_NORMAL\": \"#ffffffff\",\n    \"ATTRIBUTE_NAME\": \"#FF1B4AD7\",\n    \"print\": \"#ffff176e\",\n    \"OPERATOR\": \"#ffffeebc\",\n    \"CURRENT_LINE\": \"#20171717\",\n    \"WHOLE_BACKGROUND\": \"#02FFFFFF\",\n    \"BackgroundColorLinear\": \"#ff1f1a1b\",\n    \"FabImageColor\": \"#FFB49D\",\n    \"LINE_NUMBER_BACKGROUND\": \"#00FFFFFF\"\n}", new TypeToken<HashMap<String, Object>>() {
             }.getType());
         } catch (Exception e) {
-            SketchwareUtil.showMessage(getApplicationContext(), e.toString());
+            DataUtil.showMessage(getApplicationContext(), e.toString());
         }
     }
 

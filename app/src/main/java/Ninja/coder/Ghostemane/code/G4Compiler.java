@@ -1,5 +1,8 @@
 package Ninja.coder.Ghostemane.code;
 
+import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
 import org.antlr.v4.Tool;
 import org.antlr.v4.tool.ANTLRMessage;
 import org.antlr.v4.tool.ANTLRToolListener;
@@ -10,11 +13,15 @@ public class G4Compiler {
   public static void compile(String input, String output, String packages) {
     if (input.endsWith(".g4")) {
       String[] args = {input, "-package", packages, "-o", output};
+      List<String> stringList = new ArrayList<>();
+      stringList.add(input);
+      stringList.add("-package" + packages);
+      stringList.add("-o" + output);
       main(args);
     }
   }
 
-  public static void main(String[] args) {
+    static void main(String[] args) {
     Tool antlr = new Tool(args);
     StringBuilder b = new StringBuilder();
 
@@ -23,27 +30,29 @@ public class G4Compiler {
     }
 
     try {
-
-      antlr.processGrammarsOnCommandLine();
       antlr.addListener(
           new ANTLRToolListener() {
 
             @Override
             public void info(String info) {
               b.append(info).append("\n");
+              showToast(info);
             }
 
             @Override
             public void error(ANTLRMessage error) {
               b.append(error.fileName).append("\n");
+              showToast(error.fileName);
               
             }
 
             @Override
             public void warning(ANTLRMessage war) {
               b.append(war.fileName).append("\n");
+              showToast(war.fileName);
             }
           });
+      antlr.processGrammarsOnCommandLine();
     } finally {
       if (antlr.log) {
         try {
@@ -55,5 +64,9 @@ public class G4Compiler {
         }
       }
     }
+  }
+  
+  static void showToast(String s){
+    Toast.makeText(ApplicationLoader.getContext(),s,2).show();
   }
 }

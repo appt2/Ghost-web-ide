@@ -55,6 +55,7 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     setList(prefix);
     validTag();
     classTag(prefix);
+    idTags(prefix);
     Collections.sort(items, CompletionItem.COMPARATOR_BY_NAME);
 
     List<CompletionItem> listasFiles = new ArrayList<>();
@@ -388,5 +389,45 @@ public class HTMLAutoComplete implements AutoCompleteProvider {
     }
   }
 
-  public void listfile() {}
+  public void idTags(String tagsInput) {
+    String api = "";
+    List<String> validTags = new ArrayList<>();
+    Collections.sort(validTags, String.CASE_INSENSITIVE_ORDER);
+    String[] tags = tagsInput.split("\\+|\\$||\\*");
+    for (String tag : tags) {
+      String trimmedTag = tag.trim();
+      if (isIdVaildTag(trimmedTag)) {
+        validTags.add(trimmedTag);
+      }
+    }
+
+    if (!validTags.isEmpty()) {
+      StringBuilder openingTags = new StringBuilder();
+      StringBuilder closingTags = new StringBuilder();
+      String input = tagsInput;
+      /** winter code html like in h1#$1name1+h1#$2name1+h1#$3name1+h1#$4name+h1#$5name */
+      Pattern pattern = Pattern.compile("\\#\\$\\d+([a-zA-Z]+)");
+      Matcher matcher = pattern.matcher(input);
+      StringBuilder result = new StringBuilder();
+      while (matcher.find()) {
+        int num =
+            Integer.parseInt(
+                matcher.group(0).substring(3)); // عدد بعد از '#$' را گرفته و تبدیل به int می کنیم
+        String name = matcher.group(0).substring(6); // نام بعد از عدد را گرفته
+        for (String tag : validTags) {
+          api = tag;
+          for (int i = 1; i <= num; i++) { // از 1 شروع و تا عدد موجود تکرار می‌کنیم
+            openingTags.append("<" + api.replace("#", "") + " class=\"" + name + i + "\">"); // خروجی
+            closingTags.insert(0, "</" + api.replace("#", "") + ">");
+          }
+        }
+      }
+
+      String wrappedTags = openingTags.toString() + closingTags.toString();
+      CompletionItem tagCompletion = new CompletionItem(api, wrappedTags, "Html Snippet Compat Id");
+      tagCompletion.commit = wrappedTags;
+      tagCompletion.cursorOffset = openingTags.length() - 2;
+      items.add(tagCompletion);
+    }
+  }
 }

@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-public class SketchwareUtil {
+public class DataUtil {
 
     public static int TOP = 1;
     public static int CENTER = 2;

@@ -3,7 +3,7 @@ package Ninja.coder.Ghostemane.code.layoutmanager;
 import Ninja.coder.Ghostemane.code.IdeEditor;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.adapter.ColorFromJsonAdapter;
-import Ninja.coder.Ghostemane.code.utils.SketchwareUtil;
+import Ninja.coder.Ghostemane.code.utils.DataUtil;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
@@ -47,7 +47,7 @@ public class ColorViewFromJson extends LinearLayout {
         try {
 
             InputStream inputstream1 = context.getAssets().open("m33");
-            data = SketchwareUtil.copyFromInputStream(inputstream1);
+            data = DataUtil.copyFromInputStream(inputstream1);
             mp =
                     new Gson()
                             .fromJson(data, new TypeToken<ArrayList<HashMap<String, Object>>>() {

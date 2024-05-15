@@ -180,7 +180,7 @@ public class MFileClass {
             cacheHashMap.put("date", getLastModifiedOfFile(_list.get((int) (i)), "yyyy-MM-dd, HH:mm:ss"));
             listMap.add(cacheHashMap);
         }
-        SketchwareUtil.sortListMap(listMap, "date", false, false);
+        DataUtil.sortListMap(listMap, "date", false, false);
         _list.clear();
         for (int i = 0; i < (int) (listMap.size()); i++) {
             _list.add(listMap.get((int) i).get("path").toString());
@@ -199,7 +199,7 @@ public class MFileClass {
 
             listMap.add(cacheHashMap);
         }
-        SketchwareUtil.sortListMap(listMap, "size", false, false);
+        DataUtil.sortListMap(listMap, "size", false, false);
         _list.clear();
         for (int i = 0; i < (int) (listMap.size()); i++) {
             _list.add(listMap.get((int) i).get("path").toString());

@@ -20,6 +20,10 @@
 <a href="https://myket.ir/app/Ninja.coder.Ghostemane.code?utm_source=search-ads-gift&utm_medium=cpc"><img src="https://myket.ir/core/images/logo/get-en.png" width="200"/> </a>
 </p>
 
+#### Telegram Group 
+
+<a href ="https://t.me/ghost_web_ide" > Telegram Group </a>
+
 #### features
 
 - [x] Support for multiple languages

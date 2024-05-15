@@ -3,7 +3,7 @@ package Ninja.coder.Ghostemane.code.adapter;
 import Ninja.coder.Ghostemane.code.ApplicationLoader;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.utils.FileUtil;
-import Ninja.coder.Ghostemane.code.utils.SketchwareUtil;
+import Ninja.coder.Ghostemane.code.utils.DataUtil;
 import android.animation.ObjectAnimator;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -80,7 +80,7 @@ public class SyspiarAdapter extends RecyclerView.Adapter<SyspiarAdapter.ViewHold
         try {
             if (ApplicationLoader.getsetFont().contains("mfont")) {
                 if (!FileUtil.isFile(ApplicationLoader.getsetFont().getString("mfont", ""))) {
-                    SketchwareUtil.showMessage(ApplicationLoader.getContext(), "Custom Font Not Found");
+                    DataUtil.showMessage(ApplicationLoader.getContext(), "Custom Font Not Found");
                     sysbarInsertId.setTypeface(
                             Typeface.createFromAsset(
                                     ApplicationLoader.getContext().getAssets(), "fonts/ghostfont.ttf"),
