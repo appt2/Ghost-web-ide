@@ -25,8 +25,11 @@ public class EditorHelperColor {
   }
 
   public void init() {
-
-    editor.subscribeEvent(
+    /**
+     * using #OnClickListner from show color 
+     */
+    editor.setOnClickListener(v ->{
+      editor.subscribeEvent(
         ContentChangeEvent.class,
         (cc, dd) -> {
           try {
@@ -83,6 +86,9 @@ public class EditorHelperColor {
             e.printStackTrace();
           }
         });
+    });
+
+    
   }
 
   public static void getChar(TextView v, IdeEditor mEditor) {

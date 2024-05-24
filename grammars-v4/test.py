@@ -1,3 +1,9 @@
-eeee.eoeoeoe 
-@colors 
-for i in range("3033030")
+import os
+
+
+print("&")
+
+i = 0;
+
+for i in range(300):
+	print("//")

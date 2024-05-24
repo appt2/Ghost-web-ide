@@ -27,7 +27,6 @@ import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class MainActivity extends BaseCompat {
 
   protected AssetsSoft soft;
@@ -35,7 +34,7 @@ public class MainActivity extends BaseCompat {
   private String bin = "";
   private Intent gotopage = new Intent();
   private TimerTask ask;
-  
+
   private SharedPreferences setac;
   private TextView tv_main;
   protected LinearProgressIndicator prograssBar;
@@ -85,6 +84,14 @@ public class MainActivity extends BaseCompat {
   }
 
   private void initializeLogic() {
+    var mypath = getFilesDir().getAbsolutePath() + "/" + "databins";
+
+    if (!FileUtil.isExistFile(mypath)) {
+      nameFile("databins.7z");
+
+    } else {
+      startApp();
+    }
 
     // run install python files
     if (!FileUtil.isExistFile(
@@ -92,11 +99,7 @@ public class MainActivity extends BaseCompat {
       nameFile("python.7z");
       // start
     } else if (!FileUtil.isExistFile(
-        getFilesDir().getAbsolutePath()
-            + File.separator
-            + "lib"
-            + File.separator
-            + "libx265.so")) {
+        getFilesDir().getAbsolutePath() + File.separator + "lib" + File.separator + "libx265.so")) {
       nameFile("lib.7z");
     } else startApp();
 
@@ -104,8 +107,8 @@ public class MainActivity extends BaseCompat {
 
     if (!FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/theme/GhostThemeapp.ghost")) {
       SetThemeForJson.winterToPath();
-    }else{
-      Log.e("File is ExistFile","");
+    } else {
+      Log.e("File is ExistFile", "");
     }
 
     if (!FileUtil.isExistFile("/storage/emulated/0/GhostWebIDE/android/android.jar")) {
@@ -138,14 +141,11 @@ public class MainActivity extends BaseCompat {
 
     }
 
-    
     if (!FileUtil.isExistFile(getFilesDir().getAbsolutePath() + File.separator + "php.ini")) {
       var softApi = new AssetsSoft();
       softApi.copyOneFileFromAssets("php.ini", getFilesDir().getAbsolutePath() + "/", this);
-    }else Log.e("File Copyed", AssetsSoft.class.getSimpleName());
-    
-    
-    
+    } else Log.e("File Copyed", AssetsSoft.class.getSimpleName());
+
     FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/");
     FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/.icon");
     FileUtil.makeDir("/storage/emulated/0/GhostWebIDE/android");

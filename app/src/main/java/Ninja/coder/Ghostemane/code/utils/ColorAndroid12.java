@@ -68,8 +68,10 @@ public class ColorAndroid12 {
 
   public static void setToolbarinit(Toolbar toolbar) {
     if (ApplicationLoader.getThememanagersoft().contains("thememanagersoft")) {
-
-      toolbar.setBackgroundTintList(ColorStateList.valueOf(0));
+      
+      
+      
+      toolbar.setBackgroundColor(0);
       toolbar.setTitleTextColor(MaterialColors.getColor(toolbar, TvColor));
       toolbar.setSubtitleTextColor(MaterialColors.getColor(toolbar, SubTitle));
     } else {
@@ -316,5 +318,9 @@ public class ColorAndroid12 {
       var handler = new Handler(Looper.getMainLooper());
       handler.post(run);
     }
+  }
+
+  public static int getColors(int color) {
+    return MaterialColors.getColor(ApplicationLoader.getContext(), color, 0);
   }
 }

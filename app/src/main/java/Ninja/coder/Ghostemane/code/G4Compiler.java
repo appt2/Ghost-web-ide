@@ -41,15 +41,15 @@ public class G4Compiler {
 
             @Override
             public void error(ANTLRMessage error) {
-              b.append(error.fileName).append("\n");
-              showToast(error.fileName);
+              b.append(error.getErrorType().msg).append("\n");
+              showToast(error.getErrorType().msg);
               
             }
 
             @Override
             public void warning(ANTLRMessage war) {
-              b.append(war.fileName).append("\n");
-              showToast(war.fileName);
+          //    b.append().append("\n");
+              showToast(war.getErrorType().msg);
             }
           });
       antlr.processGrammarsOnCommandLine();
@@ -58,6 +58,7 @@ public class G4Compiler {
         try {
           String logname = antlr.logMgr.save();
           System.out.println("wrote " + logname);
+          showToast("wrote " + logname);
 
         } catch (IOException ioe) {
           antlr.errMgr.toolError(ErrorType.INTERNAL_ERROR, ioe);

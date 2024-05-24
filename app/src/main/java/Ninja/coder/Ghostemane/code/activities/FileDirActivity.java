@@ -94,6 +94,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hzy.lib7z.Z7Extractor;
 import com.skydoves.powermenu.PowerMenu;
 import com.zip4j.progress.ProgressMonitor;
+import java.util.stream.Collectors;
 import ninjacoder.ghostide.androidtools.r8.android.R8Tools;
 import storage.sdcard.SdCardUtil;
 
@@ -213,7 +214,7 @@ public class FileDirActivity extends BaseCompat
   private GridLayoutManager gridLayoutManager;
   private SharedPreferences sharedPreferences;
   private CircularProgressIndicator filedir_bar;
-  private SaveRecyclerViewScrollbar saveScrollbar;
+  
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -386,8 +387,7 @@ public class FileDirActivity extends BaseCompat
           @Override
           public void onErrorResponse(String _param1, String _param2) {}
         };
-    saveScrollbar =
-        new SaveRecyclerViewScrollbar(gridLayoutManager, this.getLifecycle(), recyclerview2);
+    
   }
 
   @Override
@@ -670,9 +670,11 @@ public class FileDirActivity extends BaseCompat
   public void reLoadFile() {
     recyclerview2.setVisibility(View.GONE);
     filedir_bar.setVisibility(View.VISIBLE);
+
     new Thread(
             () -> {
               save_path.edit().putString("path", Folder).apply();
+
               list.clear();
               files.clear();
               folderList.clear();
@@ -681,52 +683,55 @@ public class FileDirActivity extends BaseCompat
               Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
               GetTab = Folder;
               index = 0;
-              POSNINJACODERMAIN = Folder;
-              ProjectManager mproject = new ProjectManager();
-              mproject.setProjectDir(GetTab);
-              final class FileComparator implements Comparator<String> {
-                public int compare(String f1, String f2) {
-                  if (f1 == f2) return 0;
-                  if (FileUtil.isDirectory(f1) && FileUtil.isFile(f2)) return -1;
-                  if (FileUtil.isFile(f1) && FileUtil.isDirectory(f2)) return 1;
-                  return f1.compareToIgnoreCase(f2);
-                }
-              }
-              Collections.sort(list, new FileComparator());
+              Collections.sort(
+                  list,
+                  (f1, f2) -> {
+                    if (f1 == f2) return 0;
+                    if (FileUtil.isDirectory(f1) && FileUtil.isFile(f2)) return -1;
+                    if (FileUtil.isFile(f1) && FileUtil.isDirectory(f2)) return 1;
+                    return f1.compareToIgnoreCase(f2);
+                  });
 
-              for (int _repeat13 = 0; _repeat13 < (int) (list.size()); _repeat13++) {
-                if (FileUtil.isDirectory(list.get((int) (index)))) {
-                  folderList.add(list.get((int) (index)));
-                } else {
-                  fileList.add(list.get((int) (index)));
-                }
-                index++;
-              }
-              index = 0;
-              for (int _repeat37 = 0; _repeat37 < (int) (folderList.size()); _repeat37++) {
-                {
-                  HashMap<String, Object> _item = new HashMap<>();
-                  _item.put("path", folderList.get((int) (index)));
-                  files.add(_item);
-                }
+              list.forEach(
+                  item -> {
+                    if (FileUtil.isDirectory(item)) {
+                      folderList.add(item);
+                    } else {
+                      fileList.add(item);
+                    }
+                  });
 
-                index++;
-              }
-              index = 0;
-              for (int _repeat54 = 0; _repeat54 < (int) (fileList.size()); _repeat54++) {
-                {
-                  HashMap<String, Object> _item = new HashMap<>();
-                  _item.put("path", fileList.get((int) (index)));
-                  files.add(_item);
-                }
+              List<HashMap<String, Object>> folderItems =
+                  folderList.stream()
+                      .map(
+                          item -> {
+                            HashMap<String, Object> _item = new HashMap<>();
+                            _item.put("path", item);
+                            return _item;
+                          })
+                      .filter(
+                          item -> {
+                            String path = (String) item.get("path");
+                            return !path.isEmpty() && !new File(path).isHidden();
+                          })
+                      .collect(Collectors.toList());
 
-                index++;
-              }
-              index = 0;
-              for (int _repeat97 = 0; _repeat97 < (int) (files.size()); _repeat97++) {
-                files.get((int) index).put("sel", "false");
-                index++;
-              }
+              files.addAll(folderItems);
+
+              //              folderList.forEach(
+              //                  item -> {
+              //                    HashMap<String, Object> _item = new HashMap<>();
+              //                    _item.put("path", item);
+              //                    files.add(_item);
+              //                  });
+              //
+
+              fileList.forEach(
+                  item -> {
+                    HashMap<String, Object> _item = new HashMap<>();
+                    _item.put("path", item);
+                    files.add(_item);
+                  });
               try {
 
               } catch (Exception e) {
@@ -734,6 +739,7 @@ public class FileDirActivity extends BaseCompat
                     () ->
                         DataUtil.showMessage(getApplicationContext(), "Error to " + e.toString()));
               }
+
               runOnUiThread(
                   () -> {
                     recyclerview2.setVisibility(View.VISIBLE);
@@ -746,6 +752,7 @@ public class FileDirActivity extends BaseCompat
                   });
             })
         .start();
+
     _distreeview();
   }
 

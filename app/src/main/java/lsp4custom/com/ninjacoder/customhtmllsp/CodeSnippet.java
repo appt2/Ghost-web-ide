@@ -1,15 +1,15 @@
 package lsp4custom.com.ninjacoder.customhtmllsp;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.Gson;
-import io.github.rosemoe.sora.langs.javascript.JavaScriptLanguage;
+import io.github.rosemoe.sora.data.CompletionItem;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import com.google.gson.JsonElement;
-import io.github.rosemoe.sora.data.CompletionItem;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class CodeSnippet {
   public String jsonPath;
@@ -22,16 +22,20 @@ public class CodeSnippet {
     JsonObject jsonObject = JsonParser.parseString(jsonPath).getAsJsonObject();
     Gson gson = new Gson();
     List<CompletionItem> codeSnippets = new ArrayList<>();
-    List<CompletionItem> helper = new ArrayList<>();
     Set<Map.Entry<String, JsonElement>> jsonEntries = jsonObject.entrySet();
-    for (Map.Entry<String, JsonElement> entry : jsonEntries) {
-      CompletionItem snippet = gson.fromJson(entry.getValue(), CompletionItem.class);
-      snippet.desc = entry.getValue().getAsJsonObject().get("description").getAsString();
-      snippet.label = entry.getValue().getAsJsonObject().get("prefix").getAsString();
-      snippet.commit = entry.getValue().getAsJsonObject().get("body").getAsString();
+    List<CompletionItem> helper =
+        jsonEntries.stream()
+            .map(
+                entry -> {
+                  CompletionItem snippet = gson.fromJson(entry.getValue(), CompletionItem.class);
+                  JsonObject jsonObj = entry.getValue().getAsJsonObject();
+                  snippet.desc = jsonObj.get("description").getAsString();
+                  snippet.label = jsonObj.get("prefix").getAsString();
+                  snippet.commit = jsonObj.get("body").getAsString();
+                  return snippet;
+                })
+            .collect(Collectors.toList());
 
-      helper.add(snippet);
-    }
     list.addAll(helper);
   }
 }

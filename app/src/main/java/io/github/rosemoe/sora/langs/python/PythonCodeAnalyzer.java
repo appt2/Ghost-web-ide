@@ -2,7 +2,6 @@ package io.github.rosemoe.sora.langs.python;
 
 import android.util.Log;
 
-import io.github.rosemoe.sora.langs.IdentifierAutoComplete;
 import io.github.rosemoe.sora.text.TextStyle;
 import java.util.List;
 import io.github.rosemoe.sora.data.NavigationItem;
@@ -20,8 +19,6 @@ import io.github.rosemoe.sora.text.TextAnalyzer;
 import io.github.rosemoe.sora.widget.EditorColorScheme;
 
 public class PythonCodeAnalyzer implements CodeAnalyzer {
-  private int COMPLETE = 25;
-  private int INCOMPLETE = 24;
 
   @Override
   public void analyze(
@@ -37,8 +34,6 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
       Token token, preToken = null, prePreToken = null;
       boolean first = true;
       Stack<BlockLine> stack = new Stack<>();
-      IdentifierAutoComplete.Identifiers in = new IdentifierAutoComplete.Identifiers();
-      in.begin();
       List<NavigationItem> labels = new ArrayList<>();
       int maxSwitch = 1, currSwitch = 0;
       int lastLine = 1;
@@ -56,16 +51,12 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
         lastLine = line;
 
         switch (token.getType()) {
-          case PythonLexer.WS:
+          
+          case PythonLexer.NEWLINE:
             if (first) {
               result.addNormalIfNull();
             }
             break;
-          case PythonLexer.INDENT:
-          case PythonLexer.DEDENT:
-          case PythonLexer.FSTRING_START:
-          case PythonLexer.FSTRING_MIDDLE:
-          case PythonLexer.FSTRING_END:
           case PythonLexer.FALSE:
           case PythonLexer.AWAIT:
           case PythonLexer.ELSE:
@@ -88,21 +79,9 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
                 TextStyle.makeStyle(EditorColorScheme.LITERAL, 0, true, false, false));
             break;
           case PythonLexer.COLON:
-            {
-              classNamePrevious = false;
-              result.addIfNeeded(line, column, EditorColorScheme.HTML_TAG);
-              if (!stack.isEmpty()) {
-                BlockLine block1 = stack.pop();
-                block1.endLine = line;
-                block1.endColumn = column;
-                if (block1.startLine != block1.endLine) {
-                  result.addBlockLine(block1);
-                }
-              }
-
-              break;
-            }
-
+            classNamePrevious = false;
+            result.addIfNeeded(line, column, EditorColorScheme.HTML_TAG);
+            break;
           case PythonLexer.FINALLY:
           case PythonLexer.IS:
           case PythonLexer.RETURN:
@@ -133,118 +112,97 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
             result.addIfNeeded(
                 line,
                 column,
-                TextStyle.makeStyle(EditorColorScheme.NON_PRINTABLE_CHAR, 0, true, false, false));
+                TextStyle.makeStyle(EditorColorScheme.ATTRIBUTE_NAME, 0, true, false, false));
             break;
-
-          case PythonLexer.LPAR:
-          case PythonLexer.LSQB:
-          case PythonLexer.LBRACE:
-          case PythonLexer.RPAR:
-          case PythonLexer.RSQB:
-          case PythonLexer.RBRACE:
           case PythonLexer.DOT:
-          case PythonLexer.COMMA:
-          case PythonLexer.SEMI:
-          case PythonLexer.PLUS:
-          case PythonLexer.MINUS:
-          case PythonLexer.STAR:
-          case PythonLexer.SLASH:
-          case PythonLexer.VBAR:
-          case PythonLexer.AMPER:
-          case PythonLexer.LESS:
-          case PythonLexer.GREATER:
-          case PythonLexer.EQUAL:
-          case PythonLexer.PERCENT:
-          case PythonLexer.EQEQUAL:
-          case PythonLexer.NOTEQUAL:
-          case PythonLexer.LESSEQUAL:
-          case PythonLexer.GREATEREQUAL:
-          case PythonLexer.TILDE:
-          case PythonLexer.CIRCUMFLEX:
-          case PythonLexer.LEFTSHIFT:
-          case PythonLexer.RIGHTSHIFT:
-          case PythonLexer.DOUBLESTAR:
-          case PythonLexer.PLUSEQUAL:
-          case PythonLexer.MINEQUAL:
-          case PythonLexer.STAREQUAL:
-          case PythonLexer.SLASHEQUAL:
-          case PythonLexer.PERCENTEQUAL:
-          case PythonLexer.AMPEREQUAL:
-          case PythonLexer.VBAREQUAL:
-          case PythonLexer.CIRCUMFLEXEQUAL:
-          case PythonLexer.LEFTSHIFTEQUAL:
-          case PythonLexer.RIGHTSHIFTEQUAL:
-          case PythonLexer.DOUBLESTAREQUAL:
-          case PythonLexer.DOUBLESLASH:
-          case PythonLexer.DOUBLESLASHEQUAL:
-          case PythonLexer.AT:
-            result.addIfNeeded(line, column, EditorColorScheme.ATTRIBUTE_VALUE);
-            break;
-          case PythonLexer.ATEQUAL:
-          case PythonLexer.RARROW:
           case PythonLexer.ELLIPSIS:
-          case PythonLexer.COLONEQUAL:
-          case PythonLexer.EXCLAMATION:
+          case PythonLexer.STAR:
+          case PythonLexer.OPEN_PAREN:
+          case PythonLexer.CLOSE_PAREN:
+          case PythonLexer.COMMA:
+          case PythonLexer.SEMI_COLON:
+          case PythonLexer.POWER:
+          case PythonLexer.ASSIGN:
+          case PythonLexer.OPEN_BRACK:
+          case PythonLexer.CLOSE_BRACK:
+          case PythonLexer.OR_OP:
+          case PythonLexer.XOR:
+          case PythonLexer.AND_OP:
+          case PythonLexer.LEFT_SHIFT:
+          case PythonLexer.RIGHT_SHIFT:
+          case PythonLexer.ADD:
             result.addIfNeeded(
                 line,
                 column,
                 TextStyle.makeStyle(EditorColorScheme.ATTRIBUTE_NAME, 0, true, false, false));
             break;
 
-          case PythonLexer.NAME:
           case PythonLexer.NUMBER:
           case PythonLexer.STRING:
+          case PythonLexer.MINUS:
+          case PythonLexer.DIV:
+          case PythonLexer.MOD:
+          case PythonLexer.IDIV:
+          case PythonLexer.NOT_OP:
+          case PythonLexer.OPEN_BRACE:
+          case PythonLexer.CLOSE_BRACE:
+          case PythonLexer.LESS_THAN:
+          case PythonLexer.GREATER_THAN:
+          case PythonLexer.EQUALS:
+          case PythonLexer.GT_EQ:
+          case PythonLexer.LT_EQ:
+          case PythonLexer.NOT_EQ_1:
+          case PythonLexer.NOT_EQ_2:
+          case PythonLexer.AT:
+          case PythonLexer.ARROW:
+          case PythonLexer.ADD_ASSIGN:
+          case PythonLexer.SUB_ASSIGN:
+          case PythonLexer.MULT_ASSIGN:
+          case PythonLexer.AT_ASSIGN:
             result.addIfNeeded(
                 line,
                 column,
                 TextStyle.makeStyle(EditorColorScheme.BLOCK_LINE, 0, true, false, false));
             break;
-          case PythonLexer.TYPE_COMMENT:
-          case PythonLexer.NEWLINE:
-          case PythonLexer.COMMENT:
-            if (classNamePrevious) {
-              classNamePrevious = true;
-              result.addIfNeeded(
-                  line,
-                  column,
-                  TextStyle.makeStyle(EditorColorScheme.COMMENT, 0, true, false, false));
-            } else {
-              result.addIfNeeded(
-                  line,
-                  column,
-                  TextStyle.makeStyle(EditorColorScheme.LITERAL, 0, true, true, false));
-              classNamePrevious = false;
-            }
+          case PythonLexer.DIV_ASSIGN:
+          case PythonLexer.MOD_ASSIGN:
+          case PythonLexer.AND_ASSIGN:
+          case PythonLexer.OR_ASSIGN:
+          case PythonLexer.XOR_ASSIGN:
+          case PythonLexer.LEFT_SHIFT_ASSIGN:
+          case PythonLexer.RIGHT_SHIFT_ASSIGN:
+          case PythonLexer.POWER_ASSIGN:
+          case PythonLexer.IDIV_ASSIGN:
+            result.addIfNeeded(
+                line, column, TextStyle.makeStyle(EditorColorScheme.LITERAL, 0, true, true, false));
+            classNamePrevious = false;
+
             break;
-          case PythonLexer.EXPLICIT_LINE_JOINING:
-          case PythonLexer.ERROR_TOKEN:
+          
+          case PythonLexer.UNKNOWN_CHAR:
             result.addIfNeeded(
                 line, column, TextStyle.makeStyle(EditorColorScheme.red, 0, true, false, false));
             break;
+          case PythonLexer.SKIP_:
+            result.addIfNeeded(line,column,EditorColorScheme.COMMENT);
+          break;
+          case PythonLexer.NAME:
+          result.addIfNeeded(line,column,EditorColorScheme.COLOR_DEBUG);
           
-          case PythonLexer.TYPEVALUE:
-            {
-              result.addIfNeeded(line, column, EditorColorScheme.COLOR_DEBUG);
-              break;
-            }
-          case PythonLexer.PARAMNETHELPR:
-            {
-              result.addIfNeeded(line, column, EditorColorScheme.COLOR_TIP);
-              break;
-            }
-          case PythonLexer.SELF:
-            {
-              result.addIfNeeded(line, column, EditorColorScheme.COLOR_ERROR);
-              break;
-            }
-
+          break;
+          case PythonLexer.STRING_LITERAL:
+          case PythonLexer.BYTES_LITERAL:
+          case PythonLexer.DECIMAL_INTEGER:
+          case PythonLexer.OCT_INTEGER:
+          case PythonLexer.HEX_INTEGER:
+          case PythonLexer.BIN_INTEGER:
+          case PythonLexer.FLOAT_NUMBER:
+          case PythonLexer.IMAG_NUMBER:
+          result.addIfNeeded(line,column,EditorColorScheme.COLOR_TIP);
+          
+          break;
+          
           default:
-            try {
-              in.addIdentifier(token.getText().substring(line, column));
-            } catch (Exception err) {
-              in.addIdentifier(token.getText());
-            }
-
             result.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
             prevIsTagName = false;
             classNamePrevious = false;
@@ -253,9 +211,9 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
 
         first = false;
       }
-      in.finish();
+
       result.determine(lastLine);
-      result.setExtra(in);
+
       result.setSuppressSwitch(maxSwitch + 10);
       result.setNavigation(labels);
     } catch (IOException e) {

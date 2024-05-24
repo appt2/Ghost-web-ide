@@ -149,15 +149,15 @@ MYCLASS
    ;
 
 HASHSTYLE
-   : '#' [a-zA-Z_]* '-' [a-zA-Z_]*
-   | '#' [a-zA-Z0-9_]*
-   | '#'
-   | '@' [a-zA-Z_]*
+   : Hash [a-zA-Z_]* '-' [a-zA-Z_]*
+   | Hash [a-zA-Z0-9_]*
+   | At [a-zA-Z_]*
    ;
 
 GREENBOLD
    : ':hover'
    | ':before'
+   | [a-zA-Z0-9_]* '::' [a-zA-Z0-9_]+
    ;
 
 FontRelative
@@ -282,7 +282,6 @@ VAR_WS_EQUALS
    | '(' [a-zA-Z_0-9]* ')'
    //forNameEnd like in Myapp()
    | [a-zA-Z_0-9]* '()'
-   | [a-zA-Z_0-9]* '(' .*? ')'
    ;
 
 COLORUPPERCASE
@@ -1354,5 +1353,15 @@ String_
    
 Ident
    : Nmstart Nmchar*
+   ;
+
+VOIDS
+   : 'voids' -> pushMode (HSI)
+   ;
+
+mode HSI;
+LOGDIGI
+   : [\t] [a-zA-Z_]*
+   | [a-zA-Z_]*
    ;
 

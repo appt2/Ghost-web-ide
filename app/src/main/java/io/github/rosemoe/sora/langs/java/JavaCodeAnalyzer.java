@@ -171,6 +171,10 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
                     case JavaLexer.FLOAT:
                     case JavaLexer.INT:
                     case JavaLexer.LONG:
+                    case JavaLexer.ARROW:
+                    case JavaLexer.ASSIGN:
+                    case JavaLexer.GT:
+                    case JavaLexer.LT:
                     case JavaLexer.SHORT:
                         result.addIfNeeded(
                                 line,
@@ -178,10 +182,7 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
                                 TextStyle.makeStyle(EditorColorScheme.NON_PRINTABLE_CHAR, 0, true, false, false));
                         break;
                     case JavaLexer.LBRACE:
-                    case JavaLexer.ARROW:
-                    case JavaLexer.ASSIGN:
-                    case JavaLexer.GT:
-                    case JavaLexer.LT:
+                    
                         result.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
                         if (stack.isEmpty()) {
                             if (currSwitch > maxSwitch) {
@@ -217,11 +218,11 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
                     case JavaLexer.AT:
                         result.addIfNeeded(line, column, EditorColorScheme.AUTO_COMP_PANEL_CORNER);
                         break;
-                    case JavaLexer.Identifier: {
-                        result.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
-
-                        break;
-                    }
+//                    case JavaLexer.Identifier: {
+//                        result.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
+//
+//                        break;
+//                    }
 
                     case JavaLexer.StringLiteral:
                         result.addIfNeeded(line, column, forString());

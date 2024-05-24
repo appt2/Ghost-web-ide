@@ -2,13 +2,14 @@ package Ninja.coder.Ghostemane.code.terminal;
 
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.activities.BaseCompat;
-import Ninja.coder.Ghostemane.code.tasks.app.SassForAndroid;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysView;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeyButton;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysInfo;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysConstants;
 import Ninja.coder.Ghostemane.code.terminal.key.SpecialButton;
 import Ninja.coder.Ghostemane.code.config.CommandCompat;
+import Ninja.coder.Ghostemane.code.utils.AssetsSoft;
+import Ninja.coder.Ghostemane.code.utils.FileUtil;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.view.WindowManager;
-import android.widget.Toast;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.SizeUtils;
@@ -30,6 +30,7 @@ import io.github.rosemoe.sora.widget.AndroidClassHelper.helper;
 import com.termux.terminal.TerminalSessionClient;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import com.termux.view.TerminalView;
 import android.os.Bundle;
@@ -79,7 +80,7 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     return keys;
   }
 
-  private void initializeLogic() {
+ private void initializeLogic() {
 
     String shell = "/bin/sh";
     if (!new File("/bin/sh").exists()) {
@@ -189,16 +190,22 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     terminals.post(
         () -> {
           if (getIntent().hasExtra("path")) {
-            String pys =
+            var pys =
                 CommandCompat.INSTANCE.getInterpreterCommand(
                     getApplicationContext(), getIntent().getStringExtra("path"));
             terminals.mTermSession.write(pys + '\r');
-          } else if(getIntent().hasExtra("phpcode")) {
-          	String php = CommandCompat.INSTANCE.getRunPhpCommand(getApplicationContext(),new File(getIntent().getStringExtra("phpcode")));
+           
+          } else if (getIntent().hasExtra("phpcode")) {
+            String php =
+                CommandCompat.INSTANCE.getRunPhpCommand(
+                    getApplicationContext(), new File(getIntent().getStringExtra("phpcode")));
             terminals.mTermSession.write(php + '\r');
-          }else
-            terminals.mTermSession.write(
-                CommandCompat.INSTANCE.getBasicCommand(TerminalActivity.this) + '\r');
+          } else {
+             var mypath = getFilesDir().getAbsolutePath() + "/" + "databins";
+             var code = CommandCompat.INSTANCE.getInterpreterCommand(
+                  getApplicationContext(),mypath);
+             terminals.mTermSession.write(code + '\r');
+          }
         });
     try {
       Properties pr = new Properties();

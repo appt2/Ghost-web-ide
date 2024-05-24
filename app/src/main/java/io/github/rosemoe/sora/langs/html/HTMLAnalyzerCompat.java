@@ -2,6 +2,7 @@ package io.github.rosemoe.sora.langs.html;
 
 import android.graphics.Color;
 import android.util.Log;
+import io.github.rosemoe.sora.data.Span;
 import io.github.rosemoe.sora.text.TextStyle;
 import java.util.Stack;
 import io.github.rosemoe.sora.data.BlockLine;
@@ -63,7 +64,6 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
                   TextStyle.makeStyle(EditorColorScheme.ATTRIBUTE_VALUE, 0, true, false, false));
               break;
             }
-            // from @ using
           case HTMLLexer.Import:
           case HTMLLexer.Include:
           case HTMLLexer.Use:
@@ -143,7 +143,6 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
           case HTMLLexer.True:
           case HTMLLexer.False:
           case HTMLLexer.Plus:
-
           case HTMLLexer.Minus:
           case HTMLLexer.Times:
           case HTMLLexer.Eq:
@@ -177,6 +176,34 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
                 TextStyle.makeStyle(EditorColorScheme.BLOCK_LINE_CURRENT, 0, false, false, false));
             break;
           case HTMLLexer.String_:
+            {
+              String text = token.getText();
+              if (text.startsWith("\"#")) {
+                try {
+                  int color = Color.parseColor(text.substring(1, text.length() - 1));
+                  result.addIfNeeded(line, column, EditorColorScheme.LITERAL);
+
+                  Span span = Span.obtain(column + 1, EditorColorScheme.LITERAL);
+                  span.setUnderlineColor(color);
+                  result.add(line, span);
+
+                  Span middle = Span.obtain(column + text.length() - 1, EditorColorScheme.LITERAL);
+                  middle.setUnderlineColor(Color.TRANSPARENT);
+                  result.add(line, middle);
+
+                  Span end =
+                      Span.obtain(
+                          column + text.length(),
+                          TextStyle.makeStyle(EditorColorScheme.TEXT_NORMAL));
+                  end.setUnderlineColor(Color.TRANSPARENT);
+                  result.add(line, end);
+                  break;
+                } catch (Exception ignore) {
+                }
+              }
+              result.addIfNeeded(line, column, EditorColorScheme.LITERAL);
+              break;
+            }
           case HTMLLexer.Variable:
           case HTMLLexer.PHPSTARTENDS:
           case HTMLLexer.JsKeyWord5:
@@ -217,8 +244,6 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
             }
 
           case HTMLLexer.SLASH_CLOSE:
-          case HTMLLexer.NameRule:
-          case HTMLLexer.Colen:
             {
               result.addIfNeeded(line, column, EditorColorScheme.BLOCK_LINE_CURRENT);
               // set block line end position
@@ -234,6 +259,8 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
               break;
             }
           case HTMLLexer.Dot:
+          case HTMLLexer.NameRule:
+          case HTMLLexer.Colen:
             // from test to regex let aa = or class myapp() //
           case HTMLLexer.VAR_WS_EQUALS:
             {
@@ -257,6 +284,9 @@ public class HTMLAnalyzerCompat implements CodeAnalyzer {
               break;
             }
           case HTMLLexer.GREENBOLD:
+          //for test//
+          case HTMLLexer.VOIDS:
+          case HTMLLexer.LOGDIGI:
             {
               result.addIfNeeded(
                   line,

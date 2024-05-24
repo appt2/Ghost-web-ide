@@ -43,7 +43,7 @@ public class ANTLRV4Lang implements EditorLanguage {
     "finally",
     "->",
     "EOF",
-    "::",
+    "HIDDEN",
     "type"
   };
 

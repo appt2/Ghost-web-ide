@@ -14,6 +14,7 @@ import Ninja.coder.Ghostemane.code.marco.ColorView;
 import Ninja.coder.Ghostemane.code.marco.GhostWebEditorSearch;
 import Ninja.coder.Ghostemane.code.marco.NinjaMacroFileUtil;
 import Ninja.coder.Ghostemane.code.marco.WallpaperParallaxEffect;
+import Ninja.coder.Ghostemane.code.marco.ideColors.IdeColorCompat;
 import Ninja.coder.Ghostemane.code.navigator.EditorHelperColor;
 import Ninja.coder.Ghostemane.code.project.JavaCompilerBeta;
 import Ninja.coder.Ghostemane.code.project.ProjectManager;
@@ -1814,33 +1815,8 @@ public class CodeEditorActivity extends AppCompatActivity {
       if (_data.isEmpty()) {
 
       } else {
-        if (ru.contains("rup")) {
-          android.graphics.drawable.GradientDrawable SketchUi30 =
-              new android.graphics.drawable.GradientDrawable();
-          int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
-          SketchUi30.setColor(0xFFFDA893);
-          SketchUi30.setCornerRadii(new float[] {d * 360, d * 360, d * 360, d * 360, 0, 0, 0, 0});
-          selector.setElevation(d * 4);
-          selector.setBackground(SketchUi30);
-        } else {
-          if (imap.containsKey("TabBack")) {
-            android.graphics.drawable.GradientDrawable SketchUi =
-                new android.graphics.drawable.GradientDrawable();
-            int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
-            SketchUi.setColor(Color.parseColor(imap.get("TabBack").toString()));
-            SketchUi.setCornerRadii(new float[] {d * 360, d * 360, d * 360, d * 360, 0, 0, 0, 0});
-            selector.setElevation(d * 4);
-            selector.setBackground(SketchUi);
-          } else {
-            android.graphics.drawable.GradientDrawable SketchUi =
-                new android.graphics.drawable.GradientDrawable();
-            int d = (int) getApplicationContext().getResources().getDisplayMetrics().density;
-            SketchUi.setColor(Color.parseColor("#ffd1aeff"));
-            SketchUi.setCornerRadii(new float[] {d * 360, d * 360, d * 360, d * 360, 0, 0, 0, 0});
-            selector.setElevation(d * 4);
-            selector.setBackground(SketchUi);
-          }
-        }
+        var ideColors = new IdeColorCompat(editor);
+        ideColors.Colors(selector,textview1);
         datas = Uri.parse(_data.get(_position).get("path").toString()).getLastPathSegment();
         textview1.setText(
             Uri.parse(_data.get(_position).get("path").toString()).getLastPathSegment());
