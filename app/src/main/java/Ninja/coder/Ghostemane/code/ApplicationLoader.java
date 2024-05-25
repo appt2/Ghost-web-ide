@@ -16,6 +16,7 @@ import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 import com.google.android.material.color.DynamicColors;
 import de.larsgrefer.sass.embedded.SassCompiler;
 import de.larsgrefer.sass.embedded.android.AndroidSassCompilerFactory;
@@ -23,7 +24,10 @@ import de.larsgrefer.sass.embedded.android.AndroidSassCompilerFactory;
 import java.util.Calendar;
 
 public class ApplicationLoader extends Application {
-  protected static SharedPreferences materialYou, getvb, setfont, ru, save_path,thememanagersoft;
+  // from terminal
+
+  private static SharedPreferences prfns;
+  protected static SharedPreferences materialYou, getvb, setfont, ru, save_path, thememanagersoft;
   private static Context mApplicationContext;
   private static Activity activity;
   private static IdeEditor editor;
@@ -59,8 +63,8 @@ public class ApplicationLoader extends Application {
   public static SharedPreferences getPath() {
     return save_path;
   }
-  
-  public static SharedPreferences getThememanagersoft(){
+
+  public static SharedPreferences getThememanagersoft() {
     return thememanagersoft;
   }
 
@@ -75,7 +79,8 @@ public class ApplicationLoader extends Application {
     setfont = getSharedPreferences("setfont", MODE_PRIVATE);
     save_path = getSharedPreferences("path", MODE_PRIVATE);
     ru = getSharedPreferences("ru", MODE_PRIVATE);
-    thememanagersoft = getSharedPreferences("thememanagersoft",MODE_PRIVATE);
+    thememanagersoft = getSharedPreferences("thememanagersoft", MODE_PRIVATE);
+    prfns =  PreferenceManager.getDefaultSharedPreferences(this);
     try (SassCompiler compiler = AndroidSassCompilerFactory.bundled(this)) {
       Toast.makeText(getApplicationContext(), compiler.getVersion().toString(), Toast.LENGTH_SHORT)
           .show();
@@ -155,5 +160,9 @@ public class ApplicationLoader extends Application {
     } catch (PackageManager.NameNotFoundException err) {
       return null;
     }
+  }
+
+  public static SharedPreferences getPrefManager() {
+    return prfns;
   }
 }

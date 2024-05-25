@@ -1,5 +1,6 @@
 package Ninja.coder.Ghostemane.code.terminal;
 
+import Ninja.coder.Ghostemane.code.ApplicationLoader;
 import Ninja.coder.Ghostemane.code.R;
 import Ninja.coder.Ghostemane.code.activities.BaseCompat;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysView;
@@ -8,12 +9,11 @@ import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysInfo;
 import Ninja.coder.Ghostemane.code.terminal.key.VirtualKeysConstants;
 import Ninja.coder.Ghostemane.code.terminal.key.SpecialButton;
 import Ninja.coder.Ghostemane.code.config.CommandCompat;
-import Ninja.coder.Ghostemane.code.utils.AssetsSoft;
-import Ninja.coder.Ghostemane.code.utils.FileUtil;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,7 +30,6 @@ import io.github.rosemoe.sora.widget.AndroidClassHelper.helper;
 import com.termux.terminal.TerminalSessionClient;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import com.termux.view.TerminalView;
 import android.os.Bundle;
@@ -47,7 +46,11 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
   private TerminalView terminals;
   protected VirtualKeysView keys;
   protected KeyListener listener;
+  private static final String KEY_FONT_SIZE = "terminal_fontSize";
   protected TermuxActivityRootView layoutRoot;
+  private int MIN_FONT_SIZE;
+  private int MAX_FONT_SIZE;
+  private int DEFAULT_FONT_SIZE;
 
   @Override
   protected void onCreate(Bundle _savedInstanceState) {
@@ -64,7 +67,6 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
 
   private void initialize(Bundle _savedInstanceState) {
     terminals = findViewById(R.id.term);
-    getvb = getSharedPreferences("getvb", Activity.MODE_PRIVATE);
     keys = findViewById(R.id.keysterm);
     layoutRoot = findViewById(R.id.rootPos);
     layoutRoot.setActivity(this);
@@ -80,7 +82,7 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
     return keys;
   }
 
- private void initializeLogic() {
+  private void initializeLogic() {
 
     String shell = "/bin/sh";
     if (!new File("/bin/sh").exists()) {
@@ -194,17 +196,17 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
                 CommandCompat.INSTANCE.getInterpreterCommand(
                     getApplicationContext(), getIntent().getStringExtra("path"));
             terminals.mTermSession.write(pys + '\r');
-           
+
           } else if (getIntent().hasExtra("phpcode")) {
             String php =
                 CommandCompat.INSTANCE.getRunPhpCommand(
                     getApplicationContext(), new File(getIntent().getStringExtra("phpcode")));
             terminals.mTermSession.write(php + '\r');
           } else {
-             var mypath = getFilesDir().getAbsolutePath() + "/" + "databins";
-             var code = CommandCompat.INSTANCE.getInterpreterCommand(
-                  getApplicationContext(),mypath);
-             terminals.mTermSession.write(code + '\r');
+            var mypath = getFilesDir().getAbsolutePath() + "/" + "databins";
+            var code =
+                CommandCompat.INSTANCE.getInterpreterCommand(getApplicationContext(), mypath);
+            terminals.mTermSession.write(code + '\r');
           }
         });
     try {
@@ -236,8 +238,79 @@ public class TerminalActivity extends BaseCompat implements TerminalViewClient {
 
   @Override
   public float onScale(float scale) {
+    ///not work error 
+//    if (scale < 0.9f || scale > 1.1f) {
+//      boolean increase = scale > 1.f;
+//      //changeFontSize(increase);
+//      return 1.0f;
+//    }
+    return 2f;
+  }
 
-    return 18;
+  private void changeFontSize(final boolean increase) {
+    int fontSize = getFontSize();
+    fontSize += (increase ? 1 : -1) * 2;
+    fontSize = Math.max(MIN_FONT_SIZE, Math.min(fontSize, MAX_FONT_SIZE));
+    setFontSize(fontSize, true);
+  }
+
+  public void setFontSize(int value, boolean apply) {
+    ApplicationLoader.getPrefManager().getString(KEY_FONT_SIZE,String.valueOf(value));
+    if (apply) {
+      terminals.setTextSize(getFontSize());
+    }
+  }
+
+  public int getFontSize() {
+    int fontSize;
+    
+    try {
+    	fontSize = Integer.parseInt(ApplicationLoader.getPrefManager().getString(KEY_FONT_SIZE,String.valueOf(DEFAULT_FONT_SIZE)));
+    } catch(NumberFormatException err) {
+    	fontSize = DEFAULT_FONT_SIZE;
+    }
+    
+    
+    return Math.min(Math.max(fontSize, MIN_FONT_SIZE), MAX_FONT_SIZE);
+  }
+
+  public void setFontVariables() {
+    int[] sizes = getDefaultFontSizes();
+
+    DEFAULT_FONT_SIZE = sizes[0];
+    MIN_FONT_SIZE = sizes[1];
+    MAX_FONT_SIZE = sizes[2];
+  }
+
+  // https://github.com/termux/termux-app/blob/82b15803126138eef8899e0c7b582713f872cd09/termux-shared/src/main/java/com/termux/shared/termux/settings/preferences/TermuxAppSharedPreferences.java
+  private int[] getDefaultFontSizes() {
+    float dipInPixels =
+        TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+
+    int[] sizes = new int[3];
+
+    // This is a bit arbitrary and sub-optimal. We want to give a sensible default for minimum font
+    // size
+    // to prevent invisible text due to zoom be mistake:
+    sizes[1] = (int) (4f * dipInPixels); // min
+
+    // http://www.google.com/design/spec/style/typography.html#typography-line-height
+    int defaultFontSize = Math.round(9 * dipInPixels);
+    // Make it divisible by 2 since that is the minimal adjustment step:
+    if (defaultFontSize % 2 == 1) defaultFontSize--;
+
+    sizes[0] = defaultFontSize; // default
+
+    sizes[2] = 256; // max
+
+    setFontSize(16, false);
+
+    if (ApplicationLoader.getPrefManager().getString(KEY_FONT_SIZE, "<not_available>").equals("<not_available>")) {
+      setFontSize(defaultFontSize, false);
+    }
+
+    return sizes;
   }
 
   @Override

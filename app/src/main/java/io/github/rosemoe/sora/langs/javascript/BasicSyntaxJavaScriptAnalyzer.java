@@ -16,137 +16,123 @@ import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Parser;
 
-/**
- * Basic syntax analyzer with JavaScript using Rhino parser.
- */
+/** Basic syntax analyzer with JavaScript using Rhino parser. */
 public class BasicSyntaxJavaScriptAnalyzer implements CodeAnalyzer {
 
-    @Override
-    public void analyze(
-            CharSequence content,
-            TextAnalyzeResult colors,
-            TextAnalyzer.AnalyzeThread.Delegate delegate) {
-        CompilerEnvirons compilerEnvirons = new CompilerEnvirons();
-        ErrorReporter errorReporter =
-                new ErrorReporter() {
-                    @Override
-                    public void warning(
-                            String message,
-                            String sourceName,
-                            int line,
-                            String lineSource,
-                            int lineOffset) {
-                        // Handle warnings if needed
-                        int[] waring = setWaringSpan(colors, line, lineOffset);
-                    }
+  @Override
+  public void analyze(
+      CharSequence content,
+      TextAnalyzeResult colors,
+      TextAnalyzer.AnalyzeThread.Delegate delegate) {
+    CompilerEnvirons compilerEnvirons = new CompilerEnvirons();
+    ErrorReporter errorReporter =
+        new ErrorReporter() {
+          @Override
+          public void warning(
+              String message, String sourceName, int line, String lineSource, int lineOffset) {
+            // Handle warnings if needed
+            int[] waring = setWaringSpan(colors, line, lineOffset);
+          }
 
-                    @Override
-                    public void error(
-                            String message,
-                            String sourceName,
-                            int line,
-                            String lineSource,
-                            int lineOffset) {
-                        int[] end = setErrorSpan(colors, line, lineOffset);
-                    }
+          @Override
+          public void error(
+              String message, String sourceName, int line, String lineSource, int lineOffset) {
+            int[] end = setErrorSpan(colors, line, lineOffset);
+          }
 
-                    @Override
-                    public EvaluatorException runtimeError(
-                            String message,
-                            String sourceName,
-                            int line,
-                            String lineSource,
-                            int lineOffset) {
-                        // Handle runtime errors if needed
-                        return null;
-                    }
-                };
-        Parser parser = new Parser(compilerEnvirons, errorReporter);
-        String sourceName = "JavaScript";
-        try {
-            parser.parse(content.toString(), sourceName, 1);
-        } catch (EvaluatorException e) {
+          @Override
+          public EvaluatorException runtimeError(
+              String message, String sourceName, int line, String lineSource, int lineOffset) {
+            // Handle runtime errors if needed
+            return null;
+          }
+        };
+    Parser parser = new Parser(compilerEnvirons, errorReporter);
+    String sourceName = "JavaScript";
+    try {
+      parser.parse(content.toString(), sourceName, 1);
+    } catch (EvaluatorException e) {
 
-        }
     }
+  }
 
-    public int[] setErrorSpan(TextAnalyzeResult colors, int line, int column) {
-        int lineCount = colors.getSpanMap().size();
-        int realLine = line - 1;
-        List<Span> spans = colors.getSpanMap().get(Math.min(realLine, lineCount - 1));
+  public int[] setErrorSpan(TextAnalyzeResult colors, int line, int column) {
+    int lineCount = colors.getSpanMap().size();
+    int realLine = line - 1;
+    List<Span> spans = colors.getSpanMap().get(Math.min(realLine, lineCount - 1));
 
-        int[] end = new int[2];
-        end[0] = Math.min(realLine, lineCount - 1);
+    int[] end = new int[2];
+    end[0] = Math.min(realLine, lineCount - 1);
 
-        if (realLine >= lineCount) {
-            Span span = Span.obtain(0, EditorColorScheme.PROBLEM_ERROR);
+    if (realLine >= lineCount) {
+      Span span = Span.obtain(0, EditorColorScheme.PROBLEM_ERROR);
+      span.problemFlags = Span.FLAG_ERROR;
+      colors.add(realLine, span);
+      end[0]++;
+    } else {
+      Span last = null;
+      for (int i = 0; i < spans.size(); i++) {
+        Span span = spans.get(i);
+        if (last != null) {
+          if (last.column <= column - 1 && span.column >= column - 1) {
             span.problemFlags = Span.FLAG_ERROR;
-            colors.add(realLine, span);
-            end[0]++;
-        } else {
-            Span last = null;
-            for (int i = 0; i < spans.size(); i++) {
-                Span span = spans.get(i);
-                if (last != null) {
-                    if (last.column <= column - 1 && span.column >= column - 1) {
-                        span.problemFlags = Span.FLAG_ERROR;
-                        last.problemFlags = Span.FLAG_ERROR;
-                        span.style = EditorColorScheme.PROBLEM_ERROR;
-                        last.style = EditorColorScheme.PROBLEM_ERROR;
-                        end[1] = last.column;
-                        break;
-                    }
-                }
-                if (i == spans.size() - 1 && span.column <= column - 1) {
-                    span.problemFlags = Span.FLAG_ERROR;
-                    span.style = EditorColorScheme.PROBLEM_ERROR;
-                    end[1] = span.column;
-                    break;
-                }
-                last = span;
-            }
+            last.problemFlags = Span.FLAG_ERROR;
+            span.style = EditorColorScheme.PROBLEM_ERROR;
+            last.style = EditorColorScheme.PROBLEM_ERROR;
+            end[1] = last.column;
+            break;
+          }
         }
-
-        return end;
+        if (i == spans.size() - 1 && span.column <= column - 1) {
+          span.problemFlags = Span.FLAG_ERROR;
+          span.style = EditorColorScheme.PROBLEM_ERROR;
+          end[1] = span.column;
+          break;
+        }
+        last = span;
+      }
     }
 
-    public int[] setWaringSpan(TextAnalyzeResult colors, int line, int column) {
-        int lineCount = colors.getSpanMap().size();
-        int realLine = line - 1;
-        List<Span> spans = colors.getSpanMap().get(Math.min(realLine, lineCount - 1));
+    return end;
+  }
 
-        int[] end = new int[2];
-        end[0] = Math.min(realLine, lineCount - 1);
+  public int[] setWaringSpan(TextAnalyzeResult colors, int line, int column) {
+    int lineCount = colors.getSpanMap().size();
+    int realLine = line - 1;
+    List<Span> spans = colors.getSpanMap().get(Math.min(realLine, lineCount - 1));
 
-        if (realLine >= lineCount) {
-            Span span = Span.obtain(0, EditorColorScheme.PROBLEM_WARNING);
-            span.problemFlags = Span.FLAG_ERROR;
-            colors.add(realLine, span);
-            end[0]++;
-        } else {
-            Span last = null;
-            for (int i = 0; i < spans.size(); i++) {
-                Span span = spans.get(i);
-                if (last != null) {
-                    if (last.column <= column - 1 && span.column >= column - 1) {
-                        span.problemFlags = Span.FLAG_WARNING;
-                        last.problemFlags = Span.FLAG_WARNING;
-                        span.style = EditorColorScheme.PROBLEM_WARNING;
-                        last.style = EditorColorScheme.PROBLEM_WARNING;
-                        end[1] = last.column;
-                        break;
-                    }
-                }
-                if (i == spans.size() - 1 && span.column <= column - 1) {
-                    span.problemFlags = Span.FLAG_WARNING;
-                    span.style = EditorColorScheme.PROBLEM_WARNING;
-                    end[1] = span.column;
-                    break;
-                }
-                last = span;
-            }
+    int[] end = new int[2];
+    end[0] = Math.min(realLine, lineCount - 1);
+
+    if (realLine >= lineCount) {
+      Span span = Span.obtain(0, EditorColorScheme.PROBLEM_WARNING);
+      span.problemFlags = Span.FLAG_ERROR;
+      colors.add(realLine, span);
+      end[0]++;
+    } else {
+      Span last = null;
+      for (int i = 0; i < spans.size(); i++) {
+        Span span = spans.get(i);
+        if (last != null) {
+          if (last.column <= column - 1 && span.column >= column - 1) {
+            span.problemFlags = Span.FLAG_WARNING;
+            last.problemFlags = Span.FLAG_WARNING;
+            span.style = EditorColorScheme.PROBLEM_WARNING;
+            last.style = EditorColorScheme.PROBLEM_WARNING;
+            end[1] = last.column;
+            break;
+          }
         }
-
-        return end;
+        if (i == spans.size() - 1 && span.column <= column - 1) {
+          span.problemFlags = Span.FLAG_WARNING;
+          span.style = EditorColorScheme.PROBLEM_WARNING;
+          end[1] = span.column;
+          break;
+        }
+        last = span;
+      }
     }
+
+    return end;
+  }
 }

@@ -51,7 +51,6 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
         lastLine = line;
 
         switch (token.getType()) {
-          
           case PythonLexer.NEWLINE:
             if (first) {
               result.addNormalIfNull();
@@ -129,6 +128,7 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
           case PythonLexer.XOR:
           case PythonLexer.AND_OP:
           case PythonLexer.LEFT_SHIFT:
+          case PythonLexer.BRAKECTMODEL:
           case PythonLexer.RIGHT_SHIFT:
           case PythonLexer.ADD:
             result.addIfNeeded(
@@ -178,18 +178,17 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
             classNamePrevious = false;
 
             break;
-          
+
           case PythonLexer.UNKNOWN_CHAR:
             result.addIfNeeded(
                 line, column, TextStyle.makeStyle(EditorColorScheme.red, 0, true, false, false));
             break;
           case PythonLexer.SKIP_:
-            result.addIfNeeded(line,column,EditorColorScheme.COMMENT);
-          break;
+            result.addIfNeeded(line, column, EditorColorScheme.COMMENT);
+            break;
           case PythonLexer.NAME:
-          result.addIfNeeded(line,column,EditorColorScheme.COLOR_DEBUG);
-          
-          break;
+            result.addIfNeeded(line, column, EditorColorScheme.AUTO_COMP_PANEL_CORNER);
+            break;
           case PythonLexer.STRING_LITERAL:
           case PythonLexer.BYTES_LITERAL:
           case PythonLexer.DECIMAL_INTEGER:
@@ -198,10 +197,12 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
           case PythonLexer.BIN_INTEGER:
           case PythonLexer.FLOAT_NUMBER:
           case PythonLexer.IMAG_NUMBER:
-          result.addIfNeeded(line,column,EditorColorScheme.COLOR_TIP);
-          
-          break;
-          
+          case PythonLexer.INITMODEL:
+            result.addIfNeeded(line, column, EditorColorScheme.COLOR_TIP);
+            break;
+          case PythonLexer.COMPATPARN:
+            result.addIfNeeded(line, column, EditorColorScheme.COLOR_WARNING);
+            break;
           default:
             result.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
             prevIsTagName = false;

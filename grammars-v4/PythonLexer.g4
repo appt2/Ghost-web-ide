@@ -224,9 +224,12 @@ NEWLINE
    ;
    /// identifier   ::=  id_start id_continue*
    
-NAME
-   : ID_START ID_CONTINUE*
-   ;
+   ///NAME
+   
+   //  : ID_START ID_CONTINUE*
+   
+   ///  ;
+   
    /// stringliteral   ::=  [stringprefix](shortstring | longstring)
    
    /// stringprefix    ::=  "r" | "u" | "R" | "U" | "f" | "F"
@@ -278,6 +281,8 @@ IMAG_NUMBER
 
 DOT
    : '.'
+   | '.' [a-zA-Z0-9]*
+   | [a-zA-Z0-9]* '.' [a-zA-Z0-9]*
    ;
 
 ELLIPSIS
@@ -295,6 +300,24 @@ OPEN_PAREN
 CLOSE_PAREN
    : ')'
    ;
+   //add new data from ghost web 
+   
+COMPATPARN
+   : '()'
+   | [a-zA-Z0-9]* '()'
+   | '(' [a-zA-Z0-9]* ')'
+   ;
+
+INITMODEL
+   : '_' [a-zA-Z0-9]* '_'
+   | '__' [a-zA-Z0-9]* '__'
+   | '___' [a-zA-Z0-9]* '___'
+   ;
+
+BRAKECTMODEL
+   : '[' NEWLINE ']'
+   | '{' NEWLINE '}'
+   ;
 
 COMMA
    : ','
@@ -302,6 +325,8 @@ COMMA
 
 COLON
    : ':'
+   | [a-zA-Z0-9]* ':' [a-zA-Z0-9]*
+   | ':' [a-zA-Z0-9]*
    ;
 
 SEMI_COLON
@@ -314,6 +339,9 @@ POWER
 
 ASSIGN
    : '='
+   | [a-zA-Z0-9]* '='
+   | '=' [a-zA-Z0-9]*
+   | [A-Z]* '='
    ;
 
 OPEN_BRACK
@@ -406,6 +434,7 @@ NOT_EQ_2
 
 AT
    : '@'
+   | '@' [a-zA-Z0-9_]*
    ;
 
 ARROW
@@ -655,21 +684,37 @@ fragment UNICODE_OIDC
    ;
    /// id_start     ::=  <all characters in general categories Lu, Ll, Lt, Lm, Lo, Nl, the underscore, and characters with the Other_ID_Start property>
    
-fragment ID_START
-   : '_'
-   | [\p{L}]
-   | [\p{Nl}]
+//fragment ID_START
+   //  : '_'
+   
+   // | [\p{L}]
+   
+   // | [\p{Nl}]
+   
    //| [\p{Other_ID_Start}]
-   | UNICODE_OIDS
-   ;
+   
+   //| [\p{Lt}]
+   
+   /// | UNICODE_OIDS
+   //'djdieie'
+ //  ;
    /// id_continue  ::=  <all characters in id_start, plus characters in the categories Mn, Mc, Nd, Pc and others with the Other_ID_Continue property>
    
-fragment ID_CONTINUE
-   : ID_START
-   | [\p{Mn}]
-   | [\p{Mc}]
-   | [\p{Nd}]
-   | [\p{Pc}]
+//fragment ID_CONTINUE
+ //  : 'C9rieieie'
+   //  : ID_START
+   
+   //  | [\p{Mn}]
+   
+   //  | [\p{Mc}]
+   
+   // | [\p{Nd}]
+   
+   // | [\p{Pc}]
+   
    //| [\p{Other_ID_Continue}]
-   | UNICODE_OIDC
-   ;
+   
+   // | UNICODE_OIDC
+   
+ //  ;
+
