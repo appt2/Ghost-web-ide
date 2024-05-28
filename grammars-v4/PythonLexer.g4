@@ -281,8 +281,6 @@ IMAG_NUMBER
 
 DOT
    : '.'
-   | '.' [a-zA-Z0-9]*
-   | [a-zA-Z0-9]* '.' [a-zA-Z0-9]*
    ;
 
 ELLIPSIS
@@ -302,31 +300,12 @@ CLOSE_PAREN
    ;
    //add new data from ghost web 
    
-COMPATPARN
-   : '()'
-   | [a-zA-Z0-9]* '()'
-   | '(' [a-zA-Z0-9]* ')'
-   ;
-
-INITMODEL
-   : '_' [a-zA-Z0-9]* '_'
-   | '__' [a-zA-Z0-9]* '__'
-   | '___' [a-zA-Z0-9]* '___'
-   ;
-
-BRAKECTMODEL
-   : '[' NEWLINE ']'
-   | '{' NEWLINE '}'
-   ;
-
 COMMA
    : ','
    ;
 
 COLON
    : ':'
-   | [a-zA-Z0-9]* ':' [a-zA-Z0-9]*
-   | ':' [a-zA-Z0-9]*
    ;
 
 SEMI_COLON
@@ -339,9 +318,6 @@ POWER
 
 ASSIGN
    : '='
-   | [a-zA-Z0-9]* '='
-   | '=' [a-zA-Z0-9]*
-   | [A-Z]* '='
    ;
 
 OPEN_BRACK
@@ -434,7 +410,6 @@ NOT_EQ_2
 
 AT
    : '@'
-   | '@' [a-zA-Z0-9_]*
    ;
 
 ARROW
@@ -684,37 +659,18 @@ fragment UNICODE_OIDC
    ;
    /// id_start     ::=  <all characters in general categories Lu, Ll, Lt, Lm, Lo, Nl, the underscore, and characters with the Other_ID_Start property>
    
-//fragment ID_START
-   //  : '_'
-   
-   // | [\p{L}]
-   
-   // | [\p{Nl}]
-   
-   //| [\p{Other_ID_Start}]
-   
-   //| [\p{Lt}]
-   
-   /// | UNICODE_OIDS
-   //'djdieie'
- //  ;
-   /// id_continue  ::=  <all characters in id_start, plus characters in the categories Mn, Mc, Nd, Pc and others with the Other_ID_Continue property>
-   
-//fragment ID_CONTINUE
- //  : 'C9rieieie'
-   //  : ID_START
-   
-   //  | [\p{Mn}]
-   
-   //  | [\p{Mc}]
-   
-   // | [\p{Nd}]
-   
-   // | [\p{Pc}]
-   
-   //| [\p{Other_ID_Continue}]
-   
-   // | UNICODE_OIDC
-   
- //  ;
+fragment LetterOrDigit
+   : Letter
+   | [0-9]
+   ;
 
+fragment Letter
+   : [a-zA-Z$_] // these are the "java letters" below 0x7F
+   | ~ [\u0000-\u007F\uD800-\uDBFF] // covers all characters above 0x7F which are not a surrogate
+   | [\uD800-\uDBFF] [\uDC00-\uDFFF] // covers UTF-16 surrogate pairs encodings for U+10000 to U+10FFFF
+   
+   ;
+
+IDENTIFIER
+   : Letter LetterOrDigit*
+   ;

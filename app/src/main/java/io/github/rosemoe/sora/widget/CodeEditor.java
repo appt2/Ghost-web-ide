@@ -630,7 +630,7 @@ public class CodeEditor extends View
         mDrag = false;
         mWait = false;
         mBlockLineEnabled = true;
-        mBlockLineWidth = 1.5f;
+        mBlockLineWidth = 1.0f;
         mInputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         mClipboardManager = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         setUndoEnabled(true);
@@ -1517,6 +1517,7 @@ public class CodeEditor extends View
             long styleBits = span.getStyleBits();
             if (span.getStyleBits() != lastStyle) {
                 mPaint.setFakeBoldText(TextStyle.isBold(styleBits));
+                mPaint.setUnderlineText(TextStyle.isBELOWLINE(styleBits));
                 if (TextStyle.isItalics(styleBits)) {
                     mPaint.setTextSkewX(-0.2f);
                 } else {
@@ -1838,6 +1839,7 @@ public class CodeEditor extends View
                     long styleBits = span.getStyleBits();
                     if (span.getStyleBits() != lastStyle) {
                         mPaint.setFakeBoldText(TextStyle.isBold(styleBits));
+                        mPaint.setUnderlineText(TextStyle.isBELOWLINE(styleBits));
                         if (TextStyle.isItalics(styleBits)) {
                             mPaint.setTextSkewX(-0.2f);
                         } else {

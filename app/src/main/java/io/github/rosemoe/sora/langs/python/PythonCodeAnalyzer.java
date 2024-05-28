@@ -1,8 +1,10 @@
 package io.github.rosemoe.sora.langs.python;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import io.github.rosemoe.sora.text.TextStyle;
+import io.github.rosemoe.sora.widget.ListCss3Color;
 import java.util.List;
 import io.github.rosemoe.sora.data.NavigationItem;
 import java.util.ArrayList;
@@ -35,10 +37,11 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
       boolean first = true;
       Stack<BlockLine> stack = new Stack<>();
       List<NavigationItem> labels = new ArrayList<>();
-      int maxSwitch = 1, currSwitch = 0;
+      int type, currSwitch = 1, maxSwitch = 0, previous = -1;
       int lastLine = 1;
       int line, column;
       var prevIsTagName = false;
+
       while (delegate.shouldAnalyze()) {
         token = lexer.nextToken();
         if (token == null) break;
@@ -47,10 +50,14 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
           break;
         }
         line = token.getLine() - 1;
+        type = token.getType();
         column = token.getCharPositionInLine();
-        lastLine = line;
+        if (type == PythonLexer.EOF) {
+          lastLine = line;
+          break;
+        }
 
-        switch (token.getType()) {
+        switch (type) {
           case PythonLexer.NEWLINE:
             if (first) {
               result.addNormalIfNull();
@@ -128,7 +135,6 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
           case PythonLexer.XOR:
           case PythonLexer.AND_OP:
           case PythonLexer.LEFT_SHIFT:
-          case PythonLexer.BRAKECTMODEL:
           case PythonLexer.RIGHT_SHIFT:
           case PythonLexer.ADD:
             result.addIfNeeded(
@@ -186,23 +192,59 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
           case PythonLexer.SKIP_:
             result.addIfNeeded(line, column, EditorColorScheme.COMMENT);
             break;
-          case PythonLexer.NAME:
-            result.addIfNeeded(line, column, EditorColorScheme.AUTO_COMP_PANEL_CORNER);
-            break;
-          case PythonLexer.STRING_LITERAL:
-          case PythonLexer.BYTES_LITERAL:
-          case PythonLexer.DECIMAL_INTEGER:
-          case PythonLexer.OCT_INTEGER:
-          case PythonLexer.HEX_INTEGER:
-          case PythonLexer.BIN_INTEGER:
-          case PythonLexer.FLOAT_NUMBER:
-          case PythonLexer.IMAG_NUMBER:
-          case PythonLexer.INITMODEL:
-            result.addIfNeeded(line, column, EditorColorScheme.COLOR_TIP);
-            break;
-          case PythonLexer.COMPATPARN:
-            result.addIfNeeded(line, column, EditorColorScheme.COLOR_WARNING);
-            break;
+          case PythonLexer.IDENTIFIER:
+            {
+              int colorid = EditorColorScheme.TEXT_NORMAL;
+              boolean isBold = false;
+              boolean isUnderLine = false;
+              if (previous == PythonLexer.CLASS || previous == PythonLexer.DEF) {
+                colorid = EditorColorScheme.ATTRIBUTE_VALUE;
+                isBold = true;
+                isUnderLine = false;
+              }
+              if (previous == PythonLexer.IF) {
+                colorid = EditorColorScheme.Ninja;
+                isBold = true;
+                isUnderLine = false;
+              }
+              if (previous == PythonLexer.OPEN_PAREN) {
+                colorid = EditorColorScheme.OPERATOR;
+
+                isBold = true;
+                isUnderLine = false;
+              }
+              if (previous == PythonLexer.FROM) {
+                colorid = EditorColorScheme.ATTRIBUTE_NAME;
+                isBold = false;
+                isUnderLine = true;
+              }
+              if (previous == PythonLexer.IMPORT) {
+                colorid = EditorColorScheme.HTML_TAG;
+                isBold = false;
+                isUnderLine = false;
+              }
+              if (previous == PythonLexer.OR
+                  || previous == PythonLexer.DOT
+                  || previous == PythonLexer.RETURN
+                  || previous == PythonLexer.YIELD || previous == PythonLexer.COLON) {
+                colorid = EditorColorScheme.KEYWORD;
+                isBold = true;
+                isUnderLine = true;
+              }
+              if (previous == PythonLexer.ASSIGN) {
+                colorid = EditorColorScheme.SELECTION_INSERT;
+                isBold = false;
+                isUnderLine = false;
+              }
+              if (token.getText().matches("\\w+\\(")) {
+                colorid = EditorColorScheme.COLOR_DEBUG;
+                isBold = false;
+                isUnderLine = false;
+              }
+              result.addIfNeeded(
+                  line, column, TextStyle.makeStyle(colorid, 0, isBold, false, false, isUnderLine));
+              break;
+            }
           default:
             result.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
             prevIsTagName = false;
@@ -211,10 +253,11 @@ public class PythonCodeAnalyzer implements CodeAnalyzer {
         }
 
         first = false;
+        if (type != PythonLexer.NEWLINE) {
+          previous = type;
+        }
       }
-
       result.determine(lastLine);
-
       result.setSuppressSwitch(maxSwitch + 10);
       result.setNavigation(labels);
     } catch (IOException e) {

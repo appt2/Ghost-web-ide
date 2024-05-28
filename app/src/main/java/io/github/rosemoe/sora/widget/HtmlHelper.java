@@ -245,7 +245,6 @@ public class HtmlHelper {
         return map;
     }
 
-    @Deprecated
     public static int cssColor(String listColor) {
         switch (listColor) {
             case "aliceblue":
@@ -497,7 +496,6 @@ public class HtmlHelper {
                 return Color.parseColor("#87CEEB");
             case "slateblue":
                 return Color.parseColor("#6A5ACD");
-
             case "slategrey":
                 return Color.parseColor("#708090");
             case "snow":

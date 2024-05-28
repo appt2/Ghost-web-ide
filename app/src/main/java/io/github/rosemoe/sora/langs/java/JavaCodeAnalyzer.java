@@ -1,8 +1,11 @@
 package io.github.rosemoe.sora.langs.java;
 
+import Ninja.coder.Ghostemane.code.marco.ColorCompat;
 import android.graphics.Color;
 import android.util.Log;
+import io.github.rosemoe.sora.data.Span;
 import io.github.rosemoe.sora.text.TextStyle;
+import io.github.rosemoe.sora.widget.ListCss3Color;
 import java.util.Stack;
 import io.github.rosemoe.sora.data.BlockLine;
 import org.antlr.v4.runtime.CharStreams;
@@ -45,6 +48,7 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
         }
         line = token.getLine() - 1;
         type = token.getType();
+        String text1 = token.getText();
         column = token.getCharPositionInLine();
         if (type == JavaLexer.EOF) {
           lastLine = line;
@@ -102,7 +106,7 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
             result.addIfNeeded(
                 line,
                 column,
-                TextStyle.makeStyle(EditorColorScheme.KEYWORD, 0, true, false, false));
+                TextStyle.makeStyle(EditorColorScheme.KEYWORD, 0, true, false, false, true));
             break;
           case JavaLexer.DECIMAL_LITERAL:
           case JavaLexer.HEX_LITERAL:
@@ -116,8 +120,11 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
             result.addIfNeeded(line, column, EditorColorScheme.LITERAL);
             break;
           case JavaLexer.STRING_LITERAL:
-            result.addIfNeeded(line, column, forString());
-            break;
+            {
+              result.addIfNeeded(line, column, forString());
+              break;
+            }
+
           case JavaLexer.LPAREN:
           case JavaLexer.RPAREN:
           case JavaLexer.LBRACK:
@@ -185,6 +192,7 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
           case JavaLexer.IDENTIFIER:
             {
               int colorid = EditorColorScheme.TEXT_NORMAL;
+              boolean isBold , isItalic ,isUnderLineMode = false;
               if (previous == JavaLexer.AT) {
                 colorid = EditorColorScheme.Ninja;
               }
@@ -213,16 +221,41 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
               if (token.getText().matches(regex)) {
                 colorid = EditorColorScheme.KEYWORD;
               }
-              if(previous == JavaLexer.INT) {
-              	colorid = EditorColorScheme.LITERAL;
-              } 
-              if(previous == JavaLexer.CASE || previous == JavaLexer.FINAL) {
-              	colorid = EditorColorScheme.ATTRIBUTE_NAME;
+              if (previous == JavaLexer.INT) {
+                colorid = EditorColorScheme.LITERAL;
               }
+              if (previous == JavaLexer.CASE || previous == JavaLexer.FINAL) {
+                colorid = EditorColorScheme.ATTRIBUTE_NAME;
+              }
+              
+//              if (text1.equals("red")) {
+//                try {
+//                    result.addIfNeeded(line, column, EditorColorScheme.ATTRIBUTE_VALUE);
+//                    int wordLength = token.getText().length(); // طول کلمه‌ی به رنگ قرمز
+//                    int endOfRed = column + wordLength;
+//                      //test 
+//                    Span span = Span.obtain(column, EditorColorScheme.ATTRIBUTE_VALUE);
+//                    span.setUnderlineColor(ColorCompat.RED);
+//                    result.add(line, span);
+//
+//                    Span middle = Span.obtain(endOfRed , EditorColorScheme.LITERAL);
+//                    middle.setUnderlineColor(Color.TRANSPARENT);
+//                    result.add(line, middle);
+//
+//                    Span end =
+//                        Span.obtain(endOfRed, TextStyle.makeStyle(EditorColorScheme.TEXT_NORMAL));
+//                    end.setUnderlineColor(Color.TRANSPARENT);
+//                    result.add(line, end);
+//                  
+//                  //break;
+//                } catch (Exception ignore) {
+//                  ignore.printStackTrace();
+//                }
+//              }
+              ListCss3Color.initColor(token,line,column,result);
               result.addIfNeeded(line, column, colorid);
               break;
             }
-
           case JavaLexer.LBRACE:
             result.addIfNeeded(line, column, EditorColorScheme.OPERATOR);
             if (stack.isEmpty()) {
@@ -251,6 +284,7 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
 
           default:
             result.addIfNeeded(line, column, EditorColorScheme.TEXT_NORMAL);
+
             break;
         }
 
@@ -275,4 +309,5 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
   public long forString() {
     return TextStyle.makeStyle(EditorColorScheme.LITERAL, 0, true, true, false);
   }
+  
 }
