@@ -99,7 +99,7 @@ dependencies {
     implementation("com.squareup:seismic:1.0.3")
     implementation("org.smali:smali:2.5.2")
     implementation("org.smali:baksmali:2.5.2")
-    implementation("io.apisense:rhino-android:1.0")
+    implementation("io.apisense:rhino-android:1.2.0")
     implementation("com.github.TimScriptov:apksigner:1.2.0")
     implementation("org.jsoup:jsoup:1.17.2")
     implementation "com.github.douglasjunior:android-simple-tooltip:1.1.0"
