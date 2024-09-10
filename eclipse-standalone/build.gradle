@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     api files("libs/org.eclipse.jdt.core-3.28.0.jar")
-    api("org.eclipse.platform:org.eclipse.core.resources:3.20.0")
+    api("org.eclipse.platform:org.eclipse.core.resources:3.21.0")
     api("org.eclipse.platform:org.eclipse.core.runtime:3.31.0")
     api("org.eclipse.platform:org.eclipse.core.filesystem:1.10.200")
     api("org.eclipse.platform:org.eclipse.text:3.12.0")
