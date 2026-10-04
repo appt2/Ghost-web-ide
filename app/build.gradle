@@ -103,7 +103,7 @@ dependencies {
     implementation("com.github.TimScriptov:apksigner:1.2.0")
     implementation("org.jsoup:jsoup:1.17.2")
     implementation "com.github.douglasjunior:android-simple-tooltip:1.1.0"
-    implementation("io.getstream:photoview:1.0.1")
+    implementation("io.getstream:photoview:1.0.3")
     implementation("androidx.palette:palette:1.0.0")
     //using api 21 to run app 
     implementation("de.larsgrefer.sass:sass-embedded-android:3.6.0")
